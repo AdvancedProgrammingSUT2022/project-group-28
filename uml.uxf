@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="14.3.0">
-  <zoom_level>9</zoom_level>
+  <zoom_level>2</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3321</x>
-      <y>387</y>
-      <w>189</w>
-      <h>108</h>
+      <x>822</x>
+      <y>162</y>
+      <w>42</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>Resource
 --
@@ -22,10 +22,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2970</x>
-      <y>1044</y>
-      <w>189</w>
-      <h>342</h>
+      <x>744</x>
+      <y>308</y>
+      <w>42</w>
+      <h>76</h>
     </coordinates>
     <panel_attributes>Unit
 --
@@ -47,34 +47,39 @@
 + recover()
 + fullRecover()
 + settle()
-+ destroy()
++ die()
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2718</x>
-      <y>1467</y>
-      <w>189</w>
-      <h>171</h>
+      <x>688</x>
+      <y>402</y>
+      <w>42</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>Military
 --
 # attackPoint: int
+# XP : int
+# fortified : int
 --
 + destroyTile()
 /+ attack(tile: Tile): void/
++ fortify()
++ garrison()
+
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3204</x>
-      <y>1503</y>
-      <w>189</w>
-      <h>45</h>
+      <x>796</x>
+      <y>410</y>
+      <w>42</w>
+      <h>10</h>
     </coordinates>
     <panel_attributes>Civilian
 --</panel_attributes>
@@ -83,26 +88,30 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1791</x>
-      <y>1278</y>
-      <w>189</w>
-      <h>81</h>
+      <x>478</x>
+      <y>408</y>
+      <w>42</w>
+      <h>28</h>
     </coordinates>
     <panel_attributes>Building
 --
 -id: Long
 - name: String
 - cost: int
-- counstructed: boolean</panel_attributes>
+- progress : int
+- counstructed: boolean
+- allSlots: int
+- filledSlots: int
+- maintananceCost : int</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2565</x>
-      <y>351</y>
-      <w>189</w>
-      <h>117</h>
+      <x>654</x>
+      <y>154</y>
+      <w>42</w>
+      <h>26</h>
     </coordinates>
     <panel_attributes>Project
 --
@@ -110,6 +119,7 @@
 - type: ProjectEnum
 - done: boolean
 - COST: int
+- worker: Worker
 --
 + use(): void
 + </panel_attributes>
@@ -118,10 +128,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3006</x>
-      <y>54</y>
-      <w>396</w>
-      <h>288</h>
+      <x>752</x>
+      <y>88</y>
+      <w>88</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>Tile
 --
@@ -147,37 +157,43 @@ _- allTiles: ArrayList&lt;Tile&gt;_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1872</x>
-      <y>990</y>
-      <w>216</w>
-      <h>189</h>
+      <x>502</x>
+      <y>296</y>
+      <w>48</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>City
 --
 - buildings: ArrayList&lt;Building&gt;
-- citizens: int
-- population: int
+- citizens: ArrayList&lt;?&gt;
+- population : int
 - tiles: ArrayList&lt;Tile&gt;
 - strength: int
 - foodBalance: int
 - productionBalance: int
-- goldBalance: int
-- sienceBalance: int
 - currentCostruction: Object
+- militaryUnit : Military
+- hitPoint : int 
+- civilization : Civilization
+- name : String
+- tilePrice: int
+- neededFoodForNewCitizen : int
 --
-+ construct(costruction: Object): void
-+ defend(): void
-
-</panel_attributes>
++ defend(Unit): void
++ attack(Tile) : void
++ repair() : void
++ lockCitizen()
++ attachToCivilization()
++ addCitizen()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3330</x>
-      <y>333</y>
-      <w>99</w>
-      <h>72</h>
+      <x>824</x>
+      <y>150</y>
+      <w>22</w>
+      <h>16</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;90.0;60.0</additional_attributes>
@@ -185,10 +201,10 @@ _- allTiles: ArrayList&lt;Tile&gt;_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3177</x>
-      <y>333</y>
-      <w>135</w>
-      <h>1188</h>
+      <x>790</x>
+      <y>150</y>
+      <w>30</w>
+      <h>264</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;130.0;1300.0</additional_attributes>
@@ -196,10 +212,10 @@ _- allTiles: ArrayList&lt;Tile&gt;_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2799</x>
-      <y>333</y>
-      <w>261</w>
-      <h>1152</h>
+      <x>706</x>
+      <y>150</y>
+      <w>58</w>
+      <h>256</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>270.0;10.0;10.0;1260.0</additional_attributes>
@@ -207,21 +223,21 @@ _- allTiles: ArrayList&lt;Tile&gt;_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1953</x>
-      <y>333</y>
-      <w>1089</w>
-      <h>675</h>
+      <x>520</x>
+      <y>150</y>
+      <w>240</w>
+      <h>150</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>1190.0;10.0;10.0;730.0</additional_attributes>
+    <additional_attributes>1180.0;10.0;10.0;730.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2646</x>
-      <y>162</y>
-      <w>378</w>
-      <h>207</h>
+      <x>672</x>
+      <y>112</y>
+      <w>84</w>
+      <h>46</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>400.0;10.0;10.0;210.0</additional_attributes>
@@ -229,10 +245,10 @@ _- allTiles: ArrayList&lt;Tile&gt;_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2835</x>
-      <y>1377</y>
-      <w>207</w>
-      <h>108</h>
+      <x>714</x>
+      <y>382</y>
+      <w>46</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>210.0;10.0;10.0;100.0</additional_attributes>
@@ -240,10 +256,10 @@ _- allTiles: ArrayList&lt;Tile&gt;_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3114</x>
-      <y>1377</y>
-      <w>162</w>
-      <h>144</h>
+      <x>776</x>
+      <y>382</y>
+      <w>36</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;160.0;140.0</additional_attributes>
@@ -251,21 +267,21 @@ _- allTiles: ArrayList&lt;Tile&gt;_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1854</x>
-      <y>1170</y>
-      <w>117</w>
-      <h>126</h>
+      <x>492</x>
+      <y>366</y>
+      <w>32</w>
+      <h>46</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>110.0;10.0;10.0;120.0</additional_attributes>
+    <additional_attributes>140.0;10.0;10.0;210.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1890</x>
-      <y>621</y>
-      <w>153</w>
-      <h>126</h>
+      <x>498</x>
+      <y>216</y>
+      <w>34</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>Technology
 --
@@ -274,17 +290,16 @@ _- allTiles: ArrayList&lt;Tile&gt;_
 - progression: int
 - reached: boolean
 --
-+ study()
-+ isAvailableToStudy()</panel_attributes>
++ study()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2052</x>
-      <y>189</y>
-      <w>270</w>
-      <h>261</h>
+      <x>540</x>
+      <y>118</y>
+      <w>60</w>
+      <h>58</h>
     </coordinates>
     <panel_attributes>Civilization
 --
@@ -300,43 +315,40 @@ _- allCivilizations: ArrayList&lt;Civilization&gt;_
 - currentStudy: Technology
 - technologies: ArrayList&lt;Technology&gt;
 - visibleTiles: ArrayList&lt;id: int&gt;	
+- knownTiles: ArrayList&lt;Tile&gt;
 --
-+ updateGoldBalance(): void
-+ updateFoodBalance(): void
-+ updateProductionBalance(): void
-+ updateScienceBalance(): void
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1944</x>
-      <y>441</y>
-      <w>216</w>
-      <h>567</h>
+      <x>518</x>
+      <y>174</y>
+      <w>46</w>
+      <h>126</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>220.0;10.0;10.0;610.0</additional_attributes>
+    <additional_attributes>210.0;10.0;10.0;610.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1971</x>
-      <y>441</y>
-      <w>144</w>
-      <h>198</h>
+      <x>516</x>
+      <y>174</y>
+      <w>38</w>
+      <h>46</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>140.0;10.0;10.0;200.0</additional_attributes>
+    <additional_attributes>170.0;10.0;10.0;210.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>693</x>
-      <y>54</y>
-      <w>342</w>
-      <h>171</h>
+      <x>244</x>
+      <y>90</y>
+      <w>76</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>GameController
 --
@@ -344,16 +356,18 @@ _- allCivilizations: ArrayList&lt;Civilization&gt;_
 --
 + createMap()
 + updateVisibleTiles(civilization: Civilization)
++ nextTurn()
++ isGameEnded()
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>477</x>
-      <y>666</y>
-      <w>189</w>
-      <h>171</h>
+      <x>190</x>
+      <y>224</y>
+      <w>42</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>InfoMenu
 --
@@ -366,47 +380,47 @@ _- allCivilizations: ArrayList&lt;Civilization&gt;_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1269</x>
-      <y>441</y>
-      <w>189</w>
-      <h>171</h>
+      <x>326</x>
+      <y>90</y>
+      <w>42</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>InfoMenuController
 --
--id: Long {composite}
-_-ClassAttribute: Long_
+
 --
-#Operation(i: int): int
-/+AbstractOperation()/
---
-Responsibilities
--- Resp1
--- Resp2</panel_attributes>
+
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1422</x>
-      <y>0</y>
-      <w>189</w>
-      <h>162</h>
+      <x>372</x>
+      <y>90</y>
+      <w>48</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>CivilizationController
 --
 -id: Long {composite}
 _-ClassAttribute: Long_
 --
-+ studyTechnology()</panel_attributes>
++ studyTechnology():void
++ updateGoldBalance(): void
++ updateScienceBalance(): void
++ updateHapinessBalance():void
++ updateVisibleTiles():void
++updateKnownTiles():void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>234</x>
-      <y>666</y>
-      <w>189</w>
-      <h>171</h>
+      <x>136</x>
+      <y>224</y>
+      <w>42</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>GameMenu
 --
@@ -416,10 +430,10 @@ _-ClassAttribute: Long_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>0</x>
-      <y>666</y>
-      <w>189</w>
-      <h>171</h>
+      <x>84</x>
+      <y>224</y>
+      <w>42</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>RegisterMenu
 --
@@ -429,10 +443,10 @@ _-ClassAttribute: Long_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>693</x>
-      <y>657</y>
-      <w>189</w>
-      <h>180</h>
+      <x>238</x>
+      <y>222</y>
+      <w>42</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>MainMenu
 --</panel_attributes>
@@ -441,31 +455,25 @@ _-ClassAttribute: Long_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>396</x>
-      <y>387</y>
-      <w>189</w>
-      <h>171</h>
+      <x>172</x>
+      <y>162</y>
+      <w>42</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>Menu
 --
--id: Long {composite}
-_-ClassAttribute: Long_
+
 --
-#Operation(i: int): int
-/+AbstractOperation()/
---
-Responsibilities
--- Resp1
--- Resp2</panel_attributes>
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3096</x>
-      <y>1773</y>
-      <w>189</w>
-      <h>171</h>
+      <x>772</x>
+      <y>470</y>
+      <w>42</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>Settler
 --
@@ -477,10 +485,10 @@ Responsibilities
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3168</x>
-      <y>1539</y>
-      <w>99</w>
-      <h>252</h>
+      <x>788</x>
+      <y>418</y>
+      <w>22</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>90.0;10.0;10.0;260.0</additional_attributes>
@@ -488,13 +496,14 @@ Responsibilities
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3420</x>
-      <y>1773</y>
-      <w>189</w>
-      <h>171</h>
+      <x>844</x>
+      <y>470</y>
+      <w>42</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>Worker
 --
+- project: Project
 --
 + assignProject()</panel_attributes>
     <additional_attributes/>
@@ -502,10 +511,10 @@ Responsibilities
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3303</x>
-      <y>1539</y>
-      <w>234</w>
-      <h>252</h>
+      <x>818</x>
+      <y>418</y>
+      <w>52</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;240.0;260.0</additional_attributes>
@@ -513,10 +522,10 @@ Responsibilities
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2502</x>
-      <y>1710</y>
-      <w>189</w>
-      <h>171</h>
+      <x>640</x>
+      <y>456</y>
+      <w>42</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>Melee
 --
@@ -527,14 +536,15 @@ Responsibilities
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2844</x>
-      <y>1692</y>
-      <w>189</w>
-      <h>171</h>
+      <x>716</x>
+      <y>452</y>
+      <w>42</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>Ranged
 --
 - ATTACK_RANGE: int
+- isPrepared : boolean
 --
 + attack()
 + prepare()</panel_attributes>
@@ -543,10 +553,10 @@ Responsibilities
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2835</x>
-      <y>1629</y>
-      <w>117</w>
-      <h>81</h>
+      <x>714</x>
+      <y>438</y>
+      <w>26</w>
+      <h>18</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;110.0;70.0</additional_attributes>
@@ -554,12 +564,66 @@ Responsibilities
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2583</x>
-      <y>1629</y>
-      <w>216</w>
-      <h>99</h>
+      <x>658</x>
+      <y>438</y>
+      <w>48</w>
+      <h>22</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>220.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>822</x>
+      <y>350</y>
+      <w>42</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes>UnitController
+--
+--
++attack(Tile):void
++getMoveRoute(Tile):void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>460</x>
+      <y>216</y>
+      <w>34</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>TechnologyController
+--
+--
++ isAvailableToStudy()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>446</x>
+      <y>296</y>
+      <w>48</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>CityController
+--
+--
++ construct(costruction: Object): void
++ repair() : void
++ lockCitizen()
++ purchaseTile()
++ purchase()
+- updateFoodBalance()
+- updateProductionBalance()
+- updatePopulation()
+- updateConstruction()
++ update()
+</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>
