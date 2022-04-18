@@ -1,11 +1,33 @@
-<diagram program="umletino" version="14.3.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>4690</x><y>990</y><w>210</w><h>120</h></coordinates><panel_attributes>Resource
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>14</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>6566</x>
+      <y>1624</y>
+      <w>294</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>Resource
 --
 - exploited: boolean
 - TYPE: String
 - FOOD: int
 - PRODUCTION: int
 - GOLD: int
---</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>4110</x><y>1570</y><w>210</w><h>380</h></coordinates><panel_attributes>Unit
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>5754</x>
+      <y>2436</y>
+      <w>294</w>
+      <h>532</h>
+    </coordinates>
+    <panel_attributes>Unit
 --
 # tile: Tile 
 # id: Long
@@ -26,7 +48,18 @@
 + fullRecover()
 + settle()
 + die()
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>3710</x><y>2110</y><w>210</w><h>190</h></coordinates><panel_attributes>Military
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>5194</x>
+      <y>3192</y>
+      <w>294</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>Military
 --
 # attackPoint: int
 # XP : int
@@ -37,8 +70,30 @@
 + fortify()
 + garrison()
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>4420</x><y>2170</y><w>210</w><h>70</h></coordinates><panel_attributes>Civilian
---</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2920</x><y>2030</y><w>210</w><h>140</h></coordinates><panel_attributes>Building
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>6188</x>
+      <y>3276</y>
+      <w>294</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>Civilian
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>4088</x>
+      <y>3080</y>
+      <w>294</w>
+      <h>196</h>
+    </coordinates>
+    <panel_attributes>Building
 --
 -id: Long
 - name: String
@@ -47,7 +102,18 @@
 - counstructed: boolean
 - allSlots: int
 - filledSlots: int
-- maintananceCost : int</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>3580</x><y>750</y><w>210</w><h>150</h></coordinates><panel_attributes>Project
+- maintananceCost : int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>5012</x>
+      <y>1288</y>
+      <w>294</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>Project
 --
 - id: Long
 - type: ProjectEnum
@@ -56,7 +122,18 @@
 - worker: Worker
 --
 + use(): void
-+ </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>4150</x><y>470</y><w>440</w><h>320</h></coordinates><panel_attributes>Tile
++ </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>5810</x>
+      <y>896</y>
+      <w>616</w>
+      <h>448</h>
+    </coordinates>
+    <panel_attributes>Tile
 --
 _- allTiles: ArrayList&lt;Tile&gt;_
 - accessible: boolean
@@ -74,7 +151,18 @@ _- allTiles: ArrayList&lt;Tile&gt;_
 - city: City
 - project: Project
 --
-+ Tile(terrain: Terrian, terrainFeature: TerrainFeature): &lt;&lt;constructor&gt;&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2900</x><y>1510</y><w>240</w><h>360</h></coordinates><panel_attributes>City
++ Tile(terrain: Terrian, terrainFeature: TerrainFeature): &lt;&lt;constructor&gt;&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>4060</x>
+      <y>2352</y>
+      <w>336</w>
+      <h>504</h>
+    </coordinates>
+    <panel_attributes>City
 --
 - buildings: ArrayList&lt;Building&gt;
 - citizens: ArrayList&lt;?&gt;
@@ -96,14 +184,124 @@ _- allTiles: ArrayList&lt;Tile&gt;_
 + repair() : void
 + lockCitizen()
 + attachToCivilization()
-+ addCitizen()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>4510</x><y>780</y><w>300</w><h>230</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;280;210</additional_attributes></element><element><id>Relation</id><coordinates><x>4340</x><y>780</y><w>200</w><h>1410</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;180;1390</additional_attributes></element><element><id>Relation</id><coordinates><x>3800</x><y>780</y><w>410</w><h>1350</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>390;10;10;1330</additional_attributes></element><element><id>Relation</id><coordinates><x>2990</x><y>780</y><w>1200</w><h>750</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>1180;10;10;730</additional_attributes></element><element><id>Relation</id><coordinates><x>3670</x><y>590</y><w>500</w><h>180</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>480;10;10;160</additional_attributes></element><element><id>Relation</id><coordinates><x>3840</x><y>1940</y><w>350</w><h>190</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>330;10;10;170</additional_attributes></element><element><id>Relation</id><coordinates><x>4270</x><y>1940</y><w>230</w><h>250</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;210;230</additional_attributes></element><element><id>Relation</id><coordinates><x>2980</x><y>1860</y><w>40</w><h>190</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;20;170</additional_attributes></element><element><id>UMLClass</id><coordinates><x>2880</x><y>1110</y><w>170</w><h>120</h></coordinates><panel_attributes>Technology
++ addCitizen()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>6314</x>
+      <y>1330</y>
+      <w>420</w>
+      <h>322</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;280.0;210.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>6076</x>
+      <y>1330</y>
+      <w>280</w>
+      <h>1974</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;180.0;1390.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>5320</x>
+      <y>1330</y>
+      <w>574</w>
+      <h>1890</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>390.0;10.0;10.0;1330.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>4186</x>
+      <y>1330</y>
+      <w>1680</w>
+      <h>1050</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>1180.0;10.0;10.0;730.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>5138</x>
+      <y>1064</y>
+      <w>700</w>
+      <h>252</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>480.0;10.0;10.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>5376</x>
+      <y>2954</y>
+      <w>490</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>330.0;10.0;10.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>5978</x>
+      <y>2954</y>
+      <w>322</w>
+      <h>350</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;210.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>4172</x>
+      <y>2842</y>
+      <w>56</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;20.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>4032</x>
+      <y>1792</y>
+      <w>238</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>Technology
 --
 - id: Long
 - COST: int
 - progression: int
 - reached: boolean
 --
-+ study()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>3090</x><y>620</y><w>300</w><h>290</h></coordinates><panel_attributes>Civilization
++ study()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>4326</x>
+      <y>1106</y>
+      <w>420</w>
+      <h>406</h>
+    </coordinates>
+    <panel_attributes>Civilization
 --
 _- allCivilizations: ArrayList&lt;Civilization&gt;_
 - NAME: String
@@ -118,17 +316,64 @@ _- allCivilizations: ArrayList&lt;Civilization&gt;_
 - technologies: ArrayList&lt;Technology&gt;
 - visibleTiles: ArrayList&lt;id: int&gt;	
 - discoveredTiles: ArrayList&lt;Tile&gt;
+- user: User
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>2980</x><y>900</y><w>230</w><h>630</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>210;10;10;610</additional_attributes></element><element><id>Relation</id><coordinates><x>2970</x><y>900</y><w>190</w><h>230</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>170;10;10;210</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1930</x><y>0</y><w>380</w><h>190</h></coordinates><panel_attributes>GameController
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>4172</x>
+      <y>1498</y>
+      <w>322</w>
+      <h>882</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>210.0;10.0;10.0;610.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>4158</x>
+      <y>1498</y>
+      <w>266</w>
+      <h>322</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>170.0;10.0;10.0;210.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2702</x>
+      <y>238</y>
+      <w>532</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>GameController
 --
 - ORIGINAL_CAPITALS: HashMap&lt;name: Strnig, id: Long&gt;
 --
++ startNewGame()
 + createMap()
 + updateVisibleTiles(civilization: Civilization)
 + nextTurn()
 + isGameEnded()
-+ cheatCodes() 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2580</x><y>660</y><w>240</w><h>190</h></coordinates><panel_attributes>CivilizationController
++ cheat()
++ endGame() 
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>3612</x>
+      <y>1162</y>
+      <w>336</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>CivilizationController
 --
 --
 + studyTechnology():void
@@ -136,45 +381,199 @@ _- allCivilizations: ArrayList&lt;Civilization&gt;_
 + updateScienceBalance(): void
 + updateHapinessBalance():void
 + updateVisibleTiles():void
-+ updateDiscoveredTiles():void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>650</x><y>1040</y><w>210</w><h>190</h></coordinates><panel_attributes>GameMenu
++ updateDiscoveredTiles():void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>910</x>
+      <y>1694</y>
+      <w>294</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>GameMenu
 --
 - instance: GameMenu
 --
-+ checkCommand()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>340</x><y>1050</y><w>210</w><h>190</h></coordinates><panel_attributes>LoginMenu
++ checkCommand()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>476</x>
+      <y>1708</y>
+      <w>294</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>LoginMenu
 --
 - instance: LoginMenu
 --
-+ checkCommand()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>600</x><y>560</y><w>210</w><h>190</h></coordinates><panel_attributes>Menu
++ checkCommand()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>840</x>
+      <y>1022</y>
+      <w>294</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>Menu
 --
 # loggedInUser: User (fesshar)
 --
 + run()
-/+ checkCommand()/</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>4270</x><y>2460</y><w>210</w><h>190</h></coordinates><panel_attributes>Settler
+/+ checkCommand()/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>5978</x>
+      <y>3682</y>
+      <w>294</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>Settler
 --
 
 --
-+ settleCity():</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>4350</x><y>2230</y><w>140</w><h>250</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>120;10;10;230</additional_attributes></element><element><id>UMLClass</id><coordinates><x>4590</x><y>2460</y><w>210</w><h>190</h></coordinates><panel_attributes>Worker
++ settleCity():</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>6090</x>
+      <y>3360</y>
+      <w>196</w>
+      <h>350</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>120.0;10.0;10.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>6426</x>
+      <y>3682</y>
+      <w>294</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>Worker
 --
 - project: Project
 --
-+ assignProject()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>4530</x><y>2230</y><w>190</w><h>250</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;170;230</additional_attributes></element><element><id>UMLClass</id><coordinates><x>3550</x><y>2460</y><w>210</w><h>190</h></coordinates><panel_attributes>Melee
++ assignProject()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>6342</x>
+      <y>3360</y>
+      <w>266</w>
+      <h>350</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;170.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>4970</x>
+      <y>3682</y>
+      <w>294</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>Melee
 --
 --
-+ attack()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>3870</x><y>2460</y><w>210</w><h>190</h></coordinates><panel_attributes>Ranged
++ attack()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>5418</x>
+      <y>3682</y>
+      <w>294</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>Ranged
 --
 - ATTACK_RANGE: int
 - isPrepared : boolean
 --
 + attack()
-+ prepare()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>3840</x><y>2290</y><w>150</w><h>190</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;130;170</additional_attributes></element><element><id>Relation</id><coordinates><x>3640</x><y>2290</y><w>160</w><h>190</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>140;10;10;170</additional_attributes></element><element><id>UMLClass</id><coordinates><x>4790</x><y>1470</y><w>210</w><h>80</h></coordinates><panel_attributes>UnitController
++ prepare()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>5376</x>
+      <y>3444</y>
+      <w>210</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;130.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>5096</x>
+      <y>3444</y>
+      <w>224</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>140.0;10.0;10.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>6706</x>
+      <y>2296</y>
+      <w>294</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>UnitController
 --
 --
 +attack(Tile):void
 +getMoveRoute(Tile):void
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2550</x><y>1140</y><w>170</w><h>60</h></coordinates><panel_attributes>TechnologyController
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>3570</x>
+      <y>1834</y>
+      <w>238</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>TechnologyController
 --
 --
-+ isAvailableToStudy()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2280</x><y>1320</y><w>240</w><h>220</h></coordinates><panel_attributes>CityController
++ isAvailableToStudy()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>3192</x>
+      <y>2086</y>
+      <w>336</w>
+      <h>308</h>
+    </coordinates>
+    <panel_attributes>CityController
 --
 
 --
@@ -188,7 +587,18 @@ _- allCivilizations: ArrayList&lt;Civilization&gt;_
 - updatePopulation()
 - updateConstruction()
 + update()
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>170</x><y>50</y><w>210</w><h>190</h></coordinates><panel_attributes>User
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>238</x>
+      <y>308</y>
+      <w>294</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>User
 --
 _-allUsers: ArrayList&lt;User&gt;_
 - id: Long 
@@ -196,30 +606,219 @@ _-allUsers: ArrayList&lt;User&gt;_
 - password: String
 - nickname: String
 - score: int
-- currentCivilization: Civilizaiton
 --
 + User()
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>290</x><y>520</y><w>210</w><h>190</h></coordinates><panel_attributes>LoginMenuController
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>406</x>
+      <y>966</y>
+      <w>294</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>LoginMenuController
 --
 
 --
 + register()
-+ login()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>430</x><y>740</y><w>280</w><h>330</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>260;10;10;310</additional_attributes></element><element><id>UMLClass</id><coordinates><x>950</x><y>1020</y><w>210</w><h>190</h></coordinates><panel_attributes>MainMenu
++ login()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>602</x>
+      <y>1274</y>
+      <w>392</w>
+      <h>462</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>260.0;10.0;10.0;310.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1330</x>
+      <y>1666</y>
+      <w>294</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>MainMenu
 --
 - instacne: MainMenu
 --
-+ checkCommand()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>740</x><y>740</y><w>340</w><h>300</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;320;280</additional_attributes></element><element><id>Relation</id><coordinates><x>700</x><y>740</y><w>80</w><h>320</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;60;300</additional_attributes></element><element><id>UMLClass</id><coordinates><x>70</x><y>1040</y><w>210</w><h>190</h></coordinates><panel_attributes>ProfileMenu
++ checkCommand()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1036</x>
+      <y>1274</y>
+      <w>476</w>
+      <h>420</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;320.0;280.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>980</x>
+      <y>1274</y>
+      <w>112</w>
+      <h>448</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;300.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>98</x>
+      <y>1694</y>
+      <w>294</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>ProfileMenu
 --
 - instance: ProfileMenu
 --
-+ checkCommands()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>170</x><y>730</y><w>450</w><h>330</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>430;10;10;310</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>520</y><w>210</w><h>190</h></coordinates><panel_attributes>ProfileMenuController
++ checkCommands()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>238</x>
+      <y>1260</y>
+      <w>630</w>
+      <h>462</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>430.0;10.0;10.0;310.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>966</y>
+      <w>294</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>ProfileMenuController
 --
 
 --
 + changeNickname()
-+ changePassword()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>90</x><y>700</y><w>70</w><h>360</h></coordinates><panel_attributes>lt=-
-</panel_attributes><additional_attributes>10;10;50;340</additional_attributes></element><element><id>Relation</id><coordinates><x>390</x><y>700</y><w>40</w><h>370</h></coordinates><panel_attributes>lt=-
-</panel_attributes><additional_attributes>10;10;20;350</additional_attributes></element><element><id>Relation</id><coordinates><x>70</x><y>230</y><w>200</w><h>310</h></coordinates><panel_attributes>lt=-
-</panel_attributes><additional_attributes>180;10;10;290</additional_attributes></element><element><id>Relation</id><coordinates><x>300</x><y>230</y><w>120</w><h>310</h></coordinates><panel_attributes>lt=-
-</panel_attributes><additional_attributes>10;10;100;290</additional_attributes></element><element><id>Relation</id><coordinates><x>2710</x><y>1150</y><w>190</w><h>40</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;20;170;10</additional_attributes></element><element><id>Relation</id><coordinates><x>2420</x><y>1530</y><w>500</w><h>180</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;480;160</additional_attributes></element><element><id>Relation</id><coordinates><x>2810</x><y>730</y><w>300</w><h>50</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;280;30</additional_attributes></element><element><id>Relation</id><coordinates><x>4310</x><y>1500</y><w>500</w><h>270</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;250;480;10</additional_attributes></element><element><id>Relation</id><coordinates><x>750</x><y>180</y><w>1360</w><h>880</h></coordinates><panel_attributes>lt=-
-</panel_attributes><additional_attributes>1340;10;10;860</additional_attributes></element></diagram>
++ changePassword()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>126</x>
+      <y>1218</y>
+      <w>98</w>
+      <h>504</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>10.0;10.0;50.0;340.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>546</x>
+      <y>1218</y>
+      <w>56</w>
+      <h>518</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>10.0;10.0;20.0;350.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>98</x>
+      <y>560</y>
+      <w>280</w>
+      <h>434</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>180.0;10.0;10.0;290.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>560</y>
+      <w>168</w>
+      <h>434</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;290.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>3794</x>
+      <y>1848</y>
+      <w>266</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;20.0;170.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>3388</x>
+      <y>2380</y>
+      <w>700</w>
+      <h>252</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;10.0;480.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>3934</x>
+      <y>1260</y>
+      <w>420</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;10.0;280.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>6034</x>
+      <y>2338</y>
+      <w>700</w>
+      <h>378</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;250.0;480.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1050</x>
+      <y>490</y>
+      <w>1904</w>
+      <h>1232</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>1340.0;10.0;10.0;860.0</additional_attributes>
+  </element>
+</diagram>
