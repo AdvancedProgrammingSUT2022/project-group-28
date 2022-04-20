@@ -1,4 +1,4 @@
-package models.uints;
+package models.units;
 
 public class Worker extends Civilian{
 }

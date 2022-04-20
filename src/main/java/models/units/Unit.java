@@ -1,4 +1,4 @@
-package models.uints;
+package models.units;
 
 import models.Tile;
 import models.enums.UnitPattern;
