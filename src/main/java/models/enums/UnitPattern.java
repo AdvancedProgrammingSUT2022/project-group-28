@@ -1,6 +1,6 @@
 package models.enums;
 
-public enum Unit {
+public enum UnitPattern {
     WORKER("Worker", 70, 0, 0, 0, 2, 1),
     SETTLER("Settler", 89, 0, 0, 0, 2, 1),
     WARRIOR("Warrior", 40, 6, 0, 0, 2, 1),
@@ -15,8 +15,9 @@ public enum Unit {
     private int range;
     private int movementPoint;
     private int eraNumber;
+
     // TODO: add requiredResource requiredTechnology
-    Unit(String name, int cost, int combatStrength, int rangedCombatStrength, int range, int movementPoint, int eraNumber) {
+    UnitPattern(String name, int cost, int combatStrength, int rangedCombatStrength, int range, int movementPoint, int eraNumber) {
         this.name = name;
         this.cost = cost;
         this.combatStrength = combatStrength;
