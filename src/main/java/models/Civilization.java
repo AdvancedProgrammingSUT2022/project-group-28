@@ -1,13 +1,17 @@
 package models;
 
+import models.units.Civilian;
 import models.units.Unit;
 
 import java.util.ArrayList;
 
 public class Civilization {
-    // TODO: Add User field
-    private String NAME;
+    private User user;
+    private final String name;
     private ArrayList<Unit> units;
     // TODO: Complete fields
-    // TODO: Add constructor
+    public Civilization(User user, String name) {
+        this.user = user;
+        this.name = name;
+    }
 }

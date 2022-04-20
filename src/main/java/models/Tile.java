@@ -3,7 +3,6 @@ package models;
 import models.enums.*;
 import models.units.*;
 
-
 public class Tile {
     Terrain terrain;
     TerrainFeature terrainFeature;
@@ -17,3 +16,4 @@ public class Tile {
         this.civilian = null;
     }
 }
+
