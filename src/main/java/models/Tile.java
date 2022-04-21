@@ -9,13 +9,17 @@ public class Tile {
     Military military;
     Civilian civilian;
     Resource resource;
-    // TODO: add Ruin, Resource, City, Improvement
+    ImprovementTemplate improvement;
+    Project project;
+    // TODO: add Ruin, City
     public Tile(Terrain terrain, TerrainFeature terrainFeature, Resource resource) {
         this.terrain = terrain;
         this.terrainFeature = terrainFeature;
         this.military = null;
         this.civilian = null;
         this.resource = resource;
+        this.improvement = null;
+        this.project = null;
     }
 }
 
