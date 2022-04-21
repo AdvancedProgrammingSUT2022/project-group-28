@@ -72,4 +72,12 @@ public enum ResourceTemplate {
         int randomIndex = random.nextInt(length);
         return values[randomIndex];
     }
+
+    public static ArrayList<Object> getPossiblePlaces(ResourceTemplate resourceTemplate) {
+        return resourceTemplate.possiblePlaces;
+    }
+
+    public static String getType(ResourceTemplate resourceTemplate) {
+        return resourceTemplate.type;
+    }
 }
