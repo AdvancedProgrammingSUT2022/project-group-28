@@ -10,7 +10,7 @@ public class Game {
     private ArrayList<Civilization> civilizations;
 
     // TODO: Change map length to const
-    Game(ArrayList<User> users, int seed) {
+    public Game(ArrayList<User> users, int seed) {
         Random random = new Random(seed);
         this.map = new Object[100][100];
 
