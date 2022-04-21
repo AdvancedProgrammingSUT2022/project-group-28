@@ -1,5 +1,7 @@
 package models.enums;
 
+import java.util.Random;
+
 public enum TerrainFeature {
     FOOD_PLAIN("Food plain", 2, 0, 0, 1, -1/3, true),
     FOREST("Forest", 1, 1, 0, 2, 1/4, true),
@@ -25,5 +27,12 @@ public enum TerrainFeature {
         this.combatModifier = combatModifier;
         this.accessible = accessible;
 
+    }
+
+    public static TerrainFeature generateRandomTerrainFeature(Random random) {
+        TerrainFeature[] values = TerrainFeature.values();
+        int length = values.length;
+        int randomIndex = random.nextInt(length);
+        return values[randomIndex];
     }
 }
