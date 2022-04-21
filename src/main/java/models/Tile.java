@@ -12,11 +12,11 @@ public class Tile {
     ImprovementTemplate improvement;
     Project project;
     // TODO: add Ruin, City
-    public Tile(Terrain terrain, TerrainFeature terrainFeature, Resource resource, Military military, Civilian civilian) {
+    public Tile(Terrain terrain, TerrainFeature terrainFeature, Resource resource) {
         this.terrain = terrain;
         this.terrainFeature = terrainFeature;
-        this.military = military;
-        this.civilian = civilian;
+        this.military = null;
+        this.civilian = null;
         this.resource = resource;
         this.improvement = null;
         this.project = null;
