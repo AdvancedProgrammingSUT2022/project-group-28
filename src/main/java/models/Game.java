@@ -13,8 +13,8 @@ public class Game {
         // TODO: Add rivers
         for (int i = 0; i < 100; i++) {
             for (int j = 0; j < 100; j++) {
-                if (i%2 == 0 && j%0 == 0) this.map[i][j] = new Tile(Terrain.PLAIN, TerrainFeature.FOREST);
-                else if (i%2 == 1 && j%2 == 1) this.map[i][j] = new Tile(Terrain.PLAIN, TerrainFeature.FOREST);
+                if (i%2 == 0 && j%0 == 0) this.map[i][j] = new Tile(Terrain.PLAIN, TerrainFeature.FOREST, null);
+                else if (i%2 == 1 && j%2 == 1) this.map[i][j] = new Tile(Terrain.PLAIN, TerrainFeature.FOREST, null);
                 else this.map[i][j] = null;
             }
         }

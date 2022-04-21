@@ -1,11 +1,11 @@
 package models.enums;
 
 public enum UnitTemplate {
-    WORKER("Worker", 70, 0, 0, 0, 2, 1),
-    SETTLER("Settler", 89, 0, 0, 0, 2, 1),
-    WARRIOR("Warrior", 40, 6, 0, 0, 2, 1),
-    ARCHER("Archer", 70, 4, 6, 2, 2, 1),
-    SCOUT("Scout", 25, 4, 0, 0, 2, 1);
+    WORKER("Worker", 70, 0, 0, 0, 2, 1, null),
+    SETTLER("Settler", 89, 0, 0, 0, 2, 1, null),
+    WARRIOR("Warrior", 40, 6, 0, 0, 2, 1, null),
+    ARCHER("Archer", 70, 4, 6, 2, 2, 1, null),
+    SCOUT("Scout", 25, 4, 0, 0, 2, 1, null);
     // TODO: add all units
 
     private String name;
@@ -15,9 +15,10 @@ public enum UnitTemplate {
     private int range;
     private int movementPoint;
     private int eraNumber;
-
-    // TODO: add requiredResource requiredTechnology
-    UnitTemplate(String name, int cost, int combatStrength, int rangedCombatStrength, int range, int movementPoint, int eraNumber) {
+    private ResourceTemplate requiredResource;
+    // TODO: Add requiredTechnology
+    UnitTemplate(String name, int cost, int combatStrength, int rangedCombatStrength, int range, int movementPoint,
+                 int eraNumber, ResourceTemplate requiredResource) {
         this.name = name;
         this.cost = cost;
         this.combatStrength = combatStrength;
@@ -25,5 +26,6 @@ public enum UnitTemplate {
         this.range = range;
         this.movementPoint = movementPoint;
         this.eraNumber = eraNumber;
+        this.requiredResource = requiredResource;
     }
 }

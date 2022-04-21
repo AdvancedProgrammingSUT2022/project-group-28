@@ -1,6 +1,5 @@
 package models;
 
-import models.units.Civilian;
 import models.units.Unit;
 
 import java.util.ArrayList;
