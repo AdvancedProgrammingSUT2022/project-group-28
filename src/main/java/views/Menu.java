@@ -2,19 +2,35 @@ package views;
 
 import java.util.Scanner;
 
-import com.sanityinc.jargs.CmdLineParser;
-
+import controllers.GsonHandler;
 import models.User;
 
 public abstract class Menu {
-    protected User loggedInUser;
-    protected Scanner scanner = new Scanner(System.in);
-    protected CmdLineParser parser = new CmdLineParser();
+    protected static User loggedInUser;
+    private static Menu currentMenu = RegisterMenu.getInstance();
+    protected final Scanner scanner = new Scanner(System.in);
 
-    public void run(){
-        while (true){
+    public static Menu getCurrentMenu() {
+        return currentMenu;
+    }
+
+    public static void setCurrentMenu(Menu currentMenu) {
+        Menu.currentMenu = currentMenu;
+    }
+
+    public static User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public static void setLoggedInUser(User loggedInUser) {
+        Menu.loggedInUser = loggedInUser;
+    }
+
+    public void run() {
+
+        while (true) {
             String line = scanner.nextLine();
-            if(checkCommand(line)){
+            if (checkCommand(line)) {
                 break;
             }
         }
