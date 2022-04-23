@@ -3,7 +3,7 @@ package models;
 import java.util.ArrayList;
 
 public class User {
-    public static ArrayList<User> allUsers = new ArrayList<>();
+    private static ArrayList<User> allUsers = new ArrayList<>();
     private static int lastId = -1;
     private int id;
     private String username;
@@ -21,8 +21,22 @@ public class User {
     }
 
     public static User getUserByUsername(String username){
+        if(allUsers.size() == 0){
+            return null;
+        }
         for (User user: allUsers) {
             if (user.username.equals(username)){
+                return user;
+            }
+        }
+        return null;
+    }
+    public static User getUserByNickname(String nickname){
+        if(allUsers.size() == 0){
+            return null;
+        }
+        for (User user: allUsers) {
+            if (user.nickname.equals(nickname)){
                 return user;
             }
         }
@@ -49,6 +63,10 @@ public class User {
         return id;
     }
 
+    public static ArrayList<User> getAllUsers() {
+        return allUsers;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -63,5 +81,9 @@ public class User {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public static void setAllUsers(ArrayList<User> allUsers) {
+        User.allUsers = allUsers;
     }
 }
