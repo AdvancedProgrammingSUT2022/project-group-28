@@ -25,4 +25,44 @@ public class Civilization {
         this.user = user;
         this.name = name;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public City getCapital() {
+        return Capital;
+    }
+
+    public ArrayList<City> getCities() {
+        return cities;
+    }
+
+    public ArrayList<Unit> getUnits() {
+        return units;
+    }
+
+    public ArrayList<Technology> getStudiedTechnologies() {
+        return studiedTechnologies;
+    }
+
+    public int getGoldBalance() {
+        return goldBalance;
+    }
+
+    public int getScienceBalance() {
+        return scienceBalance;
+    }
+
+    public int getHappinessBalance() {
+        return happinessBalance;
+    }
+
+    public int getHappiness() {
+        return happiness;
+    }
 }
