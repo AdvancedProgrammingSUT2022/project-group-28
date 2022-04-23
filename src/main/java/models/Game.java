@@ -3,10 +3,7 @@ package models;
 import models.civilization.Civilization;
 import models.tiles.Resource;
 import models.tiles.Tile;
-import models.tiles.enums.ResourceTemplate;
-import models.tiles.enums.ResourceType;
-import models.tiles.enums.Terrain;
-import models.tiles.enums.TerrainFeature;
+import models.tiles.enums.*;
 import models.units.Unit;
 
 import java.util.ArrayList;
@@ -15,21 +12,15 @@ import java.util.Random;
 public class Game {
     private final int MAP_WIDTH = 100;
     private final int MAP_HEIGHT = 100;
-    private final int ARRAY_WIDTH;
-    private final int ARRAY_HEIGHT;
 
-    private TileOrRiver[][] map;
+    private Tile[][] map;
     private ArrayList<Civilization> civilizations;
 
     private Civilization turn;
     private int turnNumber;
-    private Unit selectedUnit;
 
     public Game(ArrayList<User> users, int seed) {
-        Random random = new Random(seed);
-
-        this.ARRAY_WIDTH = this.MAP_WIDTH + this.MAP_WIDTH/2;
-        this.ARRAY_HEIGHT = this.MAP_HEIGHT * 2;
+        Random random = new Random(seed);;
 
         this.map = generateRandomMap(random);
 
@@ -40,39 +31,38 @@ public class Game {
     }
 
 
-    private TileOrRiver[][] generateRandomMap(Random random) {
-        TileOrRiver[][] map = new TileOrRiver[this.ARRAY_HEIGHT][this.ARRAY_WIDTH];
-
-        for (int i = 0; i < this.ARRAY_HEIGHT; i++) {
-            for (int j = 0; j  < this.ARRAY_WIDTH; j++) {
-                if ((i%2 == 1) || (j%2 == 1)) map[i][j] = new River();
-                else map[i][j] = null;
+    private Tile[][] generateRandomMap(Random random) {
+        Tile[][] map = new Tile[MAP_HEIGHT][MAP_WIDTH];
+        for (int i = 0; i < MAP_HEIGHT; i++) {
+            for (int j = MAP_WIDTH - 1; j >= 0; j--) {
+                ArrayList<Direction> rivers = getRandomRivers(random);
+                Terrain terrain = Terrain.generateRandomTerrain(random);
+                TerrainFeature terrainFeature = getPossibleTerrainFeature(random, terrain, rivers);
+                Resource resource = getPossibleResource(random, terrain, terrainFeature);
+                map[i][j] = new Tile(i, j, terrain, terrainFeature, resource, rivers);
+                addAdjacentRivers(i, j, map, rivers);
             }
         }
-
-        for (int i = 0; i < this.ARRAY_HEIGHT; i++) {
-            for (int j = 0; j< this.ARRAY_WIDTH; j++) {
-                if ((i%2 == 0) && (j%2 == 0)) {
-                    Terrain terrain = Terrain.generateRandomTerrain(random);
-                    TerrainFeature terrainFeature = getPossibleTerrainFeature(terrain, i, j, map, random);
-                    Resource resource = getPossibleResource(terrain, terrainFeature, random);
-                    map[i][j] = new Tile(terrain, terrainFeature, resource);
-                }
-            }
-        }
-
         return map;
     }
 
-    private TerrainFeature getPossibleTerrainFeature(Terrain terrain, int i, int j, TileOrRiver[][] map, Random random) {
+    private ArrayList<Direction> getRandomRivers(Random random) {
+        ArrayList<Direction> result = new ArrayList<>();
+        if (random.nextInt(50) == 0) result.add(Direction.UP);
+        if (random.nextInt(50) == 0) result.add(Direction.UP_RIGHT);
+        if (random.nextInt(50) == 0) result.add(Direction.RIGHT);
+        return result;
+    }
+
+    private TerrainFeature getPossibleTerrainFeature(Random random, Terrain terrain, ArrayList<Direction> rivers) {
         TerrainFeature terrainFeature = TerrainFeature.generateRandomTerrainFeature(random);
-        if (terrainFeature == TerrainFeature.FOOD_PLAIN && !hasAdjacentRiver(map, i, j)) return null;
+        if (terrainFeature == TerrainFeature.FOOD_PLAIN && rivers.size() == 0) return null;
         else if (terrainFeature == TerrainFeature.OASIS && terrain != Terrain.DESERT) return null;
         else if (terrain == Terrain.OCEAN) return null;
         return terrainFeature;
     }
 
-    private Resource getPossibleResource(Terrain terrain, TerrainFeature terrainFeature, Random random) {
+    private Resource getPossibleResource(Random random, Terrain terrain, TerrainFeature terrainFeature) {
         ResourceTemplate resourceTemplate = ResourceTemplate.generateRandomResourceTemplate(random);
         if (!resourceTemplate.getPossiblePlaces().contains(terrain) &&
             !resourceTemplate.getPossiblePlaces().contains(terrainFeature)) return null;
@@ -85,25 +75,24 @@ public class Game {
         }
     }
 
-    private boolean hasAdjacentRiver(TileOrRiver[][] map, int i, int j) {
-        if (i - 1 >= 0 && map[i - 1][j] instanceof River) return true;
-        if (i + 1 < 100 && map[i + 1][j] instanceof River) return true;
-        if (j - 1 >= 0 && map[i][j - 1] instanceof River) return true;
-        if (j + 1 < 100 && map[i][j + 1] instanceof River) return true;
-        if (j + 1 < 100 && i - 1 >= 0 && map[i - 1][j + 1] instanceof River) return true;
-        if (j - 1 >= 0 && i + 1 < 100 && map[i + 1][j - 1] instanceof River) return true;
-        return false;
+    private void addAdjacentRivers(int i , int j, Tile[][] map, ArrayList<Direction> rivers) {
+        if (rivers.contains(Direction.UP) && i - 1 >= 0)
+            map[i - 1][j].getRivers().add(Direction.DOWN);
+        if (rivers.contains(Direction.RIGHT) && j + 1 < MAP_WIDTH)
+            map[i][j + 1].getRivers().add(Direction.LEFT);
+        if (rivers.contains(Direction.UP_RIGHT) && i - 1 >= 0 && j + 1 < MAP_WIDTH)
+            map[i - 1][j + 1].getRivers().add(Direction.DOWN_LEFT);
     }
 
-    public TileOrRiver[][] getMap() { return map; }
+
+
+    public Tile[][] getMap() { return map; }
 
     public ArrayList<Civilization> getCivilizations() { return civilizations; }
 
     public Civilization getTurn() { return turn; }
 
     public int getTurnNumber() { return turnNumber; }
-
-    public Unit getSelectedUnit() { return selectedUnit; }
 
     public void setTurn(Civilization turn) {
         this.turn = turn;
@@ -113,7 +102,4 @@ public class Game {
         this.turnNumber = turnNumber;
     }
 
-    public void setSelectedUnit(Unit selectedUnit) {
-        this.selectedUnit = selectedUnit;
-    }
 }
