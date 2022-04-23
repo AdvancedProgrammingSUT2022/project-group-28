@@ -1,4 +1,4 @@
-package models.enums;
+package models.tiles.enums;
 
 import java.util.Random;
 

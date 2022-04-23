@@ -1,7 +1,7 @@
 package models.units;
 
 import models.Civilization;
-import models.Tile;
+import models.tiles.Tile;
 import models.units.enums.UnitTemplate;
 import models.units.enums.UnitState;
 

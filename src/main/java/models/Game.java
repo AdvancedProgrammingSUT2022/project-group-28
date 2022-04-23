@@ -1,6 +1,10 @@
 package models;
 
-import models.enums.*;
+import models.tiles.Resource;
+import models.tiles.Tile;
+import models.tiles.enums.ResourceTemplate;
+import models.tiles.enums.Terrain;
+import models.tiles.enums.TerrainFeature;
 
 import java.util.ArrayList;
 import java.util.Random;

@@ -1,6 +1,6 @@
-package models;
+package models.tiles;
 
-import models.enums.ResourceTemplate;
+import models.tiles.enums.ResourceTemplate;
 
 public class Resource {
     private ResourceTemplate resourceTemplate;

@@ -1,4 +1,4 @@
-package models.enums;
+package models.tiles.enums;
 
 public enum ImprovementTemplate {
     ROAD("Road", 3, 0, 0, 0),

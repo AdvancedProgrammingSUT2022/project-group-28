@@ -1,6 +1,8 @@
-package models;
+package models.tiles;
 
-import models.enums.*;
+import models.tiles.enums.ImprovementTemplate;
+import models.tiles.enums.Terrain;
+import models.tiles.enums.TerrainFeature;
 import models.units.*;
 
 public class Tile {
