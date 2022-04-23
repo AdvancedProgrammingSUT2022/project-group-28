@@ -3,6 +3,7 @@ package views;
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.Option;
 
+import models.User;
 import views.enums.Message;
 
 public class RegisterMenu extends Menu {

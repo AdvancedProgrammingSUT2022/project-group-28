@@ -1,6 +1,6 @@
-package models;
+package models.tiles;
 
-import models.enums.ImprovementTemplate;
+import models.tiles.enums.ImprovementTemplate;
 
 public class Project {
     private ImprovementTemplate improvement;

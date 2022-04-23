@@ -1,4 +1,4 @@
-package models.enums;
+package models.units.enums;
 
 public enum UnitState {
     SLEPT,

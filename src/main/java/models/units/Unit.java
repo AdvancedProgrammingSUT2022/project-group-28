@@ -1,9 +1,9 @@
 package models.units;
 
-import models.Civilization;
-import models.Tile;
-import models.enums.UnitTemplate;
-import models.enums.UnitState;
+import models.civilization.Civilization;
+import models.tiles.Tile;
+import models.units.enums.UnitTemplate;
+import models.units.enums.UnitState;
 
 public abstract class Unit {
     protected long id;
@@ -14,4 +14,5 @@ public abstract class Unit {
 
     protected Tile moveTarget;
     protected int health;
+
 }

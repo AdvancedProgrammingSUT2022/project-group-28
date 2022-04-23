@@ -1,6 +1,10 @@
-package models.enums;
+package models.tiles.enums;
 
-public enum TerrainFeature {
+import models.tiles.TerrainOrTerrainFeature;
+
+import java.util.Random;
+
+public enum TerrainFeature implements TerrainOrTerrainFeature {
     FOOD_PLAIN("Food plain", 2, 0, 0, 1, -1/3, true),
     FOREST("Forest", 1, 1, 0, 2, 1/4, true),
     ICE("Ice", 0, 0, 0, 0, 0, false),
@@ -25,5 +29,12 @@ public enum TerrainFeature {
         this.combatModifier = combatModifier;
         this.accessible = accessible;
 
+    }
+
+    public static TerrainFeature generateRandomTerrainFeature(Random random) {
+        TerrainFeature[] values = TerrainFeature.values();
+        int length = values.length;
+        int randomIndex = random.nextInt(length);
+        return values[randomIndex];
     }
 }
