@@ -1,5 +1,6 @@
 package models;
 
+import models.civilization.Civilization;
 import models.tiles.Resource;
 import models.tiles.Tile;
 import models.tiles.enums.ResourceTemplate;
