@@ -22,5 +22,37 @@ public class Tile implements TileOrRiver {
         this.terrain = terrain;
         this.terrainFeature = terrainFeature;
     }
+
+    public Terrain getTerrain() {
+        return terrain;
+    }
+
+    public TerrainFeature getTerrainFeature() {
+        return terrainFeature;
+    }
+
+    public Military getMilitary() {
+        return military;
+    }
+
+    public Civilian getCivilian() {
+        return civilian;
+    }
+
+    public Resource getResource() {
+        return resource;
+    }
+
+    public ImprovementTemplate getImprovement() {
+        return improvement;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public Civilization getCivilization() {
+        return civilization;
+    }
 }
 
