@@ -15,4 +15,27 @@ public abstract class Unit {
     protected Tile moveTarget;
     protected int health;
 
+    public Tile getTile() {
+        return tile;
+    }
+
+    public Civilization getCivilization() {
+        return civilization;
+    }
+
+    public UnitTemplate getUnitPattern() {
+        return unitPattern;
+    }
+
+    public UnitState getUnitState() {
+        return unitState;
+    }
+
+    public Tile getMoveTarget() {
+        return moveTarget;
+    }
+
+    public int getHealth() {
+        return health;
+    }
 }
