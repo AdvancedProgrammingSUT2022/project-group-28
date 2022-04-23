@@ -7,8 +7,9 @@ import views.enums.Message;
 public class ProfileMenuController {
 
     public static Message changeNickname(String nickname) {
-        User user = User.getUserByNickname(nickname);
-        if (user != null) {
+        User user = Menu.getLoggedInUser();
+        User tempUser = User.getUserByNickname(nickname);
+        if (tempUser != null) {
             return Message.CHANGE_NICKNAME_ERROR;
         }
         user.setNickname(nickname);

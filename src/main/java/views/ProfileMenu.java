@@ -14,12 +14,12 @@ public class ProfileMenu extends Menu {
 
     @Override
     protected boolean checkCommand(String command) {
-        if (command.startsWith("profile change") && command.contains("-n")) {
-            changeNickname(command);
-        } else if (command.startsWith("profile change") && command.contains("-p")) {
+        if (command.startsWith("profile change") && command.contains("-p")) {
             changePassword(command);
-        } else if (command.equals("menu show-current")) {
-            System.out.println("Main Menu");
+        } else if (command.startsWith("profile change") && command.contains("-n")) {
+            changeNickname(command);
+        }  else if (command.equals("menu show-current")) {
+            System.out.println("Profile Menu");
         } else if (command.equals("menu exit")) {
             Menu.setCurrentMenu(MainMenu.getInstance());
             return true;
@@ -68,7 +68,7 @@ public class ProfileMenu extends Menu {
     private void changePassword(String command) {
         CmdLineParser parser = new CmdLineParser();
         Option<Boolean> password = parser.addBooleanOption('p', "password");
-        Option<String> currentPassword = parser.addStringOption('p', "password");
+        Option<String> currentPassword = parser.addStringOption('c', "current");
         Option<String> newPassword = parser.addStringOption('n', "new");
 
         try {

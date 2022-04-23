@@ -19,7 +19,8 @@ public class MainMenu extends Menu {
             Menu.setCurrentMenu(RegisterMenu.getInstance());
             return true;
         } else if (command.startsWith("menu enter profile")){   
-            Menu.setCurrentMenu(ProfileMenu.getInstance());
+            ProfileMenu.setCurrentMenu(ProfileMenu.getInstance());
+            return true;
         } else {
             System.out.println("Invalid command");
         }

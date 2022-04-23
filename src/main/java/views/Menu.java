@@ -27,7 +27,7 @@ public abstract class Menu {
     }
 
     public void run() {
-        GsonHandler.importDataOfUser();
+
         while (true) {
             String line = scanner.nextLine();
             if (checkCommand(line)) {
