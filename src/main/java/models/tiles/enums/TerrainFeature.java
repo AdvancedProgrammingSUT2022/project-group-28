@@ -37,4 +37,32 @@ public enum TerrainFeature implements TerrainOrTerrainFeature {
         int randomIndex = random.nextInt(length);
         return values[randomIndex];
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getFood() {
+        return food;
+    }
+
+    public int getProduction() {
+        return production;
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public int getMovementCost() {
+        return movementCost;
+    }
+
+    public float getCombatModifier() {
+        return combatModifier;
+    }
+
+    public boolean isAccessible() {
+        return accessible;
+    }
 }
