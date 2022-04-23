@@ -20,70 +20,71 @@ public class User {
         this.score = 0;
     }
 
-    public static User getUserByUsername(String username){
-        if(allUsers.size() == 0){
+    public static User getUserByUsername(String username) {
+        if (allUsers.size() == 0) {
             return null;
         }
-        for (User user: allUsers) {
-            if (user.username.equals(username)){
-                return user;
-            }
-        }
-        return null;
-    }
-    public static User getUserByNickname(String nickname){
-        if(allUsers.size() == 0){
-            return null;
-        }
-        for (User user: allUsers) {
-            if (user.nickname.equals(nickname)){
+        for (User user : allUsers) {
+            if (user.username.equals(username)) {
                 return user;
             }
         }
         return null;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public int getId() {
-        return id;
+    public static User getUserByNickname(String nickname) {
+        if (allUsers.size() == 0) {
+            return null;
+        }
+        for (User user : allUsers) {
+            if (user.nickname.equals(nickname)) {
+                return user;
+            }
+        }
+        return null;
     }
 
     public static ArrayList<User> getAllUsers() {
         return allUsers;
     }
 
+    public static void setAllUsers(ArrayList<User> allUsers) {
+        User.allUsers = allUsers;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public void setScore(int score) {
         this.score = score;
     }
 
-    public static void setAllUsers(ArrayList<User> allUsers) {
-        User.allUsers = allUsers;
+    public int getId() {
+        return id;
     }
 }

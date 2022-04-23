@@ -6,19 +6,9 @@ import controllers.GsonHandler;
 import models.User;
 
 public abstract class Menu {
-    protected User loggedInUser;
-    protected final Scanner scanner = new Scanner(System.in);
+    protected static User loggedInUser;
     private static Menu currentMenu = RegisterMenu.getInstance();
-
-    public void run(){
-        GsonHandler.importDataOfUser();
-        while (true){
-            String line = scanner.nextLine();
-            if(checkCommand(line)){
-                break;
-            }
-        }
-    }
+    protected final Scanner scanner = new Scanner(System.in);
 
     public static Menu getCurrentMenu() {
         return currentMenu;
@@ -28,13 +18,23 @@ public abstract class Menu {
         Menu.currentMenu = currentMenu;
     }
 
-    protected abstract boolean checkCommand(String command);
-
-    public final User getLoggedInUser() {
+    public static User getLoggedInUser() {
         return loggedInUser;
     }
 
-    public final void setLoggedInUser(User loggedInUser) {
-        this.loggedInUser = loggedInUser;
+    public static void setLoggedInUser(User loggedInUser) {
+        Menu.loggedInUser = loggedInUser;
     }
+
+    public void run() {
+        GsonHandler.importDataOfUser();
+        while (true) {
+            String line = scanner.nextLine();
+            if (checkCommand(line)) {
+                break;
+            }
+        }
+    }
+
+    protected abstract boolean checkCommand(String command);
 }

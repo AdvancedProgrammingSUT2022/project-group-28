@@ -4,7 +4,7 @@ import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.Option;
 
 import controllers.GsonHandler;
-import controllers.RegisterController;
+import controllers.RegisterMenuController;
 import models.User;
 import views.enums.Message;
 
@@ -12,10 +12,14 @@ public class RegisterMenu extends Menu {
 
     private static RegisterMenu instance = new RegisterMenu();
 
+    public static RegisterMenu getInstance() {
+        return instance;
+    }
+
     @Override
     protected boolean checkCommand(String command) {
         if (command.startsWith("user login")) {
-            if(login(command)){
+            if (login(command)) {
                 MainMenu.setCurrentMenu(MainMenu.getInstance());
                 return true;
             }
@@ -32,15 +36,11 @@ public class RegisterMenu extends Menu {
         return false;
     }
 
-    public static RegisterMenu getInstance() {
-        return instance;
-    }
-
-    private void register(String command){
+    private void register(String command) {
         CmdLineParser parser = new CmdLineParser();
-        Option<String> username = parser.addStringOption('u',"username");
-        Option<String> password = parser.addStringOption('p',"password");
-        Option<String> nickname = parser.addStringOption('n',"nickname");
+        Option<String> username = parser.addStringOption('u', "username");
+        Option<String> password = parser.addStringOption('p', "password");
+        Option<String> nickname = parser.addStringOption('n', "nickname");
 
         try {
             parser.parse(command.split(" "));
@@ -53,18 +53,18 @@ public class RegisterMenu extends Menu {
         String passwordValue = (String) parser.getOptionValue(password);
         String nicknameValue = (String) parser.getOptionValue(nickname);
 
-        if( usernameValue == null || passwordValue == null || nicknameValue == null){
+        if (usernameValue == null || passwordValue == null || nicknameValue == null) {
             System.out.println("Invalid command");
             return;
         }
 
-        Message message = RegisterController.checkUserRegisterData(usernameValue, passwordValue, nicknameValue);
+        Message message = RegisterMenuController.checkUserRegisterData(usernameValue, passwordValue, nicknameValue);
         printRegisterMessage(message, usernameValue, nicknameValue);
 
     }
 
-    private void printRegisterMessage(Message message, String username, String nickname){ 
-        switch(message){
+    private void printRegisterMessage(Message message, String username, String nickname) {
+        switch (message) {
             case SUCCESS:
                 System.out.println("user created successfully!");
                 break;
@@ -72,7 +72,7 @@ public class RegisterMenu extends Menu {
                 System.out.println("user with username " + username + " already exists");
                 break;
             case NICKNAME_EXISTS:
-                System.out.println("user with nickname " + nickname +  " already exists");
+                System.out.println("user with nickname " + nickname + " already exists");
                 break;
             default:
                 break;
@@ -80,10 +80,10 @@ public class RegisterMenu extends Menu {
     }
 
 
-    private boolean login(String command){
+    private boolean login(String command) {
         CmdLineParser parser = new CmdLineParser();
-        Option<String> username = parser.addStringOption('u',"username");
-        Option<String> password = parser.addStringOption('p',"password");
+        Option<String> username = parser.addStringOption('u', "username");
+        Option<String> password = parser.addStringOption('p', "password");
 
         try {
             parser.parse(command.split(" "));
@@ -95,26 +95,27 @@ public class RegisterMenu extends Menu {
         String usernameValue = (String) parser.getOptionValue(username);
         String passwordValue = (String) parser.getOptionValue(password);
 
-        if(usernameValue == null || passwordValue == null){
+        if (usernameValue == null || passwordValue == null) {
             System.out.println("Invalid command");
             return false;
         }
 
-        Message message = RegisterController.checkUserLoginData(usernameValue, passwordValue);
-        printLoginMessage(message, usernameValue);
-        return false;
+        Message message = RegisterMenuController.checkUserLoginData(usernameValue, passwordValue);
+        return printLoginMessage(message, usernameValue);
     }
 
-    private void printLoginMessage(Message message, String username){ 
-        switch(message){
+    private boolean printLoginMessage(Message message, String username) {
+        switch (message) {
             case SUCCESS:
                 System.out.println("user logged in successfully!");
-                break;
+                Menu.setLoggedInUser(User.getUserByUsername(username));
+                return true;
             case LOGIN_ERROR:
                 System.out.println("Username and password didn’t match!");
                 break;
             default:
                 break;
         }
+        return false;
     }
 }
