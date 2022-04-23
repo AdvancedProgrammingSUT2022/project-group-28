@@ -104,4 +104,16 @@ public class Game {
     public int getTurnNumber() { return turnNumber; }
 
     public Unit getSelectedUnit() { return selectedUnit; }
+
+    public void setTurn(Civilization turn) {
+        this.turn = turn;
+    }
+
+    public void setTurnNumber(int turnNumber) {
+        this.turnNumber = turnNumber;
+    }
+
+    public void setSelectedUnit(Unit selectedUnit) {
+        this.selectedUnit = selectedUnit;
+    }
 }
