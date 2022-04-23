@@ -7,6 +7,7 @@ import models.tiles.enums.ResourceTemplate;
 import models.tiles.enums.ResourceType;
 import models.tiles.enums.Terrain;
 import models.tiles.enums.TerrainFeature;
+import models.units.Unit;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -16,8 +17,13 @@ public class Game {
     private final int MAP_HEIGHT = 100;
     private final int ARRAY_WIDTH;
     private final int ARRAY_HEIGHT;
+
     private TileOrRiver[][] map;
     private ArrayList<Civilization> civilizations;
+
+    private Civilization turn;
+    private int turnNumber;
+    private Unit selectedUnit;
 
     public Game(ArrayList<User> users, int seed) {
         Random random = new Random(seed);
@@ -88,4 +94,14 @@ public class Game {
         if (j - 1 >= 0 && i + 1 < 100 && map[i + 1][j - 1] instanceof River) return true;
         return false;
     }
+
+    public TileOrRiver[][] getMap() { return map; }
+
+    public ArrayList<Civilization> getCivilizations() { return civilizations; }
+
+    public Civilization getTurn() { return turn; }
+
+    public int getTurnNumber() { return turnNumber; }
+
+    public Unit getSelectedUnit() { return selectedUnit; }
 }
