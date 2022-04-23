@@ -1,8 +1,10 @@
 package models.tiles.enums;
 
+import models.tiles.TerrainOrTerrainFeature;
+
 import java.util.Random;
 
-public enum TerrainFeature {
+public enum TerrainFeature implements TerrainOrTerrainFeature {
     FOOD_PLAIN("Food plain", 2, 0, 0, 1, -1/3, true),
     FOREST("Forest", 1, 1, 0, 2, 1/4, true),
     ICE("Ice", 0, 0, 0, 0, 0, false),
