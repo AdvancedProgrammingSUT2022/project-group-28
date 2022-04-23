@@ -2,6 +2,7 @@ package views;
 
 import java.util.Scanner;
 
+import controllers.GsonHandler;
 import models.User;
 
 public abstract class Menu {
@@ -10,6 +11,7 @@ public abstract class Menu {
     private static Menu currentMenu = RegisterMenu.getInstance();
 
     public void run(){
+        GsonHandler.importDataOfUser();
         while (true){
             String line = scanner.nextLine();
             if(checkCommand(line)){
