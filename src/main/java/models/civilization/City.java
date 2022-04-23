@@ -18,7 +18,10 @@ public class City {
     private int foodBalance;
     private int productionBalance;
 
+    private ArrayList<Building> buildings;
+
     public City(Civilization civilization, Tile tile) {
+        this.NAME = "hi";
         this.civilization = civilization;
         this.tile = tile;
         // TODO: A lot of things

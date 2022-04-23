@@ -14,4 +14,5 @@ public abstract class Unit {
 
     protected Tile moveTarget;
     protected int health;
+
 }
