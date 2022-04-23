@@ -12,6 +12,8 @@ public class Civilization {
     private ArrayList<City> cities;
     private ArrayList<Unit> units;
 
+    private ArrayList<Technology> studiedTechnologies;
+
     private int goldBalance;
     private int scienceBalance;
     private int happinessBalance;
