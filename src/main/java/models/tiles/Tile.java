@@ -1,11 +1,12 @@
 package models.tiles;
 
+import models.TileOrRiver;
 import models.tiles.enums.ImprovementTemplate;
 import models.tiles.enums.Terrain;
 import models.tiles.enums.TerrainFeature;
 import models.units.*;
 
-public class Tile {
+public class Tile implements TileOrRiver {
     Terrain terrain;
     TerrainFeature terrainFeature;
     Military military = null;
