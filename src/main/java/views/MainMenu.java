@@ -15,7 +15,7 @@ public class MainMenu extends Menu {
     @Override
     protected boolean checkCommand(String command) {
         if (command.startsWith("play game")) {
-            startGame(command);
+            return startGame(command);
         } else if (command.equals("menu show-current")) {
             System.out.println("Main Menu");
         } else if (command.equals("menu exit")) {
@@ -65,6 +65,10 @@ public class MainMenu extends Menu {
                 return false;
             }else{
                 users.add(thisUser);
+            }
+            if(users.contains(loggedInUser)){
+                System.out.println("You cannot play with yourself");
+                return false;
             }
             users.add(loggedInUser);
         }
