@@ -1,15 +1,27 @@
 package models;
 
+import controllers.GsonHandler;
+
 import java.util.ArrayList;
 
 public class User {
     private static ArrayList<User> allUsers = new ArrayList<>();
-    private static int lastId = -1;
+    private static int lastId;
     private int id;
     private String username;
     private String nickname;
     private String password;
     private int score;
+
+    static {
+        GsonHandler.importDataOfUser();
+        if (allUsers.size() == 0){
+            lastId = -1;
+        }
+        else{
+           lastId = allUsers.get(allUsers.size()-1).getId();
+        }
+    }
 
     public User(String username, String nickname, String password) {
         User.lastId++;
