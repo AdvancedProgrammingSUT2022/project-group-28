@@ -1,0 +1,32 @@
+package controllers;
+
+import models.User;
+import views.enums.Message;
+
+public class RegisterController {
+    public static Message checkUserRegisterData(String username , String password , String nickname){
+        if(User.getUserByUsername(username) != null){
+            return Message.USERNAME_EXISTS;
+        }
+        else if (User.getUserByNickname(nickname) != null){
+            return Message.NICKNAME_EXISTS;
+        }
+        addUser(username , password , nickname);
+        return Message.SUCCESS;
+
+    }
+
+    public static  Message checkUserLoginData(String username , String password){
+        User user = User.getUserByUsername(username);
+        if(user == null || !user.getPassword().equals(password)){
+            return Message.LOGIN_ERROR;
+        }
+        return Message.SUCCESS;
+
+    }
+
+    public static void addUser(String username, String password, String nickname){
+        User user = new User(username , nickname , password);
+        User.getAllUsers().add(user);
+    }
+}

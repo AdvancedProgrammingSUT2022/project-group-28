@@ -3,6 +3,8 @@ package views;
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.Option;
 
+import controllers.GsonHandler;
+import controllers.RegisterController;
 import models.User;
 import views.enums.Message;
 
@@ -22,6 +24,7 @@ public class RegisterMenu extends Menu {
         } else if (command.equals("menu show-current")) {
             System.out.println("Login Menu");
         } else if (command.equals("menu exit")) {
+            GsonHandler.exportDataOfUser(User.getAllUsers());
             System.exit(0);
         } else {
             System.out.println("Invalid command");
@@ -55,8 +58,8 @@ public class RegisterMenu extends Menu {
             return;
         }
 
-        // Message message =registerController(usernameValue, passwordValue, nicknameValue);
-        //printRegisterMessage(message, usernameValue, nicknameValue);
+        Message message = RegisterController.checkUserRegisterData(usernameValue, passwordValue, nicknameValue);
+        printRegisterMessage(message, usernameValue, nicknameValue);
 
     }
 
@@ -69,7 +72,7 @@ public class RegisterMenu extends Menu {
                 System.out.println("user with username " + username + " already exists");
                 break;
             case NICKNAME_EXISTS:
-                System.out.println("user with nickname " + nickname +  "already exists");
+                System.out.println("user with nickname " + nickname +  " already exists");
                 break;
             default:
                 break;
@@ -97,10 +100,8 @@ public class RegisterMenu extends Menu {
             return false;
         }
 
-        
-        // Message message =loginController(usernameValue, passwordValue);
-        //if(message==Message.SUCCESS)return true;
-        //printLoginMessage(message, usernameValue, nicknameValue);
+        Message message = RegisterController.checkUserLoginData(usernameValue, passwordValue);
+        printLoginMessage(message, usernameValue);
         return false;
     }
 
