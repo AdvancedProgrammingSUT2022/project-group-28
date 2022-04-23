@@ -57,7 +57,7 @@ public class Game {
         return map;
     }
 
-    private TerrainFeature getPossibleTerrainFeature(Terrain terrain, int i, int j, TileOrRiver map[][], Random random) {
+    private TerrainFeature getPossibleTerrainFeature(Terrain terrain, int i, int j, TileOrRiver[][] map, Random random) {
         TerrainFeature terrainFeature = TerrainFeature.generateRandomTerrainFeature(random);
         if (terrainFeature == TerrainFeature.FOOD_PLAIN && !hasAdjacentRiver(map, i, j)) return null;
         else if (terrainFeature == TerrainFeature.OASIS && terrain != Terrain.DESERT) return null;
@@ -78,7 +78,7 @@ public class Game {
         }
     }
 
-    private boolean hasAdjacentRiver(TileOrRiver map[][], int i, int j) {
+    private boolean hasAdjacentRiver(TileOrRiver[][] map, int i, int j) {
         if (i - 1 >= 0 && map[i - 1][j] instanceof River) return true;
         if (i + 1 < 100 && map[i + 1][j] instanceof River) return true;
         if (j - 1 >= 0 && map[i][j - 1] instanceof River) return true;
