@@ -7,10 +7,15 @@ import views.enums.Message;
 
 public class RegisterMenu extends Menu {
 
+    private static RegisterMenu instance = new RegisterMenu();
+
     @Override
     protected boolean checkCommand(String command) {
         if (command.startsWith("user login")) {
-            login(command);
+            if(login(command)){
+                MainMenu.setCurrentMenu(MainMenu.getInstance());
+                return true;
+            }
         } else if (command.startsWith("user create")) {
             register(command);
         } else if (command.equals("menu show-current")) {
@@ -21,6 +26,10 @@ public class RegisterMenu extends Menu {
             System.out.println("Invalid command");
         }
         return false;
+    }
+
+    public static RegisterMenu getInstance() {
+        return instance;
     }
 
     private void register(String command){
@@ -67,7 +76,7 @@ public class RegisterMenu extends Menu {
     }
 
 
-    private void login(String command){
+    private boolean login(String command){
         CmdLineParser parser = new CmdLineParser();
         Option<String> username = parser.addStringOption('u',"username");
         Option<String> password = parser.addStringOption('p',"password");
@@ -76,7 +85,7 @@ public class RegisterMenu extends Menu {
             parser.parse(command.split(" "));
         } catch (CmdLineParser.OptionException e) {
             System.out.println("Invalid command");
-            return;
+            return false;
         }
 
         String usernameValue = (String) parser.getOptionValue(username);
@@ -84,11 +93,14 @@ public class RegisterMenu extends Menu {
 
         if(usernameValue == null || passwordValue == null){
             System.out.println("Invalid command");
-            return;
+            return false;
         }
 
+        
         // Message message =loginController(usernameValue, passwordValue);
+        //if(message==Message.SUCCESS)return true;
         //printLoginMessage(message, usernameValue, nicknameValue);
+        return false;
     }
 
     private void printLoginMessage(Message message, String username){ 
