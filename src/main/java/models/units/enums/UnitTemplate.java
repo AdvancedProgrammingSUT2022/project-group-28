@@ -1,4 +1,6 @@
-package models.enums;
+package models.units.enums;
+
+import models.enums.ResourceTemplate;
 
 public enum UnitTemplate {
     WORKER("Worker", 70, 0, 0, 0, 2, 1, null),
