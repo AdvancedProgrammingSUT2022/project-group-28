@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.Option;
 
+import models.Game;
+import models.User;
+
 public class MainMenu extends Menu {
 
     private static MainMenu instance = new MainMenu();
@@ -12,7 +15,7 @@ public class MainMenu extends Menu {
     @Override
     protected boolean checkCommand(String command) {
         if (command.startsWith("play game")) {
-            startGame(command);
+            return startGame(command);
         } else if (command.equals("menu show-current")) {
             System.out.println("Main Menu");
         } else if (command.equals("menu exit")) {
@@ -35,7 +38,7 @@ public class MainMenu extends Menu {
         CmdLineParser parser = new CmdLineParser();
         Option<String> playerName = parser.addStringOption('p',"player");
 
-        ArrayList<String> players = new ArrayList<>();
+        ArrayList<String> playerNames = new ArrayList<>();
 
         try {
             parser.parse(command.split(" "));
@@ -50,13 +53,32 @@ public class MainMenu extends Menu {
                 break;
             }
             else {
-                players.add(playerNameValue);
+                playerNames.add(playerNameValue);
             }
         }
 
-        // TODO: start game
-        return false;
-
+        ArrayList<User> users = new ArrayList<>();
+        User thisUser;
+        for (String username : playerNames) {
+            if((thisUser=User.getUserByUsername(username)) == null) {
+                System.out.println("User " + username + " does not exist");
+                return false;
+            }else{
+                users.add(thisUser);
+            }
+            if(users.contains(loggedInUser)){
+                System.out.println("You cannot play with yourself");
+                return false;
+            }
+            users.add(loggedInUser);
+        }
+        if(users.size() < 2) {
+            System.out.println("You need at least two players to play");
+            return false;
+        }
+        GameMenu.game=new Game(users, 0);
+        Menu.setCurrentMenu(GameMenu.getInstance());
+        return true;
     }
     
 }
