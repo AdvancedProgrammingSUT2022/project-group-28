@@ -66,12 +66,12 @@ public class MainMenu extends Menu {
             }else{
                 users.add(thisUser);
             }
-            if(users.contains(loggedInUser)){
-                System.out.println("You cannot play with yourself");
-                return false;
-            }
-            users.add(loggedInUser);
         }
+        if(users.contains(loggedInUser)){
+            System.out.println("You cannot play with yourself");
+            return false;
+        }
+        users.add(loggedInUser);
         if(users.size() < 2) {
             System.out.println("You need at least two players to play");
             return false;
