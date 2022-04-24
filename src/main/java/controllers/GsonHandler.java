@@ -16,7 +16,7 @@ public class GsonHandler {
     public static void importDataOfUser(){
         try {
             ArrayList<User> allUsers ;
-            String json = new String(Files.readAllBytes(Paths.get("resources/userInformation.json")));
+            String json = new String(Files.readAllBytes(Paths.get("data/userInformation.json")));
             if(json.length() != 0){
                 allUsers = new Gson().fromJson(json , new TypeToken<List<User>>(){}.getType());
                 User.setAllUsers(allUsers);
@@ -27,7 +27,7 @@ public class GsonHandler {
     }
     public static void exportDataOfUser(ArrayList<User> users){
         try {
-            FileWriter fileWriter = new FileWriter("resources/userInformation.json");
+            FileWriter fileWriter = new FileWriter("data/userInformation.json");
             fileWriter.write(new Gson().toJson(users));
             fileWriter.close();
         } catch (IOException e) {
