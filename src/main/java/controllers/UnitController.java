@@ -1,6 +1,5 @@
 package controllers;
 
-import models.Game;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
 import models.units.Civilian;
@@ -12,9 +11,8 @@ import views.enums.Message;
 import java.util.HashMap;
 import java.util.Set;
 
-public class UnitController {
+public class UnitController extends GameController {
     public static Message selectCombatUnit(int i, int j) {
-        Game game = GameMenuController.getGame();
         if (i < 0 || i >= game.MAP_HEIGHT || j < 0 || j >= game.MAP_WIDTH)
             return Message.INVALID_POSITION;
         Tile tile = game.getMap()[i][j];
@@ -24,7 +22,6 @@ public class UnitController {
     }
 
     public static Message selectNonCombatUnit(int i, int j) {
-        Game game = GameMenuController.getGame();
         if (i < 0 || i >= game.MAP_HEIGHT || j < 0 || j >= game.MAP_WIDTH)
             return Message.INVALID_POSITION;
         Tile tile = game.getMap()[i][j];
@@ -34,7 +31,6 @@ public class UnitController {
     }
 
     public static Message moveToTarget(int i, int j) {
-        Game game = GameMenuController.getGame();
         if (i < 0 || i >= game.MAP_HEIGHT || j < 0 || j >= game.MAP_WIDTH)
             return Message.INVALID_POSITION;
         if (game.getSelectedUnit() == null) return Message.NO_SELECTED_UNIT;
@@ -58,7 +54,6 @@ public class UnitController {
     }
 
     private static void moveUnit(Unit unit, Tile startTile, Tile targetTile) {
-        Game game = GameMenuController.getGame();
         MapPair[][] checkMap = new MapPair[game.MAP_HEIGHT][game.MAP_WIDTH];
         for (int i = 0; i < game.MAP_HEIGHT; i++) {
             for (int j = 0; j < game.MAP_WIDTH; j++) {
@@ -92,7 +87,6 @@ public class UnitController {
 
     }
     private static boolean isValidDirection(int i, int j, Direction direction, MapPair[][] checkMap) {
-        Game game = GameMenuController.getGame();
         if (i + direction.i < game.MAP_HEIGHT && i + direction.i >= 0 &&
             j + direction.j < game.MAP_WIDTH && j + direction.j >= 0 &&
             !checkMap[i + direction.i][j + direction.j].isChecked()) {
@@ -102,7 +96,7 @@ public class UnitController {
     }
 
     private static int getDirectionMovePoint(int i, int j, Direction direction, int currentMovePoint) {
-        Tile[][] map = GameMenuController.getGame().getMap();
+        Tile[][] map = game.getMap();
         Tile tile = map[i][j];
         Tile nextTile = map[i + direction.i][j + direction.j];
         if (tile.getRivers().contains(direction)) return currentMovePoint;
@@ -132,7 +126,6 @@ public class UnitController {
     }
 
     private static HashMap<Integer[],Integer> getDistances(Tile targetTile, MapPair[][] checkMap, int currentMovePoint) {
-        Game game = GameMenuController.getGame();
         HashMap<Integer[], Integer> result = new HashMap<>();
         int targetI = targetTile.getCoordinates()[0];
         int targetJ = targetTile.getCoordinates()[1];
@@ -158,8 +151,8 @@ public class UnitController {
     }
 
     private static void directMove(int i, int j, MapPair[][] checkMap) {
-        Tile[][] map = GameMenuController.getGame().getMap();
-        Unit unit = GameMenuController.getGame().getSelectedUnit();
+        Tile[][] map = game.getMap();
+        Unit unit = game.getSelectedUnit();
         Tile startTile = unit.getTile();
         Tile targetTile = map[i][j];
 

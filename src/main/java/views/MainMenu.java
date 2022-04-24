@@ -76,9 +76,8 @@ public class MainMenu extends Menu {
             System.out.println("You need at least two players to play");
             return false;
         }
-        GameMenu.game=new Game(users, 0);
+        GameMenu.game = new Game(users, 0);
         Menu.setCurrentMenu(GameMenu.getInstance());
         return true;
     }
-    
 }
