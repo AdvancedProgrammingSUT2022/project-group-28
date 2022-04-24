@@ -72,5 +72,19 @@ public class Tile {
     public Civilian getCivilian() {
         return civilian;
     }
+
+    public boolean isAccessible() {
+        return terrain.isAccessible() && terrainFeature.isAccessible();
+    }
+
+    public void freeUnit(Unit unit) {
+        if (unit instanceof Military) military = null;
+        if (unit instanceof Civilian) civilian = null;
+    }
+
+    public void addUnit(Unit unit) {
+        if (unit instanceof Military) military = (Military) unit;
+        if (unit instanceof Civilian) civilian = (Civilian) unit;
+    }
 }
 

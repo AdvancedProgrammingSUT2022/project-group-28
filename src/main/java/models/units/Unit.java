@@ -12,7 +12,9 @@ public abstract class Unit {
     protected UnitTemplate unitPattern;
     protected UnitState unitState;
 
+    protected int movePoint;
     protected Tile moveTarget;
+
     protected int health;
 
     public Tile getTile() {
@@ -39,6 +41,10 @@ public abstract class Unit {
         return health;
     }
 
+    public int getMovePoint() {
+        return movePoint;
+    }
+
     public void setTile(Tile tile) {
         this.tile = tile;
     }
@@ -61,5 +67,9 @@ public abstract class Unit {
 
     public void setHealth(int health) {
         this.health = health;
+    }
+
+    public void setMovePoint(int movePoint) {
+        this.movePoint = movePoint;
     }
 }
