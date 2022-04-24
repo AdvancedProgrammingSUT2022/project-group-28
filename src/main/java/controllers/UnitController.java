@@ -14,4 +14,17 @@ public class UnitController {
         game.setSelectedUnit(tile.getMilitary());
         return Message.SUCCESS;
     }
+
+    public static Message selectNonCombatUnit(int i, int j) {
+        Game game = GameMenuController.getGame();
+        if (i < 0 || i >= game.MAP_HEIGHT || j < 0 || j >= game.MAP_WIDTH)
+            return Message.INVALID_POSITION;
+        Tile tile = game.getMap()[i][j];
+        if (tile.getCivilian() == null) return Message.NO_NONCOMBAT_UNIT;
+        game.setSelectedUnit(tile.getMilitary());
+        return Message.SUCCESS;
+    }
+
+    
+
 }
