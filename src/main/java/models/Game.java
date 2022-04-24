@@ -17,7 +17,7 @@ public class Game {
     private Tile[][] map;
     private ArrayList<Civilization> civilizations;
 
-    private Civilization turn;
+    private Civilization currentPlayer;
     private int turnNumber;
 
     private Unit selectedUnit = null;
@@ -36,6 +36,9 @@ public class Game {
             this.civilizations.add(civilization);
             i--;
         }
+
+        this.currentPlayer = this.civilizations.get(0);
+        this.turnNumber = 1;
     }
 
 
@@ -98,12 +101,12 @@ public class Game {
 
     public ArrayList<Civilization> getCivilizations() { return civilizations; }
 
-    public Civilization getTurn() { return turn; }
+    public Civilization getCurrentPlayer() { return currentPlayer; }
 
     public int getTurnNumber() { return turnNumber; }
 
-    public void setTurn(Civilization turn) {
-        this.turn = turn;
+    public void setCurrentPlayer(Civilization currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 
     public void setTurnNumber(int turnNumber) {

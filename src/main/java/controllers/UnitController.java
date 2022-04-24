@@ -40,7 +40,7 @@ public class UnitController extends GameController {
         Unit unit = game.getSelectedUnit();
         Tile startTile = unit.getTile();
         Tile targetTile = game.getMap()[i][j];
-        if (!unit.getCivilization().equals(game.getTurn())) return Message.NO_PERMISSION;
+        if (!unit.getCivilization().equals(game.getCurrentPlayer())) return Message.NO_PERMISSION;
         if (startTile.getCoordinates()[0] == i && startTile.getCoordinates()[1] == j) return Message.SAME_TILE;
         if (!targetTile.isAccessible()) return Message.NOT_ACCESSIBLE_TILE;
         if (isFullTile(unit, targetTile)) return Message.FULL_TILE;
@@ -51,7 +51,7 @@ public class UnitController extends GameController {
     }
 
     public static void nextTurnUnitUpdates() {
-        ArrayList<Unit> units = game.getTurn().getUnits();
+        ArrayList<Unit> units = game.getCurrentPlayer().getUnits();
         for (Unit unit : units) {
             unit.setMovePoint(unit.getUnitTemplate().getMovementPoint());
             if (unit.getUnitState() == UnitState.MOVING) {
@@ -260,10 +260,6 @@ public class UnitController extends GameController {
         return false;
     }
 }
-
-
-
-
 
 class MapPair {
     private boolean checked;

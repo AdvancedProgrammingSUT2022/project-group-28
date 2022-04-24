@@ -2,6 +2,7 @@ package controllers;
 
 import models.Game;
 import models.User;
+import models.civilization.Civilization;
 import models.units.Unit;
 import models.units.enums.UnitState;
 import views.enums.Message;
@@ -33,7 +34,7 @@ public class GameMenuController extends GameController {
     // TODO: Change return types to Message
     private static boolean checkUnitsToNextTurn() {
         // TODO: Check all units stuff
-        ArrayList<Unit> units = game.getTurn().getUnits();
+        ArrayList<Unit> units = game.getCurrentPlayer().getUnits();
         for (Unit unit : units) {
             if (unit.getUnitState() == UnitState.FREE && unit.getMovePoint() > 0) return false;
         }
@@ -52,5 +53,9 @@ public class GameMenuController extends GameController {
 
     public static void nextTurnUpdatesAndTasks() {
         UnitController.nextTurnUnitUpdates();
+    }
+
+    public static void changeTurnPlayer() {
+        ArrayList<Civilization> civilizations = game.getCivilizations();
     }
 }
