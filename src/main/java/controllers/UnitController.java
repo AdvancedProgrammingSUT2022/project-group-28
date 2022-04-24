@@ -8,10 +8,12 @@ import models.units.Unit;
 import models.units.enums.UnitState;
 import views.enums.Message;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
 public class UnitController extends GameController {
+
     public static Message selectCombatUnit(int i, int j) {
         if (i < 0 || i >= game.MAP_HEIGHT || j < 0 || j >= game.MAP_WIDTH)
             return Message.INVALID_POSITION;
@@ -30,7 +32,8 @@ public class UnitController extends GameController {
         return Message.SUCCESS;
     }
 
-    public static Message moveToTarget(int i, int j) {
+    // TODO: Reform move methods
+    public static Message moveUnitToTarget(int i, int j) {
         if (i < 0 || i >= game.MAP_HEIGHT || j < 0 || j >= game.MAP_WIDTH)
             return Message.INVALID_POSITION;
         if (game.getSelectedUnit() == null) return Message.NO_SELECTED_UNIT;
@@ -40,14 +43,26 @@ public class UnitController extends GameController {
         if (!unit.getCivilization().equals(game.getTurn())) return Message.NO_PERMISSION;
         if (startTile.getCoordinates()[0] == i && startTile.getCoordinates()[1] == j) return Message.SAME_TILE;
         if (!targetTile.isAccessible()) return Message.NOT_ACCESSIBLE_TILE;
-        if (isFullTargetTile(unit, targetTile)) return Message.FULL_TILE;
+        if (isFullTile(unit, targetTile)) return Message.FULL_TILE;
         // TODO: Add enemy border check
 
         moveUnit(unit, startTile, targetTile);
         return Message.SUCCESS;
     }
 
-    private static boolean isFullTargetTile(Unit unit, Tile targetTile) {
+    public static void nextTurnUnitUpdates() {
+        ArrayList<Unit> units = game.getTurn().getUnits();
+        for (Unit unit : units) {
+            unit.setMovePoint(unit.getUnitTemplate().getMovementPoint());
+            if (unit.getUnitState() == UnitState.MOVING) {
+                moveMovingUnit(unit);
+            }
+            // TODO: check all states
+        }
+    }
+
+
+    private static boolean isFullTile(Unit unit, Tile targetTile) {
         if (unit instanceof Military && targetTile.getMilitary() != null) return true;
         if (unit instanceof Civilian && targetTile.getCivilian() != null) return true;
         return false;
@@ -61,9 +76,8 @@ public class UnitController extends GameController {
             }
         }
 
-        int[] startCoordinates = startTile.getCoordinates();
-        int startI = startCoordinates[0];
-        int startJ = startCoordinates[1];
+        int startI = startTile.getCoordinates()[0];
+        int startJ = startTile.getCoordinates()[1];
         int currentMovePoint = unit.getMovePoint();
 
         checkMap[startI][startJ].setChecked(true);
@@ -80,11 +94,11 @@ public class UnitController extends GameController {
         HashMap<Integer[], Integer> distances = getDistances(targetTile, checkMap, currentMovePoint);
 
         if (isDirectMovePossible(distances)) {
-            int i = targetTile.getCoordinates()[0];
-            int j = targetTile.getCoordinates()[1];
-            directMove(i, j, checkMap);
+            directMove(targetTile, checkMap);
+        } else {
+            Tile bestTile = getBestTile(distances);
+            indirectMove(bestTile, targetTile, checkMap);
         }
-
     }
     private static boolean isValidDirection(int i, int j, Direction direction, MapPair[][] checkMap) {
         if (i + direction.i < game.MAP_HEIGHT && i + direction.i >= 0 &&
@@ -150,19 +164,100 @@ public class UnitController extends GameController {
         return false;
     }
 
-    private static void directMove(int i, int j, MapPair[][] checkMap) {
-        Tile[][] map = game.getMap();
+    private static void directMove(Tile targetTile, MapPair[][] checkMap) {
         Unit unit = game.getSelectedUnit();
+        moveToTile(unit, targetTile, checkMap);
+
+        unit.setMoveTarget(null);
+        unit.setUnitState(UnitState.FREE);
+    }
+
+
+    private static void moveToTile(Unit unit, Tile targetTile, MapPair[][] checkMap) {
+        Tile[][] map = game.getMap();
         Tile startTile = unit.getTile();
-        Tile targetTile = map[i][j];
+
+        startTile.freeUnit(unit);
+        targetTile.addUnit(unit);
+
+        int i = targetTile.getCoordinates()[0];
+        int j = targetTile.getCoordinates()[1];
 
         int newMovePoint = checkMap[i][j].getMovePoint();
         unit.setMovePoint(newMovePoint);
         unit.setTile(targetTile);
-        unit.setUnitState(UnitState.FREE);
+    }
 
-        startTile.freeUnit(unit);
-        targetTile.addUnit(unit);
+    private static void indirectMove(Tile bestTile, Tile targetTile, MapPair[][] checkMap) {
+        Unit unit = game.getSelectedUnit();
+        moveToTile(unit, bestTile, checkMap);
+
+        unit.setMoveTarget(targetTile);
+        unit.setUnitState(UnitState.MOVING);
+    }
+
+    private static Tile getBestTile(HashMap<Integer[], Integer> distances) {
+        // TODO: check if the tile is free
+        int movePoint = 1000;
+        Set<Integer[]> coordinates = distances.keySet();
+        Integer[] bestCoordinates = new Integer[] {};
+        for (Integer[] coordinate : coordinates) {
+            if (distances.get(coordinate) < movePoint) {
+                movePoint = distances.get(coordinate);
+                bestCoordinates = coordinate;
+            }
+        }
+        int i = bestCoordinates[0];
+        int j = bestCoordinates[1];
+        Tile bestTile = game.getMap()[i][j];
+        return bestTile;
+    }
+
+    private static void moveMovingUnit(Unit unit) {
+        Tile targetTile = unit.getMoveTarget();
+        Tile startTile = unit.getTile();
+
+        MapPair[][] checkMap = new MapPair[game.MAP_HEIGHT][game.MAP_WIDTH];
+        for (int i = 0; i < game.MAP_HEIGHT; i++) {
+            for (int j = 0; j < game.MAP_WIDTH; j++) {
+                checkMap[i][j] = new MapPair();
+            }
+        }
+
+        int startI = startTile.getCoordinates()[0];
+        int startJ = startTile.getCoordinates()[1];
+        int currentMovePoint = unit.getMovePoint();
+
+        checkMap[startI][startJ].setChecked(true);
+        checkMap[startI][startJ].setMovePoint(currentMovePoint);
+        for (Direction direction: Direction.getDirections()) {
+            if (isValidDirection(startI, startJ, direction, checkMap)) {
+                int newMovePoint = currentMovePoint - getDirectionMovePoint(startI, startJ, direction, currentMovePoint);
+                if (newMovePoint >= 0) {
+                    tagMapMovePoints(startI + direction.i, startJ + direction.j, newMovePoint, checkMap);
+                }
+            }
+        }
+
+        HashMap<Integer[], Integer> distances = getDistances(targetTile, checkMap, currentMovePoint);
+
+        if (isTargetTileTagged(targetTile, checkMap)) {
+            if (!isFullTile(unit, targetTile)) {
+                moveToTile(unit, targetTile, checkMap);
+            }
+            unit.setUnitState(UnitState.FREE);
+            unit.setMoveTarget(null);
+        } else {
+            Tile bestTile = getBestTile(distances);
+            moveToTile(unit, bestTile, checkMap);
+        }
+    }
+
+    private static boolean isTargetTileTagged(Tile targetTile, MapPair[][] checkMap) {
+        int i = targetTile.getCoordinates()[0];
+        int j = targetTile.getCoordinates()[1];
+        if (checkMap[i][j].getMovePoint() < 1000) return true;
+        return false;
     }
 }
 
@@ -175,7 +270,7 @@ class MapPair {
     private int movePoint;
     MapPair() {
         checked = false;
-        movePoint = 100;
+        movePoint = 1000;
     }
 
     public boolean isChecked() {
