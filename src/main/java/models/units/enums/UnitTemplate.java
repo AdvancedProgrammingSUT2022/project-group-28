@@ -30,4 +30,36 @@ public enum UnitTemplate {
         this.eraNumber = eraNumber;
         this.requiredResource = requiredResource;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public int getCombatStrength() {
+        return combatStrength;
+    }
+
+    public int getRangedCombatStrength() {
+        return rangedCombatStrength;
+    }
+
+    public int getRange() {
+        return range;
+    }
+
+    public int getMovementPoint() {
+        return movementPoint;
+    }
+
+    public int getEraNumber() {
+        return eraNumber;
+    }
+
+    public ResourceTemplate getRequiredResource() {
+        return requiredResource;
+    }
 }

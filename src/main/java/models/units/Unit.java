@@ -9,7 +9,7 @@ public abstract class Unit {
     protected long id;
     protected Tile tile;
     protected Civilization civilization;
-    protected UnitTemplate unitPattern;
+    protected UnitTemplate unitTemplate;
     protected UnitState unitState;
 
     protected int movePoint;
@@ -25,8 +25,8 @@ public abstract class Unit {
         return civilization;
     }
 
-    public UnitTemplate getUnitPattern() {
-        return unitPattern;
+    public UnitTemplate getUnitTemplate() {
+        return unitTemplate;
     }
 
     public UnitState getUnitState() {
@@ -53,8 +53,8 @@ public abstract class Unit {
         this.civilization = civilization;
     }
 
-    public void setUnitPattern(UnitTemplate unitPattern) {
-        this.unitPattern = unitPattern;
+    public void setUnitTemplate(UnitTemplate unitTemplate) {
+        this.unitTemplate = unitTemplate;
     }
 
     public void setUnitState(UnitState unitState) {

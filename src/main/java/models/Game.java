@@ -4,6 +4,7 @@ import models.civilization.Civilization;
 import models.tiles.Resource;
 import models.tiles.Tile;
 import models.tiles.enums.*;
+import models.units.Settler;
 import models.units.Unit;
 
 import java.util.ArrayList;
@@ -27,8 +28,13 @@ public class Game {
         this.map = generateRandomMap(random);
 
         this.civilizations = new ArrayList<>();
+        int i = 2;
         for (User user : users) {
-            this.civilizations.add(new Civilization(user, "CIVILIZATION"));
+            Civilization civilization = new Civilization(user, "CIVILIZATION");
+            Settler settler = new Settler(civilization, this.map[10 + 10 * i][10 + 10 * i]);
+            civilization.addUnit(settler);
+            this.civilizations.add(civilization);
+            i--;
         }
     }
 

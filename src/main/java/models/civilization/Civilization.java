@@ -65,4 +65,8 @@ public class Civilization {
     public int getHappiness() {
         return happiness;
     }
+
+    public void addUnit(Unit unit) {
+        this.units.add(unit);
+    }
 }
