@@ -10,14 +10,16 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Game {
-    private final int MAP_WIDTH = 100;
-    private final int MAP_HEIGHT = 100;
+    public final int MAP_WIDTH = 100;
+    public final int MAP_HEIGHT = 100;
 
     private Tile[][] map;
     private ArrayList<Civilization> civilizations;
 
     private Civilization turn;
     private int turnNumber;
+
+    private Unit selectedUnit = null;
 
     public Game(ArrayList<User> users, int seed) {
         Random random = new Random(seed);;
@@ -102,4 +104,11 @@ public class Game {
         this.turnNumber = turnNumber;
     }
 
+    public Unit getSelectedUnit() {
+        return selectedUnit;
+    }
+
+    public void setSelectedUnit(Unit selectedUnit) {
+        this.selectedUnit = selectedUnit;
+    }
 }
