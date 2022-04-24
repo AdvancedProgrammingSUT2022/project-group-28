@@ -2,7 +2,9 @@ package views;
 
 import models.Game;
 import models.tiles.Tile;
+import models.units.Settler;
 import models.units.Worker;
+import views.enums.Color;
 
 public class GameMenu extends Menu {
     private static GameMenu instance = new GameMenu();
@@ -21,18 +23,19 @@ public class GameMenu extends Menu {
         return true;
     }
 
-    private char[][] makeBoardGrid(){
+    private String[][] makeBoardGrid(){
         Tile[][] map = game.getMap();
-        char[][] grid = new char[BOARD_HEIGHT][BOARD_WIDTH];
+        String[][] grid = new String[BOARD_HEIGHT][BOARD_WIDTH];
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
-                grid[i][j]=' ';
+                grid[i][j]=" ";
             }
         }
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 10; j++) {
                 String hex= fillHexData(map[i][j]);
                 String[] lines = hex.split("\n");
+                boolean isColored=false;
                 for (int m = 0; m < lines.length; m++) {
                     String content = lines[m];
                     for (int n = 0; n < content.length(); n++) {
@@ -40,9 +43,10 @@ public class GameMenu extends Menu {
                         int y = 6 * i + (j % 2) * 3 + m;
                         
                         // Only override empty spaces
-                        if (grid[y][x] == ' ') {
-                            grid[y][x]=content.charAt(n);
-                        }
+                        if (content.charAt(n)!=' ' && content.charAt(n)!='/' && content.charAt(n)!='\\' && (i!=0 || m!=0)) 
+                            grid[y][x]="\u001B[41m"+String.valueOf(content.charAt(n))+"\u001B[0m";
+                        else if (content.charAt(n)!=' ')
+                             grid[y][x]=String.valueOf(content.charAt(n));
                     }
                 }
             }
@@ -51,28 +55,30 @@ public class GameMenu extends Menu {
     }
 
     private String fillHexData(Tile tile) {
-        String template ="   _______   \n"  // 0 - 13
-                       + "  /  C M  \\  \n" // 14 - 26
-                       + " /  XX,YY  \\ \n" // 27 - 39
-                       + "/           \\\n" // 40 - 52
-                       + "\\           /\n" // 53 - 65 
-                       + " \\  FF RR  / \n" // 66 - 78
-                       + "  \\_______/  ";  // 79 - 92
-        template = template.replace("XX", String.format("%2d", tile.getCoordinates()[0]));
-        template = template.replace("YY", String.format("%2d", tile.getCoordinates()[1]));
+        String template ="   _______\n"  // 0 - 13
+                       + "  /##C#M##\\\n" // 14 - 26
+                       + " /##XX,YY##\\\n" // 27 - 39
+                       + "/###########\\\n" // 40 - 52
+                       + "\\###########/\n" // 53 - 65 
+                       + " \\##FF#RR##/\n" // 66 - 78
+                       + "  \\_______/";  // 79 - 92
+        template = template.replace("XX", String.format("%02d", tile.getCoordinates()[0]));
+        template = template.replace("YY", String.format("%02d", tile.getCoordinates()[1]));
         if(tile.getTerrainFeature()!=null)
             template = template.replace("FF", tile.getTerrainFeature().getName().substring(0, 2));
         else
             template = template.replace("FF", "  ");
         if(tile.getCivilian() instanceof Worker)
             template = template.replace("C", "W");
-        else
+        else if(tile.getCivilian() instanceof Settler)
             template = template.replace("C", "S");
+        else
+            template = template.replace("C", " ");
         return template;
     }
 
     private void drawBoard() {
-        char[][] grid= makeBoardGrid();
+        String[][] grid= makeBoardGrid();
         StringBuilder builder = new StringBuilder();
         for(int i = 0; i < BOARD_HEIGHT; i++) {
             for(int j = 0; j < BOARD_WIDTH; j++) {
@@ -84,4 +90,7 @@ public class GameMenu extends Menu {
         System.out.println(builder.toString());
     }
 
+    private Color getHexColor(Tile tile) {
+        return Color.RED_BACKGROUND;
+    }
 }
