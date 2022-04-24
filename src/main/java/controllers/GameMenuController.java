@@ -18,13 +18,13 @@ public class GameMenuController extends GameController {
     }
 
     public static Message nextTurn() {
-        // TODO: map errors to map
+        // TODO: redirect errors to map
         if (!checkCivilizationToNextTurn()) return Message.FAILURE;
         if (!checkCitiesToNextTurn()) return Message.FAILURE;
         if (!checkUnitsToNextTurn()) return Message.FAILURE;
 
         nextTurnUpdatesAndTasks();
-        changeTurnPlayer();
+        changePlayerTurn();
 
 
         return Message.SUCCESS;
@@ -55,7 +55,15 @@ public class GameMenuController extends GameController {
         UnitController.nextTurnUnitUpdates();
     }
 
-    public static void changeTurnPlayer() {
+    public static void changePlayerTurn() {
         ArrayList<Civilization> civilizations = game.getCivilizations();
+        Civilization currentCivilization = game.getCurrentPlayer();
+        int playerIndex = civilizations.indexOf(currentCivilization);
+        if (playerIndex == civilizations.size() - 1) {
+            game.setTurnNumber(game.getTurnNumber() + 1);
+            game.setCurrentPlayer(civilizations.get(0));
+        } else game.setCurrentPlayer(civilizations.get(playerIndex + 1));
+        game.setSelectedUnit(null);
+        // TODO: Add another next turn stuff such as selected city
     }
 }
