@@ -108,7 +108,7 @@ public class RegisterMenu extends Menu {
         switch (message) {
             case SUCCESS:
                 System.out.println("user logged in successfully!");
-                Menu.setLoggedInUser(User.getUserByUsername(username));
+                RegisterMenuController.setLoggedInUser(username);
                 return true;
             case LOGIN_ERROR:
                 System.out.println("Username and password didn’t match!");
