@@ -38,4 +38,28 @@ public abstract class Unit {
     public int getHealth() {
         return health;
     }
+
+    public void setTile(Tile tile) {
+        this.tile = tile;
+    }
+
+    public void setCivilization(Civilization civilization) {
+        this.civilization = civilization;
+    }
+
+    public void setUnitPattern(UnitTemplate unitPattern) {
+        this.unitPattern = unitPattern;
+    }
+
+    public void setUnitState(UnitState unitState) {
+        this.unitState = unitState;
+    }
+
+    public void setMoveTarget(Tile moveTarget) {
+        this.moveTarget = moveTarget;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
 }

@@ -1,9 +1,11 @@
 package models.units.enums;
 
 public enum UnitState {
+    FREE,
+    MOVING,
     SLEPT,
     ALERT,
-    RECOVER,
-    FULL_RECOVER,
-    GARRISON;
+    FORTIFYING,
+    FORTIFYING_UNTIL_HEALED,
+    GARRISONED;
 }
