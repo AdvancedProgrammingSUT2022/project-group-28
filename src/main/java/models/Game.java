@@ -4,12 +4,8 @@ import models.civilization.Civilization;
 import models.tiles.Resource;
 import models.tiles.Tile;
 import models.tiles.enums.*;
-<<<<<<< Updated upstream
 import models.units.Settler;
 import models.units.Unit;
-=======
->>>>>>> Stashed changes
-
 import java.util.ArrayList;
 import java.util.Random;
 

@@ -9,10 +9,10 @@ public class Civilization {
     private User user;
     private final String name;
     private City Capital;
-    private ArrayList<City> cities;
-    private ArrayList<Unit> units;
+    private ArrayList<City> cities = new ArrayList<>();
+    private ArrayList<Unit> units = new ArrayList<>();
 
-    private ArrayList<Technology> studiedTechnologies;
+    private ArrayList<Technology> studiedTechnologies = new ArrayList<>();
 
     private int goldBalance;
     private int scienceBalance;
