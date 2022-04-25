@@ -98,10 +98,13 @@ public class UnitController extends GameController {
 
         if (isDirectMovePossible(distances)) {
             directMove(targetTile, checkMap);
+        } else if (currentMovePoint == 0){
+            unit.setMoveTarget(targetTile);
+            unit.setUnitState(UnitState.MOVING);
         } else {
             Tile bestTile = getBestTile(distances);
             if (bestTile != null && !bestTile.equals(startTile)) indirectMove(bestTile, targetTile, checkMap);
-            else {
+            else{
                 unit.setMoveTarget(null);
                 unit.setUnitState(UnitState.FREE);
             }
