@@ -43,7 +43,7 @@ public class GameMenu extends Menu {
                         
                         // Only override empty spaces
                         if (content.charAt(n)!=' ' && content.charAt(n)!='/' && content.charAt(n)!='\\' && (i!=0 || m!=0)) 
-                            grid[y][x]="\u001B[41m"+String.valueOf(content.charAt(n))+"\u001B[0m";
+                            grid[y][x]=getHexColor(map[i][j])+String.valueOf(content.charAt(n))+"\u001B[0m";
                         else if (content.charAt(n)!=' ')
                              grid[y][x]=String.valueOf(content.charAt(n));
                     }
@@ -66,13 +66,13 @@ public class GameMenu extends Menu {
         if(tile.getTerrainFeature()!=null)
             template = template.replace("FF", tile.getTerrainFeature().getName().substring(0, 2));
         else
-            template = template.replace("FF", "  ");
+            template = template.replace("FF", "--");
         if(tile.getCivilian() instanceof Worker)
             template = template.replace("C", "W");
         else if(tile.getCivilian() instanceof Settler)
             template = template.replace("C", "S");
         else
-            template = template.replace("C", " ");
+            template = template.replace("C", "-");
         return template;
     }
 
