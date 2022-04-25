@@ -57,14 +57,14 @@ public class GameMenu extends Menu {
         String template ="   _______\n"  // 0 - 13
                        + "  /##C#M##\\\n" // 14 - 26
                        + " /##XX,YY##\\\n" // 27 - 39
-                       + "/###########\\\n" // 40 - 52
+                       + "/##FFFFFFF##\\\n" // 40 - 52
                        + "\\###########/\n" // 53 - 65 
-                       + " \\##FF#RR##/\n" // 66 - 78
+                       + " \\#####RR##/\n" // 66 - 78
                        + "  \\_______/";  // 79 - 92
         template = template.replace("XX", String.format("%02d", tile.getCoordinates()[0]));
         template = template.replace("YY", String.format("%02d", tile.getCoordinates()[1]));
         if(tile.getTerrainFeature()!=null)
-            template = template.replace("FF", tile.getTerrainFeature().getName().substring(0, 2));
+            template = template.replace("FF", tile.getTerrainFeature().getName().substring(0, 7));
         else
             template = template.replace("FF", "--");
         if(tile.getCivilian() instanceof Worker)
@@ -81,7 +81,7 @@ public class GameMenu extends Menu {
         StringBuilder builder = new StringBuilder();
         for(int i = 0; i < BOARD_HEIGHT; i++) {
             for(int j = 0; j < BOARD_WIDTH; j++) {
-                builder.append(grid[i][j]);
+                builder.append(grid[i][j].replace("#", " "));
             }
             builder.append('\n');
         }
