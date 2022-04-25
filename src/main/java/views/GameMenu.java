@@ -1,11 +1,14 @@
 package views;
 
+import java.util.ArrayList;
+
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.*;
 import controllers.GameController;
 import controllers.UnitController;
 import models.Game;
 import models.tiles.Tile;
+import models.tiles.enums.Direction;
 import models.units.Settler;
 import models.units.Worker;
 import views.enums.Color;
@@ -40,7 +43,6 @@ public class GameMenu extends Menu {
     private String[][] makeBoardGrid(int baseI , int baseJ){
         Game game = GameController.getGame();
         Tile[][] map = game.getMap();
-        System.out.println(map[0][1].getTerrain().getName());
         String[][] grid = new String[BOARD_HEIGHT][BOARD_WIDTH];
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
@@ -52,38 +54,28 @@ public class GameMenu extends Menu {
             for (int i = 0; i < 4; i++) {
                 int tileI = baseI + i - j/2;
                 int tileJ = baseJ + j - 5;
-                String hex= fillHexData(tileI, tileJ);
-                String[] lines = hex.split("\n");
-                for (int m = 0; m < lines.length; m++) {
-                    String content = lines[m];
-                    for (int n = 0; n < content.length(); n++) {
-                        int x = 10 * j + n;
-                        int y = 6 * i + (j % 2) * 3 + m;
-
-                        if (content.charAt(n)!=' ' &&
-                            content.charAt(n)!='/' && 
-                            content.charAt(n)!='\\' && 
-                            content.charAt(n)!='_' &&
-                            (i!=0 || m!=0))
-                            if (tileI < game.MAP_HEIGHT && tileI >= 0 && tileJ < game.MAP_WIDTH && tileJ >= 0)
-                                grid[y][x]=getHexColor(map[tileI][tileJ])+String.valueOf(content.charAt(n))+Color.RESET;
-                            else grid[y][x] = Color.RED_BACKGROUND + String.valueOf(content.charAt(n))+Color.RESET;
-                        else if(content.charAt(n)=='_' && (i!=0 || m!=0)){
-                            if(!grid[y][x].contains("_"))
-                                if (tileI < game.MAP_HEIGHT && tileI >= 0 && tileJ < game.MAP_WIDTH && tileJ >= 0)
-                                    grid[y][x] = getHexColor(map[tileI][tileJ]) + String.valueOf(content.charAt(n))+Color.RESET;
-                                else grid[y][x] = Color.RED_BACKGROUND + String.valueOf(content.charAt(n))+Color.RESET;
-                        }
-                        else if (content.charAt(n)!=' ')
-                            grid[y][x]=String.valueOf(content.charAt(n));
+                ArrayList<String> hex= fillHexData(tileI, tileJ);
+                int m=0,n=0;
+                for (int k = 0; k < hex.size(); k++) {
+                    int x = 10 * j + n;
+                    int y = 6 * i + (j % 2) * 3 + m;
+                    if(hex.get(k).equals("\n")){
+                        m++;
+                        n=0;
+                        continue;
                     }
+                    if(!hex.get(k).equals(" ") && !(hex.get(k).equals("_")&& !grid[y][x].equals(" ")))
+                        grid[y][x] = hex.get(k);
+
+                    n++;
+                    
                 }
             }
         }    
         return grid;    
     }
 
-    private String fillHexData(int i, int j) {
+    private ArrayList<String> fillHexData(int i, int j) {
         Game game = GameController.getGame();
         String template ="   _______\n"  // 0 - 13
                        + "  /##C#M##\\\n" // 14 - 26
@@ -95,6 +87,7 @@ public class GameMenu extends Menu {
         template = template.replace("II", String.format("%02d", i));
         template = template.replace("JJ", String.format("%02d", j));
 
+        ArrayList<String> colors;
         if (i < game.MAP_HEIGHT && i >= 0 && j < game.MAP_WIDTH && j >= 0) {
             Tile tile = game.getMap()[i][j];
             if(tile.getTerrainFeature()!=null)
@@ -111,16 +104,94 @@ public class GameMenu extends Menu {
                 template = template.replace("C", "S");
             else
                 template = template.replace("C", "#");
+            colors= getHexColors(template, i, j);
         }else{
-            template ="   _______\n"  // 0 - 13
+            template ="   _______\n"  // 0 - 11
                     + "  /#######\\\n" // 14 - 26
                     + " /#########\\\n" // 27 - 39
                     + "/###########\\\n" // 40 - 52
                     + "\\###########/\n" // 53 - 65 
                     + " \\#########/\n" // 66 - 78
                     + "  \\_______/";  // 79 - 92
+            colors= getOutHexColors(template);
         }
-        return template;
+        
+        
+        return colors;
+    }
+
+    private ArrayList<String> getOutHexColors(String template) {
+        ArrayList<String> colors=new ArrayList<>();
+        for (int k = 0; k < template.length(); k++) {
+            colors.add(String.valueOf(template.charAt(k)));       
+        }
+        return colors;
+    }
+
+    ArrayList<String> getHexColors(String template,int i,int j){
+        Game game=GameController.getGame();
+        Color hexColor = getHexColor(game.getMap()[i][j]);
+        ArrayList<String> colors=new ArrayList<>();
+
+        for (int k = 0; k < 50; k++) {
+            switch(template.charAt(k)){
+                case '\n':
+                case ' ':
+                    colors.add(String.valueOf(template.charAt(k)));
+                    break;
+                case '/':
+                    if(game.getMap()[i][j].getRivers().contains(Direction.LEFT))
+                        colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);
+                    else
+                        colors.add(String.valueOf(template.charAt(k)));
+                    break;
+                case '\\':
+                    if(game.getMap()[i][j].getRivers().contains(Direction.UP_RIGHT))
+                        colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);
+                    else
+                        colors.add(String.valueOf(template.charAt(k)));
+                    break;
+                case '_':
+                    if(game.getMap()[i][j].getRivers().contains(Direction.UP))
+                        colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);
+                    else
+                        colors.add(String.valueOf(template.charAt(k)));
+                    break;
+                default:
+                    colors.add(hexColor+String.valueOf(template.charAt(k))+Color.RESET);
+                    break;
+            }
+        }
+        for (int k = 50; k < template.length(); k++) {
+            switch(template.charAt(k)){
+                case '\n':
+                case ' ':
+                    colors.add(String.valueOf(template.charAt(k)));
+                    break;
+                case '/':
+                    if(game.getMap()[i][j].getRivers().contains(Direction.RIGHT))
+                        colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);
+                    else
+                        colors.add(String.valueOf(template.charAt(k)));
+                    break;
+                case '\\':
+                    if(game.getMap()[i][j].getRivers().contains(Direction.DOWN_LEFT))
+                        colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);
+                    else
+                        colors.add(String.valueOf(template.charAt(k)));
+                    break;
+                case '_':
+                    if(game.getMap()[i][j].getRivers().contains(Direction.DOWN))
+                        colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);
+                    else
+                        colors.add(hexColor+String.valueOf(template.charAt(k))+Color.RESET);
+                    break;
+                default:
+                    colors.add(hexColor+String.valueOf(template.charAt(k))+Color.RESET);
+                    break;
+            }
+        }
+        return colors;
     }
 
     private void drawBoard(int baseI, int baseJ) {
