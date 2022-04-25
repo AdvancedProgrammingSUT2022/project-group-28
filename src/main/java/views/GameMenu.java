@@ -1,5 +1,7 @@
 package views;
 
+import java.util.ArrayList;
+
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.*;
 import controllers.GameController;
@@ -7,6 +9,7 @@ import controllers.GameMenuController;
 import controllers.UnitController;
 import models.Game;
 import models.tiles.Tile;
+import models.tiles.enums.Direction;
 import models.units.Settler;
 import models.units.Worker;
 import views.enums.Color;
@@ -32,8 +35,13 @@ public class GameMenu extends Menu {
             moveUnit(command);
         } else if (command.startsWith("map show")) {
             showMap(command);
+<<<<<<< HEAD
         } else if (command.startsWith("next turn")) {
             nextTurn();
+=======
+        }else {
+            System.out.println("invalid command");
+>>>>>>> 75931cdd0029308fb48cd54ba8c04692f270ed7c
         }
         return true;
     }
@@ -52,54 +60,144 @@ public class GameMenu extends Menu {
             for (int i = 0; i < 4; i++) {
                 int tileI = baseI + i - j/2;
                 int tileJ = baseJ + j - 5;
-                String hex= fillHexData(tileI, tileJ);
-                String[] lines = hex.split("\n");
-                for (int m = 0; m < lines.length; m++) {
-                    String content = lines[m];
-                    for (int n = 0; n < content.length(); n++) {
-                        int x = 10 * j + n;
-                        int y = 6 * i + (j % 2) * 3 + m;
-                        
-                        // Only override empty spaces
-                        if (content.charAt(n)!=' ' && content.charAt(n)!='/' && content.charAt(n)!='\\' && (i!=0 || m!=0))
-                            if (tileI < game.MAP_HEIGHT && tileI >= 0 && tileJ < game.MAP_WIDTH && tileJ >= 0)
-                                grid[y][x]=getHexColor(map[tileI][tileJ])+String.valueOf(content.charAt(n))+"\u001B[0m";
-                            else grid[y][x] = Color.RED_BACKGROUND + String.valueOf(content.charAt(n))+"\u001B[0m";
-                        else if (content.charAt(n)!=' ')
-                             grid[y][x]=String.valueOf(content.charAt(n));
+                ArrayList<String> hex= fillHexData(tileI, tileJ);
+                int m=0,n=0;
+                for (int k = 0; k < hex.size(); k++) {
+                    int x = 10 * j + n;
+                    int y = 6 * i + (j % 2) * 3 + m;
+                    if(hex.get(k).equals("\n")){
+                        m++;
+                        n=0;
+                        continue;
                     }
+                    if(!hex.get(k).equals(" ") && !(hex.get(k).equals("_")&& !grid[y][x].equals(" ")))
+                        grid[y][x] = hex.get(k);
+
+                    n++;
+                    
                 }
             }
         }    
         return grid;    
     }
 
-    private String fillHexData(int i, int j) {
+    private ArrayList<String> fillHexData(int i, int j) {
         Game game = GameController.getGame();
         String template ="   _______\n"  // 0 - 13
                        + "  /##C#M##\\\n" // 14 - 26
                        + " /##II,JJ##\\\n" // 27 - 39
                        + "/##FFFFFFF##\\\n" // 40 - 52
-                       + "\\###########/\n" // 53 - 65 
-                       + " \\#####RR##/\n" // 66 - 78
+                       + "\\##RRRRRRR##/\n" // 53 - 65 
+                       + " \\#########/\n" // 66 - 78
                        + "  \\_______/";  // 79 - 92
         template = template.replace("II", String.format("%02d", i));
         template = template.replace("JJ", String.format("%02d", j));
 
+        ArrayList<String> colors;
         if (i < game.MAP_HEIGHT && i >= 0 && j < game.MAP_WIDTH && j >= 0) {
             Tile tile = game.getMap()[i][j];
             if(tile.getTerrainFeature()!=null)
-                template = template.replace("FF", tile.getTerrainFeature().getName().substring(0, 2));
+                template = template.replace("FFFFFFF", tile.getTerrainFeature().getMapSign());
             else
-                template = template.replace("FF", "--");
+                template = template.replace("FFFFFFF", "#######");
+            if(tile.getResource()!=null)
+                template = template.replace("RRRRRRR", tile.getResource().getResourceTemplate().getMapSign());
+            else
+                template = template.replace("RRRRRRR", "#######");
             if(tile.getCivilian() instanceof Worker)
                 template = template.replace("C", "W");
             else if(tile.getCivilian() instanceof Settler)
                 template = template.replace("C", "S");
             else
-                template = template.replace("C", "-");
+                template = template.replace("C", "#");
+            colors= getHexColors(template, i, j);
+        }else{
+            template ="   _______\n"  // 0 - 11
+                    + "  /#######\\\n" // 14 - 26
+                    + " /#########\\\n" // 27 - 39
+                    + "/###########\\\n" // 40 - 52
+                    + "\\###########/\n" // 53 - 65 
+                    + " \\#########/\n" // 66 - 78
+                    + "  \\_______/";  // 79 - 92
+            colors= getOutHexColors(template);
         }
-        return template;
+        
+        
+        return colors;
+    }
+
+    private ArrayList<String> getOutHexColors(String template) {
+        ArrayList<String> colors=new ArrayList<>();
+        for (int k = 0; k < template.length(); k++) {
+            colors.add(String.valueOf(template.charAt(k)));       
+        }
+        return colors;
+    }
+
+    ArrayList<String> getHexColors(String template,int i,int j){
+        Game game=GameController.getGame();
+        Color hexColor = getHexColor(game.getMap()[i][j]);
+        ArrayList<String> colors=new ArrayList<>();
+
+        for (int k = 0; k < 50; k++) {
+            switch(template.charAt(k)){
+                case '\n':
+                case ' ':
+                    colors.add(String.valueOf(template.charAt(k)));
+                    break;
+                case '/':
+                    if(game.getMap()[i][j].getRivers().contains(Direction.LEFT))
+                        colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);
+                    else
+                        colors.add(String.valueOf(template.charAt(k)));
+                    break;
+                case '\\':
+                    if(game.getMap()[i][j].getRivers().contains(Direction.UP_RIGHT))
+                        colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);
+                    else
+                        colors.add(String.valueOf(template.charAt(k)));
+                    break;
+                case '_':
+                    if(game.getMap()[i][j].getRivers().contains(Direction.UP))
+                        colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);
+                    else
+                        colors.add(String.valueOf(template.charAt(k)));
+                    break;
+                default:
+                    colors.add(hexColor+String.valueOf(template.charAt(k))+Color.RESET);
+                    break;
+            }
+        }
+        for (int k = 50; k < template.length(); k++) {
+            switch(template.charAt(k)){
+                case '\n':
+                case ' ':
+                    colors.add(String.valueOf(template.charAt(k)));
+                    break;
+                case '/':
+                    if(game.getMap()[i][j].getRivers().contains(Direction.RIGHT))
+                        colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);
+                    else
+                        colors.add(String.valueOf(template.charAt(k)));
+                    break;
+                case '\\':
+                    if(game.getMap()[i][j].getRivers().contains(Direction.DOWN_LEFT))
+                        colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);
+                    else
+                        colors.add(String.valueOf(template.charAt(k)));
+                    break;
+                case '_':
+                    if(game.getMap()[i][j].getRivers().contains(Direction.DOWN))
+                        colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);
+                    else
+                        colors.add(hexColor+String.valueOf(template.charAt(k))+Color.RESET);
+                    break;
+                default:
+                    colors.add(hexColor+String.valueOf(template.charAt(k))+Color.RESET);
+                    break;
+            }
+        }
+        return colors;
     }
 
     private void drawBoard(int baseI, int baseJ) {
@@ -131,8 +229,12 @@ public class GameMenu extends Menu {
             return;
         }
 
-        int tileIValue = (int) parser.getOptionValue(tileI);
-        int tileJValue = (int) parser.getOptionValue(tileJ);
+        Integer tileIValue =  parser.getOptionValue(tileI);
+        Integer tileJValue =  parser.getOptionValue(tileJ);
+        if(tileJValue==null || tileIValue==null) {
+            System.out.println("invalid command");
+            return;
+        }
         drawBoard(tileIValue, tileJValue);
      }
 
@@ -148,9 +250,12 @@ public class GameMenu extends Menu {
             return;
         }
 
-        int unitIValue = (int) parser.getOptionValue(unitI);
-        int unitJValue = (int) parser.getOptionValue(unitJ);
-
+        Integer unitIValue = parser.getOptionValue(unitI);
+        Integer unitJValue = parser.getOptionValue(unitJ);
+        if(unitIValue==null || unitJValue==null) {
+            System.out.println("Invalid command");
+            return;
+        }
         Message result = UnitController.selectCombatUnit(unitIValue, unitJValue);
 
         switch (result) {
@@ -162,6 +267,8 @@ public class GameMenu extends Menu {
                 break;
             case SUCCESS:
                 System.out.println("success");
+                break;
+            default:
                 break;
         }
     }
@@ -178,8 +285,13 @@ public class GameMenu extends Menu {
             return;
         }
 
-        int unitIValue = (int) parser.getOptionValue(unitI);
-        int unitJValue = (int) parser.getOptionValue(unitJ);
+        Integer unitIValue = parser.getOptionValue(unitI);
+        Integer unitJValue = parser.getOptionValue(unitJ);
+
+        if(unitIValue==null || unitJValue==null) {
+            System.out.println("Invalid command");
+            return;
+        }
 
         Message result = UnitController.selectNonCombatUnit(unitIValue, unitJValue);
         switch (result) {
@@ -192,6 +304,8 @@ public class GameMenu extends Menu {
             case SUCCESS:
                 System.out.println("success");
                 break;
+            default:
+                break;  
         }
     }
 
@@ -207,8 +321,13 @@ public class GameMenu extends Menu {
             return;
         }
 
-        int tileIValue = (int) parser.getOptionValue(tileI);
-        int tileJValue =  (int) parser.getOptionValue(tileJ);
+        Integer tileIValue = parser.getOptionValue(tileI);
+        Integer tileJValue = parser.getOptionValue(tileJ);
+
+        if(tileIValue==null || tileJValue==null) {
+            System.out.println("invalid command");
+            return;
+        }
 
         Message result = UnitController.moveUnitToTarget(tileIValue, tileJValue);
         switch (result) {
@@ -226,6 +345,8 @@ public class GameMenu extends Menu {
                 break;
             case SUCCESS:
                 System.out.println("success");
+                break;
+            default:
                 break;
         }
     }

@@ -186,7 +186,6 @@ public class UnitController extends GameController {
 
 
     private static void moveToTile(Unit unit, Tile targetTile, MapPair[][] checkMap) {
-        Tile[][] map = game.getMap();
         Tile startTile = unit.getTile();
 
         startTile.freeUnit(unit);
