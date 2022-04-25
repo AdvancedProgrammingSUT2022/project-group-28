@@ -7,13 +7,13 @@ import java.util.Random;
 
 public enum Terrain implements TerrainOrTerrainFeature {
     DESERT("Desert", 0, 0, 0, 1, -1/3, true, Color.YELLOW_BACKGROUND),
-    GRASSLAND("Grassland", 2, 0, 0, 1, -1/3, true, Color.GREEN_BACKGROUND),
+    GRASSLAND("Grassland", 2, 0, 0, 1, -1/3, true, Color.GREEN_BACKGROUND_BRIGHT),
     HILL("Hill", 0, 2, 0, 2, 1/4, true, Color.MAGENTA_BACKGROUND),
-    MOUNTAIN("Mountain", 0, 0, 0, 0, 0, false, Color.BLACK_BACKGROUND),
+    MOUNTAIN("Mountain", 0, 0, 0, 0, 0, false, Color.BLACK_BACKGROUND_BRIGHT),
     OCEAN("Ocean", 0, 0, 0, 0, 0, false, Color.BLUE_BACKGROUND),
-    PLAIN("Plain", 1, 1, 0, 1, -1/3, true, Color.CYAN_BACKGROUND),
+    PLAIN("Plain", 1, 1, 0, 1, -1/3, true, Color.GREEN_BACKGROUND),
     SNOW("Snow", 0, 0, 0, 1, -1/3, true, Color.WHITE_BACKGROUND),
-    TUNDRA("Tundra", 1, 0, 0, 1, -1/3, true, Color.GREEN_BACKGROUND);
+    TUNDRA("Tundra", 1, 0, 0, 1, -1/3, true, Color.CYAN_BACKGROUND);
     private String name;
     private int food;
     private int production;
