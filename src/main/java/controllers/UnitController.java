@@ -28,7 +28,7 @@ public class UnitController extends GameController {
             return Message.INVALID_POSITION;
         Tile tile = game.getMap()[i][j];
         if (tile.getCivilian() == null) return Message.NO_NONCOMBAT_UNIT;
-        game.setSelectedUnit(tile.getMilitary());
+        game.setSelectedUnit(tile.getCivilian());
         return Message.SUCCESS;
     }
 
@@ -115,7 +115,10 @@ public class UnitController extends GameController {
         Tile nextTile = map[i + direction.i][j + direction.j];
         if (tile.getRivers().contains(direction)) return currentMovePoint;
         int terrainMP = nextTile.getTerrain().getMovementCost();
-        int terrainFeatureMP = nextTile.getTerrainFeature().getMovementCost();
+        int terrainFeatureMP = 0;
+        if (nextTile.getTerrainFeature() != null) {
+            terrainFeatureMP = nextTile.getTerrainFeature().getMovementCost();
+        }
         return Math.max(terrainMP, terrainFeatureMP);
     }
 
