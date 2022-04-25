@@ -22,8 +22,9 @@ public class Game {
     private Unit selectedUnit = null;
 
     public Game(ArrayList<User> users, int seed) {
-        Random random = new Random(seed);;
+        Random random = new Random(seed);
 
+        // TODO: Check each terrain feature with terrain
         this.map = generateRandomMap(random);
 
         this.civilizations = new ArrayList<>();
