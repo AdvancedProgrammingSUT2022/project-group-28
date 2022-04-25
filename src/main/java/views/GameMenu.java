@@ -3,6 +3,7 @@ package views;
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.*;
 import controllers.GameController;
+import controllers.GameMenuController;
 import controllers.UnitController;
 import models.Game;
 import models.tiles.Tile;
@@ -31,6 +32,8 @@ public class GameMenu extends Menu {
             moveUnit(command);
         } else if (command.startsWith("map show")) {
             showMap(command);
+        } else if (command.startsWith("next turn")) {
+            nextTurn();
         }
         return true;
     }
@@ -38,7 +41,6 @@ public class GameMenu extends Menu {
     private String[][] makeBoardGrid(int baseI , int baseJ){
         Game game = GameController.getGame();
         Tile[][] map = game.getMap();
-        System.out.println(map[0][1].getTerrain().getName());
         String[][] grid = new String[BOARD_HEIGHT][BOARD_WIDTH];
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
@@ -227,5 +229,19 @@ public class GameMenu extends Menu {
                 break;
         }
     }
+
+    private void nextTurn() {
+        Message result = GameMenuController.nextTurn();
+
+        switch (result) {
+            case FAILURE:
+                System.out.println("something is wrong");
+                break;
+            case SUCCESS:
+                System.out.println("success");
+                break;
+        }
+    }
+
 
 }

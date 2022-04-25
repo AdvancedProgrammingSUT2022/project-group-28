@@ -26,7 +26,6 @@ public class GameMenuController extends GameController {
         nextTurnUpdatesAndTasks();
         changePlayerTurn();
 
-
         return Message.SUCCESS;
     }
 
@@ -55,7 +54,7 @@ public class GameMenuController extends GameController {
         UnitController.nextTurnUnitUpdates();
     }
 
-    public static void changePlayerTurn() {
+    private static void changePlayerTurn() {
         ArrayList<Civilization> civilizations = game.getCivilizations();
         Civilization currentCivilization = game.getCurrentPlayer();
         int playerIndex = civilizations.indexOf(currentCivilization);

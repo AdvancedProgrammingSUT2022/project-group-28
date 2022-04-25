@@ -90,7 +90,8 @@ public class Tile {
     }
 
     public boolean isAccessible() {
-        return terrain.isAccessible() && terrainFeature.isAccessible();
+        if (terrainFeature != null) return terrain.isAccessible() && terrainFeature.isAccessible();
+        return terrain.isAccessible();
     }
 
     public void freeUnit(Unit unit) {

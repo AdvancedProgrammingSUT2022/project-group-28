@@ -53,10 +53,11 @@ public class UnitController extends GameController {
     public static void nextTurnUnitUpdates() {
         ArrayList<Unit> units = game.getCurrentPlayer().getUnits();
         for (Unit unit : units) {
-            unit.setMovePoint(unit.getUnitTemplate().getMovementPoint());
-            if (unit.getUnitState() == UnitState.MOVING) {
+            if (unit.getUnitState() == UnitState.MOVING &&
+                unit.getMovePoint() == unit.getUnitTemplate().getMovementPoint()) {
                 moveMovingUnit(unit);
             }
+            unit.setMovePoint(unit.getUnitTemplate().getMovementPoint());
             // TODO: check all states
         }
     }
@@ -78,10 +79,12 @@ public class UnitController extends GameController {
 
         int startI = startTile.getCoordinates()[0];
         int startJ = startTile.getCoordinates()[1];
+
         int currentMovePoint = unit.getMovePoint();
 
         checkMap[startI][startJ].setChecked(true);
         checkMap[startI][startJ].setMovePoint(currentMovePoint);
+
         for (Direction direction: Direction.getDirections()) {
             if (isValidDirection(startI, startJ, direction, checkMap)) {
                 int newMovePoint = currentMovePoint - getDirectionMovePoint(startI, startJ, direction, currentMovePoint);
@@ -97,13 +100,18 @@ public class UnitController extends GameController {
             directMove(targetTile, checkMap);
         } else {
             Tile bestTile = getBestTile(distances);
-            indirectMove(bestTile, targetTile, checkMap);
+            if (bestTile != null && !bestTile.equals(startTile)) indirectMove(bestTile, targetTile, checkMap);
+            else {
+                unit.setMoveTarget(null);
+                unit.setUnitState(UnitState.FREE);
+            }
         }
     }
     private static boolean isValidDirection(int i, int j, Direction direction, MapPair[][] checkMap) {
         if (i + direction.i < game.MAP_HEIGHT && i + direction.i >= 0 &&
             j + direction.j < game.MAP_WIDTH && j + direction.j >= 0 &&
-            !checkMap[i + direction.i][j + direction.j].isChecked()) {
+            !checkMap[i + direction.i][j + direction.j].isChecked() &&
+            game.getMap()[i + direction.i][j + direction.j].isAccessible()) {
             return true;
         }
         return false;
@@ -123,7 +131,7 @@ public class UnitController extends GameController {
     }
 
     private static void tagMapMovePoints(int i, int j, int movePoint, MapPair[][] checkMap) {
-        if (movePoint < checkMap[i][j].getMovePoint()) checkMap[i][j].setMovePoint(movePoint);
+        if (movePoint > checkMap[i][j].getMovePoint()) checkMap[i][j].setMovePoint(movePoint);
         checkMap[i][j].setChecked(true);
 
         if (movePoint == 0) {
@@ -149,9 +157,10 @@ public class UnitController extends GameController {
 
         for (int i = 0; i < game.MAP_HEIGHT; i++) {
             for (int j = 0; j < game.MAP_WIDTH; j++) {
-                if (checkMap[i][j].getMovePoint() < currentMovePoint) {
+                if (checkMap[i][j].getMovePoint() >= 0) {
                     int r = (int)(Math.sqrt(Math.pow(i - targetI, 2) + Math.pow(j - targetJ, 2)) + 0.5);
                     result.put(new Integer[]{i, j}, r);
+//                    System.out.println(i + "-" + j + ": " + r + " == " + checkMap[i][j].getMovePoint());
                 }
             }
         }
@@ -200,19 +209,23 @@ public class UnitController extends GameController {
     }
 
     private static Tile getBestTile(HashMap<Integer[], Integer> distances) {
-        // TODO: check if the tile is free
         int movePoint = 1000;
         Set<Integer[]> coordinates = distances.keySet();
         Integer[] bestCoordinates = new Integer[] {};
+        Tile[][] map = game.getMap();
         for (Integer[] coordinate : coordinates) {
-            if (distances.get(coordinate) < movePoint) {
+            if (distances.get(coordinate) < movePoint &&
+                !isFullTile(game.getSelectedUnit(), map[coordinate[0]][coordinate[1]])) {
                 movePoint = distances.get(coordinate);
                 bestCoordinates = coordinate;
             }
         }
-        int i = bestCoordinates[0];
-        int j = bestCoordinates[1];
-        Tile bestTile = game.getMap()[i][j];
+        Tile bestTile = null;
+        if (bestCoordinates.length != 0) {
+            int i = bestCoordinates[0];
+            int j = bestCoordinates[1];
+            bestTile = game.getMap()[i][j];
+        }
         return bestTile;
     }
 
@@ -244,7 +257,7 @@ public class UnitController extends GameController {
 
         HashMap<Integer[], Integer> distances = getDistances(targetTile, checkMap, currentMovePoint);
 
-        if (isTargetTileTagged(targetTile, checkMap)) {
+        if (isDirectMovePossible(distances)) {
             if (!isFullTile(unit, targetTile)) {
                 moveToTile(unit, targetTile, checkMap);
             }
@@ -252,16 +265,21 @@ public class UnitController extends GameController {
             unit.setMoveTarget(null);
         } else {
             Tile bestTile = getBestTile(distances);
-            moveToTile(unit, bestTile, checkMap);
+            if (bestTile != null && !bestTile.equals(startTile)) {
+                indirectMoveMovingUnit(unit, bestTile, targetTile, checkMap);
+            } else {
+                unit.setUnitState(UnitState.FREE);
+                unit.setMoveTarget(null);
+            }
         }
     }
 
-    private static boolean isTargetTileTagged(Tile targetTile, MapPair[][] checkMap) {
-        int i = targetTile.getCoordinates()[0];
-        int j = targetTile.getCoordinates()[1];
-        if (checkMap[i][j].getMovePoint() < 1000) return true;
-        return false;
+    private static void indirectMoveMovingUnit(Unit unit, Tile bestTile, Tile targetTile, MapPair[][] checkMap) {
+        moveToTile(unit, bestTile, checkMap);
+        unit.setMoveTarget(targetTile);
+        unit.setUnitState(UnitState.MOVING);
     }
+
 }
 
 class MapPair {
@@ -269,7 +287,7 @@ class MapPair {
     private int movePoint;
     MapPair() {
         checked = false;
-        movePoint = 1000;
+        movePoint = -1;
     }
 
     public boolean isChecked() {
