@@ -10,7 +10,7 @@ public class GameMenu extends Menu {
     private static GameMenu instance = new GameMenu();
     public static Game game;
     private final int BOARD_WIDTH=113;
-    private final int BOARD_HEIGHT=34;
+    private final int BOARD_HEIGHT=28;
 
 
     public static GameMenu getInstance() {
@@ -31,7 +31,7 @@ public class GameMenu extends Menu {
                 grid[i][j]=" ";
             }
         }
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 10; j++) {
                 String hex= fillHexData(map[i][j]);
                 String[] lines = hex.split("\n");
@@ -64,7 +64,7 @@ public class GameMenu extends Menu {
         template = template.replace("XX", String.format("%02d", tile.getCoordinates()[0]));
         template = template.replace("YY", String.format("%02d", tile.getCoordinates()[1]));
         if(tile.getTerrainFeature()!=null)
-            template = template.replace("FF", tile.getTerrainFeature().getName().substring(0, 7));
+            template = template.replace("FF", tile.getTerrainFeature().getName().substring(0, 2));
         else
             template = template.replace("FF", "--");
         if(tile.getCivilian() instanceof Worker)
