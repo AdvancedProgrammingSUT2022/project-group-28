@@ -73,6 +73,22 @@ public class Tile {
         return civilian;
     }
 
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public void setMilitary(Military military) {
+        this.military = military;
+    }
+
+    public void setCivilian(Civilian civilian) {
+        this.civilian = civilian;
+    }
+
     public boolean isAccessible() {
         return terrain.isAccessible() && terrainFeature.isAccessible();
     }
