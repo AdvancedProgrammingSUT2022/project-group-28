@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.Option;
 
+import controllers.GameController;
+import controllers.GameMenuController;
 import models.Game;
 import models.User;
 
@@ -76,7 +78,7 @@ public class MainMenu extends Menu {
             System.out.println("You need at least two players to play");
             return false;
         }
-        GameMenu.game = new Game(users, 0);
+        GameMenuController.startNewGame(users, 0);
         Menu.setCurrentMenu(GameMenu.getInstance());
         return true;
     }
