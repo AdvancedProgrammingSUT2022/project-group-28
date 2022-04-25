@@ -177,7 +177,6 @@ public class UnitController extends GameController {
 
 
     private static void moveToTile(Unit unit, Tile targetTile, MapPair[][] checkMap) {
-        Tile[][] map = game.getMap();
         Tile startTile = unit.getTile();
 
         startTile.freeUnit(unit);
@@ -209,6 +208,9 @@ public class UnitController extends GameController {
                 movePoint = distances.get(coordinate);
                 bestCoordinates = coordinate;
             }
+        }
+        if(bestCoordinates.length == 0) {
+            return null;
         }
         int i = bestCoordinates[0];
         int j = bestCoordinates[1];

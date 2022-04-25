@@ -31,6 +31,8 @@ public class GameMenu extends Menu {
             moveUnit(command);
         } else if (command.startsWith("map show")) {
             showMap(command);
+        }else {
+            System.out.println("invalid command");
         }
         return true;
     }
@@ -57,14 +59,23 @@ public class GameMenu extends Menu {
                     for (int n = 0; n < content.length(); n++) {
                         int x = 10 * j + n;
                         int y = 6 * i + (j % 2) * 3 + m;
-                        
-                        // Only override empty spaces
-                        if (content.charAt(n)!=' ' && content.charAt(n)!='/' && content.charAt(n)!='\\' && (i!=0 || m!=0))
+
+                        if (content.charAt(n)!=' ' &&
+                            content.charAt(n)!='/' && 
+                            content.charAt(n)!='\\' && 
+                            content.charAt(n)!='_' &&
+                            (i!=0 || m!=0))
                             if (tileI < game.MAP_HEIGHT && tileI >= 0 && tileJ < game.MAP_WIDTH && tileJ >= 0)
-                                grid[y][x]=getHexColor(map[tileI][tileJ])+String.valueOf(content.charAt(n))+"\u001B[0m";
-                            else grid[y][x] = Color.RED_BACKGROUND + String.valueOf(content.charAt(n))+"\u001B[0m";
+                                grid[y][x]=getHexColor(map[tileI][tileJ])+String.valueOf(content.charAt(n))+Color.RESET;
+                            else grid[y][x] = Color.RED_BACKGROUND + String.valueOf(content.charAt(n))+Color.RESET;
+                        else if(content.charAt(n)=='_' && (i!=0 || m!=0)){
+                            if(!grid[y][x].contains("_"))
+                                if (tileI < game.MAP_HEIGHT && tileI >= 0 && tileJ < game.MAP_WIDTH && tileJ >= 0)
+                                    grid[y][x] = getHexColor(map[tileI][tileJ]) + String.valueOf(content.charAt(n))+Color.RESET;
+                                else grid[y][x] = Color.RED_BACKGROUND + String.valueOf(content.charAt(n))+Color.RESET;
+                        }
                         else if (content.charAt(n)!=' ')
-                             grid[y][x]=String.valueOf(content.charAt(n));
+                            grid[y][x]=String.valueOf(content.charAt(n));
                     }
                 }
             }
@@ -87,15 +98,27 @@ public class GameMenu extends Menu {
         if (i < game.MAP_HEIGHT && i >= 0 && j < game.MAP_WIDTH && j >= 0) {
             Tile tile = game.getMap()[i][j];
             if(tile.getTerrainFeature()!=null)
-                template = template.replace("FF", tile.getTerrainFeature().getName().substring(0, 2));
+                template = template.replace("FFFFFFF", tile.getTerrainFeature().getMapSign());
             else
-                template = template.replace("FF", "--");
+                template = template.replace("FFFFFFF", "#######");
+            if(tile.getResource()!=null)
+                template = template.replace("RRRRRRR", tile.getResource().getResourceTemplate().getMapSign());
+            else
+                template = template.replace("RRRRRRR", "#######");
             if(tile.getCivilian() instanceof Worker)
                 template = template.replace("C", "W");
             else if(tile.getCivilian() instanceof Settler)
                 template = template.replace("C", "S");
             else
-                template = template.replace("C", "-");
+                template = template.replace("C", "#");
+        }else{
+            template ="   _______\n"  // 0 - 13
+                    + "  /#######\\\n" // 14 - 26
+                    + " /#########\\\n" // 27 - 39
+                    + "/###########\\\n" // 40 - 52
+                    + "\\###########/\n" // 53 - 65 
+                    + " \\#########/\n" // 66 - 78
+                    + "  \\_______/";  // 79 - 92
         }
         return template;
     }
@@ -129,8 +152,12 @@ public class GameMenu extends Menu {
             return;
         }
 
-        int tileIValue = (int) parser.getOptionValue(tileI);
-        int tileJValue = (int) parser.getOptionValue(tileJ);
+        Integer tileIValue =  parser.getOptionValue(tileI);
+        Integer tileJValue =  parser.getOptionValue(tileJ);
+        if(tileJValue==null || tileIValue==null) {
+            System.out.println("invalid command");
+            return;
+        }
         drawBoard(tileIValue, tileJValue);
      }
 
@@ -146,9 +173,12 @@ public class GameMenu extends Menu {
             return;
         }
 
-        int unitIValue = (int) parser.getOptionValue(unitI);
-        int unitJValue = (int) parser.getOptionValue(unitJ);
-
+        Integer unitIValue = parser.getOptionValue(unitI);
+        Integer unitJValue = parser.getOptionValue(unitJ);
+        if(unitIValue==null || unitJValue==null) {
+            System.out.println("Invalid command");
+            return;
+        }
         Message result = UnitController.selectCombatUnit(unitIValue, unitJValue);
 
         switch (result) {
@@ -160,6 +190,8 @@ public class GameMenu extends Menu {
                 break;
             case SUCCESS:
                 System.out.println("success");
+                break;
+            default:
                 break;
         }
     }
@@ -176,8 +208,13 @@ public class GameMenu extends Menu {
             return;
         }
 
-        int unitIValue = (int) parser.getOptionValue(unitI);
-        int unitJValue = (int) parser.getOptionValue(unitJ);
+        Integer unitIValue = parser.getOptionValue(unitI);
+        Integer unitJValue = parser.getOptionValue(unitJ);
+
+        if(unitIValue==null || unitJValue==null) {
+            System.out.println("Invalid command");
+            return;
+        }
 
         Message result = UnitController.selectNonCombatUnit(unitIValue, unitJValue);
         switch (result) {
@@ -190,6 +227,8 @@ public class GameMenu extends Menu {
             case SUCCESS:
                 System.out.println("success");
                 break;
+            default:
+                break;  
         }
     }
 
@@ -205,8 +244,13 @@ public class GameMenu extends Menu {
             return;
         }
 
-        int tileIValue = (int) parser.getOptionValue(tileI);
-        int tileJValue =  (int) parser.getOptionValue(tileJ);
+        Integer tileIValue = parser.getOptionValue(tileI);
+        Integer tileJValue = parser.getOptionValue(tileJ);
+
+        if(tileIValue==null || tileJValue==null) {
+            System.out.println("invalid command");
+            return;
+        }
 
         Message result = UnitController.moveUnitToTarget(tileIValue, tileJValue);
         switch (result) {
@@ -224,6 +268,8 @@ public class GameMenu extends Menu {
                 break;
             case SUCCESS:
                 System.out.println("success");
+                break;
+            default:
                 break;
         }
     }
