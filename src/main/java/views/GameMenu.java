@@ -35,7 +35,6 @@ public class GameMenu extends Menu {
             for (int j = 0; j < 10; j++) {
                 String hex= fillHexData(map[i][j]);
                 String[] lines = hex.split("\n");
-                boolean isColored=false;
                 for (int m = 0; m < lines.length; m++) {
                     String content = lines[m];
                     for (int n = 0; n < content.length(); n++) {

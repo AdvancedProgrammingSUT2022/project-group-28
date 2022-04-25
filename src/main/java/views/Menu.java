@@ -2,7 +2,6 @@ package views;
 
 import java.util.Scanner;
 
-import controllers.GsonHandler;
 import models.User;
 
 public abstract class Menu {
