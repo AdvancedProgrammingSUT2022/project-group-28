@@ -6,7 +6,6 @@ import models.tiles.Tile;
 import models.tiles.enums.*;
 import models.units.Settler;
 import models.units.Unit;
-
 import java.util.ArrayList;
 import java.util.Random;
 
