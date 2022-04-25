@@ -35,13 +35,10 @@ public class GameMenu extends Menu {
             moveUnit(command);
         } else if (command.startsWith("map show")) {
             showMap(command);
-<<<<<<< HEAD
         } else if (command.startsWith("next turn")) {
             nextTurn();
-=======
         }else {
             System.out.println("invalid command");
->>>>>>> 75931cdd0029308fb48cd54ba8c04692f270ed7c
         }
         return true;
     }
