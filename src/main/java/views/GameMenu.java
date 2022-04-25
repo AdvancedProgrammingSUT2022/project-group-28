@@ -44,8 +44,6 @@ public class GameMenu extends Menu {
     }
 
     private String[][] makeBoardGrid(int baseI , int baseJ){
-        Game game = GameController.getGame();
-        Tile[][] map = game.getMap();
         String[][] grid = new String[BOARD_HEIGHT][BOARD_WIDTH];
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
@@ -71,7 +69,6 @@ public class GameMenu extends Menu {
                         grid[y][x] = hex.get(k);
 
                     n++;
-                    
                 }
             }
         }    
@@ -136,57 +133,36 @@ public class GameMenu extends Menu {
         Color hexColor = getHexColor(game.getMap()[i][j]);
         ArrayList<String> colors=new ArrayList<>();
 
-        for (int k = 0; k < 50; k++) {
+        for (int k = 0; k < template.length(); k++) {
             switch(template.charAt(k)){
                 case '\n':
                 case ' ':
                     colors.add(String.valueOf(template.charAt(k)));
                     break;
                 case '/':
-                    if(game.getMap()[i][j].getRivers().contains(Direction.LEFT))
+                    if(k<50 && game.getMap()[i][j].getRivers().contains(Direction.LEFT))
+                        colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);
+                    else if(game.getMap()[i][j].getRivers().contains(Direction.RIGHT))   
                         colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);
                     else
                         colors.add(String.valueOf(template.charAt(k)));
                     break;
                 case '\\':
-                    if(game.getMap()[i][j].getRivers().contains(Direction.UP_RIGHT))
+                    if(k<50 && game.getMap()[i][j].getRivers().contains(Direction.UP_RIGHT))
                         colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);
+                    else if(game.getMap()[i][j].getRivers().contains(Direction.DOWN_LEFT))
+                        colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);        
                     else
                         colors.add(String.valueOf(template.charAt(k)));
                     break;
                 case '_':
-                    if(game.getMap()[i][j].getRivers().contains(Direction.UP))
+                    if(k<50 && game.getMap()[i][j].getRivers().contains(Direction.UP))
                         colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);
-                    else
+                    else if(game.getMap()[i][j].getRivers().contains(Direction.DOWN))
+                        colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);    
+                    else if(k<50)
                         colors.add(String.valueOf(template.charAt(k)));
-                    break;
-                default:
-                    colors.add(hexColor+String.valueOf(template.charAt(k))+Color.RESET);
-                    break;
-            }
-        }
-        for (int k = 50; k < template.length(); k++) {
-            switch(template.charAt(k)){
-                case '\n':
-                case ' ':
-                    colors.add(String.valueOf(template.charAt(k)));
-                    break;
-                case '/':
-                    if(game.getMap()[i][j].getRivers().contains(Direction.RIGHT))
-                        colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);
-                    else
-                        colors.add(String.valueOf(template.charAt(k)));
-                    break;
-                case '\\':
-                    if(game.getMap()[i][j].getRivers().contains(Direction.DOWN_LEFT))
-                        colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);
-                    else
-                        colors.add(String.valueOf(template.charAt(k)));
-                    break;
-                case '_':
-                    if(game.getMap()[i][j].getRivers().contains(Direction.DOWN))
-                        colors.add(Color.BLUE_BACKGROUND_BRIGHT+String.valueOf(template.charAt(k))+Color.RESET);
-                    else
+                    else 
                         colors.add(hexColor+String.valueOf(template.charAt(k))+Color.RESET);
                     break;
                 default:
@@ -207,6 +183,7 @@ public class GameMenu extends Menu {
             builder.append('\n');
         }
         builder.setLength(builder.length()-1);
+        System.out.println("turn number: "+GameController.getGame().getTurnNumber());
         System.out.println(builder.toString());
     }
 
@@ -358,8 +335,9 @@ public class GameMenu extends Menu {
             case SUCCESS:
                 System.out.println("success");
                 break;
+            default:
+                break;
         }
     }
-
 
 }

@@ -33,8 +33,14 @@ public class Civilization {
         return discoveredTiles;
     }
 
-    public void addToDiscoveredTiles(Tile tile, int value) {
-        this.discoveredTiles.put(tile, value);
+    public void updateDiscoveredTiles(Tile tile, int value) {
+        for (Tile oldTile : discoveredTiles.keySet()) {
+            if (tile.getCoordinates()[0] == oldTile.getCoordinates()[0] &&
+                tile.getCoordinates()[1] == oldTile.getCoordinates()[1]) {
+                discoveredTiles.remove(oldTile);
+            }
+        }
+        discoveredTiles.put(tile, value);
     }
 
     public User getUser() {
