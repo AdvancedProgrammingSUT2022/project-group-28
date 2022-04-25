@@ -1,7 +1,6 @@
 package models.tiles;
 
 import models.civilization.City;
-import models.civilization.Civilization;
 import models.tiles.enums.Direction;
 import models.tiles.enums.ImprovementTemplate;
 import models.tiles.enums.Terrain;
@@ -31,6 +30,20 @@ public class Tile {
         this.terrainFeature = terrainFeature;
         this.resource = resource;
         this.rivers = rivers;
+    }
+
+    //copy constructor
+    public Tile(Tile tile) {
+        this.coordinates = tile.getCoordinates();
+        this.terrain = tile.getTerrain();
+        this.terrainFeature = tile.getTerrainFeature();
+        this.resource = tile.getResource();
+        this.rivers = tile.getRivers();
+        this.city=tile.getCity();
+        this.military=tile.getMilitary();
+        this.civilian=tile.getCivilian();
+        this.project=tile.getProject();
+        this.improvement = tile.getImprovement();
     }
 
     public int[] getCoordinates() {
