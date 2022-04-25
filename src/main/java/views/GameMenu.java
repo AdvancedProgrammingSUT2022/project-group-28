@@ -1,9 +1,12 @@
 package views;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.*;
+
+import controllers.CivilizationController;
 import controllers.GameController;
 import controllers.GameMenuController;
 import controllers.UnitController;
@@ -37,6 +40,9 @@ public class GameMenu extends Menu {
             showMap(command);
         } else if (command.startsWith("next turn")) {
             nextTurn();
+        } else if(command.equals("menu exit")){
+            Menu.setCurrentMenu(MainMenu.getInstance());
+            return true;
         }else {
             System.out.println("invalid command");
         }
@@ -82,14 +88,21 @@ public class GameMenu extends Menu {
                        + " /##II,JJ##\\\n" // 27 - 39
                        + "/##FFFFFFF##\\\n" // 40 - 52
                        + "\\##RRRRRRR##/\n" // 53 - 65 
-                       + " \\#########/\n" // 66 - 78
+                       + " \\##TT#####/\n" // 66 - 78
                        + "  \\_______/";  // 79 - 92
         template = template.replace("II", String.format("%02d", i));
         template = template.replace("JJ", String.format("%02d", j));
-
+        HashMap<Tile,Integer> discoveredTiles = game.getCurrentPlayer().getDiscoveredTiles();
         ArrayList<String> colors;
-        if (i < game.MAP_HEIGHT && i >= 0 && j < game.MAP_WIDTH && j >= 0) {
-            Tile tile = game.getMap()[i][j];
+        Tile tile=null;
+        int lastDiscovery=0;
+        for (Tile tempTile : discoveredTiles.keySet()) {
+            if (tempTile.getCoordinates()[0] == i && tempTile.getCoordinates()[1] == j) {
+                tile=tempTile;
+                lastDiscovery=discoveredTiles.get(tempTile);
+            }
+        }
+        if(tile!=null){    
             if(tile.getTerrainFeature()!=null)
                 template = template.replace("FFFFFFF", tile.getTerrainFeature().getMapSign());
             else
@@ -104,7 +117,19 @@ public class GameMenu extends Menu {
                 template = template.replace("C", "S");
             else
                 template = template.replace("C", "#");
+            template = template.replace("TT", String.format("%02d", lastDiscovery));
             colors= getHexColors(template, i, j);
+        }else if (i < game.MAP_HEIGHT && i >= 0 && j < game.MAP_WIDTH && j >= 0) {
+            template ="   _______\n"  // 0 - 11
+                    + "  /#######\\\n" // 14 - 26
+                    + " /##II,JJ##\\\n" // 27 - 39
+                    + "/###########\\\n" // 40 - 52
+                    + "\\###########/\n" // 53 - 65 
+                    + " \\#########/\n" // 66 - 78
+                    + "  \\_______/";  // 79 - 92
+            template = template.replace("II", String.format("%02d", i));
+            template = template.replace("JJ", String.format("%02d", j));
+            colors= getOutHexColors(template);
         }else{
             template ="   _______\n"  // 0 - 11
                     + "  /#######\\\n" // 14 - 26
@@ -114,9 +139,7 @@ public class GameMenu extends Menu {
                     + " \\#########/\n" // 66 - 78
                     + "  \\_______/";  // 79 - 92
             colors= getOutHexColors(template);
-        }
-        
-        
+        }   
         return colors;
     }
 
@@ -209,6 +232,7 @@ public class GameMenu extends Menu {
             System.out.println("invalid command");
             return;
         }
+        CivilizationController.updateDiscoveredTiles();
         drawBoard(tileIValue, tileJValue);
      }
 

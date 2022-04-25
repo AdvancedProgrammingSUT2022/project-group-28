@@ -52,6 +52,7 @@ public class GameMenuController extends GameController {
 
     public static void nextTurnUpdatesAndTasks() {
         UnitController.nextTurnUnitUpdates();
+        CivilizationController.updateDiscoveredTiles();
     }
 
     private static void changePlayerTurn() {

@@ -38,6 +38,7 @@ public class Civilization {
             if (tile.getCoordinates()[0] == oldTile.getCoordinates()[0] &&
                 tile.getCoordinates()[1] == oldTile.getCoordinates()[1]) {
                 discoveredTiles.remove(oldTile);
+                break;
             }
         }
         discoveredTiles.put(tile, value);
