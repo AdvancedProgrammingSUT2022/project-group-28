@@ -58,21 +58,21 @@ public class GameMenu extends Menu {
                        + "  /##C#M##\\\n" // 14 - 26
                        + " /##XX,YY##\\\n" // 27 - 39
                        + "/##FFFFFFF##\\\n" // 40 - 52
-                       + "\\###########/\n" // 53 - 65 
-                       + " \\#####RR##/\n" // 66 - 78
+                       + "\\##RRRRRRR##/\n" // 53 - 65 
+                       + " \\#########/\n" // 66 - 78
                        + "  \\_______/";  // 79 - 92
         template = template.replace("XX", String.format("%02d", tile.getCoordinates()[0]));
         template = template.replace("YY", String.format("%02d", tile.getCoordinates()[1]));
         if(tile.getTerrainFeature()!=null)
-            template = template.replace("FF", tile.getTerrainFeature().getName().substring(0, 2));
+            template = template.replace("FFFFFFF", tile.getTerrainFeature().getMapSign());
         else
-            template = template.replace("FF", "--");
+            template = template.replace("FFFFFFF", "#######");
         if(tile.getCivilian() instanceof Worker)
             template = template.replace("C", "W");
         else if(tile.getCivilian() instanceof Settler)
             template = template.replace("C", "S");
         else
-            template = template.replace("C", "-");
+            template = template.replace("C", "#");
         return template;
     }
 
@@ -90,6 +90,6 @@ public class GameMenu extends Menu {
     }
 
     private Color getHexColor(Tile tile) {
-        return Color.RED_BACKGROUND;
+        return tile.getTerrain().getColor();
     }
 }
