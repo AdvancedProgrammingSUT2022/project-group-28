@@ -29,6 +29,14 @@ public class Civilization {
         this.name = name;
     }
 
+    public HashMap<Tile,Integer> getDiscoveredTiles() {
+        return discoveredTiles;
+    }
+
+    public void addToDiscoveredTiles(Tile tile, int value) {
+        this.discoveredTiles.put(tile, value);
+    }
+
     public User getUser() {
         return user;
     }
