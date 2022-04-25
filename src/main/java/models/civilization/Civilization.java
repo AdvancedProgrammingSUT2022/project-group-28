@@ -1,9 +1,11 @@
 package models.civilization;
 
 import models.User;
+import models.tiles.Tile;
 import models.units.Unit;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Civilization {
     private User user;
@@ -13,6 +15,7 @@ public class Civilization {
     private ArrayList<Unit> units = new ArrayList<>();
 
     private ArrayList<Technology> studiedTechnologies = new ArrayList<>();
+    private HashMap<Tile,Integer> discoveredTiles = new HashMap<>();
 
     private int goldBalance;
     private int scienceBalance;
