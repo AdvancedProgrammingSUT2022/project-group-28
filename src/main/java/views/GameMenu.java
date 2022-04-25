@@ -23,7 +23,7 @@ public class GameMenu extends Menu {
         return true;
     }
 
-    private String[][] makeBoardGrid(){
+    private String[][] makeBoardGrid(int baseI , int baseJ){
         Tile[][] map = game.getMap();
         String[][] grid = new String[BOARD_HEIGHT][BOARD_WIDTH];
         for (int i = 0; i < BOARD_HEIGHT; i++) {
@@ -31,14 +31,17 @@ public class GameMenu extends Menu {
                 grid[i][j]=" ";
             }
         }
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 10; j++) {
-                String hex= fillHexData(map[i][j]);
+
+        for (int j = 0; j < 10; j++) {
+            for (int i = 0; i < 4; i++) {
+                int tileI = baseI + i - 2 - j/2;
+                int tileJ = baseJ + j - 5;
+                String hex= fillHexData(tileI, tileJ);
                 String[] lines = hex.split("\n");
                 for (int m = 0; m < lines.length; m++) {
                     String content = lines[m];
                     for (int n = 0; n < content.length(); n++) {
-                        int x = 10*j + n;
+                        int x = 10 * j + n;
                         int y = 6 * i + (j % 2) * 3 + m;
                         
                         // Only override empty spaces
@@ -53,31 +56,35 @@ public class GameMenu extends Menu {
         return grid;    
     }
 
-    private String fillHexData(Tile tile) {
+    private String fillHexData(int i, int j) {
         String template ="   _______\n"  // 0 - 13
                        + "  /##C#M##\\\n" // 14 - 26
-                       + " /##XX,YY##\\\n" // 27 - 39
+                       + " /##II,JJ##\\\n" // 27 - 39
                        + "/##FFFFFFF##\\\n" // 40 - 52
                        + "\\###########/\n" // 53 - 65 
                        + " \\#####RR##/\n" // 66 - 78
                        + "  \\_______/";  // 79 - 92
-        template = template.replace("XX", String.format("%02d", tile.getCoordinates()[0]));
-        template = template.replace("YY", String.format("%02d", tile.getCoordinates()[1]));
-        if(tile.getTerrainFeature()!=null)
-            template = template.replace("FF", tile.getTerrainFeature().getName().substring(0, 2));
-        else
-            template = template.replace("FF", "--");
-        if(tile.getCivilian() instanceof Worker)
-            template = template.replace("C", "W");
-        else if(tile.getCivilian() instanceof Settler)
-            template = template.replace("C", "S");
-        else
-            template = template.replace("C", "-");
+        template = template.replace("II", String.format("%02d", i));
+        template = template.replace("JJ", String.format("%02d", j));
+
+        if (i < game.MAP_HEIGHT && i >= 0 && j < game.MAP_WIDTH && j >= 0) {
+            Tile tile = game.getMap()[i][j];
+            if(tile.getTerrainFeature()!=null)
+                template = template.replace("FF", tile.getTerrainFeature().getName().substring(0, 2));
+            else
+                template = template.replace("FF", "--");
+            if(tile.getCivilian() instanceof Worker)
+                template = template.replace("C", "W");
+            else if(tile.getCivilian() instanceof Settler)
+                template = template.replace("C", "S");
+            else
+                template = template.replace("C", "-");
+        }
         return template;
     }
 
     private void drawBoard() {
-        String[][] grid= makeBoardGrid();
+        String[][] grid= makeBoardGrid(10 , 10);
         StringBuilder builder = new StringBuilder();
         for(int i = 0; i < BOARD_HEIGHT; i++) {
             for(int j = 0; j < BOARD_WIDTH; j++) {
