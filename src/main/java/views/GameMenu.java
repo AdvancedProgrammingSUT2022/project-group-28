@@ -341,6 +341,9 @@ public class GameMenu extends Menu {
             case SAME_TILE:
                 System.out.println("same tile");
                 break;
+            case NOT_ACCESSIBLE_TILE:
+                System.out.println("no accessible tile");
+                break;
             case SUCCESS:
                 System.out.println("success");
                 break;
