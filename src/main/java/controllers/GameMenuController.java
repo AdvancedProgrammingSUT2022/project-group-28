@@ -50,9 +50,9 @@ public class GameMenuController extends GameController {
         return true;
     }
 
-    public static void nextTurnUpdatesAndTasks() {
+    public static void nextTurnUpdatesAndTasks() {  
         UnitController.nextTurnUnitUpdates();
-        CivilizationController.updateDiscoveredTiles();
+        CivilizationController.updateCivilizations();
     }
 
     private static void changePlayerTurn() {

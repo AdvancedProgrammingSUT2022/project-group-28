@@ -10,8 +10,13 @@ import models.tiles.enums.TerrainFeature;
 import models.units.Unit;
 
 public class CivilizationController extends GameController {
+
+    public static void updateCivilizations() {
+        updateDiscoveredTiles();
+    }
+
     public static void updateDiscoveredTiles() {
-        for(Civilization civilization:game.getCivilizations()){
+        for(Civilization civilization: game.getCivilizations()){
             int turnNumber = game.getTurnNumber();
             Tile[][] map = game.getMap();
             for (Unit unit : civilization.getUnits()) {
