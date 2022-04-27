@@ -247,7 +247,7 @@ public class GameMenu extends Menu {
                 tileIValue+=1;
             else if(command2.equals("d"))
                 tileJValue+=1;
-            else System.out.println("invalid command  "+ command2+ " ..");
+            else System.out.println("invalid command");
         }
      }
 
