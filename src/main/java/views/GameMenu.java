@@ -233,7 +233,22 @@ public class GameMenu extends Menu {
             return;
         }
         CivilizationController.updateDiscoveredTiles();
-        drawBoard(tileIValue, tileJValue);
+        while (true) {
+            drawBoard(tileIValue, tileJValue);
+            System.out.print("\n> ");
+            String command2 = scanner.nextLine();
+            if(command2.equals("q"))
+                return;
+            else if(command2.equals("w")) 
+                tileIValue-=1;
+            else if(command2.equals("a")) 
+                tileJValue-=1;
+            else if(command2.equals("s")) 
+                tileIValue+=1;
+            else if(command2.equals("d"))
+                tileJValue+=1;
+            else System.out.println("invalid command  "+ command2+ " ..");
+        }
      }
 
     private void selectCombatUnit(String command) {
