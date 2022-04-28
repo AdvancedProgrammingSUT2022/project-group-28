@@ -1,6 +1,7 @@
 package models;
 
 import models.civilization.Civilization;
+import models.civilization.enums.CivilizationNames;
 import models.tiles.Resource;
 import models.tiles.Tile;
 import models.tiles.enums.*;
@@ -28,13 +29,16 @@ public class Game {
         this.map = generateRandomMap(random);
 
         this.civilizations = new ArrayList<>();
-        int i = 2;
-        for (User user : users) {
-            Civilization civilization = new Civilization(user, "CIVILIZATION");
-            Settler settler = new Settler(civilization, this.map[10 + 10 * i][10 + 10 * i]);
-            civilization.addUnit(settler);
-            this.civilizations.add(civilization);
-            i--;
+        for (int i = 0; i < users.size(); i++) {
+            if (i == 0) {
+                Civilization civilization = new Civilization(users.get(0), CivilizationNames.IRAN);
+                Settler settler = new Settler(civilization, this.map[10 + 10 * i][10 + 10 * i]);
+                this.civilizations.add(civilization);
+            } else if (i == 1) {
+                Civilization civilization = new Civilization(users.get(0), CivilizationNames.AMERICA);
+                Settler settler = new Settler(civilization, this.map[10 + 10 * i][10 + 10 * i]);
+                this.civilizations.add(civilization);
+            }
         }
 
         this.currentPlayer = this.civilizations.get(0);

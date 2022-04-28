@@ -1,6 +1,7 @@
 package models.civilization;
 
 import models.User;
+import models.civilization.enums.CivilizationNames;
 import models.tiles.Tile;
 import models.units.Unit;
 
@@ -9,8 +10,10 @@ import java.util.HashMap;
 
 public class Civilization {
     private User user;
-    private final String name;
-    private City Capital;
+    private CivilizationNames civilizationNames;
+
+    private City currentCapital;
+
     private ArrayList<City> cities = new ArrayList<>();
     private ArrayList<Unit> units = new ArrayList<>();
 
@@ -24,9 +27,9 @@ public class Civilization {
 
 
     // TODO: Complete fields
-    public Civilization(User user, String name) {
+    public Civilization(User user, CivilizationNames civilizationNames) {
         this.user = user;
-        this.name = name;
+        this.civilizationNames = civilizationNames;
     }
 
     public HashMap<Tile,Integer> getDiscoveredTiles() {
@@ -48,12 +51,12 @@ public class Civilization {
         return user;
     }
 
-    public String getName() {
-        return name;
+    public CivilizationNames getCivilizationNames() {
+        return civilizationNames;
     }
 
-    public City getCapital() {
-        return Capital;
+    public City getCurrentCapital() {
+        return currentCapital;
     }
 
     public ArrayList<City> getCities() {

@@ -11,6 +11,7 @@ public class Settler extends Civilian {
         this.movePoint = this.unitTemplate.getMovementPoint();
         this.unitState = UnitState.FREE;
         this.civilization = civilization;
+        this.civilization.addUnit(this);
         this.tile = tile;
         tile.setCivilian(this);
     }
