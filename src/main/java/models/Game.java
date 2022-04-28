@@ -69,6 +69,10 @@ public class Game {
         TerrainFeature terrainFeature = TerrainFeature.generateRandomTerrainFeature(random);
         if (terrainFeature == TerrainFeature.FOOD_PLAIN && rivers.size() == 0) return null;
         else if (terrainFeature == TerrainFeature.OASIS && terrain != Terrain.DESERT) return null;
+        else if (terrainFeature == TerrainFeature.ICE && (terrain != Terrain.TUNDRA || 
+                                                          terrain != Terrain.MOUNTAIN || 
+                                                          terrain != Terrain.OCEAN || 
+                                                          terrain != Terrain.SNOW )) return null;
         else if (terrain == Terrain.OCEAN) return null;
         return terrainFeature;
     }
