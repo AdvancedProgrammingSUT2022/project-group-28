@@ -8,6 +8,7 @@ import models.civilization.enums.TechnologyTemplate;
 import models.tiles.Tile;
 import models.units.Unit;
 import models.units.enums.UnitState;
+import views.enums.CivilizationMessage;
 import views.enums.Message;
 
 import java.util.ArrayList;
@@ -20,37 +21,15 @@ public class GameMenuController extends GameController {
          setGame(new Game(players, seed));
     }
 
-    public static Message nextTurn() {
+    public static CivilizationMessage nextTurn() {
         // TODO: redirect errors to map
-        if (!checkCivilizationToNextTurn()) return Message.FAILURE;
-        if (!checkCitiesToNextTurn()) return Message.FAILURE;
-        if (!checkUnitsToNextTurn()) return Message.FAILURE;
+        CivilizationMessage checkResult = CivilizationController.checkNextTurnIsPossible();
+        if (checkResult != CivilizationMessage.SUCCESS) return checkResult;
 
         nextTurnUpdatesAndTasks();
         changePlayerTurn();
 
-        return Message.SUCCESS;
-    }
-
-
-    // TODO: Change return types to Message
-    private static boolean checkUnitsToNextTurn() {
-        // TODO: Check all units stuff
-        ArrayList<Unit> units = game.getCurrentPlayer().getUnits();
-        for (Unit unit : units) {
-            if (unit.getUnitState() == UnitState.FREE && unit.getMovePoint() > 0) return false;
-        }
-        return true;
-    }
-
-    private static boolean checkCitiesToNextTurn() {
-        // TODO: Check all city stuff
-        return true;
-    }
-
-    private static boolean checkCivilizationToNextTurn() {
-        // TODO: Check all civilization stuff
-        return true;
+        return CivilizationMessage.SUCCESS;
     }
 
     public static void nextTurnUpdatesAndTasks() {  

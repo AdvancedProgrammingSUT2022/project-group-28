@@ -2,14 +2,23 @@ package controllers;
 
 import java.util.ArrayList;
 
+import controllers.units.UnitController;
 import models.civilization.Civilization;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
 import models.tiles.enums.Terrain;
 import models.tiles.enums.TerrainFeature;
 import models.units.Unit;
+import views.enums.CivilizationMessage;
 
 public class CivilizationController extends GameController {
+
+    public static CivilizationMessage checkNextTurnIsPossible() {
+        // TODO: Add all civlization and city stuff
+        if (UnitController.checkUnitsForNextTurn() != CivilizationMessage.SUCCESS)
+            return CivilizationMessage.FREE_UNITS;
+        return CivilizationMessage.SUCCESS;
+    }
 
     public static void updateCivilizations() {
         updateDiscoveredTiles();

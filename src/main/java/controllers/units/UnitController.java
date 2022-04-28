@@ -7,6 +7,7 @@ import models.units.Civilian;
 import models.units.Military;
 import models.units.Unit;
 import models.units.enums.UnitState;
+import views.enums.CivilizationMessage;
 import views.enums.Message;
 import views.enums.UnitMessage;
 
@@ -50,6 +51,23 @@ public class UnitController extends GameController {
 
         moveUnit(unit, startTile, targetTile);
         return UnitMessage.SUCCESS;
+    }
+
+    public static CivilizationMessage checkUnitsForNextTurn() {
+        ArrayList<Unit> units = game.getCurrentPlayer().getUnits();
+        for (Unit unit : units) {
+            if (unit.getUnitState() == UnitState.FREE && unit.getMovePoint() > 0) return CivilizationMessage.FREE_UNITS;
+            // TODO: check all stuff
+        }
+        return CivilizationMessage.SUCCESS;
+    }
+
+    public static Unit findFreeUnit() {
+        ArrayList<Unit> units = game.getCurrentPlayer().getUnits();
+        for (Unit unit : units) {
+            if (unit.getUnitState() == UnitState.FREE && unit.getMovePoint() > 0) return unit;
+        }
+        return null;
     }
 
     public static void nextTurnUnitUpdates() {

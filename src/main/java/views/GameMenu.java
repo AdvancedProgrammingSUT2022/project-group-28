@@ -14,7 +14,9 @@ import models.Game;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
 import models.units.Settler;
+import models.units.Unit;
 import models.units.Worker;
+import views.enums.CivilizationMessage;
 import views.enums.Color;
 import views.enums.Message;
 import views.enums.UnitMessage;
@@ -373,11 +375,15 @@ public class GameMenu extends Menu {
     }
 
     private void nextTurn() {
-        Message result = GameMenuController.nextTurn();
+        CivilizationMessage result = GameMenuController.nextTurn();
 
         switch (result) {
-            case FAILURE:
-                System.out.println("something is wrong");
+            case FREE_UNITS:
+                Unit unit = UnitController.findFreeUnit();
+                int[] coordinates = unit.getTile().getCoordinates();
+                System.out.printf("there is a free unit with movePoint at %d %d\n", coordinates[0], coordinates[1]);
+                CivilizationController.updateDiscoveredTiles();
+                drawBoard(coordinates[0], coordinates[1]);
                 break;
             case SUCCESS:
                 System.out.println("success");
