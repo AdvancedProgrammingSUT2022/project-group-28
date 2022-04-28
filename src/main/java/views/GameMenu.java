@@ -358,7 +358,7 @@ public class GameMenu extends Menu {
         UnitMessage result = UnitController.moveUnitToTarget(tileIValue, tileJValue);
         switch (result) {
             case INVALID_POSITION:
-                System.out.println("invalid positon");
+                System.out.println("invalid position");
                 break;
             case NO_SELECTED_UNIT:
                 System.out.println("no selected unit");
