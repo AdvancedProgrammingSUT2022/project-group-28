@@ -131,4 +131,8 @@ buildNumber.properties
 
 # user saved data
 data/
+
+#VSCode
+.vscode/
+
 # End of https://www.toptal.com/developers/gitignore/api/intellij,maven
