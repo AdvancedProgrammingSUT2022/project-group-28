@@ -246,21 +246,25 @@ public class GameMenu extends Menu {
             return;
         }
         CivilizationController.updateDiscoveredTiles();
+        drawBoard(tileIValue, tileJValue, cheatValue);
         while (true) {
-            drawBoard(tileIValue, tileJValue, cheatValue);
             System.out.print("\n> ");
             String command2 = scanner.nextLine();
             if(command2.equals("q"))
                 return;
             else if(command2.equals("w")) 
-                tileIValue-=1;
+                tileIValue=Math.max(tileIValue - 1, 0);
             else if(command2.equals("a")) 
-                tileJValue-=1;
+                tileJValue=Math.max(tileJValue - 1, 0);
             else if(command2.equals("s")) 
-                tileIValue+=1;
+                tileIValue=Math.min(tileIValue + 1, 100);
             else if(command2.equals("d"))
-                tileJValue+=1;
-            else System.out.println("invalid command");
+                tileJValue=Math.min(tileJValue + 1, 100);
+            else {
+                System.out.println("invalid command");
+                continue;
+            }
+            drawBoard(tileIValue, tileJValue, cheatValue);
         }
      }
 
@@ -358,7 +362,7 @@ public class GameMenu extends Menu {
         UnitMessage result = UnitController.moveUnitToTarget(tileIValue, tileJValue);
         switch (result) {
             case INVALID_POSITION:
-                System.out.println("invalid positon");
+                System.out.println("invalid position");
                 break;
             case NO_SELECTED_UNIT:
                 System.out.println("no selected unit");
