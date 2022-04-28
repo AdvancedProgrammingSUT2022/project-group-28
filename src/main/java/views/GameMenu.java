@@ -49,7 +49,7 @@ public class GameMenu extends Menu {
         return true;
     }
 
-    private String[][] makeBoardGrid(int baseI , int baseJ){
+    private String[][] makeBoardGrid(int baseI , int baseJ,boolean fogOfWar){
         String[][] grid = new String[BOARD_HEIGHT][BOARD_WIDTH];
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
@@ -61,7 +61,7 @@ public class GameMenu extends Menu {
             for (int i = 0; i < 4; i++) {
                 int tileI = baseI + i - j/2;
                 int tileJ = baseJ + j - 5;
-                ArrayList<String> hex= fillHexData(tileI, tileJ);
+                ArrayList<String> hex= fillHexData(tileI, tileJ, fogOfWar);
                 int m=0,n=0;
                 for (int k = 0; k < hex.size(); k++) {
                     int x = 10 * j + n;
@@ -81,7 +81,7 @@ public class GameMenu extends Menu {
         return grid;    
     }
 
-    private ArrayList<String> fillHexData(int i, int j) {
+    private ArrayList<String> fillHexData(int i, int j, boolean fogOfWar) {
         Game game = GameController.getGame();
         String template ="   _______\n"  // 0 - 13
                        + "  /##C####\\\n" // 14 - 26
@@ -96,12 +96,18 @@ public class GameMenu extends Menu {
         ArrayList<String> colors;
         Tile tile=null;
         int lastDiscovery=0;
-        for (Tile tempTile : discoveredTiles.keySet()) {
-            if (tempTile.getCoordinates()[0] == i && tempTile.getCoordinates()[1] == j) {
-                tile=tempTile;
-                lastDiscovery=discoveredTiles.get(tempTile);
+        if(fogOfWar){
+            for (Tile tempTile : discoveredTiles.keySet()) {
+                if (tempTile.getCoordinates()[0] == i && tempTile.getCoordinates()[1] == j) {
+                    tile=tempTile;
+                    lastDiscovery=discoveredTiles.get(tempTile);
+                }
             }
+        }else{
+            tile=game.getMap()[i][j];
+            lastDiscovery = game.getTurnNumber();
         }
+        
         if(tile!=null){    
             if(tile.getTerrainFeature()!=null)
                 template = template.replace("FFFFFFF", tile.getTerrainFeature().getMapSign());
@@ -197,8 +203,8 @@ public class GameMenu extends Menu {
         return colors;
     }
 
-    private void drawBoard(int baseI, int baseJ) {
-        String[][] grid= makeBoardGrid(baseI , baseJ);
+    private void drawBoard(int baseI, int baseJ, boolean fogOfWar) {
+        String[][] grid= makeBoardGrid(baseI , baseJ,fogOfWar);
         StringBuilder builder = new StringBuilder();
         for(int i = 0; i < BOARD_HEIGHT; i++) {
             for(int j = 0; j < BOARD_WIDTH; j++) {
@@ -219,6 +225,7 @@ public class GameMenu extends Menu {
         CmdLineParser parser = new CmdLineParser();
         Option<Integer> tileI = parser.addIntegerOption('i', "tileI");
         Option<Integer> tileJ = parser.addIntegerOption('j', "tileJ");
+        Option<Boolean> cheat = parser.addBooleanOption('c', "cheat");
 
         try {
             parser.parse(command.split(" "));
@@ -229,13 +236,15 @@ public class GameMenu extends Menu {
 
         Integer tileIValue =  parser.getOptionValue(tileI);
         Integer tileJValue =  parser.getOptionValue(tileJ);
+        Boolean cheatValue =  !parser.getOptionValue(cheat, false);
+
         if(tileJValue==null || tileIValue==null) {
             System.out.println("invalid command");
             return;
         }
         CivilizationController.updateDiscoveredTiles();
         while (true) {
-            drawBoard(tileIValue, tileJValue);
+            drawBoard(tileIValue, tileJValue, cheatValue);
             System.out.print("\n> ");
             String command2 = scanner.nextLine();
             if(command2.equals("q"))
