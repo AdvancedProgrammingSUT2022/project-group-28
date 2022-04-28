@@ -107,10 +107,6 @@ public class GameMenu extends Menu {
                 template = template.replace("FFFFFFF", tile.getTerrainFeature().getMapSign());
             else
                 template = template.replace("FFFFFFF", "#######");
-            if(tile.getResource()!=null)
-                template = template.replace("RRRRRRR", tile.getResource().getResourceTemplate().getMapSign());
-            else
-                template = template.replace("RRRRRRR", "#######");
             if(tile.getCivilian() instanceof Worker)
                 template = template.replace("C", "W");
             else if(tile.getCivilian() instanceof Settler)
@@ -122,6 +118,7 @@ public class GameMenu extends Menu {
             else
                 template = template.replace("MMM", "###");
             template = template.replace("TT", String.format("%02d", lastDiscovery));
+            template = template.replace("RRRRRRR", GameMenuController.getTileShowableResource(tile, game.getCurrentPlayer()));
             colors= getHexColors(template, i, j);
         }else if (i < game.MAP_HEIGHT && i >= 0 && j < game.MAP_WIDTH && j >= 0) {
             template ="   _______\n"  // 0 - 11

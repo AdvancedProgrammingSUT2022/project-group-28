@@ -3,6 +3,8 @@ package controllers;
 import models.Game;
 import models.User;
 import models.civilization.Civilization;
+import models.civilization.enums.TechnologyTemplate;
+import models.tiles.Tile;
 import models.units.Unit;
 import models.units.enums.UnitState;
 import views.enums.Message;
@@ -65,5 +67,14 @@ public class GameMenuController extends GameController {
         } else game.setCurrentPlayer(civilizations.get(playerIndex + 1));
         game.setSelectedUnit(null);
         // TODO: Add another next turn stuff such as selected city
+    }
+
+    public static String getTileShowableResource(Tile tile,Civilization civilization) {
+        if(tile.getResource()!=null){
+            TechnologyTemplate requiredTechnology = tile.getResource().getResourceTemplate().getRequiredTechnology();
+            return tile.getResource().getResourceTemplate().getMapSign();
+            //TODO: Add check for required technology
+        }else
+            return "#######";
     }
 }
