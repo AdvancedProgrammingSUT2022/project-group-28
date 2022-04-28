@@ -90,4 +90,6 @@ public class Civilization {
     public void addUnit(Unit unit) {
         this.units.add(unit);
     }
+
+    public void addCity(City city) { this.cities.add(city); }
 }
