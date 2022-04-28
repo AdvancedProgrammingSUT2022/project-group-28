@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.Option;
 
-import controllers.GameController;
 import controllers.GameMenuController;
-import models.Game;
 import models.User;
 
 public class MainMenu extends Menu {
