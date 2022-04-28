@@ -1,5 +1,6 @@
-package controllers;
+package controllers.units;
 
+import controllers.GameController;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
 import models.units.Civilian;
@@ -7,6 +8,7 @@ import models.units.Military;
 import models.units.Unit;
 import models.units.enums.UnitState;
 import views.enums.Message;
+import views.enums.UnitMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,40 +16,40 @@ import java.util.Set;
 
 public class UnitController extends GameController {
 
-    public static Message selectCombatUnit(int i, int j) {
+    public static UnitMessage selectCombatUnit(int i, int j) {
         if (i < 0 || i >= game.MAP_HEIGHT || j < 0 || j >= game.MAP_WIDTH)
-            return Message.INVALID_POSITION;
+            return UnitMessage.INVALID_POSITION;
         Tile tile = game.getMap()[i][j];
-        if (tile.getMilitary() == null) return Message.NO_COMBAT_UNIT;
+        if (tile.getMilitary() == null) return UnitMessage.NOT_COMBAT_UNIT;
         game.setSelectedUnit(tile.getMilitary());
-        return Message.SUCCESS;
+        return UnitMessage.SUCCESS;
     }
 
-    public static Message selectNonCombatUnit(int i, int j) {
+    public static UnitMessage selectNonCombatUnit(int i, int j) {
         if (i < 0 || i >= game.MAP_HEIGHT || j < 0 || j >= game.MAP_WIDTH)
-            return Message.INVALID_POSITION;
+            return UnitMessage.INVALID_POSITION;
         Tile tile = game.getMap()[i][j];
-        if (tile.getCivilian() == null) return Message.NO_NONCOMBAT_UNIT;
+        if (tile.getCivilian() == null) return UnitMessage.NOT_NONCOMBAT_UNIT;
         game.setSelectedUnit(tile.getCivilian());
-        return Message.SUCCESS;
+        return UnitMessage.SUCCESS;
     }
 
     // TODO: Reform move methods
-    public static Message moveUnitToTarget(int i, int j) {
+    public static UnitMessage moveUnitToTarget(int i, int j) {
         if (i < 0 || i >= game.MAP_HEIGHT || j < 0 || j >= game.MAP_WIDTH)
-            return Message.INVALID_POSITION;
-        if (game.getSelectedUnit() == null) return Message.NO_SELECTED_UNIT;
+            return UnitMessage.INVALID_POSITION;
+        if (game.getSelectedUnit() == null) return UnitMessage.NO_SELECTED_UNIT;
         Unit unit = game.getSelectedUnit();
         Tile startTile = unit.getTile();
         Tile targetTile = game.getMap()[i][j];
-        if (!unit.getCivilization().equals(game.getCurrentPlayer())) return Message.NO_PERMISSION;
-        if (startTile.getCoordinates()[0] == i && startTile.getCoordinates()[1] == j) return Message.SAME_TILE;
-        if (!targetTile.isAccessible()) return Message.NOT_ACCESSIBLE_TILE;
-        if (isFullTile(unit, targetTile)) return Message.FULL_TILE;
+        if (!unit.getCivilization().equals(game.getCurrentPlayer())) return UnitMessage.NOT_PLAYERS_TURN;
+        if (startTile.getCoordinates()[0] == i && startTile.getCoordinates()[1] == j) return UnitMessage.SAME_TARGET_TILE;
+        if (!targetTile.isAccessible()) return UnitMessage.NOT_ACCESSIBLE_TILE;
+        if (isFullTile(unit, targetTile)) return UnitMessage.FULL_TARGET_TILE;
         // TODO: Add enemy border check
 
         moveUnit(unit, startTile, targetTile);
-        return Message.SUCCESS;
+        return UnitMessage.SUCCESS;
     }
 
     public static void nextTurnUnitUpdates() {

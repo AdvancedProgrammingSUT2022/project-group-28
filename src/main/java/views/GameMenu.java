@@ -9,7 +9,7 @@ import com.sanityinc.jargs.CmdLineParser.*;
 import controllers.CivilizationController;
 import controllers.GameController;
 import controllers.GameMenuController;
-import controllers.UnitController;
+import controllers.units.UnitController;
 import models.Game;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
@@ -17,6 +17,7 @@ import models.units.Settler;
 import models.units.Worker;
 import views.enums.Color;
 import views.enums.Message;
+import views.enums.UnitMessage;
 
 public class GameMenu extends Menu {
     private static GameMenu instance = new GameMenu();
@@ -270,13 +271,13 @@ public class GameMenu extends Menu {
             System.out.println("Invalid command");
             return;
         }
-        Message result = UnitController.selectCombatUnit(unitIValue, unitJValue);
+        UnitMessage result = UnitController.selectCombatUnit(unitIValue, unitJValue);
 
         switch (result) {
             case INVALID_POSITION:
                 System.out.println("invalid position");
                 break;
-            case NO_COMBAT_UNIT:
+            case NOT_COMBAT_UNIT:
                 System.out.println("no combat unit");
                 break;
             case SUCCESS:
@@ -307,12 +308,12 @@ public class GameMenu extends Menu {
             return;
         }
 
-        Message result = UnitController.selectNonCombatUnit(unitIValue, unitJValue);
+        UnitMessage result = UnitController.selectNonCombatUnit(unitIValue, unitJValue);
         switch (result) {
             case INVALID_POSITION:
                 System.out.println("Invalid position");
                 break;
-            case NO_NONCOMBAT_UNIT:
+            case NOT_NONCOMBAT_UNIT:
                 System.out.println("No noncombat unit");
                 break;
             case SUCCESS:
@@ -343,7 +344,7 @@ public class GameMenu extends Menu {
             return;
         }
 
-        Message result = UnitController.moveUnitToTarget(tileIValue, tileJValue);
+        UnitMessage result = UnitController.moveUnitToTarget(tileIValue, tileJValue);
         switch (result) {
             case INVALID_POSITION:
                 System.out.println("invalid positon");
@@ -351,14 +352,17 @@ public class GameMenu extends Menu {
             case NO_SELECTED_UNIT:
                 System.out.println("no selected unit");
                 break;
-            case NO_PERMISSION:
+            case NOT_PLAYERS_TURN:
                 System.out.println("no permission");
                 break;
-            case SAME_TILE:
+            case SAME_TARGET_TILE:
                 System.out.println("same tile");
                 break;
             case NOT_ACCESSIBLE_TILE:
                 System.out.println("no accessible tile");
+                break;
+            case FULL_TARGET_TILE:
+                System.out.println("target is full");
                 break;
             case SUCCESS:
                 System.out.println("success");
