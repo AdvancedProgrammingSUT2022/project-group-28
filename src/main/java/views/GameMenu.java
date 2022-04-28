@@ -391,8 +391,6 @@ public class GameMenu extends Menu {
                 Unit unit = UnitController.findFreeUnit();
                 int[] coordinates = unit.getTile().getCoordinates();
                 System.out.printf("there is a free unit with movePoint at %d %d\n", coordinates[0], coordinates[1]);
-                CivilizationController.updateDiscoveredTiles();
-                drawBoard(coordinates[0], coordinates[1]);
                 break;
             case SUCCESS:
                 System.out.println("success");
