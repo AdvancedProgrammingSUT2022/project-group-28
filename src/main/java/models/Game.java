@@ -25,9 +25,9 @@ public class Game {
     public Game(ArrayList<User> users, int seed) {
         Random random = new Random(seed);
 
-        // TODO: Check each terrain feature with terrain
         this.map = generateRandomMap(random);
 
+        // TODO: add more civilizations
         this.civilizations = new ArrayList<>();
         for (int i = 0; i < users.size(); i++) {
             if (i == 0) {
