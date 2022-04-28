@@ -64,4 +64,15 @@ public enum TechnologyTemplate {
 
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public ArrayList<TechnologyTemplate> getRequiredTechnologies() {
+        return requiredTechnologies;
+    }
 }
