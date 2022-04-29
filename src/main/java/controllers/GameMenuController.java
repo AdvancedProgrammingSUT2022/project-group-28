@@ -47,11 +47,18 @@ public class GameMenuController extends GameController {
         // TODO: Add another next turn stuff such as selected city
     }
 
-    public static String getTileShowableResource(Tile tile,Civilization civilization) {
+    public static String getTileShowableResource(Tile tile,Civilization civilization,boolean cheat) {
         if(tile.getResource()!=null){
-            TechnologyTemplate requiredTechnology = tile.getResource().getResourceTemplate().getRequiredTechnology();
-            return tile.getResource().getResourceTemplate().getMapSign();
-            //TODO: Add check for required technology
+            if(cheat) return tile.getResource().getResourceTemplate().getMapSign();
+            else{
+                TechnologyTemplate requiredTechnology = tile.getResource().getResourceTemplate().getRequiredTechnology();
+                if(requiredTechnology==null) return tile.getResource().getResourceTemplate().getMapSign();
+                else{
+                    ArrayList<TechnologyTemplate> userFullTechnologyTemplates = TechnologyController.extractFullProgressTechnology();
+                    if(userFullTechnologyTemplates.contains(requiredTechnology)) return tile.getResource().getResourceTemplate().getMapSign();
+                }
+                return "#######";
+            }
         }else
             return "#######";
     }

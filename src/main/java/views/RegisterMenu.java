@@ -111,7 +111,7 @@ public class RegisterMenu extends Menu {
                 RegisterMenuController.setLoggedInUser(username);
                 return true;
             case LOGIN_ERROR:
-                System.out.println("Username and password didn’t match!");
+                System.out.println("Username and password didn't match!");
                 break;
             default:
                 break;
