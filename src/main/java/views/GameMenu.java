@@ -9,6 +9,7 @@ import com.sanityinc.jargs.CmdLineParser.*;
 import controllers.CivilizationController;
 import controllers.GameController;
 import controllers.GameMenuController;
+import controllers.TechnologyController;
 import controllers.units.SettlerController;
 import controllers.units.UnitController;
 import models.Game;
@@ -40,6 +41,8 @@ public class GameMenu extends Menu {
             selectNoncombatUnit(command);
         } else if (command.startsWith("unit moveto")) {
             moveUnit(command);
+        }else if (command.startsWith("study technology")) {
+            studyTechnology();
         } else if (command.startsWith("unit found city")) {
             foundCity();
         } else if (command.startsWith("map show")) {
@@ -397,6 +400,18 @@ public class GameMenu extends Menu {
         }
     }
 
+    private void studyTechnology(){
+        CivilizationMessage message = TechnologyController.checkTechnologyStudyPossible();
+        switch (message){
+            case STUDY_TWO_TECHNOLOGIES_SIMULTANEOUSLY:
+                System.out.println("you can't do two technology studies at the same time");
+                break;
+            case SUCCESS:
+                System.out.println("Choose a technology to study:");
+                String out = TechnologyController.printPossibleTechnology();
+                System.out.println(out);
+        }
+    }
     private void nextTurn() {
         CivilizationMessage result = GameMenuController.nextTurn();
 
