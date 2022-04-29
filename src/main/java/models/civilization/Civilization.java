@@ -91,5 +91,7 @@ public class Civilization {
         this.units.add(unit);
     }
 
+    public void removeUnit(Unit unit) {this.units.remove(unit);}
+
     public void addCity(City city) { this.cities.add(city); }
 }
