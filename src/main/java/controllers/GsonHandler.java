@@ -22,7 +22,7 @@ public class GsonHandler {
                 User.setAllUsers(allUsers);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
     }
     public static void exportDataOfUser(ArrayList<User> users){
