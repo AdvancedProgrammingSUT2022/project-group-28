@@ -24,30 +24,11 @@ public class City {
 
     private ArrayList<Building> buildings = new ArrayList<>();
 
-    public City(Civilization civilization, Tile tile) {
-        this.NAME = getNewCityName(civilization);
-        civilization.addCity(this);
+    public City(String name, Civilization civilization, Tile tile) {
+        this.NAME = name;
         this.civilization = civilization;
-        tile.setCity(this);
         this.tile = tile;
         this.tiles = getInitialTiles(tile);
-    }
-
-    private String getNewCityName(Civilization civilization) {
-        Game game = GameController.getGame();
-        ArrayList<String> allCitiesNames = new ArrayList<>();
-        for (Civilization gameCivilization : game.getCivilizations()) {
-            for (City city : gameCivilization.getCities()) {
-                allCitiesNames.add(city.getNAME());
-            }
-        }
-        if (!allCitiesNames.contains(civilization.getCivilizationNames().getCapital()))
-            return civilization.getCivilizationNames().getCapital();
-        for (String cityName : civilization.getCivilizationNames().getCities()) {
-            if (!allCitiesNames.contains(cityName)) return cityName;
-        }
-        // TODO: handle this
-        return "HAVIG ABAD";
     }
 
     private ArrayList<Tile> getInitialTiles(Tile tile) {

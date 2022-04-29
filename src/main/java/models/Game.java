@@ -1,5 +1,8 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import models.civilization.Civilization;
 import models.civilization.enums.CivilizationNames;
 import models.tiles.Resource;
@@ -7,8 +10,7 @@ import models.tiles.Tile;
 import models.tiles.enums.*;
 import models.units.Settler;
 import models.units.Unit;
-import java.util.ArrayList;
-import java.util.Random;
+import controllers.units.SettlerController;
 
 public class Game {
     public final int MAP_WIDTH = 100;
@@ -32,11 +34,11 @@ public class Game {
         for (int i = 0; i < users.size(); i++) {
             if (i == 0) {
                 Civilization civilization = new Civilization(users.get(0), CivilizationNames.IRAN);
-                Settler settler = new Settler(civilization, this.map[10 + 10 * i][10 + 10 * i]);
+                SettlerController.createSettler(civilization, this.map[30][30]);
                 this.civilizations.add(civilization);
             } else if (i == 1) {
                 Civilization civilization = new Civilization(users.get(0), CivilizationNames.AMERICA);
-                Settler settler = new Settler(civilization, this.map[10 + 10 * i][10 + 10 * i]);
+                SettlerController.createSettler(civilization, this.map[20][20]);
                 this.civilizations.add(civilization);
             }
         }
