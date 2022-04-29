@@ -65,6 +65,25 @@ public class TechnologyController extends GameController {
         return out;
     }
 
-    
+    public static CivilizationMessage checkNumber(String input) {
+        ArrayList<TechnologyTemplate> possibleTechnologyTemplates = PossibleTechnology();
+        int number = Integer.parseInt(input);
+        if(number <= 0 || number > possibleTechnologyTemplates.size()){
+            return CivilizationMessage.OUT_OF_RANGE;
+        }
+        getNewTechnology(number);
+        return CivilizationMessage.SUCCESS;
+    }
+
+
+    private static void getNewTechnology(int number){
+        ArrayList<TechnologyTemplate> possibleTechnologyTemplates = PossibleTechnology();
+        int index = number - 1;
+        Technology technology = new Technology(possibleTechnologyTemplates.get(index) , 0);
+        //TODO complete about remain breakers
+        game.getCurrentPlayer().addTechnology(technology);
+        game.getCurrentPlayer().setCurrentStudyTechnology(technology);
+
+    }
 
 }
