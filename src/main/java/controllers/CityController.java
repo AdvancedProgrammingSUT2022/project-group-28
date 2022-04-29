@@ -5,6 +5,7 @@ import models.civilization.City;
 import models.civilization.Civilization;
 import models.tiles.Tile;
 import models.units.Settler;
+import views.enums.CivilizationMessage;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,10 @@ public class CityController extends GameController {
         tile.setCivilian(null);
         Settler settler = (Settler)tile.getCivilian();
         civilization.removeUnit(settler);
+    }
+
+    public static CivilizationMessage checkCitiesForNextTurn(ArrayList<City> cities) {
+        return CivilizationMessage.SUCCESS;
     }
 
     private static String getNewCityName(Civilization civilization) {

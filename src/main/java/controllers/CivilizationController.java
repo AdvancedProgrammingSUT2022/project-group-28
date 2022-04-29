@@ -14,9 +14,14 @@ import views.enums.CivilizationMessage;
 public class CivilizationController extends GameController {
 
     public static CivilizationMessage checkNextTurnIsPossible() {
-        // TODO: Add all civlization and city stuff
-        if (UnitController.checkUnitsForNextTurn() != CivilizationMessage.SUCCESS)
-            return CivilizationMessage.FREE_UNITS;
+        Civilization civilization = game.getCurrentPlayer();
+        // TODO: Add all civlization
+        CivilizationMessage checkUnits = UnitController.checkUnitsForNextTurn(civilization.getUnits());
+        if (checkUnits != CivilizationMessage.SUCCESS)
+            return checkUnits;
+        CivilizationMessage checkCities = CityController.checkCitiesForNextTurn(civilization.getCities());
+        if (checkCities != CivilizationMessage.SUCCESS)
+            return checkCities;
         return CivilizationMessage.SUCCESS;
     }
 

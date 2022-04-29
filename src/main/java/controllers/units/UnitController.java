@@ -53,8 +53,7 @@ public class UnitController extends GameController {
         return UnitMessage.SUCCESS;
     }
 
-    public static CivilizationMessage checkUnitsForNextTurn() {
-        ArrayList<Unit> units = game.getCurrentPlayer().getUnits();
+    public static CivilizationMessage checkUnitsForNextTurn(ArrayList<Unit> units) {
         for (Unit unit : units) {
             if (unit.getUnitState() == UnitState.FREE && unit.getMovePoint() > 0) return CivilizationMessage.FREE_UNITS;
             // TODO: check all stuff
