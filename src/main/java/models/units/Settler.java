@@ -2,7 +2,6 @@ package models.units;
 
 import models.civilization.Civilization;
 import models.tiles.Tile;
-import models.units.enums.UnitState;
 import models.units.enums.UnitTemplate;
 
 public class Settler extends Civilian {
