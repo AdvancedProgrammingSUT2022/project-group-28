@@ -5,5 +5,9 @@ public enum CivilizationMessage {
     SUCCESS,
     CHANGE_CURRENT_STUDY_TECHNOLOGY,
     OUT_OF_RANGE,
-    NO_TECHNOLOGY_TO_STUDY;
+    NO_TECHNOLOGY_TO_STUDY,
+    SHOW_LIST,
+    COMPLETION_OF_THE_STUDY,
+
+    ;
 }
