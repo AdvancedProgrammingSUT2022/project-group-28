@@ -1,6 +1,7 @@
 package models.civilization;
 
 import models.User;
+import models.civilization.enums.TechnologyTemplate;
 import models.civilization.enums.CivilizationNames;
 import models.tiles.Tile;
 import models.units.Unit;
@@ -22,6 +23,8 @@ public class Civilization {
 
     private int goldBalance;
     private int scienceBalance;
+
+    private Technology currentStudyTechnology;
     private int happinessBalance;
     private int happiness;
 
@@ -30,6 +33,7 @@ public class Civilization {
     public Civilization(User user, CivilizationNames civilizationNames) {
         this.user = user;
         this.civilizationNames = civilizationNames;
+        this.currentStudyTechnology = null;
     }
 
     public HashMap<Tile,Integer> getDiscoveredTiles() {
@@ -92,4 +96,20 @@ public class Civilization {
     }
 
     public void addCity(City city) { this.cities.add(city); }
+
+    public void addTechnology(Technology technology){
+        this.studiedTechnologies.add(technology);
+    }
+
+    public void setCurrentStudyTechnology(Technology currentStudyTechnology) {
+        this.currentStudyTechnology = currentStudyTechnology;
+    }
+
+    public Technology getCurrentStudyTechnology() {
+        return currentStudyTechnology;
+    }
+
+    public void setScienceBalance(int scienceBalance) {
+        this.scienceBalance = scienceBalance;
+    }
 }
