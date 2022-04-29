@@ -15,8 +15,11 @@ public class CivilizationController extends GameController {
 
     public static CivilizationMessage checkNextTurnIsPossible() {
         // TODO: Add all civlization and city stuff
-        if (UnitController.checkUnitsForNextTurn() != CivilizationMessage.SUCCESS)
+        if (UnitController.checkUnitsForNextTurn() != CivilizationMessage.SUCCESS){
             return CivilizationMessage.FREE_UNITS;
+        }else if(game.getCurrentPlayer().getCurrentStudyTechnology() == null){
+            return CivilizationMessage.NO_TECHNOLOGY_TO_STUDY;
+        }
         return CivilizationMessage.SUCCESS;
     }
 
