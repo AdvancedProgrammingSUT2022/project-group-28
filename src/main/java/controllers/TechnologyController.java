@@ -1,8 +1,12 @@
 package controllers;
 
 import com.sun.security.auth.UnixNumericUserPrincipal;
+import models.civilization.City;
+import models.civilization.Civilization;
 import models.civilization.Technology;
 import models.civilization.enums.TechnologyTemplate;
+import models.units.Unit;
+import models.units.enums.UnitState;
 import views.enums.CivilizationMessage;
 import views.enums.Message;
 
@@ -85,5 +89,20 @@ public class TechnologyController extends GameController {
         game.getCurrentPlayer().setCurrentStudyTechnology(technology);
 
     }
+
+    //public static void updateNextTurnTechnology(){
+    //    Technology currentTechnology = game.getCurrentPlayer().getCurrentStudyTechnology();
+//
+    //}
+
+    private static int calculateThePopulation(){
+        Civilization civilization = game.getCurrentPlayer().getCurrentCapital().getCivilization();
+        int population = 0;
+        for (City city: civilization.getCities()) {
+            population += city.getPopulation();
+        }
+        return population;
+    }
+
 
 }
