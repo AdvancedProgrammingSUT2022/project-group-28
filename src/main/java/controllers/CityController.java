@@ -31,6 +31,11 @@ public class CityController extends GameController {
         return CivilizationMessage.SUCCESS;
     }
 
+    public static void nextTurnCityUpdates(ArrayList<City> cities) {
+    
+    }
+
+
     private static String getNewCityName(Civilization civilization) {
         Game game = GameController.getGame();
         ArrayList<String> allCitiesNames = new ArrayList<>();

@@ -25,7 +25,13 @@ public class CivilizationController extends GameController {
         return CivilizationMessage.SUCCESS;
     }
 
-    public static void updateCivilizations() {
+    public static void nextTurnCivilizationUpdates() {
+        Civilization civilization = game.getCurrentPlayer();
+
+        UnitController.nextTurnUnitUpdates(civilization.getUnits());
+
+        CityController.nextTurnCityUpdates(civilization.getCities());
+
         updateDiscoveredTiles();
     }
 

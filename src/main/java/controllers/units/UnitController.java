@@ -69,8 +69,7 @@ public class UnitController extends GameController {
         return null;
     }
 
-    public static void nextTurnUnitUpdates() {
-        ArrayList<Unit> units = game.getCurrentPlayer().getUnits();
+    public static void nextTurnUnitUpdates(ArrayList<Unit> units) {
         for (Unit unit : units) {
             if (unit.getUnitState() == UnitState.MOVING &&
                 unit.getMovePoint() == unit.getUnitTemplate().getMovementPoint()) {

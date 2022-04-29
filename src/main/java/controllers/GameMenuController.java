@@ -26,15 +26,11 @@ public class GameMenuController extends GameController {
         CivilizationMessage checkResult = CivilizationController.checkNextTurnIsPossible();
         if (checkResult != CivilizationMessage.SUCCESS) return checkResult;
 
-        nextTurnUpdatesAndTasks();
+
+        CivilizationController.nextTurnCivilizationUpdates();
         changePlayerTurn();
 
         return CivilizationMessage.SUCCESS;
-    }
-
-    public static void nextTurnUpdatesAndTasks() {  
-        UnitController.nextTurnUnitUpdates();
-        CivilizationController.updateCivilizations();
     }
 
     private static void changePlayerTurn() {
