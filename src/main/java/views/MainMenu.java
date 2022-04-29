@@ -37,6 +37,7 @@ public class MainMenu extends Menu {
     private boolean startGame(String command) {
         CmdLineParser parser = new CmdLineParser();
         Option<String> playerName = parser.addStringOption('p',"player");
+        Option<Integer> seed = parser.addIntegerOption('s',"seed");
 
         ArrayList<String> playerNames = new ArrayList<>();
 
@@ -57,6 +58,8 @@ public class MainMenu extends Menu {
             }
         }
 
+        int seedValue = parser.getOptionValue(seed,0);
+
         ArrayList<User> users = new ArrayList<>();
         User thisUser;
         for (String username : playerNames) {
@@ -76,7 +79,7 @@ public class MainMenu extends Menu {
             System.out.println("You need at least two players to play");
             return false;
         }
-        GameMenuController.startNewGame(users, 0);
+        GameMenuController.startNewGame(users, seedValue);
         Menu.setCurrentMenu(GameMenu.getInstance());
         return true;
     }
