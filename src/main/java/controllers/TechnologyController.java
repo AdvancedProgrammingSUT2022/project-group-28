@@ -1,19 +1,14 @@
 package controllers;
 
-import com.sun.security.auth.UnixNumericUserPrincipal;
+import models.User;
 import models.civilization.City;
 import models.civilization.Civilization;
 import models.civilization.Technology;
 import models.civilization.enums.TechnologyTemplate;
-import models.units.Unit;
-import models.units.enums.UnitState;
+import views.GameMenu;
 import views.enums.CivilizationMessage;
-import views.enums.Message;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class TechnologyController extends GameController {
 
@@ -21,9 +16,9 @@ public class TechnologyController extends GameController {
     public static CivilizationMessage checkTechnologyStudyPossible(){
         Technology tempTechnology = game.getCurrentPlayer().getCurrentStudyTechnology();
         if (tempTechnology != null){
-            return CivilizationMessage.STUDY_TWO_TECHNOLOGIES_SIMULTANEOUSLY;
+            return CivilizationMessage.CHANGE_CURRENT_STUDY_TECHNOLOGY;
         }
-        return CivilizationMessage.SUCCESS;
+        return CivilizationMessage.SHOW_LIST;
 
     }
 
@@ -63,7 +58,7 @@ public class TechnologyController extends GameController {
         int number = 1 ;
         for (TechnologyTemplate tecknology: possibleTechnologyTemplates) {
             out = out + number + "- " +  tecknology.getName() + "\t" +
-                    (int) Math.ceil((double)tecknology.getCost() / scienceBalance) + " turns\n" ;
+                    (int) Math.ceil((double)tecknology.getCost() / addEachTurnScienceBalance()) + " turns\n" ;
             number++;
         }
         return out;
@@ -81,23 +76,51 @@ public class TechnologyController extends GameController {
 
 
     private static void getNewTechnology(int number){
+        Civilization tempCivilization = game.getCurrentPlayer();
         ArrayList<TechnologyTemplate> possibleTechnologyTemplates = PossibleTechnology();
+        ArrayList<Technology> UserTechnologies = game.getCurrentPlayer().getStudiedTechnologies();
         int index = number - 1;
-        Technology technology = new Technology(possibleTechnologyTemplates.get(index) , 0);
-        //TODO complete about remain breakers
-        game.getCurrentPlayer().addTechnology(technology);
-        game.getCurrentPlayer().setCurrentStudyTechnology(technology);
+        if (getTechnology(possibleTechnologyTemplates.get(index)) == null){
+            Technology technology = new Technology(possibleTechnologyTemplates.get(index) , game.getCurrentPlayer().getScienceBalance());
+            game.getCurrentPlayer().addTechnology(technology);
+
+        }
+        game.getCurrentPlayer().setCurrentStudyTechnology(getTechnology(possibleTechnologyTemplates.get(index)));
 
     }
 
-    //public static void updateNextTurnTechnology(){
-    //    Technology currentTechnology = game.getCurrentPlayer().getCurrentStudyTechnology();
-    //    updateScienceBalance();
-//
-    //}
+    private static Technology getTechnology(TechnologyTemplate technologyTemplate){
+        ArrayList<Technology> UserTechnologies = game.getCurrentPlayer().getStudiedTechnologies();
+        for (Technology technology : UserTechnologies) {
+            if(technology.getTechnologyTemplate().getName().equals(technologyTemplate.getName())){
+                return technology;
+            }
+        }
+        return null;
+    }
+
+    public static void updateNextTurnTechnology(){
+        Technology currentTechnology = game.getCurrentPlayer().getCurrentStudyTechnology();
+        Civilization civilization = game.getCurrentPlayer();
+        updateScienceBalance();
+        if(currentTechnology.getProgress() + civilization.getScienceBalance() < currentTechnology.getTechnologyTemplate().getCost()){
+            currentTechnology.setProgress(currentTechnology.getProgress() + civilization.getScienceBalance());
+            civilization.setScienceBalance(0);
+        } else{
+            int overFlow = (currentTechnology.getProgress() + civilization.getScienceBalance()) -
+                            currentTechnology.getTechnologyTemplate().getCost();
+
+            //TODO delete this print
+            System.out.println( currentTechnology.getTechnologyTemplate().getName() + " technology completed");
+            currentTechnology.setProgress(currentTechnology.getTechnologyTemplate().getCost());
+            civilization.setScienceBalance(overFlow);
+            game.getCurrentPlayer().setCurrentStudyTechnology(null);
+        }
+
+    }
 
     private static void updateScienceBalance() {
-        Civilization civilization = game.getCurrentPlayer().getCurrentCapital().getCivilization();
+        Civilization civilization = game.getCurrentPlayer();
         civilization.setScienceBalance(civilization.getScienceBalance() + addEachTurnScienceBalance());
     }
 
@@ -105,7 +128,7 @@ public class TechnologyController extends GameController {
         return calculateThePopulation()+3;      //+3 is constant
     }
     private static int calculateThePopulation(){
-        Civilization civilization = game.getCurrentPlayer().getCurrentCapital().getCivilization();
+        Civilization civilization = game.getCurrentPlayer();
         int population = 0;
         for (City city: civilization.getCities()) {
             population += city.getPopulation();
