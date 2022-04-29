@@ -2,5 +2,8 @@ package views.enums;
 
 public enum CivilizationMessage {
     FREE_UNITS,
-    SUCCESS;
+    SUCCESS,
+    STUDY_TWO_TECHNOLOGIES_SIMULTANEOUSLY,
+    OUT_OF_RANGE,
+    ;
 }
