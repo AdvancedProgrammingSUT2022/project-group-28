@@ -92,9 +92,18 @@ public class TechnologyController extends GameController {
 
     //public static void updateNextTurnTechnology(){
     //    Technology currentTechnology = game.getCurrentPlayer().getCurrentStudyTechnology();
+    //    updateScienceBalance();
 //
     //}
 
+    private static void updateScienceBalance() {
+        Civilization civilization = game.getCurrentPlayer().getCurrentCapital().getCivilization();
+        civilization.setScienceBalance(civilization.getScienceBalance() + addEachTurnScienceBalance());
+    }
+
+    private static int addEachTurnScienceBalance(){
+        return calculateThePopulation()+3;      //+3 is constant
+    }
     private static int calculateThePopulation(){
         Civilization civilization = game.getCurrentPlayer().getCurrentCapital().getCivilization();
         int population = 0;
