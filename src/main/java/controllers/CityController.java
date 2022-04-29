@@ -4,6 +4,7 @@ import models.Game;
 import models.civilization.City;
 import models.civilization.Civilization;
 import models.tiles.Tile;
+import models.units.Settler;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,15 @@ public class CityController extends GameController {
         City city = new City(name, civilization, tile);
         civilization.addCity(city);
         tile.setCity(city);
+        for (Tile cityTile : city.getTiles()) {
+            cityTile.setCivilization(civilization);
+        }
+
+        // TODO: check there is no reference to settler
+        // Delete settler
+        tile.setCivilian(null);
+        Settler settler = (Settler)tile.getCivilian();
+        civilization.removeUnit(settler);
     }
 
     private static String getNewCityName(Civilization civilization) {

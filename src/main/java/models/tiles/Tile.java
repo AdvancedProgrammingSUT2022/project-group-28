@@ -1,6 +1,7 @@
 package models.tiles;
 
 import models.civilization.City;
+import models.civilization.Civilization;
 import models.tiles.enums.Direction;
 import models.tiles.enums.ImprovementTemplate;
 import models.tiles.enums.Terrain;
@@ -20,6 +21,8 @@ public class Tile {
     private Project project;
 
     private City city;
+
+    private Civilization civilization;
 
     private Military military;
     private Civilian civilian;
@@ -115,6 +118,14 @@ public class Tile {
     public void addUnit(Unit unit) {
         if (unit instanceof Military) military = (Military) unit;
         if (unit instanceof Civilian) civilian = (Civilian) unit;
+    }
+
+    public Civilization getCivilization() {
+        return civilization;
+    }
+
+    public void setCivilization(Civilization civilization) {
+        this.civilization = civilization;
     }
 }
 

@@ -9,6 +9,7 @@ import com.sanityinc.jargs.CmdLineParser.*;
 import controllers.CivilizationController;
 import controllers.GameController;
 import controllers.GameMenuController;
+import controllers.units.SettlerController;
 import controllers.units.UnitController;
 import models.Game;
 import models.tiles.Tile;
@@ -39,6 +40,8 @@ public class GameMenu extends Menu {
             selectNoncombatUnit(command);
         } else if (command.startsWith("unit moveto")) {
             moveUnit(command);
+        } else if (command.startsWith("unit found city")) {
+            foundCity();
         } else if (command.startsWith("map show")) {
             showMap(command);
         } else if (command.startsWith("next turn")) {
@@ -395,6 +398,32 @@ public class GameMenu extends Menu {
                 Unit unit = UnitController.findFreeUnit();
                 int[] coordinates = unit.getTile().getCoordinates();
                 System.out.printf("there is a free unit with movePoint at %d %d\n", coordinates[0], coordinates[1]);
+                break;
+            case SUCCESS:
+                System.out.println("success");
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void foundCity() {
+        UnitMessage message = SettlerController.foundCity();
+        switch (message) {
+            case NO_SELECTED_UNIT:
+                System.out.println("no selected unit");
+                break;
+            case NOT_PLAYERS_TURN:
+                System.out.println("not player's turn");
+                break;
+            case NOT_SETTLER_UNIT:
+                System.out.println("not settler unit");
+                break;
+            case NEAR_CITY_BOARDERS:
+                System.out.println("near city borders");
+                break;
+            case NEAR_ENEMY_UNITS:
+                System.out.println("near enemy units");
                 break;
             case SUCCESS:
                 System.out.println("success");
