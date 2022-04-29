@@ -90,7 +90,7 @@ public class GameMenu extends Menu {
     private ArrayList<String> fillHexData(int i, int j, boolean fogOfWar) {
         Game game = GameController.getGame();
         String template ="   _______\n"  // 0 - 13
-                       + "  /##C####\\\n" // 14 - 26
+                       + "  /##C#QQQ\\\n" // 14 - 26
                        + " /##II,JJ##\\\n" // 27 - 39
                        + "/##FFFFFFF##\\\n" // 40 - 52
                        + "\\##RRRRRRR##/\n" // 53 - 65 
@@ -119,16 +119,23 @@ public class GameMenu extends Menu {
                 template = template.replace("FFFFFFF", tile.getTerrainFeature().getMapSign());
             else
                 template = template.replace("FFFFFFF", "#######");
+
+            if (tile.getCity() != null)
+                template = template.replace("QQQ", tile.getCity().getNAME());
+            else template = template.replace("QQQ", "###");
+
             if(tile.getCivilian() instanceof Worker)
                 template = template.replace("C", "W");
             else if(tile.getCivilian() instanceof Settler)
                 template = template.replace("C", "S");
             else
                 template = template.replace("C", "#");
+
             if(tile.getMilitary()!=null)
                 template = template.replace("MMM", tile.getMilitary().getUnitTemplate().getName().substring(0, 3).toLowerCase());
             else
                 template = template.replace("MMM", "###");
+
             template = template.replace("TT", String.format("%02d", lastDiscovery));
             template = template.replace("RRRRRRR", GameMenuController.getTileShowableResource(tile, game.getCurrentPlayer()));
             colors= getHexColors(template, i, j);

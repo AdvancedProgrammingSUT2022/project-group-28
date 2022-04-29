@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public enum CivilizationNames {
-    AMERICA("AMERICA", "MIT", new ArrayList<>(Arrays.asList("MBA", "Silicon"))),
-    IRAN("Iran", "TEHRAN", new ArrayList<String>(Arrays.asList("Pars", "Abadan", "Rasht")));
+    AMERICA("AMERICA", "MIT", new ArrayList<>(Arrays.asList("MBA", "OCW"))),
+    IRAN("Iran", "SUT", new ArrayList<String>(Arrays.asList("IUT", "AUT")));
     // TODO: add more civilizations
     // TODO: add color to civilizations 
     private String name;
