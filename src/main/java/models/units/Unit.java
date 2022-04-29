@@ -6,7 +6,6 @@ import models.units.enums.UnitTemplate;
 import models.units.enums.UnitState;
 
 public abstract class Unit {
-    protected long id;
     protected Tile tile;
     protected Civilization civilization;
     protected UnitTemplate unitTemplate;
@@ -16,6 +15,16 @@ public abstract class Unit {
     protected Tile moveTarget;
 
     protected int health;
+
+    public Unit(Tile tile, Civilization civilization, UnitTemplate unitTemplate) {
+        this.tile = tile;
+        this.civilization = civilization;
+        this.unitTemplate = unitTemplate;
+        this.unitState = UnitState.FREE;
+        this.movePoint = unitTemplate.getMovementPoint();
+        this.moveTarget = null;
+        this.health = 10;
+    }
 
     public Tile getTile() {
         return tile;
