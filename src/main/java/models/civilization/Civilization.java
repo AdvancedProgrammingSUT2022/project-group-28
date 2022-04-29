@@ -34,6 +34,8 @@ public class Civilization {
         this.user = user;
         this.civilizationNames = civilizationNames;
         this.currentStudyTechnology = null;
+        this.addTechnology(new Technology(TechnologyTemplate.AGRICULTURE , TechnologyTemplate.AGRICULTURE.getCost()));
+        this.setScienceBalance(4);
     }
 
     public HashMap<Tile,Integer> getDiscoveredTiles() {

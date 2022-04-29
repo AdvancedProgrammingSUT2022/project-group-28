@@ -22,6 +22,9 @@ public class CivilizationController extends GameController {
         CivilizationMessage checkCities = CityController.checkCitiesForNextTurn(civilization.getCities());
         if (checkCities != CivilizationMessage.SUCCESS)
             return checkCities;
+        if(civilization.getCurrentStudyTechnology() == null){
+            return CivilizationMessage.NO_TECHNOLOGY_TO_STUDY;
+        }
         return CivilizationMessage.SUCCESS;
     }
 
