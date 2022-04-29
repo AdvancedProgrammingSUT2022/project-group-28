@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import models.User;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,7 +28,13 @@ public class GsonHandler {
     }
     public static void exportDataOfUser(ArrayList<User> users){
         try {
-            FileWriter fileWriter = new FileWriter("data/userInformation.json");
+            FileWriter fileWriter;
+            if(Files.exists(Paths.get("data/userInformation.json")))
+                fileWriter = new FileWriter("data/userInformation.json",true);
+            else{
+                new File("data").mkdir();
+                fileWriter = new FileWriter("data/userInformation.json",false);
+            }
             fileWriter.write(new Gson().toJson(users));
             fileWriter.close();
         } catch (IOException e) {
