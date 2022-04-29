@@ -41,7 +41,9 @@ public class GameMenuController extends GameController {
             game.setTurnNumber(game.getTurnNumber() + 1);
             game.setCurrentPlayer(civilizations.get(0));
         } else game.setCurrentPlayer(civilizations.get(playerIndex + 1));
+
         game.setSelectedUnit(null);
+        game.setSelectedCity(null);
         // TODO: Add another next turn stuff such as selected city
     }
 

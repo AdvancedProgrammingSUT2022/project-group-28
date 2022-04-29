@@ -3,6 +3,7 @@ package models;
 import java.util.ArrayList;
 import java.util.Random;
 
+import models.civilization.City;
 import models.civilization.Civilization;
 import models.civilization.enums.CivilizationNames;
 import models.tiles.Resource;
@@ -23,6 +24,7 @@ public class Game {
     private int turnNumber;
 
     private Unit selectedUnit = null;
+    private City selectedCity = null;
 
     public Game(ArrayList<User> users, int seed) {
         Random random = new Random(seed);
@@ -130,4 +132,6 @@ public class Game {
     public void setSelectedUnit(Unit selectedUnit) {
         this.selectedUnit = selectedUnit;
     }
+
+    public void setSelectedCity(City selectedCity) { this.selectedCity = selectedCity; }
 }

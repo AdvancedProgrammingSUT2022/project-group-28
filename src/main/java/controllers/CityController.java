@@ -5,11 +5,36 @@ import models.civilization.City;
 import models.civilization.Civilization;
 import models.tiles.Tile;
 import models.units.Settler;
+import views.enums.CityMessage;
 import views.enums.CivilizationMessage;
 
 import java.util.ArrayList;
 
 public class CityController extends GameController {
+    // TODO: assign citizens
+
+    public static CityMessage selectCityByName(String name) {
+        ArrayList<Civilization> civilizations = game.getCivilizations();
+        City targetCity = null;
+        for (Civilization civilization : civilizations) {
+            for (City city : civilization.getCities()) {
+                if (city.getNAME().equals(name)) targetCity = city;
+            }
+        }
+        if (targetCity == null) return CityMessage.INVALID_NAME;
+        game.setSelectedCity(targetCity);
+        return CityMessage.SUCCESS;
+    }
+
+    public static CityMessage selectCityByPosition(int i, int j) {
+        if (i < 0 || i >= game.MAP_HEIGHT || j < 0 || j >= game.MAP_WIDTH) return CityMessage.INVALID_POSITION;
+        City city = game.getMap()[i][j].getCity();
+        if (city == null) return CityMessage.NOT_CITY;
+        game.setSelectedCity(city);
+        return CityMessage.SUCCESS;
+    }
+
+
     public static void createCity(Civilization civilization, Tile tile) {
         String name = getNewCityName(civilization);
         City city = new City(name, civilization, tile);
@@ -32,9 +57,10 @@ public class CityController extends GameController {
     }
 
     public static void nextTurnCityUpdates(ArrayList<City> cities) {
-    
+        for (City city : cities) {
+            // TODO: some tasks
+        }
     }
-
 
     private static String getNewCityName(Civilization civilization) {
         Game game = GameController.getGame();

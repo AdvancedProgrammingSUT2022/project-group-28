@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.*;
 
+import controllers.CityController;
 import controllers.CivilizationController;
 import controllers.GameController;
 import controllers.GameMenuController;
@@ -17,10 +18,7 @@ import models.tiles.enums.Direction;
 import models.units.Settler;
 import models.units.Unit;
 import models.units.Worker;
-import views.enums.CivilizationMessage;
-import views.enums.Color;
-import views.enums.Message;
-import views.enums.UnitMessage;
+import views.enums.*;
 
 public class GameMenu extends Menu {
     private static GameMenu instance = new GameMenu();
@@ -42,6 +40,8 @@ public class GameMenu extends Menu {
             moveUnit(command);
         } else if (command.startsWith("unit found city")) {
             foundCity();
+        } else if (command.startsWith("select city")) {
+            selectCity(command);
         } else if (command.startsWith("map show")) {
             showMap(command);
         } else if (command.startsWith("next turn")) {
@@ -55,7 +55,7 @@ public class GameMenu extends Menu {
         return true;
     }
 
-    private String[][] makeBoardGrid(int baseI , int baseJ,boolean fogOfWar){
+    private String[][] makeBoardGrid(int baseI , int baseJ, boolean fogOfWar){
         String[][] grid = new String[BOARD_HEIGHT][BOARD_WIDTH];
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
@@ -440,4 +440,47 @@ public class GameMenu extends Menu {
         }
     }
 
+    public void selectCity(String command) {
+        CmdLineParser parser = new CmdLineParser();
+        Option<String> cityName = parser.addStringOption('n', "name");
+        Option<Integer> cityI = parser.addIntegerOption('i', "positionI");
+        Option<Integer> cityJ = parser.addIntegerOption('j', "positionJ");
+        try {
+            parser.parse(command.split(" "));
+        } catch (CmdLineParser.OptionException e) {
+            System.out.println("invalid command");
+            return;
+        }
+        String cityNameValue = parser.getOptionValue(cityName);
+        Integer cityIValue = parser.getOptionValue(cityI);
+        Integer cityJValue = parser.getOptionValue(cityJ);
+        if (cityNameValue != null) {
+            CityMessage result = CityController.selectCityByName(cityNameValue);
+            switch (result) {
+                case INVALID_NAME:
+                    System.out.println("invalid name");
+                    break;
+                case SUCCESS:
+                    System.out.println("success");
+                    break;
+                default:
+                    break;
+            }
+        } else if (cityIValue != null && cityJValue != null) {
+            CityMessage result = CityController.selectCityByPosition(cityIValue, cityJValue);
+            switch (result) {
+                case INVALID_POSITION:
+                    System.out.println("invalid position");
+                    break;
+                case NOT_CITY:
+                    System.out.println("there is not city there");
+                    break;
+                case SUCCESS:
+                    System.out.println("success");
+                    break;
+                default:
+                    break;
+            }
+        } else System.out.println("invalid command");
+    }
 }
