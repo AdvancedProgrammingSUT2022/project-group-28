@@ -19,6 +19,9 @@ import models.tiles.enums.Direction;
 import models.units.Settler;
 import models.units.Unit;
 import models.units.Worker;
+import views.enums.CivilizationMessage;
+import views.enums.Color;
+import views.enums.UnitMessage;
 import views.enums.*;
 
 public class GameMenu extends Menu {
@@ -403,13 +406,43 @@ public class GameMenu extends Menu {
     private void studyTechnology(){
         CivilizationMessage message = TechnologyController.checkTechnologyStudyPossible();
         switch (message){
-            case STUDY_TWO_TECHNOLOGIES_SIMULTANEOUSLY:
-                System.out.println("you can't do two technology studies at the same time");
+            case CHANGE_CURRENT_STUDY_TECHNOLOGY:
+                System.out.println("you have a current study technology...\nChange technology to study:");
+                printListOfTechnology();
                 break;
-            case SUCCESS:
+            case SHOW_LIST:
                 System.out.println("Choose a technology to study:");
-                String out = TechnologyController.printPossibleTechnology();
-                System.out.println(out);
+                printListOfTechnology();
+            case COMPLETION_OF_THE_STUDY:
+
+            default:
+                break;
+        }
+
+    }
+    private void printListOfTechnology(){
+        String out = TechnologyController.printPossibleTechnology();
+        System.out.println(out);
+        chooseNumber();
+    }
+    private void chooseNumber(){
+        System.out.println("Enter the number of technology:");
+        while (true){
+            String input = scanner.nextLine().trim();
+            CivilizationMessage message = TechnologyController.checkNumber(input);
+            switch (message){
+                case SUCCESS:
+                    System.out.println("Your study on "
+                            + TechnologyController.getGame().getCurrentPlayer().getCurrentStudyTechnology().getTechnologyTemplate().getName()
+                            + " technology began");
+
+                    return;
+                case OUT_OF_RANGE:
+                    System.out.println("invalid number");
+                    break;
+                default:
+                    break;
+            }
         }
     }
     private void nextTurn() {
@@ -420,6 +453,9 @@ public class GameMenu extends Menu {
                 Unit unit = UnitController.findFreeUnit();
                 int[] coordinates = unit.getTile().getCoordinates();
                 System.out.printf("there is a free unit with movePoint at %d %d\n", coordinates[0], coordinates[1]);
+                break;
+            case NO_TECHNOLOGY_TO_STUDY:
+                System.out.println("you don't have current study technology");
                 break;
             case SUCCESS:
                 System.out.println("success");
