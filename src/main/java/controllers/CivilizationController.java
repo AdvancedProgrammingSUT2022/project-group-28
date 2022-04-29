@@ -16,12 +16,12 @@ public class CivilizationController extends GameController {
     public static CivilizationMessage checkNextTurnIsPossible() {
         Civilization civilization = game.getCurrentPlayer();
         // TODO: Add all civlization
-        //CivilizationMessage checkUnits = UnitController.checkUnitsForNextTurn(civilization.getUnits());
-        //if (checkUnits != CivilizationMessage.SUCCESS)
-        //    return checkUnits;
-        //CivilizationMessage checkCities = CityController.checkCitiesForNextTurn(civilization.getCities());
-        //if (checkCities != CivilizationMessage.SUCCESS)
-        //    return checkCities;
+        CivilizationMessage checkUnits = UnitController.checkUnitsForNextTurn(civilization.getUnits());
+        if (checkUnits != CivilizationMessage.SUCCESS)
+            return checkUnits;
+        CivilizationMessage checkCities = CityController.checkCitiesForNextTurn(civilization.getCities());
+        if (checkCities != CivilizationMessage.SUCCESS)
+            return checkCities;
         if(civilization.getCurrentStudyTechnology() == null){
             return CivilizationMessage.NO_TECHNOLOGY_TO_STUDY;
         }
@@ -31,13 +31,13 @@ public class CivilizationController extends GameController {
     public static void nextTurnCivilizationUpdates() {
         Civilization civilization = game.getCurrentPlayer();
 
-        //UnitController.nextTurnUnitUpdates(civilization.getUnits());
+        UnitController.nextTurnUnitUpdates(civilization.getUnits());
 
-        //CityController.nextTurnCityUpdates(civilization.getCities());
+        CityController.nextTurnCityUpdates(civilization.getCities());
 
         TechnologyController.updateNextTurnTechnology();
 
-        //updateDiscoveredTiles();
+        updateDiscoveredTiles();
     }
 
     public static void updateDiscoveredTiles() {
