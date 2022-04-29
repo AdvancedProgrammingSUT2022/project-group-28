@@ -57,8 +57,12 @@ public class TechnologyController extends GameController {
         String out = "";
         int number = 1 ;
         for (TechnologyTemplate tecknology: possibleTechnologyTemplates) {
+            int progress = 0 ;
+            if (getTechnology(tecknology) != null){
+                progress = getTechnology(tecknology).getProgress();
+            }
             out = out + number + "- " +  tecknology.getName() + "\t" +
-                    (int) Math.ceil((double)tecknology.getCost() / addEachTurnScienceBalance()) + " turns\n" ;
+                    (int) Math.ceil((double)(tecknology.getCost()-progress) / addEachTurnScienceBalance()) + " turns\n" ;
             number++;
         }
         return out;
