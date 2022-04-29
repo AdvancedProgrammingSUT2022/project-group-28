@@ -114,4 +114,8 @@ public class Civilization {
     public void setScienceBalance(int scienceBalance) {
         this.scienceBalance = scienceBalance;
     }
+
+    public void setCurrentCapital(City currentCapital) {
+        this.currentCapital = currentCapital;
+    }
 }

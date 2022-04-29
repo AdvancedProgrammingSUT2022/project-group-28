@@ -17,6 +17,7 @@ public class CityController extends GameController {
         for (Tile cityTile : city.getTiles()) {
             cityTile.setCivilization(civilization);
         }
+        if (civilization.getCurrentCapital() == null) civilization.setCurrentCapital(city);
 
         // TODO: check there is no reference to settler
         // Delete settler
