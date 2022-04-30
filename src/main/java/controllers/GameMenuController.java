@@ -47,6 +47,14 @@ public class GameMenuController extends GameController {
         // TODO: Add another next turn stuff such as selected city
     }
 
+    public static ArrayList<CivilizationMessage> startNewTurn() {
+        Civilization civilization = game.getCurrentPlayer();
+        ArrayList<CivilizationMessage> result = new ArrayList<>();
+        if (civilization.getCurrentStudyTechnology() != null) result.add(CivilizationMessage.COMPLETION_OF_THE_STUDY);
+        return result;
+    }
+
+
     public static String getTileShowableResource(Tile tile,Civilization civilization,boolean cheat) {
         if(tile.getResource()!=null){
             if(cheat) return tile.getResource().getResourceTemplate().getMapSign();
