@@ -5,6 +5,7 @@ import models.civilization.City;
 import models.civilization.Civilization;
 import models.tiles.Tile;
 import models.units.Settler;
+import models.units.Unit;
 import views.enums.CityMessage;
 import views.enums.CivilizationMessage;
 
@@ -48,9 +49,9 @@ public class CityController extends GameController {
 
         // TODO: check there is no reference to settler
         // Delete settler
-        tile.setCivilian(null);
         Settler settler = (Settler)tile.getCivilian();
-        civilization.removeUnit(settler);
+        civilization.removeUnit((Unit)settler);
+        tile.setCivilian(null);
     }
     // TODO: assign citizens
 
