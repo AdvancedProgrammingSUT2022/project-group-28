@@ -129,6 +129,8 @@ public class Game {
         return selectedUnit;
     }
 
+    public City getSelectedCity() { return selectedCity; }
+
     public void setSelectedUnit(Unit selectedUnit) {
         this.selectedUnit = selectedUnit;
     }

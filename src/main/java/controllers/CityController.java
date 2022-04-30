@@ -74,6 +74,22 @@ public class CityController extends GameController {
         }
     }
 
+    public static CityMessage reassignCitizen(int startI, int startJ, int targetI, int targetJ) {
+        if (startI < 0 || startI >= game.MAP_HEIGHT || startJ < 0 || startJ >= game.MAP_WIDTH ||
+            targetI < 0 || targetI >= game.MAP_HEIGHT || targetJ < 0 || targetJ >= game.MAP_WIDTH)
+            return CityMessage.INVALID_POSITION;
+        City city = game.getSelectedCity();
+        if (city == null) return CityMessage.NO_SELECTED_CITY;
+        Tile source = game.getMap()[startI][startJ];
+        Tile destination = game.getMap()[startI][startJ];
+        if (!city.getTiles().contains(source) || !city.getTiles().contains(destination)) return CityMessage.NOT_CITY_TILE;
+        if (!source.isWorking()) return CityMessage.NOT_WORKING_TILE;
+        if (destination.isWorking()) return CityMessage.WORKING_TILE;
+        source.setWorking(false);
+        destination.setWorking(true);
+        return CityMessage.SUCCESS;
+    }
+
     public static CivilizationMessage checkCitiesForNextTurn(ArrayList<City> cities) {
         return CivilizationMessage.SUCCESS;
     }
