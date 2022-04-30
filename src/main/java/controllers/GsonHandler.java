@@ -30,7 +30,7 @@ public class GsonHandler {
         try {
             FileWriter fileWriter;
             if(Files.exists(Paths.get("data/userInformation.json")))
-                fileWriter = new FileWriter("data/userInformation.json",true);
+                fileWriter = new FileWriter("data/userInformation.json",false);
             else{
                 new File("data").mkdir();
                 fileWriter = new FileWriter("data/userInformation.json",false);
