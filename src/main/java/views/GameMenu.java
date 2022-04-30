@@ -50,6 +50,8 @@ public class GameMenu extends Menu {
             foundCity();
         } else if (command.startsWith("select city")) {
             selectCity(command);
+        } else if (command.startsWith("city reassign citizen")) {
+            reassignCitizen(command);
         } else if (command.startsWith("map show")) {
             showMap(command);
         } else if (command.startsWith("next turn")) {
@@ -98,7 +100,7 @@ public class GameMenu extends Menu {
     private ArrayList<String> fillHexData(int i, int j, boolean fogOfWar) {
         Game game = GameController.getGame();
         String template ="   _______\n"  // 0 - 13
-                       + "  /#C#QQQ#\\\n" // 14 - 26
+                       + "  /#CWQQQ#\\\n" // 14 - 26
                        + " /##II,JJ##\\\n" // 27 - 39
                        + "/##FFFFFFF##\\\n" // 40 - 52
                        + "\\##RRRRRRR##/\n" // 53 - 65 
@@ -130,6 +132,11 @@ public class GameMenu extends Menu {
             if (tile.getCity() != null)
                 template = template.replace("QQQ", tile.getCity().getNAME());
             else template = template.replace("QQQ", "###");
+
+
+            // TODO: just show citizens to city owner
+            if (tile.isWorking()) template = template.replace("W", "*");
+            else template = template.replace("W", "#");
 
             if(tile.getCivilian() instanceof Worker)
                 template = template.replace("C", "W");
@@ -547,5 +554,50 @@ public class GameMenu extends Menu {
                     break;
             }
         } else System.out.println("invalid command");
+    }
+
+    public void reassignCitizen(String command) {
+        CmdLineParser parser = new CmdLineParser();
+        Option<Integer> startI = parser.addIntegerOption('i', "startI");
+        Option<Integer> startJ = parser.addIntegerOption('j', "startJ");
+        Option<Integer> targetI = parser.addIntegerOption('k', "targetI");
+        Option<Integer> targetJ = parser.addIntegerOption('w', "targetJ");
+
+        try {
+            parser.parse(command.split(" "));
+        } catch (CmdLineParser.OptionException e) {
+            System.out.println("invalid command");
+            return;
+        }
+
+        int startIValue = parser.getOptionValue(startI);
+        int startJValue = parser.getOptionValue(startJ);
+        int targetIValue = parser.getOptionValue(targetI);
+        int targetJValue = parser.getOptionValue(targetJ);
+
+        CityMessage result = CityController.reassignCitizen(startIValue, startJValue, targetIValue, targetJValue);
+
+        switch (result) {
+            case INVALID_POSITION:
+                System.out.println("Invalid position");
+                break;
+            case NO_SELECTED_CITY:
+                System.out.println("no selected city");
+                break;
+            case NOT_CITY_TILE:
+                System.out.println("source tile or target tile is not a city tile");
+                break;
+            case NOT_WORKING_TILE:
+                System.out.println("source tile has no citizen");
+                break;
+            case WORKING_TILE:
+                System.out.println("destination tile is already working");
+                break;
+            case SUCCESS:
+                System.out.println("success");
+                break;
+            default:
+                break;
+        }
     }
 }
