@@ -103,7 +103,7 @@ public class TechnologyController extends GameController {
         return null;
     }
 
-    public static void updateNextTurnTechnology(){
+    public static boolean updateNextTurnTechnology(){
         Technology currentTechnology = game.getCurrentPlayer().getCurrentStudyTechnology();
         Civilization civilization = game.getCurrentPlayer();
         updateScienceBalance();
@@ -114,12 +114,13 @@ public class TechnologyController extends GameController {
             int overFlow = (currentTechnology.getProgress() + civilization.getScienceBalance()) -
                             currentTechnology.getTechnologyTemplate().getCost();
 
-            //TODO delete this print
-            System.out.println( currentTechnology.getTechnologyTemplate().getName() + " technology completed");
+
             currentTechnology.setProgress(currentTechnology.getTechnologyTemplate().getCost());
             civilization.setScienceBalance(overFlow);
             game.getCurrentPlayer().setCurrentStudyTechnology(null);
+            return true;
         }
+        return false;
 
     }
 

@@ -1,15 +1,11 @@
 package controllers;
 
-import controllers.units.UnitController;
 import models.Game;
 import models.User;
 import models.civilization.Civilization;
 import models.civilization.enums.TechnologyTemplate;
 import models.tiles.Tile;
-import models.units.Unit;
-import models.units.enums.UnitState;
 import views.enums.CivilizationMessage;
-import views.enums.Message;
 
 import java.util.ArrayList;
 
@@ -50,7 +46,10 @@ public class GameMenuController extends GameController {
     public static ArrayList<CivilizationMessage> startNewTurn() {
         Civilization civilization = game.getCurrentPlayer();
         ArrayList<CivilizationMessage> result = new ArrayList<>();
-        if (civilization.getCurrentStudyTechnology() != null) result.add(CivilizationMessage.COMPLETION_OF_THE_STUDY);
+        if (game.getCurrentPlayer().getCurrentStudyTechnology() != null && TechnologyController.updateNextTurnTechnology()){
+            result.add(CivilizationMessage.COMPLETION_OF_THE_STUDY);
+        }
+
         return result;
     }
 
