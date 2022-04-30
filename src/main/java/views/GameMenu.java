@@ -15,6 +15,7 @@ import controllers.units.SettlerController;
 import controllers.units.UnitController;
 import models.Game;
 import models.civilization.Civilization;
+import models.civilization.Technology;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
 import models.units.Settler;
@@ -413,7 +414,6 @@ public class GameMenu extends Menu {
             case SHOW_LIST:
                 System.out.println("Choose a technology to study:");
                 printListOfTechnology();
-            case COMPLETION_OF_THE_STUDY:
             default:
                 break;
         }
@@ -470,8 +470,8 @@ public class GameMenu extends Menu {
         for (CivilizationMessage message : newTurnMessages) {
             switch (message) {
                 case COMPLETION_OF_THE_STUDY:
-                    // TODO: get the study (last member of the list)
-                    System.out.println("hey you have reached the last study");
+                    ArrayList<Technology> technologies = TechnologyController.getGame().getCurrentPlayer().getStudiedTechnologies();
+                    System.out.println(technologies.get(technologies.size()-1).getTechnologyTemplate().getName() + " technology completed");
                     break;
                 default:
                     break;

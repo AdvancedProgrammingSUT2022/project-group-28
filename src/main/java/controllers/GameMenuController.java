@@ -50,7 +50,10 @@ public class GameMenuController extends GameController {
     public static ArrayList<CivilizationMessage> startNewTurn() {
         Civilization civilization = game.getCurrentPlayer();
         ArrayList<CivilizationMessage> result = new ArrayList<>();
-        if (civilization.getCurrentStudyTechnology() != null) result.add(CivilizationMessage.COMPLETION_OF_THE_STUDY);
+        if (game.getCurrentPlayer().getCurrentStudyTechnology() != null && TechnologyController.updateNextTurnTechnology()){
+            result.add(CivilizationMessage.COMPLETION_OF_THE_STUDY);
+        }
+
         return result;
     }
 
