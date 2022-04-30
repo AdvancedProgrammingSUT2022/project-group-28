@@ -17,6 +17,8 @@ public class Tile {
     private final Resource resource;
     private ArrayList<Direction> rivers;
 
+    private boolean working; // Citizens
+
     private ImprovementTemplate improvement;
     private Project project;
 
@@ -89,6 +91,8 @@ public class Tile {
         return civilian;
     }
 
+    public boolean isWorking() { return working; }
+
     public void setProject(Project project) {
         this.project = project;
     }
@@ -108,6 +112,10 @@ public class Tile {
     public boolean isAccessible() {
         if (terrainFeature != null) return terrain.isAccessible() && terrainFeature.isAccessible();
         return terrain.isAccessible();
+    }
+
+    public void setWorking(boolean working) {
+        this.working = working;
     }
 
     public void freeUnit(Unit unit) {

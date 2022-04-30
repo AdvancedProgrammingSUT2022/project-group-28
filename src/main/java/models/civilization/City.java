@@ -14,7 +14,6 @@ public class City {
     private ArrayList<Tile> tiles;
 
     private int population = 1;
-    private int citizens = 1;
     // TODO: add all initial values
     private int strength;
     private int hitPoint;
@@ -63,10 +62,6 @@ public class City {
 
     public int getPopulation() {
         return population;
-    }
-
-    public int getCitizens() {
-        return citizens;
     }
 
     public int getStrength() {

@@ -11,8 +11,6 @@ import views.enums.CivilizationMessage;
 import java.util.ArrayList;
 
 public class CityController extends GameController {
-    // TODO: assign citizens
-
     public static CityMessage selectCityByName(String name) {
         ArrayList<Civilization> civilizations = game.getCivilizations();
         City targetCity = null;
@@ -45,11 +43,35 @@ public class CityController extends GameController {
         }
         if (civilization.getCurrentCapital() == null) civilization.setCurrentCapital(city);
 
+        // for initial populations
+        assignCitizen(city);
+
         // TODO: check there is no reference to settler
         // Delete settler
         tile.setCivilian(null);
         Settler settler = (Settler)tile.getCivilian();
         civilization.removeUnit(settler);
+    }
+    // TODO: assign citizens
+
+    // call for each population
+    public static void assignCitizen(City city) {
+        for (Tile tile : city.getTiles()) {
+            if (!tile.isWorking()) {
+                tile.setWorking(true);
+                break;
+            }
+        }
+    }
+
+    // call for each population loss
+    public static void removeCitizen(City city) {
+        for (Tile tile : city.getTiles()) {
+            if (tile.isWorking()) {
+                tile.setWorking(false);
+                break;
+            }
+        }
     }
 
     public static CivilizationMessage checkCitiesForNextTurn(ArrayList<City> cities) {
