@@ -81,7 +81,8 @@ public class CityController extends GameController {
         City city = game.getSelectedCity();
         if (city == null) return CityMessage.NO_SELECTED_CITY;
         Tile source = game.getMap()[startI][startJ];
-        Tile destination = game.getMap()[startI][startJ];
+        Tile destination = game.getMap()[targetI][targetJ];
+        if (startI == targetI && startJ == targetJ) return CityMessage.SAME_TILE;
         if (!city.getTiles().contains(source) || !city.getTiles().contains(destination)) return CityMessage.NOT_CITY_TILE;
         if (!source.isWorking()) return CityMessage.NOT_WORKING_TILE;
         if (destination.isWorking()) return CityMessage.WORKING_TILE;

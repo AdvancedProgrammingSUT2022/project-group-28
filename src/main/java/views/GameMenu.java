@@ -30,12 +30,7 @@ public class GameMenu extends Menu {
     private final int BOARD_WIDTH=113;
     private final int BOARD_HEIGHT=28;
 
-
-    public static GameMenu getInstance() {
-        return instance;
-    }
-
-    @Override 
+    @Override
     protected boolean checkCommand(String command){
         if (command.startsWith("select unit combat")) {
             selectCombatUnit(command);
@@ -62,6 +57,10 @@ public class GameMenu extends Menu {
             System.out.println("invalid command");
         }
         return true;
+    }
+
+    public static GameMenu getInstance() {
+        return instance;
     }
 
     private String[][] makeBoardGrid(int baseI , int baseJ, boolean fogOfWar){
@@ -583,6 +582,9 @@ public class GameMenu extends Menu {
                 break;
             case NO_SELECTED_CITY:
                 System.out.println("no selected city");
+                break;
+            case SAME_TILE:
+                System.out.println("can't same tile reassign");
                 break;
             case NOT_CITY_TILE:
                 System.out.println("source tile or target tile is not a city tile");
