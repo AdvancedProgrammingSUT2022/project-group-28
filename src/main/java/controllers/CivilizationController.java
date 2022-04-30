@@ -3,6 +3,7 @@ package controllers;
 import java.util.ArrayList;
 
 import controllers.units.UnitController;
+import models.civilization.City;
 import models.civilization.Civilization;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
@@ -55,26 +56,51 @@ public class CivilizationController extends GameController {
                     }
                 }
                 for (Tile tile : nearbytiles) {
-                    if(tile.getTerrain()!=Terrain.MOUNTAIN &&
-                       tile.getTerrain()!=Terrain.HILL &&
-                       tile.getTerrainFeature()!=TerrainFeature.JUNGLE &&
-                       tile.getTerrainFeature()!=TerrainFeature.FOREST)
-                        for (Direction direction : Direction.getDirections()) {
-                            if(tile.getCoordinates()[0] + direction.i < game.MAP_HEIGHT &&
-                               tile.getCoordinates()[0] + direction.i >= 0 &&
-                               tile.getCoordinates()[1] + direction.j < game.MAP_WIDTH && 
-                               tile.getCoordinates()[1] + direction.j >= 0 ){
-                                Tile newTile=new Tile(map[tile.getCoordinates()[0] + direction.i][tile.getCoordinates()[1]+direction.j]);
-                                civilization.updateDiscoveredTiles(newTile, turnNumber);
-                            }
-                        }
-                    Tile newTile=new Tile(tile);
-                    civilization.updateDiscoveredTiles(newTile, turnNumber);
+                    addTilesAroundCoordinates(tile, civilization);
                 }
                 Tile newTile=new Tile(unit.getTile());
                 civilization.updateDiscoveredTiles(newTile, turnNumber);
             }
+
+            for (City city : civilization.getCities()) {
+                ArrayList<Tile> nearbytiles=new ArrayList<>();
+                for (Direction direction : Direction.getDirections()) {
+                    if(city.getTile().getCoordinates()[0] + direction.i < game.MAP_HEIGHT &&
+                       city.getTile().getCoordinates()[0] + direction.i >= 0 &&
+                       city.getTile().getCoordinates()[1] + direction.j < game.MAP_WIDTH && 
+                       city.getTile().getCoordinates()[1] + direction.j >= 0 ){
+                        Tile newTile=new Tile(map[city.getTile().getCoordinates()[0] + direction.i][city.getTile().getCoordinates()[1]+direction.j]);
+                        nearbytiles.add(newTile);
+                    }
+                }
+                for (Tile tile : nearbytiles) {
+                    addTilesAroundCoordinates(tile, civilization);
+                }
+                Tile newTile=new Tile(city.getTile());
+                civilization.updateDiscoveredTiles(newTile, turnNumber);
+            }
         }
+    }
+
+    private static void addTilesAroundCoordinates(Tile tile,Civilization civilization){
+        int turnNumber = game.getTurnNumber();
+        Tile[][] map = game.getMap();
+        if(tile.getTerrain()!=Terrain.MOUNTAIN &&
+           tile.getTerrain()!=Terrain.HILL &&
+           tile.getTerrainFeature()!=TerrainFeature.JUNGLE &&
+           tile.getTerrainFeature()!=TerrainFeature.FOREST){
+            for (Direction direction : Direction.getDirections()) {
+                if(tile.getCoordinates()[0] + direction.i < game.MAP_HEIGHT &&
+                    tile.getCoordinates()[0] + direction.i >= 0 &&
+                    tile.getCoordinates()[1] + direction.j < game.MAP_WIDTH && 
+                    tile.getCoordinates()[1] + direction.j >= 0 ){
+                    Tile newTile=new Tile(map[tile.getCoordinates()[0] + direction.i][tile.getCoordinates()[1]+direction.j]);
+                    civilization.updateDiscoveredTiles(newTile, turnNumber);
+                }
+            }
+        }
+        Tile newTile=new Tile(tile);
+        civilization.updateDiscoveredTiles(newTile, turnNumber);
     }
 
 }
