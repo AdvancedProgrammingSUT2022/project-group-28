@@ -35,7 +35,6 @@ public class CivilizationController extends GameController {
 
         CityController.nextTurnCityUpdates(civilization.getCities());
 
-        TechnologyController.updateNextTurnTechnology();
 
         updateDiscoveredTiles();
     }
