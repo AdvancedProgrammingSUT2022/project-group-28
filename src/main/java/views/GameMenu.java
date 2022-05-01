@@ -650,14 +650,15 @@ public class GameMenu extends Menu {
             return;
         }else{ 
             City city = GameController.getGame().getSelectedCity();
-
+            System.out.println("*****************************");
             System.out.println("City name: " + city.getNAME());
             System.out.println("City owner: " + city.getCivilization().getCivilizationNames());
             System.out.println("City population: " + city.getPopulation());
             System.out.println("City number of citizens: " + city.getCitizens());
             System.out.println("City food balance: " + city.getFoodBalance());
             System.out.println("City production balance: " + city.getProductionBalance());
-            System.out.println("City growth bucket: " + city.get());
+            System.out.println("City growth bucket: " + city.getGrowthBucket());
+            System.out.println("*****************************");
         }
     }
 }
