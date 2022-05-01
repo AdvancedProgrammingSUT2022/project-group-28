@@ -16,6 +16,7 @@ import controllers.units.UnitController;
 import models.Game;
 import models.civilization.City;
 import models.civilization.Technology;
+import models.civilization.enums.TechnologyTemplate;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
 import models.units.Settler;
@@ -481,8 +482,8 @@ public class GameMenu extends Menu {
         for (CivilizationMessage message : newTurnMessages) {
             switch (message) {
                 case COMPLETION_OF_THE_STUDY:
-                    ArrayList<Technology> technologies = TechnologyController.getGame().getCurrentPlayer().getStudiedTechnologies();
-                    System.out.println(technologies.get(technologies.size()-1).getTechnologyTemplate().getName() + " technology completed");
+                    ArrayList<TechnologyTemplate> fullTechnologies = TechnologyController.extractFullProgressTechnology();
+                    System.out.println(fullTechnologies.get(fullTechnologies.size()-1).getName() + " technology completed");
                     break;
                 default:
                     break;
