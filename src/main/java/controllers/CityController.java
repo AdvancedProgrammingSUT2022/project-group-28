@@ -176,10 +176,12 @@ public class CityController extends GameController {
             assignRandomCitizen(city);
             city.setGrowthBucket(city.getGrowthBucket() + city.getFoodBalance() - growthLimit);
         } else if (city.getGrowthBucket() + city.getFoodBalance() < 0) {
-            city.decreasePopulation(1);
-            freeRandomCitizen(city);
-            int newGrowthLimit = city.getPopulation() * (city.getPopulation() + 1) / 2 + 12;
-            city.setGrowthBucket(newGrowthLimit + city.getGrowthBucket() + city.getFoodBalance());
+            if (city.getPopulation() > 1) {
+                city.decreasePopulation(1);
+                freeRandomCitizen(city);
+                int newGrowthLimit = city.getPopulation() * (city.getPopulation() + 1) / 2 + 12;
+                city.setGrowthBucket(newGrowthLimit + city.getGrowthBucket() + city.getFoodBalance());
+            } else city.setGrowthBucket(0);
         } else city.setGrowthBucket(city.getGrowthBucket() + city.getFoodBalance());
 
         updateCity(city);
