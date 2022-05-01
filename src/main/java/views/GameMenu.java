@@ -14,7 +14,7 @@ import controllers.TechnologyController;
 import controllers.units.SettlerController;
 import controllers.units.UnitController;
 import models.Game;
-import models.civilization.Civilization;
+import models.civilization.City;
 import models.civilization.Technology;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
@@ -53,10 +53,12 @@ public class GameMenu extends Menu {
             showMap(command);
         } else if (command.startsWith("next turn")) {
             nextTurn();
+        } else if(command.equals("city info")){
+            showCityInfo();
         } else if(command.equals("menu exit")){
             Menu.setCurrentMenu(MainMenu.getInstance());
-            return true;
-        }else {
+            return true;            
+        } else {
             System.out.println("invalid command");
         }
         return true;
@@ -638,6 +640,23 @@ public class GameMenu extends Menu {
                 break;
             default:
                 break;
+        }
+    }
+
+    private void showCityInfo(){
+        if(GameController.getGame().getSelectedCity() == null){
+            System.out.println("no selected city");
+            return;
+        }else{ 
+            City city = GameController.getGame().getSelectedCity();
+
+            System.out.println("City name: " + city.getNAME());
+            System.out.println("City owner: " + city.getCivilization().getCivilizationNames());
+            System.out.println("City population: " + city.getPopulation());
+            System.out.println("City number of citizens: " + city.getCitizens());
+            System.out.println("City food balance: " + city.getFoodBalance());
+            System.out.println("City production balance: " + city.getProductionBalance());
+            System.out.println("City growth bucket: " + city.get());
         }
     }
 }
