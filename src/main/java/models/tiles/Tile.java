@@ -24,7 +24,7 @@ public class Tile {
 
     private City city;
 
-    private Civilization civilization;
+//    private Civilization civilization;
 
     private Military military;
     private Civilian civilian;
@@ -127,14 +127,6 @@ public class Tile {
     public void addUnit(Unit unit) {
         if (unit instanceof Military) military = (Military) unit;
         if (unit instanceof Civilian) civilian = (Civilian) unit;
-    }
-
-    public Civilization getCivilization() {
-        return civilization;
-    }
-
-    public void setCivilization(Civilization civilization) {
-        this.civilization = civilization;
     }
 }
 

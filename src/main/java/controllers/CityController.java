@@ -4,6 +4,7 @@ import models.Game;
 import models.civilization.City;
 import models.civilization.Civilization;
 import models.tiles.Tile;
+import models.tiles.enums.Direction;
 import models.tiles.enums.ResourceTemplate;
 import models.units.Settler;
 import models.units.Unit;
@@ -42,7 +43,7 @@ public class CityController extends GameController {
         civilization.addCity(city);
         tile.setCity(city);
         for (Tile cityTile : city.getTiles()) {
-            cityTile.setCivilization(civilization);
+            cityTile.setCity(city);
         }
         if (civilization.getCurrentCapital() == null) civilization.setCurrentCapital(city);
 
@@ -173,8 +174,10 @@ public class CityController extends GameController {
         int growthLimit = city.getPopulation() * (city.getPopulation() + 1) / 2 + 12;
         if (city.getGrowthBucket() + city.getFoodBalance() >= growthLimit) {
             city.increasePopulation(1);
-            assignRandomCitizen(city);
             city.setGrowthBucket(city.getGrowthBucket() + city.getFoodBalance() - growthLimit);
+
+            assignRandomCitizen(city);
+            getTileReward(city);
         } else if (city.getGrowthBucket() + city.getFoodBalance() < 0) {
             if (city.getPopulation() > 1) {
                 city.decreasePopulation(1);
@@ -185,5 +188,23 @@ public class CityController extends GameController {
         } else city.setGrowthBucket(city.getGrowthBucket() + city.getFoodBalance());
 
         updateCity(city);
+    }
+
+    private static void getTileReward(City city) {
+        for (Tile tile : city.getTiles()) {
+            int i = tile.getCoordinates()[0];
+            int j = tile.getCoordinates()[1];
+            for (Direction direction : Direction.values()) {
+                if (direction.i + i < game.MAP_HEIGHT && direction.i + i >= 0 ||
+                    direction.j + j < game.MAP_WIDTH && direction.j + j >= 0) {
+                    Tile reward = game.getMap()[direction.i + i][direction.j + j];
+                    if (!reward.equals(city.getTile()) && reward.getCity() == null) {
+                        city.addTile(reward);
+                        reward.setCity(city);
+                        return;
+                    }
+                }
+            }
+        }
     }
 }
