@@ -10,11 +10,13 @@ import java.util.ArrayList;
 public class City {
     private final String NAME;
     private Civilization civilization;
-    private Tile tile;
+    private final Tile tile;
     private ArrayList<Tile> tiles;
 
-    private int citizens = 1;
+    private int citizens = 0;
     private int population = 1;
+    private int growthBucket = 0;
+
     // TODO: add all initial values
     private int strength;
     private int hitPoint;
@@ -63,9 +65,9 @@ public class City {
 
     public int getCitizens() { return citizens; }
 
-    public int getPopulation() {
-        return population;
-    }
+    public int getPopulation() { return population; }
+
+    public int getGrowthBucket() { return growthBucket; }
 
     public int getStrength() {
         return strength;
@@ -87,7 +89,17 @@ public class City {
         return buildings;
     }
 
+    public void setGrowthBucket(int growthBucket) { this.growthBucket = growthBucket; }
+
+    public void setFoodBalance(int foodBalance) { this.foodBalance = foodBalance; }
+
+    public void increasePopulation(int value) { population += value; }
+
+    public void decreasePopulation(int value) { population -= value;}
+
     public void increaseCitizens(int value) { citizens += value; }
 
     public void decreaseCitizens(int value) { citizens -= value; }
+
+    public void addTile(Tile tile) { tiles.add(tile); }
 }

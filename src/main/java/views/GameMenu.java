@@ -138,7 +138,8 @@ public class GameMenu extends Menu {
 
 
             // TODO: just show citizens to city owner
-            if (tile.isWorking()) template = template.replace("W", "*");
+            if (tile.isWorking())
+                template = template.replace("W", "*");
             else template = template.replace("W", "#");
 
             if(tile.getCivilian() instanceof Worker)
