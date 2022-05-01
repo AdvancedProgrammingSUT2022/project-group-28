@@ -49,6 +49,7 @@ public class Tile {
         this.civilian=tile.getCivilian();
         this.project=tile.getProject();
         this.improvement = tile.getImprovement();
+        this.working = tile.isWorking();
     }
 
     public int[] getCoordinates() {
