@@ -45,8 +45,10 @@ public class GameMenu extends Menu {
             foundCity();
         } else if (command.startsWith("select city")) {
             selectCity(command);
-        } else if (command.startsWith("city reassign citizen")) {
-            reassignCitizen(command);
+        } else if (command.startsWith("city assign citizen")) {
+            assignCitizen(command);
+        } else if (command.startsWith("city free citizen")) {
+            freeCitizen(command);
         } else if (command.startsWith("map show")) {
             showMap(command);
         } else if (command.startsWith("next turn")) {
@@ -555,12 +557,10 @@ public class GameMenu extends Menu {
         } else System.out.println("invalid command");
     }
 
-    public void reassignCitizen(String command) {
+    public void assignCitizen(String command) {
         CmdLineParser parser = new CmdLineParser();
         Option<Integer> startI = parser.addIntegerOption('i', "startI");
         Option<Integer> startJ = parser.addIntegerOption('j', "startJ");
-        Option<Integer> targetI = parser.addIntegerOption('k', "targetI");
-        Option<Integer> targetJ = parser.addIntegerOption('w', "targetJ");
 
         try {
             parser.parse(command.split(" "));
@@ -571,10 +571,7 @@ public class GameMenu extends Menu {
 
         int startIValue = parser.getOptionValue(startI);
         int startJValue = parser.getOptionValue(startJ);
-        int targetIValue = parser.getOptionValue(targetI);
-        int targetJValue = parser.getOptionValue(targetJ);
-
-        CityMessage result = CityController.reassignCitizen(startIValue, startJValue, targetIValue, targetJValue);
+        CityMessage result = CityController.assignCitizen(startIValue, startJValue);
 
         switch (result) {
             case INVALID_POSITION:
@@ -583,17 +580,58 @@ public class GameMenu extends Menu {
             case NO_SELECTED_CITY:
                 System.out.println("no selected city");
                 break;
-            case SAME_TILE:
-                System.out.println("can't same tile reassign");
+            case NO_PERMISSION:
+                System.out.println("you don't own the city");
                 break;
             case NOT_CITY_TILE:
-                System.out.println("source tile or target tile is not a city tile");
-                break;
-            case NOT_WORKING_TILE:
-                System.out.println("source tile has no citizen");
+                System.out.println("tile is not a city tile");
                 break;
             case WORKING_TILE:
-                System.out.println("destination tile is already working");
+                System.out.println("the tile already has citizen");
+                break;
+            case NO_FREE_CITIZEN:
+                System.out.println("you don't have any free citizens");
+                break;
+            case SUCCESS:
+                System.out.println("success");
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void freeCitizen(String command) {
+        CmdLineParser parser = new CmdLineParser();
+        Option<Integer> startI = parser.addIntegerOption('i', "startI");
+        Option<Integer> startJ = parser.addIntegerOption('j', "startJ");
+
+        try {
+            parser.parse(command.split(" "));
+        } catch (CmdLineParser.OptionException e) {
+            System.out.println("invalid command");
+            return;
+        }
+
+        int startIValue = parser.getOptionValue(startI);
+        int startJValue = parser.getOptionValue(startJ);
+
+        CityMessage result = CityController.freeCitizen(startIValue, startJValue);
+
+        switch (result) {
+            case INVALID_POSITION:
+                System.out.println("Invalid position");
+                break;
+            case NO_SELECTED_CITY:
+                System.out.println("no selected city");
+                break;
+            case NO_PERMISSION:
+                System.out.println("you don't own the city");
+                break;
+            case NOT_CITY_TILE:
+                System.out.println("tile is not a city tile");
+                break;
+            case NOT_WORKING_TILE:
+                System.out.println("the tile has no citizen");
                 break;
             case SUCCESS:
                 System.out.println("success");

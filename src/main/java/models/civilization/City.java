@@ -13,6 +13,7 @@ public class City {
     private Tile tile;
     private ArrayList<Tile> tiles;
 
+    private int citizens = 1;
     private int population = 1;
     // TODO: add all initial values
     private int strength;
@@ -60,6 +61,8 @@ public class City {
         return tiles;
     }
 
+    public int getCitizens() { return citizens; }
+
     public int getPopulation() {
         return population;
     }
@@ -83,4 +86,8 @@ public class City {
     public ArrayList<Building> getBuildings() {
         return buildings;
     }
+
+    public void increaseCitizens(int value) { citizens += value; }
+
+    public void decreaseCitizens(int value) { citizens -= value; }
 }
