@@ -45,17 +45,17 @@ public class CivilizationController extends GameController {
             int turnNumber = game.getTurnNumber();
             Tile[][] map = game.getMap();
             for (Unit unit : civilization.getUnits()) {
-                ArrayList<Tile> nearbytiles=new ArrayList<>();
+                ArrayList<Tile> nearbyTiles=new ArrayList<>();
                 for (Direction direction : Direction.getDirections()) {
                     if(unit.getTile().getCoordinates()[0] + direction.i < game.MAP_HEIGHT &&
                        unit.getTile().getCoordinates()[0] + direction.i >= 0 &&
                        unit.getTile().getCoordinates()[1] + direction.j < game.MAP_WIDTH && 
                        unit.getTile().getCoordinates()[1] + direction.j >= 0 ){
                         Tile newTile=new Tile(map[unit.getTile().getCoordinates()[0] + direction.i][unit.getTile().getCoordinates()[1]+direction.j]);
-                        nearbytiles.add(newTile);
+                        nearbyTiles.add(newTile);
                     }
                 }
-                for (Tile tile : nearbytiles) {
+                for (Tile tile : nearbyTiles) {
                     addTilesAroundCoordinates(tile, civilization);
                 }
                 Tile newTile=new Tile(unit.getTile());
@@ -63,17 +63,8 @@ public class CivilizationController extends GameController {
             }
 
             for (City city : civilization.getCities()) {
-                ArrayList<Tile> nearbytiles=new ArrayList<>();
-                for (Direction direction : Direction.getDirections()) {
-                    if(city.getTile().getCoordinates()[0] + direction.i < game.MAP_HEIGHT &&
-                       city.getTile().getCoordinates()[0] + direction.i >= 0 &&
-                       city.getTile().getCoordinates()[1] + direction.j < game.MAP_WIDTH && 
-                       city.getTile().getCoordinates()[1] + direction.j >= 0 ){
-                        Tile newTile=new Tile(map[city.getTile().getCoordinates()[0] + direction.i][city.getTile().getCoordinates()[1]+direction.j]);
-                        nearbytiles.add(newTile);
-                    }
-                }
-                for (Tile tile : nearbytiles) {
+                ArrayList<Tile> nearbyTiles = city.getTiles();
+                for (Tile tile : nearbyTiles) {
                     addTilesAroundCoordinates(tile, civilization);
                 }
                 Tile newTile=new Tile(city.getTile());
