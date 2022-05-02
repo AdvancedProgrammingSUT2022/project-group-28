@@ -56,7 +56,12 @@ public class CivilizationController extends GameController {
                     }
                 }
                 for (Tile tile : nearbyTiles) {
-                    addTilesAroundCoordinates(tile, civilization);
+                    if(tile.getTerrain()!=Terrain.MOUNTAIN &&
+                       tile.getTerrain()!=Terrain.HILL &&
+                       tile.getTerrainFeature()!=TerrainFeature.JUNGLE &&
+                       tile.getTerrainFeature()!=TerrainFeature.FOREST){
+                        addTilesAroundCoordinates(tile, civilization);
+                    }
                 }
                 Tile newTile=new Tile(unit.getTile());
                 civilization.updateDiscoveredTiles(newTile, turnNumber);
@@ -76,18 +81,13 @@ public class CivilizationController extends GameController {
     private static void addTilesAroundCoordinates(Tile tile,Civilization civilization){
         int turnNumber = game.getTurnNumber();
         Tile[][] map = game.getMap();
-        if(tile.getTerrain()!=Terrain.MOUNTAIN &&
-           tile.getTerrain()!=Terrain.HILL &&
-           tile.getTerrainFeature()!=TerrainFeature.JUNGLE &&
-           tile.getTerrainFeature()!=TerrainFeature.FOREST){
-            for (Direction direction : Direction.getDirections()) {
-                if(tile.getCoordinates()[0] + direction.i < game.MAP_HEIGHT &&
-                    tile.getCoordinates()[0] + direction.i >= 0 &&
-                    tile.getCoordinates()[1] + direction.j < game.MAP_WIDTH && 
-                    tile.getCoordinates()[1] + direction.j >= 0 ){
-                    Tile newTile=new Tile(map[tile.getCoordinates()[0] + direction.i][tile.getCoordinates()[1]+direction.j]);
-                    civilization.updateDiscoveredTiles(newTile, turnNumber);
-                }
+        for (Direction direction : Direction.getDirections()) {
+            if(tile.getCoordinates()[0] + direction.i < game.MAP_HEIGHT &&
+                tile.getCoordinates()[0] + direction.i >= 0 &&
+                tile.getCoordinates()[1] + direction.j < game.MAP_WIDTH && 
+                tile.getCoordinates()[1] + direction.j >= 0 ){
+                Tile newTile=new Tile(map[tile.getCoordinates()[0] + direction.i][tile.getCoordinates()[1]+direction.j]);
+                civilization.updateDiscoveredTiles(newTile, turnNumber);
             }
         }
         Tile newTile=new Tile(tile);
