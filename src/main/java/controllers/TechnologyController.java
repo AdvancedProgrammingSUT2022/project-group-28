@@ -149,29 +149,38 @@ public class TechnologyController extends GameController {
     }
 
 
-    //public static String printCompleteTechnologyInfo() {
-    //    ArrayList<TechnologyTemplate> fullTechnologies = extractFullProgressTechnology();
-    //    String out = fullTechnologies.get(fullTechnologies.size()-1).getName() + " technology completed\n" +
-    //            "Resources you obtained :\n  ## Units :\n";
-//
-//
-    //}
+    public static String printCompleteTechnologyInfo() {
+        ArrayList<TechnologyTemplate> fullTechnologies = extractFullProgressTechnology();
+        TechnologyTemplate nameOfLastTechnology = fullTechnologies.get(fullTechnologies.size()-1);
+        String out = nameOfLastTechnology.getName() + " technology completed\n" + "Resources you obtained :\n" +
+                "## UNITS :\n" + extractTheObtainedUnits(nameOfLastTechnology) +
+                "## BULDINGS :\n" + extractTheObtainedBuildings(nameOfLastTechnology);
+        return out;
+    }
 
     private static String extractTheObtainedUnits(TechnologyTemplate technologyTemplate){
         String out = "";
         for (UnitTemplate unit: UnitTemplate.values()) {
-            if(unit.getRequiredTechnology().equals(technologyTemplate)){
-                out = out + "    - " + unit.getName() + "\n";
+            if(unit.getRequiredTechnology() != null &&
+                    unit.getRequiredTechnology().getName().equals(technologyTemplate.getName())){
+                out = out + "   -> " + unit.getName() + "\n";
             }
+        }
+        if(out.equals("")){
+            out = "      nothing\n";
         }
         return out;
     }
     private static String extractTheObtainedBuildings(TechnologyTemplate technologyTemplate){
         String out = "";
         for (BuildingTemplate building: BuildingTemplate.values()) {
-            if(building.getRequiredTechnology().equals(technologyTemplate)){
-                out = out + "    - " + building.getName() + "\n";
+            if(building.getRequiredTechnology() != null &&
+                    building.getRequiredTechnology().getName().equals(technologyTemplate.getName())){
+                out = out + "   -> " + building.getName() + "\n";
             }
+        }
+        if(out.equals("")){
+            out = "      nothing\n";
         }
         return out;
     }
