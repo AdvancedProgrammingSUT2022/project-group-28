@@ -5,6 +5,7 @@ import models.civilization.City;
 import models.civilization.Civilization;
 import models.civilization.Technology;
 import models.civilization.enums.TechnologyTemplate;
+import models.units.enums.UnitTemplate;
 import views.GameMenu;
 import views.enums.CivilizationMessage;
 
@@ -147,4 +148,21 @@ public class TechnologyController extends GameController {
     }
 
 
+    //public static String printCompleteTechnologyInfo() {
+    //    ArrayList<TechnologyTemplate> fullTechnologies = extractFullProgressTechnology();
+    //    String out = fullTechnologies.get(fullTechnologies.size()-1).getName() + " technology completed\n" +
+    //            "Resources you obtained :\n  ## Units :\n";
+//
+//
+    //}
+
+    private static String extractTheObtainedUnits(TechnologyTemplate technologyTemplate){
+        String out = "";
+        for (UnitTemplate unit: UnitTemplate.values()) {
+            if(unit.getRequiredTechnology().equals(technologyTemplate)){
+                out = out + "    - " + unit.getName() + "\n";
+            }
+        }
+        return out;
+    }
 }

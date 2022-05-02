@@ -490,8 +490,8 @@ public class GameMenu extends Menu {
         for (CivilizationMessage message : newTurnMessages) {
             switch (message) {
                 case COMPLETION_OF_THE_STUDY:
-                    ArrayList<TechnologyTemplate> fullTechnologies = TechnologyController.extractFullProgressTechnology();
-                    System.out.println(fullTechnologies.get(fullTechnologies.size()-1).getName() + " technology completed");
+                    //String out = TechnologyController.printCompleteTechnologyInfo();
+                    System.out.println("out");
                     break;
                 default:
                     break;
