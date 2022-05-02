@@ -54,6 +54,8 @@ public class GameMenu extends Menu {
             showMap(command);
         } else if (command.startsWith("next turn")) {
             nextTurn();
+        } else if (command.startsWith("city buy tile")) {
+            buyTile();
         } else if(command.equals("city info")){
             showCityInfo();
         } else if(command.equals("menu exit")){
@@ -662,4 +664,45 @@ public class GameMenu extends Menu {
             System.out.println("*****************************");
         }
     }
+
+    private void buyTile() {
+        City city = GameController.getGame().getSelectedCity();
+        if (city == null) {
+            System.out.println("you have to select a city first");
+            return;
+        }
+        ArrayList<Tile> availableTiles = CityController.getAvailableTilesToBuy(city);
+
+
+        while (true) {
+            for (int i = 0; i < availableTiles.size(); i++) {
+                Tile tile = availableTiles.get(i);
+                System.out.printf("%d- %d,%d: %d\n", i + 1, tile.getCoordinates()[0],
+                        tile.getCoordinates()[1], CityController.getTileValue(city, tile));
+            }
+            System.out.println("choose a tile to buy: (q for exit)");
+            String input = scanner.nextLine();
+            if (input.startsWith("q")) return;
+            int choice = Integer.parseInt(input);
+            if (choice <= 0 || choice > availableTiles.size()) {
+                System.out.println("invalid choice");
+                continue;
+            }
+            CityMessage result = CityController.buyTile(city, availableTiles.get(choice - 1));
+            switch (result) {
+                case NO_PERMISSION:
+                    System.out.println("you don't own this city");
+                    break;
+                case NOT_ENOUGH_GOLD:
+                    System.out.println("you don't have enough gold");
+                    break;
+                case SUCCESS:
+                    System.out.println("success");
+                    return;
+                default:
+                    break;
+            }
+        }
+    }
+
 }

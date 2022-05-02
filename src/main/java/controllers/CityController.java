@@ -12,6 +12,7 @@ import views.enums.CityMessage;
 import views.enums.CivilizationMessage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CityController extends GameController {
     // TODO: check position is in the visible tiles
@@ -43,7 +44,7 @@ public class CityController extends GameController {
         civilization.addCity(city);
         tile.setCity(city);
         for (Tile cityTile : city.getTiles()) {
-            cityTile.setCity(city);
+            cityTile.setCivilization(civilization);
         }
         if (civilization.getCurrentCapital() == null) civilization.setCurrentCapital(city);
 
@@ -128,6 +129,46 @@ public class CityController extends GameController {
         }
     }
 
+    public static ArrayList<Tile> getAvailableTilesToBuy(City city) {
+        ArrayList<Tile> availableTiles = new ArrayList<>();
+
+        for (Tile tile : city.getTiles()) {
+            int i = tile.getCoordinates()[0];
+            int j = tile.getCoordinates()[1];
+            for (Direction direction : Direction.values()) {
+                if (i + direction.i < game.MAP_HEIGHT && i + direction.i >= 0 &&
+                    j + direction.j < game.MAP_WIDTH && j + direction.j >= 0) {
+                    Tile availableTile = game.getMap()[direction.i + i][direction.j + j];
+                    if (!city.getTiles().contains(availableTile) && !city.getTile().equals(availableTile) &&
+                            availableTile.getCivilization() == null && !availableTiles.contains(availableTile)) {
+                        availableTiles.add(availableTile);
+                    }
+                }
+            }
+        }
+        return availableTiles;
+    }
+
+    // TODO: change formula
+    public static int getTileValue(City city, Tile tile) {
+        int value = 0;
+        if (tile.getTerrainFeature() != null) value += 10;
+        if (tile.getResource() != null) value += 15;
+        value += city.getPopulation() * 5 + 15;
+        return value;
+    }
+
+
+    public static CityMessage buyTile(City city, Tile tile) {
+        if (!city.getCivilization().equals(game.getCurrentPlayer())) return CityMessage.NO_PERMISSION;
+        Civilization civilization = city.getCivilization();
+        if (civilization.getGold() < getTileValue(city, tile)) return CityMessage.NOT_ENOUGH_GOLD;
+        civilization.setGold(civilization.getGold() - getTileValue(city, tile));
+        city.getTiles().add(tile);
+        tile.setCivilization(city.getCivilization());
+        return CityMessage.SUCCESS;
+    }
+
     private static String getNewCityName(Civilization civilization) {
         Game game = GameController.getGame();
         ArrayList<String> allCitiesNames = new ArrayList<>();
@@ -198,7 +239,7 @@ public class CityController extends GameController {
                 if (direction.i + i < game.MAP_HEIGHT && direction.i + i >= 0 ||
                     direction.j + j < game.MAP_WIDTH && direction.j + j >= 0) {
                     Tile reward = game.getMap()[direction.i + i][direction.j + j];
-                    if (!reward.equals(city.getTile()) && reward.getCity() == null) {
+                    if (!reward.equals(city.getTile()) && reward.getCivilization() == null) {
                         city.addTile(reward);
                         reward.setCity(city);
                         return;

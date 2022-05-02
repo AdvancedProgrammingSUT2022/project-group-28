@@ -22,6 +22,8 @@ public class Civilization {
     private HashMap<Tile,Integer> discoveredTiles = new HashMap<>();
 
     private int goldBalance;
+    private int gold = 50;
+
     private int scienceBalance;
 
     private Technology currentStudyTechnology;
@@ -77,9 +79,9 @@ public class Civilization {
         return studiedTechnologies;
     }
 
-    public int getGoldBalance() {
-        return goldBalance;
-    }
+    public int getGoldBalance() { return goldBalance; }
+
+    public int getGold() {return gold; }
 
     public int getScienceBalance() {
         return scienceBalance;
@@ -120,4 +122,6 @@ public class Civilization {
     public void setCurrentCapital(City currentCapital) {
         this.currentCapital = currentCapital;
     }
+
+    public void setGold(int gold) { this.gold = gold; }
 }

@@ -24,7 +24,7 @@ public class Tile {
 
     private City city;
 
-//    private Civilization civilization;
+    private Civilization civilization;
 
     private Military military;
     private Civilian civilian;
@@ -84,6 +84,8 @@ public class Tile {
         return city;
     }
 
+    public Civilization getCivilization() { return civilization; }
+
     public Military getMilitary() {
         return military;
     }
@@ -101,6 +103,8 @@ public class Tile {
     public void setCity(City city) {
         this.city = city;
     }
+
+    public void setCivilization(Civilization civilization) { this.civilization = civilization; }
 
     public void setMilitary(Military military) {
         this.military = military;

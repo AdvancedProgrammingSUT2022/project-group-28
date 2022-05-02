@@ -32,13 +32,13 @@ public class SettlerController extends GameController {
         Tile tile = settler.getTile();
         int i = tile.getCoordinates()[0];
         int j = tile.getCoordinates()[1];
-        if (tile.getCivilization() != null) return UnitMessage.NEAR_CITY_BOARDERS;
+        if (tile.getCity() != null) return UnitMessage.NEAR_CITY_BOARDERS;
         for (Direction direction : Direction.values()) {
             if (i + direction.i < game.MAP_HEIGHT && i + direction.i >= 0 &&
                 j + direction.j < game.MAP_WIDTH && j + direction.j >= 0) {
                 Tile checkTile = game.getMap()[i + direction.i][j + direction.j];
                 if (checkTile.getCivilization() != null) return UnitMessage.NEAR_CITY_BOARDERS;
-                if (checkTile.getCivilian() != null && checkTile.getCivilian().getCivilization() != settler.getCivilization())
+                if (checkTile.getCivilization() != null && checkTile.getCivilian().getCivilization() != settler.getCivilization())
                     return UnitMessage.NEAR_ENEMY_UNITS;
                 if (checkTile.getMilitary() != null && checkTile.getMilitary().getCivilization() != settler.getCivilization())
                     return UnitMessage.NEAR_ENEMY_UNITS;

@@ -11,5 +11,6 @@ public enum CityMessage {
     NO_FREE_CITIZEN,
     NOT_WORKING_TILE,
     WORKING_TILE,
+    NOT_ENOUGH_GOLD,
     SUCCESS;
 }
