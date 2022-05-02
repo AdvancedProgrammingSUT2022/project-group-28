@@ -169,24 +169,8 @@ public class CityController extends GameController {
         return CityMessage.SUCCESS;
     }
 
-    private static String getNewCityName(Civilization civilization) {
-        Game game = GameController.getGame();
-        ArrayList<String> allCitiesNames = new ArrayList<>();
-        for (Civilization gameCivilization : game.getCivilizations()) {
-            for (City city : gameCivilization.getCities()) {
-                allCitiesNames.add(city.getNAME());
-            }
-        }
-        if (!allCitiesNames.contains(civilization.getCivilizationNames().getCapital()))
-            return civilization.getCivilizationNames().getCapital();
-        for (String cityName : civilization.getCivilizationNames().getCities()) {
-            if (!allCitiesNames.contains(cityName)) return cityName;
-        }
-        // TODO: handle this
-        return "HAVIG ABAD";
-    }
 
-    private static int getCityFoodBalance(City city) {
+    public static int getCityFoodBalance(City city) {
         // TODO: Full check
         // TODO: Add buildings, unhappiness
         // TODO: Check if settler is under construction
@@ -213,7 +197,7 @@ public class CityController extends GameController {
         return producedFood - consumedFood;
     }
 
-    private static int getCityProductionBalance(City city) {
+    public static int getCityProductionBalance(City city) {
         // TODO: full check
         // TODO: add buildings
         int productionsBalance = 0;
@@ -236,6 +220,31 @@ public class CityController extends GameController {
         return productionsBalance;
     }
 
+    public static int getCityGoldBalance(City city) {
+        // TODO: add tranding routes
+        // TODO: add building maintainance and additional
+        int spentGold = 0;
+        int earnedGold = 0;
+        Tile cityTile = city.getTile();
+        earnedGold += cityTile.getTerrain().getGold();
+        if (cityTile.getTerrainFeature() != null) earnedGold += cityTile.getTerrainFeature().getGold();
+        for (Tile tile : city.getTiles()) {
+            if (tile.isWorking()) {
+                earnedGold += tile.getTerrain().getGold();
+                if (tile.getTerrainFeature() != null) earnedGold += tile.getTerrainFeature().getGold();
+            }
+
+            if (tile.getResource() != null) {
+                ResourceTemplate resourceTemplate = tile.getResource().getResourceTemplate();
+                if (resourceTemplate.getRequiredImprovement().equals(tile.getImprovement()))
+                    earnedGold += resourceTemplate.getGold();
+            }
+
+            if (tile.getImprovement() != null) earnedGold += tile.getImprovement().getGold();
+        }
+        return earnedGold - spentGold;
+    }
+
     private static void growCity(City city) {
         // TODO: change formula
         int growthLimit = city.getPopulation() * (city.getPopulation() + 1) / 2 + 12;
@@ -255,6 +264,7 @@ public class CityController extends GameController {
         } else city.setGrowthBucket(city.getGrowthBucket() + getCityFoodBalance(city));
 
         updateCity(city);
+        CivilizationController.updateCivilization(city.getCivilization());
     }
 
     private static void getTileReward(City city) {
@@ -273,5 +283,22 @@ public class CityController extends GameController {
                 }
             }
         }
+    }
+
+    private static String getNewCityName(Civilization civilization) {
+        Game game = GameController.getGame();
+        ArrayList<String> allCitiesNames = new ArrayList<>();
+        for (Civilization gameCivilization : game.getCivilizations()) {
+            for (City city : gameCivilization.getCities()) {
+                allCitiesNames.add(city.getNAME());
+            }
+        }
+        if (!allCitiesNames.contains(civilization.getCivilizationNames().getCapital()))
+            return civilization.getCivilizationNames().getCapital();
+        for (String cityName : civilization.getCivilizationNames().getCities()) {
+            if (!allCitiesNames.contains(cityName)) return cityName;
+        }
+        // TODO: handle this
+        return "HAVIG ABAD";
     }
 }

@@ -32,6 +32,10 @@ public class CivilizationController extends GameController {
     public static void nextTurnCivilizationUpdates() {
         Civilization civilization = game.getCurrentPlayer();
 
+        updateCivilization(civilization);
+
+        // TODO: add gold and siences
+
         UnitController.nextTurnUnitUpdates(civilization.getUnits());
 
         CityController.nextTurnCityUpdates(civilization.getCities());
@@ -92,6 +96,23 @@ public class CivilizationController extends GameController {
         }
         Tile newTile=new Tile(tile);
         civilization.updateDiscoveredTiles(newTile, turnNumber);
+    }
+
+    public static void updateCivilization(Civilization civilization) {
+        civilization.setGoldBalance(getCivilizationGoldBalance(civilization));
+    }
+
+    public static int getCivilizationGoldBalance(Civilization civilization) {
+        // TODO: add trade route, road mantainence
+        int spentGold = civilization.getUnits().size() * 3; // depend on difficulty level
+        int producedGold  = 0;
+
+        int goldBalance = 0;
+        for (City city : civilization.getCities()) {
+            goldBalance += CityController.getCityGoldBalance(city);
+        }
+
+        return goldBalance + producedGold - spentGold;
     }
 
 }
