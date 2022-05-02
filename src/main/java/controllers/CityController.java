@@ -188,7 +188,7 @@ public class CityController extends GameController {
 
     private static void updateFoodBalance(City city) {
         // TODO: Full check
-        // TODO: Add buildings, farms, unhappiness
+        // TODO: Add buildings, unhappiness
         // TODO: Check if settler is under construction
         int consumedFood = city.getPopulation() * 2;
         int producedFood = 0;
@@ -206,6 +206,8 @@ public class CityController extends GameController {
                 if (resourceTemplate.getRequiredImprovement().equals(tile.getImprovement()))
                     producedFood += resourceTemplate.getFood();
             }
+
+            if (tile.getImprovement() != null) producedFood += tile.getImprovement().getFood();
         }
 
         city.setFoodBalance(producedFood - consumedFood);
@@ -231,7 +233,6 @@ public class CityController extends GameController {
             }
             if (tile.getImprovement() != null) productionsBalance += tile.getImprovement().getProduction();
         }
-
         city.setProductionBalance(productionsBalance);
     }
 
