@@ -456,6 +456,9 @@ public class GameMenu extends Menu {
 
                     return;
                 case OUT_OF_RANGE:
+                    System.out.println("your number is out of range");
+                    break;
+                case INVALID_INPUT:
                     System.out.println("invalid number");
                     break;
                 default:

@@ -9,6 +9,7 @@ import views.GameMenu;
 import views.enums.CivilizationMessage;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class TechnologyController extends GameController {
 
@@ -70,6 +71,10 @@ public class TechnologyController extends GameController {
 
     public static CivilizationMessage checkNumber(String input) {
         ArrayList<TechnologyTemplate> possibleTechnologyTemplates = PossibleTechnology();
+        boolean inputValidation = input.matches("\\d+");
+        if(!inputValidation){
+            return CivilizationMessage.INVALID_INPUT;
+        }
         int number = Integer.parseInt(input);
         if(number <= 0 || number > possibleTechnologyTemplates.size()){
             return CivilizationMessage.OUT_OF_RANGE;
