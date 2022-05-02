@@ -12,7 +12,6 @@ import views.enums.CityMessage;
 import views.enums.CivilizationMessage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class CityController extends GameController {
     // TODO: check position is in the visible tiles
@@ -241,7 +240,7 @@ public class CityController extends GameController {
                     Tile reward = game.getMap()[direction.i + i][direction.j + j];
                     if (!reward.equals(city.getTile()) && reward.getCivilization() == null) {
                         city.addTile(reward);
-                        reward.setCity(city);
+                        reward.setCivilization(city.getCivilization());
                         return;
                     }
                 }
