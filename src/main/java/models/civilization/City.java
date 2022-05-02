@@ -93,6 +93,8 @@ public class City {
 
     public void setFoodBalance(int foodBalance) { this.foodBalance = foodBalance; }
 
+    public void setProductionBalance(int productionBalance) { this.productionBalance = productionBalance; }
+
     public void increasePopulation(int value) { population += value; }
 
     public void decreasePopulation(int value) { population -= value;}

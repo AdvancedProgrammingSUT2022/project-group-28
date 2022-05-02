@@ -112,6 +112,7 @@ public class CityController extends GameController {
 
     public static void updateCity(City city) {
         updateFoodBalance(city);
+        updateProductionBalance(city);
         // TODO: Add all updates
     }
 
@@ -198,15 +199,40 @@ public class CityController extends GameController {
             if (tile.isWorking()) {
                 producedFood += tile.getTerrain().getFood();
                 if (tile.getTerrainFeature() != null) producedFood += tile.getTerrainFeature().getFood();
-                if (tile.getResource() != null) {
-                    ResourceTemplate resourceTemplate = tile.getResource().getResourceTemplate();
-                    if (resourceTemplate.getRequiredImprovement().equals(tile.getImprovement()))
-                        producedFood += resourceTemplate.getFood();
-                }
+            }
+
+            if (tile.getResource() != null) {
+                ResourceTemplate resourceTemplate = tile.getResource().getResourceTemplate();
+                if (resourceTemplate.getRequiredImprovement().equals(tile.getImprovement()))
+                    producedFood += resourceTemplate.getFood();
             }
         }
 
         city.setFoodBalance(producedFood - consumedFood);
+    }
+
+    private static void updateProductionBalance(City city) {
+        // TODO: full check
+        // TODO: add buildings
+        int productionsBalance = 0;
+        Tile cityTile = city.getTile();
+        productionsBalance += cityTile.getTerrain().getProduction();
+        if (cityTile.getTerrainFeature() != null) productionsBalance += cityTile.getTerrainFeature().getProduction();
+        for (Tile tile : city.getTiles()) {
+            if (tile.isWorking()) {
+                productionsBalance += tile.getTerrain().getProduction();
+                if (tile.getTerrainFeature() != null) productionsBalance += tile.getTerrainFeature().getProduction();
+            }
+
+            if (tile.getResource() != null) {
+                ResourceTemplate resourceTemplate = tile.getResource().getResourceTemplate();
+                if (resourceTemplate.getRequiredImprovement().equals(tile.getImprovement()))
+                    productionsBalance += resourceTemplate.getProduction();
+            }
+            if (tile.getImprovement() != null) productionsBalance += tile.getImprovement().getProduction();
+        }
+
+        city.setProductionBalance(productionsBalance);
     }
 
     private static void growCity(City city) {

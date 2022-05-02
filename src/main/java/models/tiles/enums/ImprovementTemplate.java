@@ -30,4 +30,24 @@ public enum ImprovementTemplate {
         this.production = production;
         this.gold = gold;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getTurnCost() {
+        return turnCost;
+    }
+
+    public int getFood() {
+        return food;
+    }
+
+    public int getProduction() {
+        return production;
+    }
+
+    public int getGold() {
+        return gold;
+    }
 }
