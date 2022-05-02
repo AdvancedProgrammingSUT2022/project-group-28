@@ -111,8 +111,8 @@ public class CityController extends GameController {
     }
 
     public static void updateCity(City city) {
-        updateFoodBalance(city);
-        updateProductionBalance(city);
+        city.setFoodBalance(getCityFoodBalance(city));
+        city.setProductionBalance(getCityProductionBalance(city));
         // TODO: Add all updates
     }
 
@@ -186,7 +186,7 @@ public class CityController extends GameController {
         return "HAVIG ABAD";
     }
 
-    private static void updateFoodBalance(City city) {
+    private static int getCityFoodBalance(City city) {
         // TODO: Full check
         // TODO: Add buildings, unhappiness
         // TODO: Check if settler is under construction
@@ -210,10 +210,10 @@ public class CityController extends GameController {
             if (tile.getImprovement() != null) producedFood += tile.getImprovement().getFood();
         }
 
-        city.setFoodBalance(producedFood - consumedFood);
+        return producedFood - consumedFood;
     }
 
-    private static void updateProductionBalance(City city) {
+    private static int getCityProductionBalance(City city) {
         // TODO: full check
         // TODO: add buildings
         int productionsBalance = 0;
@@ -233,26 +233,26 @@ public class CityController extends GameController {
             }
             if (tile.getImprovement() != null) productionsBalance += tile.getImprovement().getProduction();
         }
-        city.setProductionBalance(productionsBalance);
+        return productionsBalance;
     }
 
     private static void growCity(City city) {
         // TODO: change formula
         int growthLimit = city.getPopulation() * (city.getPopulation() + 1) / 2 + 12;
-        if (city.getGrowthBucket() + city.getFoodBalance() >= growthLimit) {
+        if (city.getGrowthBucket() + getCityFoodBalance(city) >= growthLimit) {
             city.increasePopulation(1);
-            city.setGrowthBucket(city.getGrowthBucket() + city.getFoodBalance() - growthLimit);
+            city.setGrowthBucket(city.getGrowthBucket() + getCityFoodBalance(city) - growthLimit);
 
             assignRandomCitizen(city);
             getTileReward(city);
-        } else if (city.getGrowthBucket() + city.getFoodBalance() < 0) {
+        } else if (city.getGrowthBucket() + getCityFoodBalance(city) < 0) {
             if (city.getPopulation() > 1) {
                 city.decreasePopulation(1);
                 freeRandomCitizen(city);
                 int newGrowthLimit = city.getPopulation() * (city.getPopulation() + 1) / 2 + 12;
-                city.setGrowthBucket(newGrowthLimit + city.getGrowthBucket() + city.getFoodBalance());
+                city.setGrowthBucket(newGrowthLimit + city.getGrowthBucket() + getCityFoodBalance(city));
             } else city.setGrowthBucket(0);
-        } else city.setGrowthBucket(city.getGrowthBucket() + city.getFoodBalance());
+        } else city.setGrowthBucket(city.getGrowthBucket() + getCityFoodBalance(city));
 
         updateCity(city);
     }
