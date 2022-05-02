@@ -4,6 +4,7 @@ import models.User;
 import models.civilization.City;
 import models.civilization.Civilization;
 import models.civilization.Technology;
+import models.civilization.enums.BuildingTemplate;
 import models.civilization.enums.TechnologyTemplate;
 import models.units.enums.UnitTemplate;
 import views.GameMenu;
@@ -161,6 +162,15 @@ public class TechnologyController extends GameController {
         for (UnitTemplate unit: UnitTemplate.values()) {
             if(unit.getRequiredTechnology().equals(technologyTemplate)){
                 out = out + "    - " + unit.getName() + "\n";
+            }
+        }
+        return out;
+    }
+    private static String extractTheObtainedBuildings(TechnologyTemplate technologyTemplate){
+        String out = "";
+        for (BuildingTemplate building: BuildingTemplate.values()) {
+            if(building.getRequiredTechnology().equals(technologyTemplate)){
+                out = out + "    - " + building.getName() + "\n";
             }
         }
         return out;
