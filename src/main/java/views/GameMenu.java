@@ -15,6 +15,7 @@ import controllers.units.SettlerController;
 import controllers.units.UnitController;
 import models.Game;
 import models.civilization.City;
+import models.civilization.Civilization;
 import models.civilization.Technology;
 import models.civilization.enums.TechnologyTemplate;
 import models.tiles.Tile;
@@ -58,6 +59,8 @@ public class GameMenu extends Menu {
             buyTile();
         } else if(command.equals("city info")){
             showCityInfo();
+        } else if(command.equals("civilization info")){
+            showCivilizationInfo();
         } else if(command.equals("menu exit")){
             Menu.setCurrentMenu(MainMenu.getInstance());
             return true;            
@@ -705,4 +708,31 @@ public class GameMenu extends Menu {
         }
     }
 
+    private void showCivilizationInfo() {
+        Civilization civilization = GameController.getGame().getCurrentPlayer();
+        System.out.println("**************************************");
+        System.out.println("Civilization name: " + civilization.getCivilizationNames().getName());
+        if(civilization.getCurrentCapital()!=null)
+            System.out.println("Civilization capital: " + civilization.getCurrentCapital().getNAME());
+        System.out.println("Civilization gold: " + civilization.getGold());
+        System.out.println("Civilization gold balance: " + civilization.getGoldBalance());
+        System.out.println("Civilization happiness: " + civilization.getHappiness());
+        System.out.println("Civilization happiness balance: " + civilization.getHappinessBalance());
+        System.out.println("Civilization science balance: " + civilization.getScienceBalance());
+        System.out.print("Civilization cities: ");
+        for (City city : civilization.getCities()) {
+            System.out.print(city.getNAME()+"\t");
+        }
+        System.out.println();
+        System.out.print("Civilization technologies: ");
+        for (Technology technology : civilization.getStudiedTechnologies()) {
+            System.out.print(technology.getTechnologyTemplate().getName() + " : " + 
+                            (technology.getProgress()/(float)technology.getTechnologyTemplate().getCost())*100 +"%\t" );
+        }
+        System.out.println();
+        if(civilization.getCurrentStudyTechnology()!=null)
+        System.out.println("current studying technology: "+ civilization.getCurrentStudyTechnology().getTechnologyTemplate().getName() + " : " + 
+                           (civilization.getCurrentStudyTechnology().getProgress()/(float)civilization.getCurrentStudyTechnology().getTechnologyTemplate().getCost())*100+"%");
+        System.out.println("**************************************");
+    }
 }
