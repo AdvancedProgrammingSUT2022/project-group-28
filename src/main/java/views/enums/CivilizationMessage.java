@@ -8,6 +8,7 @@ public enum CivilizationMessage {
     NO_TECHNOLOGY_TO_STUDY,
     SHOW_LIST,
     COMPLETION_OF_THE_STUDY,
+    INVALID_INPUT,
 
     ;
 }

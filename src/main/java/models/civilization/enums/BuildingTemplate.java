@@ -233,4 +233,12 @@ public enum BuildingTemplate implements BuildingInterface {
         this.eraNumber = eraNumber;
         this.requiredTechnology = requiredTechnology;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public TechnologyTemplate getRequiredTechnology() {
+        return requiredTechnology;
+    }
 }

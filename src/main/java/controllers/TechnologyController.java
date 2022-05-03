@@ -4,11 +4,14 @@ import models.User;
 import models.civilization.City;
 import models.civilization.Civilization;
 import models.civilization.Technology;
+import models.civilization.enums.BuildingTemplate;
 import models.civilization.enums.TechnologyTemplate;
+import models.units.enums.UnitTemplate;
 import views.GameMenu;
 import views.enums.CivilizationMessage;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class TechnologyController extends GameController {
 
@@ -70,6 +73,10 @@ public class TechnologyController extends GameController {
 
     public static CivilizationMessage checkNumber(String input) {
         ArrayList<TechnologyTemplate> possibleTechnologyTemplates = PossibleTechnology();
+        boolean inputValidation = input.matches("\\d+");
+        if(!inputValidation){
+            return CivilizationMessage.INVALID_INPUT;
+        }
         int number = Integer.parseInt(input);
         if(number <= 0 || number > possibleTechnologyTemplates.size()){
             return CivilizationMessage.OUT_OF_RANGE;
@@ -142,4 +149,39 @@ public class TechnologyController extends GameController {
     }
 
 
+    public static String printCompleteTechnologyInfo() {
+        ArrayList<TechnologyTemplate> fullTechnologies = extractFullProgressTechnology();
+        TechnologyTemplate nameOfLastTechnology = fullTechnologies.get(fullTechnologies.size()-1);
+        String out = nameOfLastTechnology.getName() + " technology completed\n" + "Resources you obtained :\n" +
+                "## UNITS :\n" + extractTheObtainedUnits(nameOfLastTechnology) +
+                "## BULDINGS :\n" + extractTheObtainedBuildings(nameOfLastTechnology);
+        return out;
+    }
+
+    private static String extractTheObtainedUnits(TechnologyTemplate technologyTemplate){
+        String out = "";
+        for (UnitTemplate unit: UnitTemplate.values()) {
+            if(unit.getRequiredTechnology() != null &&
+                    unit.getRequiredTechnology().getName().equals(technologyTemplate.getName())){
+                out = out + "   -> " + unit.getName() + "\n";
+            }
+        }
+        if(out.equals("")){
+            out = "      nothing\n";
+        }
+        return out;
+    }
+    private static String extractTheObtainedBuildings(TechnologyTemplate technologyTemplate){
+        String out = "";
+        for (BuildingTemplate building: BuildingTemplate.values()) {
+            if(building.getRequiredTechnology() != null &&
+                    building.getRequiredTechnology().getName().equals(technologyTemplate.getName())){
+                out = out + "   -> " + building.getName() + "\n";
+            }
+        }
+        if(out.equals("")){
+            out = "      nothing\n";
+        }
+        return out;
+    }
 }
