@@ -61,6 +61,8 @@ public class GameMenu extends Menu {
             showCityInfo();
         } else if(command.equals("civilization info")){
             showCivilizationInfo();
+        } else if(command.equals("cheat increase gold")){
+            increaseGold(command);
         } else if(command.equals("menu exit")){
             Menu.setCurrentMenu(MainMenu.getInstance());
             return true;            
@@ -737,5 +739,24 @@ public class GameMenu extends Menu {
         System.out.println("current studying technology: "+ civilization.getCurrentStudyTechnology().getTechnologyTemplate().getName() + " : " + 
                            (civilization.getCurrentStudyTechnology().getProgress()/(float)civilization.getCurrentStudyTechnology().getTechnologyTemplate().getCost())*100+"%");
         System.out.println("**************************************");
+    }
+
+    private void increaseGold(String command){
+        CmdLineParser parser = new CmdLineParser();
+        Option<Integer> amount = parser.addIntegerOption('a', "amount");
+
+        try {
+            parser.parse(command.split(" "));
+        } catch (CmdLineParser.OptionException e) {
+            System.out.println("invalid command");
+            return;
+        }
+
+        int goldValue = parser.getOptionValue(amount);
+
+        Civilization civilization = GameController.getGame().getCurrentPlayer();
+        civilization.setGold(civilization.getGold() + goldValue);
+
+        System.out.println("gold increased successfully");
     }
 }
