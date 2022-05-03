@@ -1,12 +1,14 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import controllers.units.UnitController;
 import models.civilization.City;
 import models.civilization.Civilization;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
+import models.tiles.enums.ResourceTemplate;
 import models.tiles.enums.Terrain;
 import models.tiles.enums.TerrainFeature;
 import models.units.Unit;
@@ -100,6 +102,8 @@ public class CivilizationController extends GameController {
 
     public static void updateCivilization(Civilization civilization) {
         civilization.setGoldBalance(getCivilizationGoldBalance(civilization));
+        updateResources(civilization);
+
     }
 
     public static int getCivilizationGoldBalance(Civilization civilization) {
@@ -113,6 +117,32 @@ public class CivilizationController extends GameController {
         }
 
         return goldBalance + producedGold - spentGold;
+    }
+
+    public static void updateResources(Civilization civilization) {
+        for (ResourceTemplate resourceTemplate : civilization.getResources().keySet()) {
+            int count = getResourceCount(civilization, resourceTemplate);
+            civilization.setResourceCount(resourceTemplate, count);
+        }
+    }
+
+    public static int getResourceCount(Civilization civilization, ResourceTemplate resourceTemplate) {
+        // TODO: add diplomacy effects
+
+        int count = 0;
+        for (City city : civilization.getCities()) {
+            for (Tile tile : city.getTiles()) {
+                if (tile.getResource() != null && tile.getResource().getResourceTemplate().equals(resourceTemplate)) {
+                    if (tile.getResource().getResourceTemplate().getRequiredImprovement().equals(tile.getImprovement()))
+                        count += 1;
+                }
+            }
+        }
+
+        for (Unit unit : civilization.getUnits()) {
+            if (resourceTemplate.equals(unit.getUnitTemplate().getRequiredResource())) count -= 1;
+        }
+        return count;
     }
 
 }

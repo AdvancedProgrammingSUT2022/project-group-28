@@ -4,6 +4,8 @@ import models.User;
 import models.civilization.enums.TechnologyTemplate;
 import models.civilization.enums.CivilizationNames;
 import models.tiles.Tile;
+import models.tiles.enums.ResourceTemplate;
+import models.tiles.enums.ResourceType;
 import models.units.Unit;
 
 import java.util.ArrayList;
@@ -25,11 +27,12 @@ public class Civilization {
     private int gold = 50;
 
     private int scienceBalance;
-
     private Technology currentStudyTechnology;
+
     private int happinessBalance;
     private int happiness;
 
+    private HashMap<ResourceTemplate, Integer> resources;
 
     // TODO: Complete fields
     public Civilization(User user, CivilizationNames civilizationNames) {
@@ -38,7 +41,9 @@ public class Civilization {
         this.currentStudyTechnology = null;
         this.addTechnology(new Technology(TechnologyTemplate.AGRICULTURE , TechnologyTemplate.AGRICULTURE.getCost()));
         this.setScienceBalance(0);
+        this.resources = createResources();
     }
+
 
     public HashMap<Tile,Integer> getDiscoveredTiles() {
         return discoveredTiles;
@@ -54,6 +59,7 @@ public class Civilization {
         }
         discoveredTiles.put(tile, value);
     }
+
 
     public User getUser() {
         return user;
@@ -95,6 +101,10 @@ public class Civilization {
         return happiness;
     }
 
+    public HashMap<ResourceTemplate, Integer> getResources() {
+        return resources;
+    }
+
     public void addUnit(Unit unit) {
         this.units.add(unit);
     }
@@ -126,4 +136,18 @@ public class Civilization {
     public void setGold(int gold) { this.gold = gold; }
 
     public void setGoldBalance(int goldBalance) { this.goldBalance = goldBalance; }
+
+    public void setResourceCount(ResourceTemplate resourceTemplate, int count) {
+        this.resources.replace(resourceTemplate, count);
+    }
+    private HashMap<ResourceTemplate, Integer> createResources() {
+        HashMap<ResourceTemplate, Integer> resources = new HashMap<>();
+        for (ResourceTemplate resourceTemplate : ResourceTemplate.values()) {
+            if (resourceTemplate.getType().equals(ResourceType.LUXURY) ||
+                resourceTemplate.getType().equals(ResourceType.STRATEGIC)) {
+                resources.put(resourceTemplate, 0);
+            }
+        }
+        return resources;
+    }
 }
