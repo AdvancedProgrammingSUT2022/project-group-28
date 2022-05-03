@@ -5,7 +5,7 @@ import models.tiles.Tile;
 import models.units.enums.UnitTemplate;
 
 public class Settler extends Civilian {
-    public Settler(Civilization civilization, Tile tile) {
+    public Settler(Tile tile, Civilization civilization) {
         super(tile, civilization, UnitTemplate.SETTLER);
     }
 

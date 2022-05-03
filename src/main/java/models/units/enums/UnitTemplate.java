@@ -96,4 +96,8 @@ public enum UnitTemplate {
     public ResourceTemplate getRequiredResource() {
         return requiredResource;
     }
+
+    public UnitType getUnitType() {
+        return unitType;
+    }
 }

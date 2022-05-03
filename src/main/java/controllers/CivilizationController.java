@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import controllers.units.UnitController;
@@ -11,7 +12,16 @@ import models.tiles.enums.Direction;
 import models.tiles.enums.ResourceTemplate;
 import models.tiles.enums.Terrain;
 import models.tiles.enums.TerrainFeature;
+import models.units.Civilian;
+import models.units.Melee;
+import models.units.Ranged;
+import models.units.Settler;
+import models.units.Siege;
 import models.units.Unit;
+import models.units.Worker;
+import models.units.enums.UnitTemplate;
+import models.units.enums.UnitType;
+import views.enums.CityMessage;
 import views.enums.CivilizationMessage;
 
 public class CivilizationController extends GameController {
@@ -145,4 +155,64 @@ public class CivilizationController extends GameController {
         return count;
     }
 
+    public static HashMap<UnitTemplate,String> getAvailableUnitTemplates(Civilization currentPlayer, Tile tile) {
+        HashMap<UnitTemplate,String> availableUnitTemplates = new HashMap<>();
+        for (UnitTemplate unitTemplate : UnitTemplate.values()) {
+            if (unitTemplate.getRequiredResource() != null) {
+                if (currentPlayer.getResources().get(unitTemplate.getRequiredResource()) == 0) {
+                    availableUnitTemplates.put(unitTemplate," resource " + unitTemplate.getRequiredResource().getName()+" needed.");
+                    continue;
+                }
+            }
+            if (unitTemplate.getRequiredTechnology() != null){
+                if (!TechnologyController.extractFullProgressTechnology().contains(unitTemplate.getRequiredTechnology())){
+                    availableUnitTemplates.put(unitTemplate," technology " + unitTemplate.getRequiredTechnology().getName()+" needed.");
+                    continue;
+                }
+            }
+            if (unitTemplate.getUnitType() == UnitType.CIVILIAN && tile.getCivilian() != null){
+                availableUnitTemplates.put(unitTemplate,"tile is full");
+                continue;
+            } 
+            if (unitTemplate.getUnitType() != UnitType.CIVILIAN && tile.getMilitary() != null) {
+                availableUnitTemplates.put(unitTemplate,"tile is full");
+                continue;
+            }
+            if (unitTemplate.getCost()>currentPlayer.getGold()){
+                availableUnitTemplates.put(unitTemplate,"not enough gold");
+                continue;
+            }
+            availableUnitTemplates.put(unitTemplate,null);
+        }
+        return availableUnitTemplates;
+    }
+
+    public static void buyUnit(Civilization civilization,Tile tile, UnitTemplate unitTemplate) {
+        switch(unitTemplate.getUnitType()){
+            case MELEE:
+                Melee unit = new Melee(tile,civilization,unitTemplate);
+                tile.setMilitary(unit);
+                civilization.addUnit(unit);
+                break;
+            case CIVILIAN:
+                Civilian civilian;
+                if (unitTemplate == UnitTemplate.WORKER)
+                    civilian = new Worker(tile,civilization);
+                else
+                    civilian = new Settler(tile, civilization);
+                tile.setCivilian(civilian);
+                civilization.addUnit(civilian);
+                break;
+            case RANGED:
+                Ranged ranged = new Ranged(tile,civilization,unitTemplate);
+                tile.setMilitary(ranged);
+                civilization.addUnit(ranged);
+                break;
+            case SIEGE:
+                Siege siege = new Siege(tile,civilization,unitTemplate);
+                tile.setMilitary(siege);
+                civilization.addUnit(siege);
+                break;
+        }
+    }
 }

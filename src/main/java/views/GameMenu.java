@@ -23,6 +23,7 @@ import models.tiles.enums.Direction;
 import models.units.Settler;
 import models.units.Unit;
 import models.units.Worker;
+import models.units.enums.UnitTemplate;
 import views.enums.CivilizationMessage;
 import views.enums.Color;
 import views.enums.UnitMessage;
@@ -61,8 +62,10 @@ public class GameMenu extends Menu {
             showCityInfo();
         } else if(command.equals("civilization info")){
             showCivilizationInfo();
-        } else if(command.equals("cheat increase gold")){
+        } else if(command.startsWith("cheat increase gold")){
             increaseGold(command);
+        } else if(command.equals("city buy unit")){
+            buyUnit();
         } else if(command.equals("menu exit")){
             Menu.setCurrentMenu(MainMenu.getInstance());
             return true;            
@@ -758,5 +761,47 @@ public class GameMenu extends Menu {
         civilization.setGold(civilization.getGold() + goldValue);
 
         System.out.println("gold increased successfully");
+    }
+
+    private void buyUnit(){
+        Game game = GameController.getGame();
+        if(game.getSelectedCity()==null){
+            System.out.println("you have to select a city first");
+            return;
+        }
+        HashMap<UnitTemplate,String> availableUnitTemplates = CivilizationController.getAvailableUnitTemplates(game.getCurrentPlayer(), game.getSelectedCity().getTile());
+        
+        for (int i = 0; i < availableUnitTemplates.keySet().size(); i++) {
+            UnitTemplate unitTemplate = (UnitTemplate) availableUnitTemplates.keySet().toArray()[i];
+            String message = availableUnitTemplates.get(unitTemplate);
+            if (message==null)
+                System.out.printf("%d- %s: %d\n", i+1, unitTemplate.getName(), unitTemplate.getCost());
+            else
+                System.out.printf(Color.BLACK_BRIGHT + "%d- %s: %d  -  %s\n" + Color.RESET, i+1, unitTemplate.getName(),unitTemplate.getCost(), message);
+        }
+        
+        while(true){
+            System.out.println("choose a unit to buy: (q for exit)");
+            System.out.print("> ");
+            String input = scanner.nextLine();
+            if(input.equals("q")) return;
+            if(!input.matches("\\d+")) {
+                System.out.println("invalid command");
+                continue;
+            }
+            int choice = Integer.parseInt(input);
+            if(choice<=0 || choice>availableUnitTemplates.size()){
+                System.out.println("invalid choice");
+                continue;
+            }
+            UnitTemplate unitTemplate = (UnitTemplate) availableUnitTemplates.keySet().toArray()[choice-1];
+            if (availableUnitTemplates.get(unitTemplate)!=null){
+                System.out.println("you can't buy this unit" + availableUnitTemplates.get(unitTemplate));
+                continue;
+            }
+            CivilizationController.buyUnit(game.getCurrentPlayer(), game.getSelectedCity().getTile(), unitTemplate);
+            System.out.println("purchase successful.");
+            return;
+        }
     }
 }

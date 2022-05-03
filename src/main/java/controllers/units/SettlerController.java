@@ -11,7 +11,7 @@ import views.enums.UnitMessage;
 
 public class SettlerController extends GameController {
     public static void createSettler(Civilization civilization, Tile tile) {
-        Settler settler = new Settler(civilization, tile);
+        Settler settler = new Settler(tile,civilization);
         civilization.addUnit(settler);
         tile.setCivilian(settler);
     }
