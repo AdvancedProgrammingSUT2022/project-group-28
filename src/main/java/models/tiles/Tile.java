@@ -13,14 +13,16 @@ import java.util.ArrayList;
 public class Tile {
     private final int[] coordinates;
     private final Terrain terrain;
-    private final TerrainFeature terrainFeature;
+    private TerrainFeature terrainFeature;
     private final Resource resource;
     private ArrayList<Direction> rivers;
 
     private boolean working; // Citizens
 
     private ImprovementTemplate improvement;
+    private ImprovementTemplate nextImprovement;
     private Project project;
+    private boolean roadConstructed = false;
 
     private City city;
 
@@ -76,6 +78,8 @@ public class Tile {
         return improvement;
     }
 
+    public ImprovementTemplate getNextImprovement() { return  nextImprovement; }
+
     public Project getProject() {
         return project;
     }
@@ -95,6 +99,14 @@ public class Tile {
     }
 
     public boolean isWorking() { return working; }
+
+    public boolean isRoadConstructed() { return roadConstructed; }
+
+    public void setTerrainFeature(TerrainFeature terrainFeature) { this.terrainFeature = terrainFeature; }
+
+    public void setImprovement(ImprovementTemplate improvement) { this.improvement = improvement; }
+
+    public void setNextImprovement(ImprovementTemplate nextImprovement) { this.nextImprovement = nextImprovement; }
 
     public void setProject(Project project) {
         this.project = project;
@@ -122,6 +134,8 @@ public class Tile {
     public void setWorking(boolean working) {
         this.working = working;
     }
+
+    public void setRoadConstructed(boolean roadConstructed) { this.roadConstructed = roadConstructed; }
 
     public void freeUnit(Unit unit) {
         if (unit instanceof Military) military = null;

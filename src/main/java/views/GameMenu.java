@@ -2,17 +2,15 @@ package views;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.*;
 
-import controllers.CityController;
-import controllers.CivilizationController;
-import controllers.GameController;
-import controllers.GameMenuController;
-import controllers.TechnologyController;
+import controllers.*;
 import controllers.units.SettlerController;
 import controllers.units.UnitController;
+import controllers.units.WorkerController;
 import models.Game;
 import models.civilization.City;
 import models.civilization.Civilization;
@@ -20,6 +18,7 @@ import models.civilization.Technology;
 import models.civilization.enums.TechnologyTemplate;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
+import models.tiles.enums.ImprovementTemplate;
 import models.units.Settler;
 import models.units.Unit;
 import models.units.Worker;
@@ -46,6 +45,8 @@ public class GameMenu extends Menu {
             studyTechnology();
         } else if (command.startsWith("unit found city")) {
             foundCity();
+        } else if (command.startsWith("unit build")) {
+            buildImprovement();
         } else if (command.startsWith("select city")) {
             selectCity(command);
         } else if (command.startsWith("city assign citizen")) {
@@ -802,6 +803,44 @@ public class GameMenu extends Menu {
             CivilizationController.buyUnit(game.getCurrentPlayer(), game.getSelectedCity().getTile(), unitTemplate);
             System.out.println("purchase successful.");
             return;
+        }
+    }
+
+    public void buildImprovement() {
+        UnitMessage checkToBuild = WorkerController.buildImprovements();
+        switch (checkToBuild) {
+            case NO_SELECTED_UNIT:
+                System.out.println("no selected unit");
+                break;
+            case NOT_WORKER_UNIT:
+                System.out.println("not unit worker");
+                break;
+            case NOT_PLAYER_TILE:
+                System.out.println("not player unit");
+                break;
+            case SUCCESS:
+                Worker worker = (Worker) GameController.getGame().getSelectedUnit();
+                ArrayList<ImprovementTemplate> possibleImprovements = TileController.getTilePossibleImprovements(worker.getTile());
+                while (true) {
+                    for (int i = 0; i < possibleImprovements.size(); i++) {
+                        ImprovementTemplate improvement = possibleImprovements.get(i);
+                        System.out.println(i + 1 + "-" + improvement.getName() + ": " + improvement.getTurnCost());
+                    }
+                    String input = scanner.nextLine();
+                    if (input.startsWith("q")) break;
+                    int choice = Integer.parseInt(input);
+                    if (choice <= 0 || choice > possibleImprovements.size()) {
+                        System.out.println("invalid number");
+                        continue;
+                    }
+                    ImprovementTemplate selectedImprovement = possibleImprovements.get(choice - 1);
+                    selectedImprovement.startImprovement(worker.getTile());
+                    System.out.println("Success");
+                    break;
+                }
+                break;
+            default:
+                break;
         }
     }
 }

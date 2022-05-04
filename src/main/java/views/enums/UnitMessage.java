@@ -13,7 +13,10 @@ public enum UnitMessage {
     ENEMY_BORDERS,
     // Settler messages
     NOT_SETTLER_UNIT,
+    NOT_WORKER_UNIT,
     NEAR_CITY_BOARDERS,
     NEAR_ENEMY_UNITS,
+    // Worker messages
+    NOT_PLAYER_TILE,
     SUCCESS;
 }

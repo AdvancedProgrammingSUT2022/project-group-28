@@ -11,4 +11,15 @@ public class Project {
         this.spentTurns = 0;
     }
 
+    public ImprovementTemplate getImprovement() {
+        return improvement;
+    }
+
+    public int getSpentTurns() {
+        return spentTurns;
+    }
+
+    public void setSpentTurns(int spentTurns) {
+        this.spentTurns = spentTurns;
+    }
 }
