@@ -10,6 +10,7 @@ import models.units.Settler;
 import models.units.Unit;
 import views.enums.CityMessage;
 import views.enums.CivilizationMessage;
+import views.enums.UnitMessage;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,7 @@ public class CityController extends GameController {
             }
         }
         if (targetCity == null) return CityMessage.INVALID_NAME;
+        if (!targetCity.getCivilization().equals(game.getCurrentPlayer())) return CityMessage.NO_PERMISSION;
         game.setSelectedCity(targetCity);
         return CityMessage.SUCCESS;
     }
@@ -32,6 +34,7 @@ public class CityController extends GameController {
         if (i < 0 || i >= game.MAP_HEIGHT || j < 0 || j >= game.MAP_WIDTH) return CityMessage.INVALID_POSITION;
         City city = game.getMap()[i][j].getCity();
         if (city == null) return CityMessage.NOT_CITY;
+        if (!city.getCivilization().equals(game.getCurrentPlayer())) return CityMessage.NO_PERMISSION;
         game.setSelectedCity(city);
         return CityMessage.SUCCESS;
     }

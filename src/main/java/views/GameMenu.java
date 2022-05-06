@@ -335,6 +335,9 @@ public class GameMenu extends Menu {
             case NOT_COMBAT_UNIT:
                 System.out.println("no combat unit");
                 break;
+            case NO_PERMISSION:
+                System.out.println("you just can select your units");
+                break;
             case SUCCESS:
                 System.out.println("success");
                 break;
@@ -370,6 +373,9 @@ public class GameMenu extends Menu {
                 break;
             case NOT_NONCOMBAT_UNIT:
                 System.out.println("No noncombat unit");
+                break;
+            case NO_PERMISSION:
+                System.out.println("you just can select your units");
                 break;
             case SUCCESS:
                 System.out.println("success");
@@ -551,6 +557,9 @@ public class GameMenu extends Menu {
                 case INVALID_NAME:
                     System.out.println("invalid name");
                     break;
+                case NO_PERMISSION:
+                    System.out.println("you just can select your city");
+                    break;
                 case SUCCESS:
                     System.out.println("success");
                     break;
@@ -565,6 +574,9 @@ public class GameMenu extends Menu {
                     break;
                 case NOT_CITY:
                     System.out.println("there is not city there");
+                    break;
+                case NO_PERMISSION:
+                    System.out.println("you just can select your city");
                     break;
                 case SUCCESS:
                     System.out.println("success");

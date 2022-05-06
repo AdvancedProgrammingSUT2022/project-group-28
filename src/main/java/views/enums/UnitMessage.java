@@ -6,6 +6,7 @@ public enum UnitMessage {
     NOT_NONCOMBAT_UNIT,
     NOT_PLAYERS_TURN,
     NO_SELECTED_UNIT,
+    NO_PERMISSION,
     NO_MOVE_POINT,
     // Move Messages
     NOT_ACCESSIBLE_TILE,

@@ -23,6 +23,7 @@ public class UnitController extends GameController {
             return UnitMessage.INVALID_POSITION;
         Tile tile = game.getMap()[i][j];
         if (tile.getMilitary() == null) return UnitMessage.NOT_COMBAT_UNIT;
+        if (!tile.getMilitary().getCivilization().equals(game.getCurrentPlayer())) return UnitMessage.NO_PERMISSION;
         game.setSelectedUnit(tile.getMilitary());
         return UnitMessage.SUCCESS;
     }
@@ -32,6 +33,7 @@ public class UnitController extends GameController {
             return UnitMessage.INVALID_POSITION;
         Tile tile = game.getMap()[i][j];
         if (tile.getCivilian() == null) return UnitMessage.NOT_NONCOMBAT_UNIT;
+        if (!tile.getCivilian().getCivilization().equals(game.getCurrentPlayer())) return UnitMessage.NO_PERMISSION;
         game.setSelectedUnit(tile.getCivilian());
         return UnitMessage.SUCCESS;
     }
