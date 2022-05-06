@@ -10,7 +10,7 @@ import models.units.enums.UnitState;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public enum ImprovementTemplate implements Workable {
+public enum ImprovementTemplate {
     // tile check city
     // tech check ??
     // TODO: check privous improvement
@@ -333,6 +333,26 @@ public enum ImprovementTemplate implements Workable {
             tile.setNextImprovement(null);
             tile.setRoadConstructed(false);
         }
+    },
+    REPAIR("Repair", 3, 0, 0, 0, TechnologyTemplate.AGRICULTURE) {
+        @Override
+        public boolean isPossiblePlaceToBuild(Tile tile) {
+            if (tile.getProject() != null && tile.getProject().isBroken()) return true;
+            return false;
+        }
+
+        @Override
+        public void startImprovement(Tile tile) {
+            tile.getProject().setBroken(false);
+            tile.setNextImprovement(null);
+        }
+    },
+    CONTINUE("Continue", 0, 0, 0, 0, TechnologyTemplate.AGRICULTURE) {
+        @Override
+        public boolean isPossiblePlaceToBuild(Tile tile) {
+            if (tile.getProject() != null) return true;
+            return false;
+        }
     };
 
     // TODO: Add repair
@@ -343,6 +363,14 @@ public enum ImprovementTemplate implements Workable {
     private int production;
     private int gold;
     private TechnologyTemplate requiredTechnology;
+    public boolean isPossiblePlaceToBuild(Tile tile) {
+        return true;
+    }
+
+    public void startImprovement(Tile tile) { }
+
+    public void completeImprovement(Tile tile) { }
+
     ImprovementTemplate(String name, int turnCost, int food, int production, int gold, TechnologyTemplate requiredTechnology) {
         this.name = name;
         this.turnCost = turnCost;

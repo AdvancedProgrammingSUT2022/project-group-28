@@ -6,6 +6,7 @@ import models.tiles.enums.Direction;
 import models.units.Civilian;
 import models.units.Military;
 import models.units.Unit;
+import models.units.Worker;
 import models.units.enums.UnitState;
 import views.enums.CivilizationMessage;
 import views.enums.Message;
@@ -71,12 +72,18 @@ public class UnitController extends GameController {
 
     public static void nextTurnUnitUpdates(ArrayList<Unit> units) {
         for (Unit unit : units) {
-            if (unit.getUnitState() == UnitState.MOVING &&
-                unit.getMovePoint() == unit.getUnitTemplate().getMovementPoint()) {
-                moveMovingUnit(unit);
+            switch (unit.getUnitState()) {
+                case MOVING:
+                    // TODO: change the conditions
+                    if (unit.getMovePoint() == unit.getUnitTemplate().getMovementPoint()) moveMovingUnit(unit);
+                    break;
+                case WORKING:
+                    WorkerController.nextTurnWorkerUpdates((Worker) unit);
+                    break;
+                default:
+                    break;
             }
             unit.setMovePoint(unit.getUnitTemplate().getMovementPoint());
-            // TODO: check all states
         }
     }
 

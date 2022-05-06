@@ -807,7 +807,7 @@ public class GameMenu extends Menu {
     }
 
     public void buildImprovement() {
-        UnitMessage checkToBuild = WorkerController.buildImprovements();
+        UnitMessage checkToBuild = WorkerController.checkImprovementIsPossibleToBuild();
         switch (checkToBuild) {
             case NO_SELECTED_UNIT:
                 System.out.println("no selected unit");
@@ -815,8 +815,14 @@ public class GameMenu extends Menu {
             case NOT_WORKER_UNIT:
                 System.out.println("not unit worker");
                 break;
+            case NO_MOVE_POINT:
+                System.out.println("you don't have enough move point");
+                break;
+            case CITY_TILE:
+                System.out.println("you can't build improvement on city tile");
+                break;
             case NOT_PLAYER_TILE:
-                System.out.println("not player unit");
+                System.out.println("not player tile");
                 break;
             case SUCCESS:
                 Worker worker = (Worker) GameController.getGame().getSelectedUnit();
@@ -826,6 +832,7 @@ public class GameMenu extends Menu {
                         ImprovementTemplate improvement = possibleImprovements.get(i);
                         System.out.println(i + 1 + "-" + improvement.getName() + ": " + improvement.getTurnCost());
                     }
+                    System.out.println("(q for exit)");
                     String input = scanner.nextLine();
                     if (input.startsWith("q")) break;
                     int choice = Integer.parseInt(input);
@@ -834,7 +841,7 @@ public class GameMenu extends Menu {
                         continue;
                     }
                     ImprovementTemplate selectedImprovement = possibleImprovements.get(choice - 1);
-                    selectedImprovement.startImprovement(worker.getTile());
+                    WorkerController.startImprovement(worker, selectedImprovement);
                     System.out.println("Success");
                     break;
                 }
