@@ -113,7 +113,7 @@ public class UnitController extends GameController {
         for (Direction direction: Direction.getDirections()) {
             if (isValidDirection(startI, startJ, direction, checkMap)) {
                 int newMovePoint = currentMovePoint - getDirectionMovePoint(startI, startJ, direction, currentMovePoint);
-                if (newMovePoint >= 0) {
+                if (newMovePoint >= 0 || currentMovePoint == 1) {
                     tagMapMovePoints(startI + direction.i, startJ + direction.j, newMovePoint, checkMap);
                 }
             }
@@ -160,9 +160,10 @@ public class UnitController extends GameController {
 
     private static void tagMapMovePoints(int i, int j, int movePoint, MapPair[][] checkMap) {
         if (movePoint > checkMap[i][j].getMovePoint()) checkMap[i][j].setMovePoint(movePoint);
+        if (movePoint < 0) checkMap[i][j].setMovePoint(0);
         checkMap[i][j].setChecked(true);
 
-        if (movePoint == 0) {
+        if (movePoint <= 0) {
             checkMap[i][j].setChecked(false);
             return;
         }
@@ -170,7 +171,7 @@ public class UnitController extends GameController {
         for (Direction direction: Direction.getDirections()) {
             if (isValidDirection(i, j, direction, checkMap)) {
                 int newMovePoint = movePoint - getDirectionMovePoint(i, j, direction, movePoint);
-                if (newMovePoint >= 0) {
+                if (newMovePoint >= 0 || movePoint == 1) {
                     tagMapMovePoints(i + direction.i, j + direction.j, newMovePoint, checkMap);
                 }
             }
