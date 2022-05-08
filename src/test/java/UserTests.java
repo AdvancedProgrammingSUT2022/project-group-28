@@ -6,13 +6,13 @@ import org.junit.jupiter.api.Test;
 public class UserTests {
     @Test
     public void checkGetUserByUsernameReturnNotNull(){
-        RegisterMenuController.addUser("ali" , "ali110" , "110");
+        RegisterMenuController.addUser("ali" , "110" , "ali110");
         Assertions.assertNotNull(User.getUserByUsername("ali"));
     }
     @Test
     public void checkGetUserByUsernameReturnNull(){
         User.getAllUsers().clear();
-        RegisterMenuController.addUser("ali" , "ali110" , "110");
+        RegisterMenuController.addUser("ali" , "110" , "ali110");
         Assertions.assertNull(User.getUserByUsername("mahdi"));
     }
     @Test
@@ -22,13 +22,13 @@ public class UserTests {
     }
     @Test
     public void checkGetUserByNicknameReturnNotNull(){
-        RegisterMenuController.addUser("ali" , "ali110" , "110");
+        RegisterMenuController.addUser("ali" , "110" , "ali110");
         Assertions.assertNotNull(User.getUserByNickname("ali110"));
     }
     @Test
     public void checkGetUserByNicknameReturnNull(){
         User.getAllUsers().clear();
-        RegisterMenuController.addUser("ali" , "ali110" , "110");
+        RegisterMenuController.addUser("ali" , "110" , "ali110");
         Assertions.assertNull(User.getUserByNickname("mahdi110"));
     }
     @Test
