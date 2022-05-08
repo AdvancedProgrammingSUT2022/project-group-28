@@ -2,9 +2,9 @@
 import controllers.RegisterMenuController;
 import models.User;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import views.Menu;
 import views.enums.Message;
 
 public class RegisterMenuTests {
@@ -54,7 +54,19 @@ public class RegisterMenuTests {
         Assertions.assertEquals(Message.LOGIN_ERROR , message);
     }
 
-    
+    @Test
+    public void checkUserLoginSuccessfully(){
+        RegisterMenuController.addUser("ali" , "110" , "ali110");
+        Message message = RegisterMenuController.checkUserLoginData("ali" , "110");
+        Assertions.assertEquals(Message.SUCCESS , message);
+    }
+
+    @Test
+    public void checkSetLoggedInUserAfterLoginUser(){
+        RegisterMenuController.addUser("ali" , "110" , "ali110");
+        RegisterMenuController.setLoggedInUser("ali");
+        Assertions.assertEquals("ali" , Menu.getLoggedInUser().getUsername());
+    }
 
 
 }
