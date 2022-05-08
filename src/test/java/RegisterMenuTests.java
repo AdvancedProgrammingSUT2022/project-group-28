@@ -6,6 +6,14 @@ import org.junit.jupiter.api.Test;
 
 public class RegisterMenuTests {
 
+
+    @Test
+    public void checkGetUserByUsernameReturnNotNull(){
+        RegisterMenuController.addUser("ali" , "ali110" , "110");
+        Assertions.assertNotNull(User.getUserByUsername("ali"));
+    }
+    
+
     @Test
     public void checkAddUser(){
         //add user with username , nickname and password
