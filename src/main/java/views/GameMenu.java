@@ -63,6 +63,8 @@ public class GameMenu extends Menu {
             showCityInfo();
         } else if(command.equals("civilization info")){
             showCivilizationInfo();
+        } else if(command.equals("technology info")){
+            showTechnologyInfo();
         } else if(command.startsWith("cheat increase gold")){
             increaseGold(command);
         } else if(command.equals("city buy unit")){
@@ -757,6 +759,9 @@ public class GameMenu extends Menu {
         System.out.println("**************************************");
     }
 
+    private void showTechnologyInfo(){
+
+    }
     private void increaseGold(String command){
         CmdLineParser parser = new CmdLineParser();
         Option<Integer> amount = parser.addIntegerOption('a', "amount");

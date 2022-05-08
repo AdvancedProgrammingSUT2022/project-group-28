@@ -48,5 +48,5 @@ public class ProfileMenuTests {
         Message message = ProfileMenuController.changePassword("110" , "111");
         Assertions.assertEquals(Message.SUCCESS , message);
     }
-    
+
 }
