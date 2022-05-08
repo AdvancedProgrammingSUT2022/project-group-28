@@ -41,5 +41,20 @@ public class RegisterMenuTests {
         Assertions.assertEquals(Message.SUCCESS , message);
     }
 
+    @Test
+    public void chechUserLoginWithNotExistUsername(){
+        Message message = RegisterMenuController.checkUserLoginData("ali" , "110");
+        Assertions.assertEquals(Message.LOGIN_ERROR , message);
+    }
+
+    @Test
+    public void chechUserLoginIncorrectPassword(){
+        RegisterMenuController.addUser("ali" , "110" , "ali110");
+        Message message = RegisterMenuController.checkUserLoginData("ali" , "111");
+        Assertions.assertEquals(Message.LOGIN_ERROR , message);
+    }
+
+    
+
 
 }
