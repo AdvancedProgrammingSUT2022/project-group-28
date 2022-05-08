@@ -12,6 +12,11 @@ public class RegisterMenuTests {
         RegisterMenuController.addUser("ali" , "ali110" , "110");
         Assertions.assertNotNull(User.getUserByUsername("ali"));
     }
+    @Test
+    public void checkGetUserByUsernameReturnNull(){
+        RegisterMenuController.addUser("ali" , "ali110" , "110");
+        Assertions.assertNotNull(User.getUserByUsername("ali"));
+    }
     
 
     @Test
