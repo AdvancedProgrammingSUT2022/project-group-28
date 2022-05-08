@@ -20,5 +20,20 @@ public class UserTests {
         User.getAllUsers().clear();
         Assertions.assertNull(User.getUserByUsername("ali"));
     }
-    
+    @Test
+    public void checkGetUserByNicknameReturnNotNull(){
+        RegisterMenuController.addUser("ali" , "ali110" , "110");
+        Assertions.assertNotNull(User.getUserByNickname("ali110"));
+    }
+    @Test
+    public void checkGetUserByNicknameReturnNull(){
+        User.getAllUsers().clear();
+        RegisterMenuController.addUser("ali" , "ali110" , "110");
+        Assertions.assertNull(User.getUserByNickname("mahdi110"));
+    }
+    @Test
+    public void checkGetUserByNicknameReturnNullFromEmptyArrayListOfUser(){
+        User.getAllUsers().clear();
+        Assertions.assertNull(User.getUserByNickname("ali"));
+    }
 }
