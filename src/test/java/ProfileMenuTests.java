@@ -35,5 +35,18 @@ public class ProfileMenuTests {
         Assertions.assertEquals(Message.INCORRECT_PASSWORD , message);
     }
 
+    @Test
+    public void checkChangePasswordWithSameCurrentAdnNewPassword(){
+
+        Message message = ProfileMenuController.changePassword("110" , "110");
+        Assertions.assertEquals(Message.REPETITIOUS_PASSWORD , message);
+    }
+
+    @Test
+    public void checkChangePasswordSuccessfully(){
+
+        Message message = ProfileMenuController.changePassword("110" , "111");
+        Assertions.assertEquals(Message.SUCCESS , message);
+    }
     
 }
