@@ -83,7 +83,7 @@ public abstract class Unit implements Combatable{
         this.movePoint = movePoint;
     }
 
-    public int defend(int attack, Unit attacker) {
-        return 0;
+    public int getCombatStrength(){
+        return unitTemplate.getCombatStrength() - (int) (((10-health)/10) * unitTemplate.getCombatStrength());
     }
 }
