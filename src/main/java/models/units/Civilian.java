@@ -8,4 +8,9 @@ public abstract class Civilian extends Unit{
     public Civilian(Tile tile, Civilization civilization, UnitTemplate unitTemplate) {
         super(tile, civilization, unitTemplate);
     }
+
+    public void destroy() {
+        this.tile.setCivilian(null);
+        this.civilization.removeUnit(this);
+    }
 }

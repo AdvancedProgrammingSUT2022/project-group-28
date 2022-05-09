@@ -22,4 +22,13 @@ public class TileController extends  GameController {
         return result;
     }
 
+    public static int getDistance(Tile tile1, Tile tile2) {
+        int[] coordinates1 = tile1.getCoordinates();
+        int[] coordinates2 = tile2.getCoordinates();
+        
+        int distance = (Math.abs(coordinates1[0] - coordinates2[0]) +
+                        Math.abs(coordinates1[1] - coordinates2[1]) +
+                        Math.abs(coordinates1[0] + coordinates2[0] - coordinates1[1] + coordinates2[1])) / 2;
+        return distance;
+        }
 }

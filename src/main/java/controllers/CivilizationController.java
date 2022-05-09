@@ -213,4 +213,16 @@ public class CivilizationController extends GameController {
                 break;
         }
     }
+
+    public static boolean isTileVisible(Tile tile, Civilization civilization) {
+        updateDiscoveredTiles();
+        for (Map.Entry<Tile,Integer> entry : civilization.getDiscoveredTiles().entrySet()) {
+            if(tile.getCoordinates()[0]==entry.getKey().getCoordinates()[0] &&
+               tile.getCoordinates()[1]==entry.getKey().getCoordinates()[1] && 
+               entry.getValue()==game.getTurnNumber()){
+                return true;
+            }
+        }
+        return false;
+    }
 }

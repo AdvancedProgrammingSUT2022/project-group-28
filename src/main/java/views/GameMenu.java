@@ -26,9 +26,6 @@ import models.units.Settler;
 import models.units.Unit;
 import models.units.Worker;
 import models.units.enums.UnitTemplate;
-import views.enums.CivilizationMessage;
-import views.enums.Color;
-import views.enums.UnitMessage;
 import views.enums.*;
 
 public class GameMenu extends Menu {
@@ -771,6 +768,7 @@ public class GameMenu extends Menu {
     private void showTechnologyInfo(){
 
     }
+    
     private void increaseGold(String command){
         CmdLineParser parser = new CmdLineParser();
         Option<Integer> amount = parser.addIntegerOption('a', "amount");
@@ -885,12 +883,14 @@ public class GameMenu extends Menu {
         // TODO: test cheat
         CmdLineParser parser = new CmdLineParser();
         Option<Integer> count = parser.addIntegerOption('c', "count");
+
         try {
             parser.parse(command.split(" "));
         } catch (CmdLineParser.OptionException e) {
             System.out.println("invalid command");
             return;
         }
+
         Integer countValue = parser.getOptionValue(count);
         if (countValue == null) {
             System.out.println("invalid command");
@@ -956,4 +956,46 @@ public class GameMenu extends Menu {
 
     }
 
+    public void unitAttack(String command){
+        CmdLineParser parser = new CmdLineParser();
+        Option<Integer> tileI = parser.addIntegerOption('i', "tileI");
+        Option<Integer> tileJ = parser.addIntegerOption('j', "tileJ");
+        
+        Integer tileIValue = parser.getOptionValue(tileI);
+        Integer tileJValue = parser.getOptionValue(tileJ);
+        
+        if(tileJValue==null || tileIValue==null) {
+            System.out.println("invalid command");
+            return;
+        }
+        
+        CombatMessage message = CombatController.unitAttack(tileIValue, tileJValue);
+        combatMessagePrinter(message);
+    }
+    
+    private void combatMessagePrinter(CombatMessage message) {
+        switch (message) {
+            case INVALID_POSITION:
+                System.out.println("invalid position");
+                break;
+            case NO_COMBATABLE:
+                System.out.println("no combatable unit in destination tile.");
+                break;
+            case NOT_VISIBLE_TILE:
+                System.out.println("destination tile is not visible.");
+                break;
+            case NO_UNIT_SELECTED:
+                System.out.println("please select a unit first.");
+                break;
+            case OUT_OF_RANGE:
+                System.out.println("destination tile is out of unit range.");
+                break;
+            case CANNOT_ATTACK_YOURSELF:
+                System.out.println("you cannot attack yourself.");
+                break;
+            case SUCCESS:
+                System.out.println("attack successfully.");
+                break;
+        }
+    }
 }
