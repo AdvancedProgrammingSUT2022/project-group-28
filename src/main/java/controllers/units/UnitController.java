@@ -9,7 +9,6 @@ import models.units.Unit;
 import models.units.Worker;
 import models.units.enums.UnitState;
 import views.enums.CivilizationMessage;
-import views.enums.Message;
 import views.enums.UnitMessage;
 
 import java.util.ArrayList;
@@ -39,6 +38,7 @@ public class UnitController extends GameController {
     }
 
     // TODO: Reform move methods
+    // TODO: check methods to work properly
     public static UnitMessage moveUnitToTarget(int i, int j) {
         if (i < 0 || i >= game.MAP_HEIGHT || j < 0 || j >= game.MAP_WIDTH)
             return UnitMessage.INVALID_POSITION;
@@ -110,11 +110,11 @@ public class UnitController extends GameController {
         int currentMovePoint = unit.getMovePoint();
 
         checkMap[startI][startJ].setChecked(true);
-        checkMap[startI][startJ].setMovePoint(currentMovePoint);
+        checkMap[startI][startJ].setMovePoint(currentMovePoint * 5);
 
         for (Direction direction: Direction.getDirections()) {
             if (isValidDirection(startI, startJ, direction, checkMap)) {
-                int newMovePoint = currentMovePoint - getDirectionMovePoint(startI, startJ, direction, currentMovePoint);
+                int newMovePoint = currentMovePoint * 5 - getDirectionMovePoint(startI, startJ, direction, currentMovePoint);
                 if (newMovePoint >= 0 || currentMovePoint == 1) {
                     tagMapMovePoints(startI + direction.i, startJ + direction.j, newMovePoint, checkMap);
                 }
@@ -122,6 +122,10 @@ public class UnitController extends GameController {
         }
 
         HashMap<Integer[], Integer> distances = getDistances(targetTile, checkMap, currentMovePoint);
+
+//        for (Integer[] integers : distances.keySet()) {
+//            System.out.println(integers[0] + " " + integers[1] + ": " + distances.get(integers));
+//        }
 
         if (isDirectMovePossible(distances)) {
             directMove(targetTile, checkMap);
@@ -150,14 +154,16 @@ public class UnitController extends GameController {
     private static int getDirectionMovePoint(int i, int j, Direction direction, int currentMovePoint) {
         Tile[][] map = game.getMap();
         Tile tile = map[i][j];
+        // TODO: check next tile is in border
         Tile nextTile = map[i + direction.i][j + direction.j];
+        if (nextTile.getCity() != null || nextTile.isRoadConstructed()) return 1;
         if (tile.getRivers().contains(direction)) return currentMovePoint;
         int terrainMP = nextTile.getTerrain().getMovementCost();
         int terrainFeatureMP = 0;
         if (nextTile.getTerrainFeature() != null) {
             terrainFeatureMP = nextTile.getTerrainFeature().getMovementCost();
         }
-        return Math.max(terrainMP, terrainFeatureMP);
+        return 5 * Math.max(terrainMP, terrainFeatureMP);
     }
 
     private static void tagMapMovePoints(int i, int j, int movePoint, MapPair[][] checkMap) {
@@ -226,7 +232,7 @@ public class UnitController extends GameController {
         int j = targetTile.getCoordinates()[1];
 
         int newMovePoint = checkMap[i][j].getMovePoint();
-        unit.setMovePoint(newMovePoint);
+        unit.setMovePoint(newMovePoint / 5);
         unit.setTile(targetTile);
     }
 
@@ -275,17 +281,21 @@ public class UnitController extends GameController {
         int currentMovePoint = unit.getMovePoint();
 
         checkMap[startI][startJ].setChecked(true);
-        checkMap[startI][startJ].setMovePoint(currentMovePoint);
+        checkMap[startI][startJ].setMovePoint(currentMovePoint * 5);
         for (Direction direction: Direction.getDirections()) {
             if (isValidDirection(startI, startJ, direction, checkMap)) {
-                int newMovePoint = currentMovePoint - getDirectionMovePoint(startI, startJ, direction, currentMovePoint);
-                if (newMovePoint >= 0) {
+                int newMovePoint = currentMovePoint * 5 - getDirectionMovePoint(startI, startJ, direction, currentMovePoint);
+                if (newMovePoint >= 0 || currentMovePoint == 1) {
                     tagMapMovePoints(startI + direction.i, startJ + direction.j, newMovePoint, checkMap);
                 }
             }
         }
 
         HashMap<Integer[], Integer> distances = getDistances(targetTile, checkMap, currentMovePoint);
+
+//        for (Integer[] integers : distances.keySet()) {
+//            System.out.println(integers[0] + " " + integers[1] + ": " + distances.get(integers));
+//        }
 
         if (isDirectMovePossible(distances)) {
             if (!isFullTile(unit, targetTile)) {

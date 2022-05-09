@@ -17,7 +17,7 @@ public class WorkerController extends GameController {
         Tile tile = game.getSelectedUnit().getTile();
         if (tile.getCity() != null) return UnitMessage.CITY_TILE;
         Civilization civilization = game.getCurrentPlayer();
-        if (!tile.getCivilization().equals(civilization)) return UnitMessage.NOT_PLAYER_TILE;
+        if (!civilization.equals(tile.getCivilization())) return UnitMessage.NOT_PLAYER_TILE;
         return UnitMessage.SUCCESS;
     }
 

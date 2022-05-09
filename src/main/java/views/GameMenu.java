@@ -67,6 +67,8 @@ public class GameMenu extends Menu {
             showTechnologyInfo();
         } else if(command.startsWith("cheat increase gold")){
             increaseGold(command);
+        } else if (command.startsWith("cheat next turn")) {
+            cheatNextTurn(command);
         } else if(command.equals("city buy unit")){
             buyUnit();
         } else if(command.equals("menu exit")){
@@ -500,6 +502,8 @@ public class GameMenu extends Menu {
                 break;
         }
 
+        if (result != CivilizationMessage.SUCCESS) return;
+
         ArrayList<CivilizationMessage> newTurnMessages = GameMenuController.startNewTurn();
         for (CivilizationMessage message : newTurnMessages) {
             switch (message) {
@@ -852,6 +856,10 @@ public class GameMenu extends Menu {
                     System.out.println("(q for exit)");
                     String input = scanner.nextLine();
                     if (input.startsWith("q")) break;
+                    if (!input.matches("\\d+")) {
+                        System.out.println("invalid input");
+                        continue;
+                    }
                     int choice = Integer.parseInt(input);
                     if (choice <= 0 || choice > possibleImprovements.size()) {
                         System.out.println("invalid number");
@@ -867,4 +875,24 @@ public class GameMenu extends Menu {
                 break;
         }
     }
+
+    private void cheatNextTurn(String command) {
+        // TODO: test cheat
+        CmdLineParser parser = new CmdLineParser();
+        Option<Integer> count = parser.addIntegerOption('c', "count");
+        try {
+            parser.parse(command.split(" "));
+        } catch (CmdLineParser.OptionException e) {
+            System.out.println("invalid command");
+            return;
+        }
+        Integer countValue = parser.getOptionValue(count);
+        if (countValue == null) {
+            System.out.println("invalid command");
+            return;
+        }
+        CheatController instance = CheatController.getInstance();
+        instance.nextTurnCheat(GameController.getGame(), countValue);
+    }
+
 }
