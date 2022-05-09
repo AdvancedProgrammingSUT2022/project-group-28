@@ -317,8 +317,8 @@ public enum ImprovementTemplate {
     REMOVE_ROAD("Remove Road", 3, 0, 0, 0, TechnologyTemplate.THE_WHEEL) {
         @Override
         public boolean isPossiblePlaceToBuild(Tile tile) {
-            if (tile.isRoadConstructed()) return false;
-            return true;
+            if (tile.isRoadConstructed()) return true;
+            return false;
         }
 
         @Override

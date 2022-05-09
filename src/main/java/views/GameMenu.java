@@ -64,6 +64,8 @@ public class GameMenu extends Menu {
             showTechnologyInfo();
         } else if(command.startsWith("cheat increase gold")){
             increaseGold(command);
+        } else if (command.startsWith("cheat next turn")) {
+            cheatNextTurn(command);
         } else if(command.equals("city buy unit")){
             buyUnit();
         } else if(command.equals("menu exit")){
@@ -497,6 +499,8 @@ public class GameMenu extends Menu {
                 break;
         }
 
+        if (result != CivilizationMessage.SUCCESS) return;
+
         ArrayList<CivilizationMessage> newTurnMessages = GameMenuController.startNewTurn();
         for (CivilizationMessage message : newTurnMessages) {
             switch (message) {
@@ -850,6 +854,10 @@ public class GameMenu extends Menu {
                     System.out.println("(q for exit)");
                     String input = scanner.nextLine();
                     if (input.startsWith("q")) break;
+                    if (!input.matches("\\d+")) {
+                        System.out.println("invalid input");
+                        continue;
+                    }
                     int choice = Integer.parseInt(input);
                     if (choice <= 0 || choice > possibleImprovements.size()) {
                         System.out.println("invalid number");
@@ -866,10 +874,10 @@ public class GameMenu extends Menu {
         }
     }
 
-    public void unitAttack(String command){
+    private void cheatNextTurn(String command) {
+        // TODO: test cheat
         CmdLineParser parser = new CmdLineParser();
-        Option<Integer> tileI = parser.addIntegerOption('i', "tileI");
-        Option<Integer> tileJ = parser.addIntegerOption('j', "tileJ");
+        Option<Integer> count = parser.addIntegerOption('c', "count");
 
         try {
             parser.parse(command.split(" "));
@@ -878,18 +886,32 @@ public class GameMenu extends Menu {
             return;
         }
 
+        Integer countValue = parser.getOptionValue(count);
+        if (countValue == null) {
+            System.out.println("invalid command");
+            return;
+        }
+        CheatController instance = CheatController.getInstance();
+        instance.nextTurnCheat(GameController.getGame(), countValue);
+    }
+
+    public void unitAttack(String command){
+        CmdLineParser parser = new CmdLineParser();
+        Option<Integer> tileI = parser.addIntegerOption('i', "tileI");
+        Option<Integer> tileJ = parser.addIntegerOption('j', "tileJ");
+        
         Integer tileIValue = parser.getOptionValue(tileI);
         Integer tileJValue = parser.getOptionValue(tileJ);
-
+        
         if(tileJValue==null || tileIValue==null) {
             System.out.println("invalid command");
             return;
         }
-
+        
         CombatMessage message = CombatController.unitAttack(tileIValue, tileJValue);
         combatMessagePrinter(message);
     }
-
+    
     private void combatMessagePrinter(CombatMessage message) {
         switch (message) {
             case INVALID_POSITION:

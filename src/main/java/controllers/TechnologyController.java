@@ -113,6 +113,7 @@ public class TechnologyController extends GameController {
     public static boolean updateNextTurnTechnology(){
         Technology currentTechnology = game.getCurrentPlayer().getCurrentStudyTechnology();
         Civilization civilization = game.getCurrentPlayer();
+        if (currentTechnology == null) return true; // TODO: change this method
         updateScienceBalance();
         if(currentTechnology.getProgress() + civilization.getScienceBalance() < currentTechnology.getTechnologyTemplate().getCost()){
             currentTechnology.setProgress(currentTechnology.getProgress() + civilization.getScienceBalance());

@@ -22,14 +22,14 @@ public class GameMenuController extends GameController {
         CivilizationMessage checkResult = CivilizationController.checkNextTurnIsPossible();
         if (checkResult != CivilizationMessage.SUCCESS) return checkResult;
 
-
-        CivilizationController.nextTurnCivilizationUpdates();
-        changePlayerTurn();
+        Civilization civilization = GameController.getGame().getCurrentPlayer();
+        CivilizationController.nextTurnCivilizationUpdates(civilization);
+        changePlayerTurn(game);
 
         return CivilizationMessage.SUCCESS;
     }
 
-    private static void changePlayerTurn() {
+    public static void changePlayerTurn(Game game) {
         ArrayList<Civilization> civilizations = game.getCivilizations();
         Civilization currentCivilization = game.getCurrentPlayer();
         int playerIndex = civilizations.indexOf(currentCivilization);

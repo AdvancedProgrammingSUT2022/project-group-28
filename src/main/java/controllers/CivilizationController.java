@@ -41,12 +41,10 @@ public class CivilizationController extends GameController {
         return CivilizationMessage.SUCCESS;
     }
 
-    public static void nextTurnCivilizationUpdates() {
-        Civilization civilization = game.getCurrentPlayer();
-
+    public static void nextTurnCivilizationUpdates(Civilization civilization) {
         updateCivilization(civilization);
 
-        // TODO: add gold and siences
+        // TODO: add gold and sciences
 
         UnitController.nextTurnUnitUpdates(civilization.getUnits());
 
