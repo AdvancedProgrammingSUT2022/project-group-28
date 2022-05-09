@@ -54,6 +54,7 @@ public class City implements Combatable {
         }
         return tiles;
     }
+    
     public String getNAME() {
         return NAME;
     }
@@ -70,11 +71,17 @@ public class City implements Combatable {
         return tiles;
     }
 
-    public int getCitizens() { return citizens; }
+    public int getCitizens() { 
+        return citizens; 
+    }
 
-    public int getPopulation() { return population; }
+    public int getPopulation() { 
+        return population; 
+    }
 
-    public int getGrowthBucket() { return growthBucket; }
+    public int getGrowthBucket() { 
+        return growthBucket; 
+    }
 
     public int getStrength() {
         return strength;
@@ -82,6 +89,10 @@ public class City implements Combatable {
 
     public int getHitPoint() {
         return hitPoint;
+    }
+
+    public void setHitPoint(int hitPoint) {
+        this.hitPoint = hitPoint;
     }
 
     public int getFoodBalance() {
@@ -96,23 +107,36 @@ public class City implements Combatable {
         return buildings;
     }
 
-    public void setGrowthBucket(int growthBucket) { this.growthBucket = growthBucket; }
+    public void setGrowthBucket(int growthBucket) { 
+        this.growthBucket = growthBucket; 
+    }
 
-    public void setFoodBalance(int foodBalance) { this.foodBalance = foodBalance; }
+    public void setFoodBalance(int foodBalance) { 
+        this.foodBalance = foodBalance; 
+    }
 
-    public void setProductionBalance(int productionBalance) { this.productionBalance = productionBalance; }
+    public void setProductionBalance(int productionBalance) { 
+        this.productionBalance = productionBalance; 
+    }
 
-    public void increasePopulation(int value) { population += value; }
+    public void increasePopulation(int value) {
+        population += value; 
+    }
 
-    public void decreasePopulation(int value) { population -= value;}
+    public void decreasePopulation(int value) {
+        population -= value;
+    }
 
-    public void increaseCitizens(int value) { citizens += value; }
+    public void increaseCitizens(int value) {
+        citizens += value; 
+    }
 
-    public void decreaseCitizens(int value) { citizens -= value; }
+    public void decreaseCitizens(int value) {
+        citizens -= value; 
+    }
 
     public void addTile(Tile tile) { 
         tiles.add(tile); 
     }
-
 
 }
