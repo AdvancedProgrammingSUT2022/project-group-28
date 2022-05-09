@@ -3,9 +3,9 @@ package models.civilization;
 import controllers.GameController;
 import models.Combatable;
 import models.Game;
+import models.civilization.enums.BuildingTemplate;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
-import models.units.Unit;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,9 @@ public class City implements Combatable {
     private int foodBalance;
     private int productionBalance;
 
-    private ArrayList<Building> buildings = new ArrayList<>();
+    private Construction construction;
+
+    private ArrayList<BuildingTemplate> buildings = new ArrayList<>();
 
     public City(String name, Civilization civilization, Tile tile) {
         this.NAME = name;
@@ -87,7 +89,9 @@ public class City implements Combatable {
         return productionBalance;
     }
 
-    public ArrayList<Building> getBuildings() {
+    public Construction getConstruction() { return construction; }
+
+    public ArrayList<BuildingTemplate> getBuildings() {
         return buildings;
     }
 
@@ -96,6 +100,8 @@ public class City implements Combatable {
     public void setFoodBalance(int foodBalance) { this.foodBalance = foodBalance; }
 
     public void setProductionBalance(int productionBalance) { this.productionBalance = productionBalance; }
+
+    public void setConstruction(Construction construction) { this.construction = construction; }
 
     public void increasePopulation(int value) { population += value; }
 
@@ -108,6 +114,7 @@ public class City implements Combatable {
     public void addTile(Tile tile) { 
         tiles.add(tile); 
     }
+
 
 
 }

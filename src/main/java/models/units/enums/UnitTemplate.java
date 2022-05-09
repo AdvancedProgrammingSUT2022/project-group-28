@@ -1,14 +1,23 @@
 package models.units.enums;
 
+import controllers.CivilizationController;
+import controllers.TechnologyController;
+import models.Constructable;
+import models.civilization.City;
+import models.civilization.Civilization;
 import models.civilization.enums.TechnologyTemplate;
 import models.tiles.enums.ResourceTemplate;
+import views.enums.CityMessage;
 
-public enum UnitTemplate {
-    WORKER("Worker", 70, 0, 0, 0, 2, 1, null,null,UnitType.CIVILIAN),
-    SETTLER("Settler", 89, 0, 0, 0, 2, 1, null,null,UnitType.CIVILIAN),
-    WARRIOR("Warrior", 40, 6, 0, 0, 2, 1, null,null,UnitType.MELEE),
-    ARCHER("Archer", 70, 4, 6, 2, 2, 1, null,null,UnitType.RANGED),
-    SCOUT("Scout", 25, 4, 0, 0, 2, 1, null,null,UnitType.MELEE),
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public enum UnitTemplate implements Constructable {
+    WORKER("Worker", 70, 0, 0, 0, 2, 1, null,TechnologyTemplate.AGRICULTURE,UnitType.CIVILIAN),
+    SETTLER("Settler", 89, 0, 0, 0, 2, 1, null,TechnologyTemplate.AGRICULTURE,UnitType.CIVILIAN),
+    WARRIOR("Warrior", 40, 6, 0, 0, 2, 1, null,TechnologyTemplate.AGRICULTURE,UnitType.MELEE),
+    ARCHER("Archer", 70, 4, 6, 2, 2, 1, null,TechnologyTemplate.AGRICULTURE,UnitType.RANGED),
+    SCOUT("Scout", 25, 4, 0, 0, 2, 1, null,TechnologyTemplate.ARCHERY,UnitType.MELEE),
     CHARIOT_ARCHER("Chariot Archer", 60, 3, 6, 2, 4, 1, ResourceTemplate.HORSE,TechnologyTemplate.THE_WHEEL,UnitType.RANGED),
     SPEARMAN("Spearman", 50, 7, 0, 0, 2, 1, null,TechnologyTemplate.BRONZE_WORKING,UnitType.MELEE),
 
@@ -33,8 +42,20 @@ public enum UnitTemplate {
     INFANTRY("Infantry", 300, 36, 0, 0, 2, 5, null,TechnologyTemplate.REPLACEABLE_PARTS,UnitType.MELEE),
     PANZER("Panzer", 450, 60, 0, 0, 5, 5, null, TechnologyTemplate.COMBUSTION,UnitType.MELEE),
     TANK("Tank", 450, 50, 0, 0, 4, 5, null, TechnologyTemplate.COMBUSTION,UnitType.MELEE);
-    
     // TODO: Notes!!
+
+    @Override
+    public CityMessage checkPossibilityOfConstruction(City city) {
+        ArrayList<TechnologyTemplate> studiedTechnologies = TechnologyController.extractFullProgressTechnology();
+        if (!studiedTechnologies.contains(this.requiredTechnology)) return CityMessage.REQUIRED_TECHNOLOGY;
+        CivilizationController.updateResources(city.getCivilization());
+        HashMap<ResourceTemplate, Integer> resources = city.getCivilization().getResources();
+        if (resources.keySet().contains(this.requiredResource) &&
+            resources.get(this.requiredResource) == 0)
+            return CityMessage.REQUIRED_RESOURCE;
+        return CityMessage.SUCCESS;
+    }
+
 
     private String name;
     private int cost;

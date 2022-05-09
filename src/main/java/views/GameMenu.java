@@ -3,6 +3,7 @@ package views;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.*;
@@ -11,10 +12,12 @@ import controllers.*;
 import controllers.units.SettlerController;
 import controllers.units.UnitController;
 import controllers.units.WorkerController;
+import models.Constructable;
 import models.Game;
 import models.civilization.City;
 import models.civilization.Civilization;
 import models.civilization.Technology;
+import models.civilization.enums.BuildingTemplate;
 import models.civilization.enums.TechnologyTemplate;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
@@ -59,6 +62,8 @@ public class GameMenu extends Menu {
             nextTurn();
         } else if (command.startsWith("city buy tile")) {
             buyTile();
+        } else if (command.startsWith("city construct")) {
+            cityConstruct();
         } else if(command.equals("city info")){
             showCityInfo();
         } else if(command.equals("civilization info")){
@@ -801,7 +806,7 @@ public class GameMenu extends Menu {
             else
                 System.out.printf(Color.BLACK_BRIGHT + "%d- %s: %d  -  %s\n" + Color.RESET, i+1, unitTemplate.getName(),unitTemplate.getCost(), message);
         }
-        
+        // TODO: fix hashmap usage
         while(true){
             System.out.println("choose a unit to buy: (q for exit)");
             System.out.print("> ");
@@ -893,6 +898,62 @@ public class GameMenu extends Menu {
         }
         CheatController instance = CheatController.getInstance();
         instance.nextTurnCheat(GameController.getGame(), countValue);
+    }
+
+    private void cityConstruct() {
+        City city = GameController.getGame().getSelectedCity();
+        if (city == null) {
+            System.out.println("no selected city");
+            return;
+        }
+        HashMap<Constructable, CityMessage> allConstructions = CityController.getConstructableConstructions(city);
+        ArrayList<Constructable> constructionTemplates = new ArrayList<>(allConstructions.keySet());
+        for (int i = 0; i < constructionTemplates.size(); i++) {
+            Constructable constructable = constructionTemplates.get(i);
+            if (constructable instanceof UnitTemplate) {
+                UnitTemplate unitTemplate = (UnitTemplate) constructable;
+                switch (allConstructions.get(constructable)) {
+                    case REQUIRED_TECHNOLOGY:
+                        String string = Color.BLACK_BRIGHT.toString() + (i + 1) + "- " + unitTemplate.getName() +
+                                " requires tech: ";
+                        if (unitTemplate.getRequiredTechnology() != null)
+                            string = string + unitTemplate.getRequiredTechnology().getName();
+                        System.out.println(string);
+                        break;
+                    case REQUIRED_RESOURCE:
+                        System.out.println(Color.BLACK_BRIGHT.toString() + (i + 1) + "- " + unitTemplate.getName() +
+                                "requires resource: " + unitTemplate.getRequiredResource().getName());
+                        break;
+                    case SUCCESS:
+                        System.out.println( (i + 1) + "- " + unitTemplate.getName());
+                }
+
+                System.out.printf("%s", Color.RESET.toString());
+            } else if (constructable instanceof BuildingTemplate) {
+
+            }
+        }
+
+        System.out.println("(q for exit)");
+
+        while (true) {
+            String input = scanner.nextLine();
+            if (input.startsWith("q")) break;
+            if (!input.matches("\\-?\\d+")) {
+                System.out.println("invalid input");
+                continue;
+            }
+            int choice = Integer.parseInt(input);
+            if (choice <= 0 || choice > constructionTemplates.size()) {
+                System.out.println("invalid choice");
+                continue;
+            }
+            Constructable construction = constructionTemplates.get(choice - 1);
+            CityController.startConstructing(city, construction);
+            System.out.println("success");
+            break;
+        }
+
     }
 
 }

@@ -1,11 +1,13 @@
 package models.civilization.enums;
 
+import models.Constructable;
 import models.civilization.BuildingInterface;
 import models.civilization.City;
 import models.civilization.Technology;
+import views.enums.CityMessage;
 
 
-public enum BuildingTemplate implements BuildingInterface {
+public enum BuildingTemplate implements BuildingInterface, Constructable {
     BARRACKS("Barracks", 80, 1, 0, 1, TechnologyTemplate.BRONZE_WORKING) {
         @Override
         public boolean isAvailableToBuild(City city) {return true;}
@@ -217,6 +219,13 @@ public enum BuildingTemplate implements BuildingInterface {
         public void giveEffect(City city) {}
     };
 
+
+    // TODO: change due every building
+    @Override
+    public CityMessage checkPossibilityOfConstruction(City city) {
+        return CityMessage.SUCCESS;
+    }
+
     // TODO: Add required techs
 
     private String name;
@@ -240,5 +249,22 @@ public enum BuildingTemplate implements BuildingInterface {
 
     public TechnologyTemplate getRequiredTechnology() {
         return requiredTechnology;
+    }
+
+    @Override
+    public int getCost() {
+        return cost;
+    }
+
+    public int getMaintenance() {
+        return maintenance;
+    }
+
+    public int getSlots() {
+        return slots;
+    }
+
+    public int getEraNumber() {
+        return eraNumber;
     }
 }

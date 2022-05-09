@@ -1,18 +1,23 @@
 package controllers;
 
+import models.Constructable;
 import models.Game;
 import models.civilization.City;
 import models.civilization.Civilization;
+import models.civilization.Construction;
+import models.civilization.enums.BuildingTemplate;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
 import models.tiles.enums.ResourceTemplate;
-import models.units.Settler;
-import models.units.Unit;
+import models.units.*;
+import models.units.enums.UnitTemplate;
+import models.units.enums.UnitType;
 import views.enums.CityMessage;
 import views.enums.CivilizationMessage;
 import views.enums.UnitMessage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CityController extends GameController {
     // TODO: check position is in the visible tiles
@@ -116,6 +121,7 @@ public class CityController extends GameController {
     public static void updateCity(City city) {
         city.setFoodBalance(getCityFoodBalance(city));
         city.setProductionBalance(getCityProductionBalance(city));
+
         // TODO: Add all updates
     }
 
@@ -128,6 +134,7 @@ public class CityController extends GameController {
         for (City city : cities) {
             updateCity(city);
             growCity(city);
+            constructConstruction(city);
             // TODO: some tasks
         }
     }
@@ -161,7 +168,7 @@ public class CityController extends GameController {
         return value;
     }
 
-
+    // TODO: add buy radius
     public static CityMessage buyTile(City city, Tile tile) {
         if (!city.getCivilization().equals(game.getCurrentPlayer())) return CityMessage.NO_PERMISSION;
         Civilization civilization = city.getCivilization();
@@ -248,6 +255,24 @@ public class CityController extends GameController {
         return earnedGold - spentGold;
     }
 
+    public static HashMap<Constructable, CityMessage> getConstructableConstructions(City city) {
+        HashMap<Constructable, CityMessage> result = new HashMap<>();
+
+        for (UnitTemplate unitTemplate : UnitTemplate.values()) {
+            result.put(unitTemplate, unitTemplate.checkPossibilityOfConstruction(city));
+            // TODO: check the settler
+
+        }
+
+        // TODO: add buildings
+
+        return result;
+    }
+
+    public static void startConstructing(City city, Constructable construction) {
+        city.setConstruction(new Construction(construction));
+    }
+
     private static void growCity(City city) {
         // TODO: change formula
         int growthLimit = city.getPopulation() * (city.getPopulation() + 1) / 2 + 12;
@@ -268,6 +293,69 @@ public class CityController extends GameController {
 
         updateCity(city);
         CivilizationController.updateCivilization(city.getCivilization());
+    }
+
+    private static void constructConstruction(City city) {
+        if (city.getConstruction() != null) {
+            int productionBalance = getCityProductionBalance(city);
+            if (productionBalance < 0) return;
+            Construction construction = city.getConstruction();
+            Constructable constructionTemplate = city.getConstruction().getConstructionTemplate();
+            if (productionBalance + construction.getSpentProduction() < constructionTemplate.getCost()) {
+                construction.setSpentProduction(construction.getSpentProduction() + productionBalance);
+            } else {
+                if (constructionTemplate instanceof UnitTemplate) {
+                    UnitTemplate unitTemplate = (UnitTemplate) constructionTemplate;
+                    Civilization civilization = city.getCivilization();
+                    Tile tile = getNearestFreeTile(city, unitTemplate);
+                    switch (unitTemplate.getUnitType()) {
+                        case MELEE:
+                            Melee unit = new Melee(tile,civilization,unitTemplate);
+                            tile.setMilitary(unit);
+                            civilization.addUnit(unit);
+                            break;
+                        case CIVILIAN:
+                            Civilian civilian;
+                            if (unitTemplate == UnitTemplate.WORKER)
+                                civilian = new Worker(tile,civilization);
+                            else
+                                civilian = new Settler(tile, civilization);
+                            tile.setCivilian(civilian);
+                            civilization.addUnit(civilian);
+                            break;
+                        case RANGED:
+                            Ranged ranged = new Ranged(tile,civilization,unitTemplate);
+                            tile.setMilitary(ranged);
+                            civilization.addUnit(ranged);
+                            break;
+                        case SIEGE:
+                            Siege siege = new Siege(tile,civilization,unitTemplate);
+                            tile.setMilitary(siege);
+                            civilization.addUnit(siege);
+                            break;
+
+                    }
+                } else if (constructionTemplate instanceof BuildingTemplate) {
+                    // TODO: add
+                }
+
+                city.setConstruction(null);
+            }
+        }
+    }
+
+
+    // TODO: reform the process
+    private static Tile getNearestFreeTile(City city, UnitTemplate unitTemplate) {
+        Tile tile = city.getTile();
+        if (!isFullTile(tile, unitTemplate)) return tile;
+        return null;
+    }
+
+    private static boolean isFullTile(Tile tile, UnitTemplate unitTemplate) {
+        if (unitTemplate.getUnitType() == UnitType.CIVILIAN && tile.getCivilian() != null) return true;
+        if (unitTemplate.getUnitType() != UnitType.CIVILIAN && tile.getMilitary() != null) return true;
+        return false;
     }
 
     private static void getTileReward(City city) {
