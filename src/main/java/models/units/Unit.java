@@ -86,4 +86,6 @@ public abstract class Unit implements Combatable{
     public int getCombatStrength(){
         return unitTemplate.getCombatStrength() - (int) (((10-health)/10) * unitTemplate.getCombatStrength());
     }
+
+    public abstract void destroy();
 }
