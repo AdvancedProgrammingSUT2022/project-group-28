@@ -1,13 +1,14 @@
 package models.civilization;
 
 import controllers.GameController;
+import models.Combatable;
 import models.Game;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
 
 import java.util.ArrayList;
 
-public class City {
+public class City implements Combatable {
     private final String NAME;
     private Civilization civilization;
     private final Tile tile;
@@ -103,5 +104,8 @@ public class City {
 
     public void decreaseCitizens(int value) { citizens -= value; }
 
-    public void addTile(Tile tile) { tiles.add(tile); }
+    public void addTile(Tile tile) { 
+        tiles.add(tile); 
+    }
+
 }

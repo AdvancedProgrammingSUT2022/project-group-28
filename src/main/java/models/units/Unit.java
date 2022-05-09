@@ -1,11 +1,12 @@
 package models.units;
 
+import models.Combatable;
 import models.civilization.Civilization;
 import models.tiles.Tile;
 import models.units.enums.UnitTemplate;
 import models.units.enums.UnitState;
 
-public abstract class Unit {
+public abstract class Unit implements Combatable{
     protected Tile tile;
     protected Civilization civilization;
     protected UnitTemplate unitTemplate;
