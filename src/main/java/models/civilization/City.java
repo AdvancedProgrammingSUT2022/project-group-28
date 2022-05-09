@@ -5,13 +5,13 @@ import models.Combatable;
 import models.Game;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
-import models.units.Unit;
 
 import java.util.ArrayList;
 
 public class City implements Combatable {
     private final String NAME;
     private Civilization civilization;
+    private final Civilization FOUNDER;
     private final Tile tile;
     private ArrayList<Tile> tiles;
 
@@ -31,8 +31,13 @@ public class City implements Combatable {
     public City(String name, Civilization civilization, Tile tile) {
         this.NAME = name;
         this.civilization = civilization;
+        this.FOUNDER = civilization;
         this.tile = tile;
         this.tiles = getInitialTiles(tile);
+    }
+
+    public Civilization getFOUNDER() {
+        return FOUNDER;
     }
 
     private ArrayList<Tile> getInitialTiles(Tile tile) {
