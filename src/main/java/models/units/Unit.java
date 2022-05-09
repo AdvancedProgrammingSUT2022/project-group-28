@@ -82,4 +82,8 @@ public abstract class Unit implements Combatable{
     public void setMovePoint(int movePoint) {
         this.movePoint = movePoint;
     }
+
+    public int defend(int attack, Unit attacker) {
+        return 0;
+    }
 }

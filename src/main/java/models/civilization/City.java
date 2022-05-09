@@ -5,6 +5,7 @@ import models.Combatable;
 import models.Game;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
+import models.units.Unit;
 
 import java.util.ArrayList;
 
@@ -107,5 +108,6 @@ public class City implements Combatable {
     public void addTile(Tile tile) { 
         tiles.add(tile); 
     }
+
 
 }
