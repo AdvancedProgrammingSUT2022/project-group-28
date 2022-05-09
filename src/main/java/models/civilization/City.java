@@ -1,14 +1,13 @@
 package models.civilization;
 
 import controllers.GameController;
-import models.Combatable;
 import models.Game;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
 
 import java.util.ArrayList;
 
-public class City implements Combatable {
+public class City{
     private final String NAME;
     private Civilization civilization;
     private final Civilization FOUNDER;
@@ -93,6 +92,8 @@ public class City implements Combatable {
 
     public void setHitPoint(int hitPoint) {
         this.hitPoint = hitPoint;
+        if(hitPoint<=0)
+            this.destroy();
     }
 
     public int getFoodBalance() {
@@ -139,4 +140,16 @@ public class City implements Combatable {
         tiles.add(tile); 
     }
 
+    public void destroy(){
+        // TODO: complete method
+        GameController.getGame().getCurrentPlayer().getCities().remove(this);
+            tile.setCity(null);
+            for(Tile t:this.getTiles()){
+                t.setCivilization(null);        
+        }
+    }
+
+    public int getCombatStrength() {
+        return 5;
+    }
 }

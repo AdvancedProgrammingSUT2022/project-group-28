@@ -1,12 +1,11 @@
 package models.units;
 
-import models.Combatable;
 import models.civilization.Civilization;
 import models.tiles.Tile;
 import models.units.enums.UnitTemplate;
 import models.units.enums.UnitState;
 
-public abstract class Unit implements Combatable{
+public abstract class Unit{
     protected Tile tile;
     protected Civilization civilization;
     protected UnitTemplate unitTemplate;
@@ -77,6 +76,9 @@ public abstract class Unit implements Combatable{
 
     public void setHealth(int health) {
         this.health = health;
+        if(health <= 0) {
+            this.destroy();
+        }
     }
 
     public void setMovePoint(int movePoint) {
