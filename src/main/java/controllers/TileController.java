@@ -3,6 +3,9 @@ package controllers;
 import models.civilization.enums.TechnologyTemplate;
 import models.tiles.Tile;
 import models.tiles.enums.ImprovementTemplate;
+import models.units.Civilian;
+import models.units.Military;
+import models.units.Unit;
 
 import java.util.ArrayList;
 
@@ -30,5 +33,22 @@ public class TileController extends  GameController {
                         Math.abs(coordinates1[1] - coordinates2[1]) +
                         Math.abs(coordinates1[0] + coordinates1[1] - coordinates2[0] - coordinates2[1])) / 2;
         return distance;
-        }
+    }
+
+    public static boolean isFullTile(Tile tile, Unit unit) {
+        if (unit instanceof Civilian && tile.getCivilian() != null) return true;
+        if (unit instanceof Military && tile.getMilitary() != null) return true;
+        return false;
+    }
+
+    public static void freeTileUnit(Tile tile, Unit unit) {
+        if (unit instanceof Civilian) tile.setCivilian(null);
+        if (unit instanceof Military) tile.setMilitary(null);
+    }
+
+    public static void setTileUnit(Tile tile, Unit unit) {
+        if (unit instanceof Civilian) tile.setCivilian((Civilian) unit);
+        if (unit instanceof Military) tile.setMilitary((Military) unit);
+    }
+
 }

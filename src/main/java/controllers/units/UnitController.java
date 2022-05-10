@@ -1,6 +1,7 @@
 package controllers.units;
 
 import controllers.GameController;
+import controllers.TileController;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
 import models.units.Civilian;
@@ -96,6 +97,7 @@ public class UnitController extends GameController {
         return false;
     }
 
+    // TODO: SUPER CHECK MOVE
     private static void moveUnit(Unit unit, Tile startTile, Tile targetTile) {
         MapPair[][] checkMap = new MapPair[game.MAP_HEIGHT][game.MAP_WIDTH];
         for (int i = 0; i < game.MAP_HEIGHT; i++) {
@@ -189,15 +191,13 @@ public class UnitController extends GameController {
 
     private static HashMap<Integer[],Integer> getDistances(Tile targetTile, MapPair[][] checkMap, int currentMovePoint) {
         HashMap<Integer[], Integer> result = new HashMap<>();
-        int targetI = targetTile.getCoordinates()[0];
-        int targetJ = targetTile.getCoordinates()[1];
 
         for (int i = 0; i < game.MAP_HEIGHT; i++) {
             for (int j = 0; j < game.MAP_WIDTH; j++) {
                 if (checkMap[i][j].getMovePoint() >= 0) {
-                    int r = (int)(Math.sqrt(Math.pow(i - targetI, 2) + Math.pow(j - targetJ, 2)) + 0.5);
+                    Tile tile = game.getMap()[i][j];
+                    int r = TileController.getDistance(targetTile, tile);
                     result.put(new Integer[]{i, j}, r);
-//                    System.out.println(i + "-" + j + ": " + r + " == " + checkMap[i][j].getMovePoint());
                 }
             }
         }
@@ -292,11 +292,6 @@ public class UnitController extends GameController {
         }
 
         HashMap<Integer[], Integer> distances = getDistances(targetTile, checkMap, currentMovePoint);
-
-//        for (Integer[] integers : distances.keySet()) {
-//            System.out.println(integers[0] + " " + integers[1] + ": " + distances.get(integers));
-//        }
-
         if (isDirectMovePossible(distances)) {
             if (!isFullTile(unit, targetTile)) {
                 moveToTile(unit, targetTile, checkMap);

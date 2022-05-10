@@ -70,7 +70,9 @@ public class GameMenu extends Menu {
         } else if(command.startsWith("cheat increase gold")){
             increaseGold(command);
         } else if (command.startsWith("cheat next turn")) {
-            cheatNextTurn(command);
+                cheatNextTurn(command);
+        } else if (command.startsWith("cheat move unit")) {
+            cheatMoveUnit(command);
         } else if(command.equals("city buy unit")){
             buyUnit();
         } else if(command.startsWith("unit attack")){
@@ -519,6 +521,8 @@ public class GameMenu extends Menu {
                     break;
             }
         }
+        String nickname = GameController.getGame().getCurrentPlayer().getUser().getNickname();
+        System.out.println("it is " + nickname + "'s turn");
     }
 
     private void foundCity() {
@@ -1008,4 +1012,47 @@ public class GameMenu extends Menu {
                 break;
         }
     }
+
+    public void cheatMoveUnit(String command) {
+        CmdLineParser parser = new CmdLineParser();
+        Option<Integer> tileI = parser.addIntegerOption('i', "tileI");
+        Option<Integer> tileJ = parser.addIntegerOption('j', "tileJ");
+
+        try {
+            parser.parse(command.split(" "));
+        } catch (CmdLineParser.OptionException e) {
+            System.out.println("invalid command");
+            return;
+        }
+
+        Integer tileIValue = parser.getOptionValue(tileI);
+        Integer tileJValue = parser.getOptionValue(tileJ);
+
+        if(tileJValue==null || tileIValue==null) {
+            System.out.println("invalid command");
+            return;
+        }
+
+        UnitMessage result = CheatController.getInstance().moveUnitCheat(GameController.getGame(), tileIValue, tileJValue);
+        switch (result) {
+            case NO_SELECTED_UNIT:
+                System.out.println("no selected unit");
+                break;
+            case INVALID_POSITION:
+                System.out.println("invalid positions");
+                break;
+            case SAME_TARGET_TILE:
+                System.out.println("same target tile");
+                break;
+            case FULL_TARGET_TILE:
+                System.out.println("full target tile");
+                break;
+            case SUCCESS:
+                System.out.println("success");
+                break;
+            default:
+                break;
+        }
+    }
+
 }
