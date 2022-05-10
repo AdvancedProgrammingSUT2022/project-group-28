@@ -28,7 +28,7 @@ public class TileController extends  GameController {
         
         int distance = (Math.abs(coordinates1[0] - coordinates2[0]) +
                         Math.abs(coordinates1[1] - coordinates2[1]) +
-                        Math.abs(coordinates1[0] + coordinates2[0] - coordinates1[1] - coordinates2[1])) / 2;
+                        Math.abs(coordinates1[0] + coordinates1[1] - coordinates2[0] - coordinates2[1])) / 2;
         return distance;
         }
 }
