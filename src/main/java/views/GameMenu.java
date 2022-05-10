@@ -517,6 +517,8 @@ public class GameMenu extends Menu {
                     break;
             }
         }
+        String nickname = GameController.getGame().getCurrentPlayer().getUser().getNickname();
+        System.out.println("it is " + nickname + "'s turn");
     }
 
     private void foundCity() {
