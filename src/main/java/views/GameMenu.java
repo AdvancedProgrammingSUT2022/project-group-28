@@ -884,7 +884,6 @@ public class GameMenu extends Menu {
     }
 
     private void cheatNextTurn(String command) {
-        // TODO: test cheat
         CmdLineParser parser = new CmdLineParser();
         Option<Integer> count = parser.addIntegerOption('c', "count");
 
