@@ -1019,6 +1019,12 @@ public class GameMenu extends Menu {
             case NEEDS_MELEE_UNIT:
                 System.out.println("only melee units can conquer or destroy a city.");
                 break;
+            case NO_MOVE_POINT:
+                System.out.println("you don't have enough move points.");
+                break;
+            case NOT_PREPARED:
+                System.out.println("you have not prepared your siege unit.");
+                break;
         }
     }
 
