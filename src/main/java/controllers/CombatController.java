@@ -19,8 +19,8 @@ public class CombatController {
         Tile tile = game.getMap()[i][j];
         if (!CivilizationController.isTileVisible(tile, game.getCurrentPlayer())) return CombatMessage.NOT_VISIBLE_TILE;
         int distance = TileController.getDistance(unit.getTile(), tile);
-        if(((unit.getUnitTemplate().getRange()==0)&&(distance!=1)) ||
-            distance > unit.getUnitTemplate().getRange()) 
+        if(((unit instanceof Melee)&&(distance>1)) ||
+            (!(unit instanceof Melee) && distance > unit.getUnitTemplate().getRange())) 
             return CombatMessage.OUT_OF_RANGE;
         if(unit instanceof Melee){
             return meleeAttack(unit, tile);
@@ -34,9 +34,7 @@ public class CombatController {
 
     private static CombatMessage meleeAttack(Unit unit, Tile tile) {
         Game game = GameController.getGame();
-        int strength = (int)Math.ceil(unit.getCombatStrength() *
-                                     (unit.getTile().getTerrain().getCombatModifiers() +
-                                      unit.getTile().getTerrainFeature().getCombatModifier()));
+        int strength = getCombatStrength(unit, false);
         if (tile.getCity()!=null){
             City city = tile.getCity();
             if(city.getCivilization()==game.getCurrentPlayer()) return CombatMessage.CANNOT_ATTACK_YOURSELF;
@@ -55,7 +53,7 @@ public class CombatController {
             target.setHealth(target.getHealth()-strength);
             unit.setMovePoint(0);
             if(target.getHealth()>0){
-                unit.setHealth(unit.getHealth()-target.getCombatStrength());
+                unit.setHealth(unit.getHealth()- getCombatStrength(target,false));
             }else{
                 unit.getTile().setMilitary(null);
                 unit.setTile(target.getTile());
@@ -68,9 +66,7 @@ public class CombatController {
 
     private static CombatMessage rangedAttack(Ranged unit, Tile tile) {
         Game game = GameController.getGame();
-        int strength = (int)Math.ceil(unit.getRangedCombatStrength() *
-                                     (unit.getTile().getTerrain().getCombatModifiers() +
-                                      unit.getTile().getTerrainFeature().getCombatModifier()));
+        int strength = getCombatStrength(unit, true);
         if (tile.getCity()!=null){
             City city = tile.getCity();
             if(city.getCivilization()==game.getCurrentPlayer()) return CombatMessage.CANNOT_ATTACK_YOURSELF;
@@ -88,7 +84,7 @@ public class CombatController {
               (target instanceof Ranged && 
               !(target instanceof Siege) && 
               TileController.getDistance(tile, unit.getTile()) <= target.getUnitTemplate().getRange())){
-                unit.setHealth(unit.getHealth()-((Ranged)target).getRangedCombatStrength());
+                unit.setHealth(unit.getHealth()-getCombatStrength(target, true));
             }
         }else{
             return CombatMessage.NO_COMBATABLE;
@@ -103,5 +99,18 @@ public class CombatController {
             }
         }
         return false;
+    }
+
+    public static int getCombatStrength(Unit unit, Boolean isRanged){
+        int strength = 0;
+        if(isRanged){
+            strength = ((Ranged)unit).getRangedCombatStrength();
+        }else{
+            strength = unit.getCombatStrength();
+        }
+        
+        strength =(int)Math.ceil (1 + unit.getTile().getTerrain().getCombatModifiers() +
+                        ((unit.getTile().getTerrainFeature()==null)?0:unit.getTile().getTerrainFeature().getCombatModifier()));
+        return strength;
     }
 }
