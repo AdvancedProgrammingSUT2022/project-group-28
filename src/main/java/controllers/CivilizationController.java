@@ -1,7 +1,7 @@
 package controllers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import controllers.units.UnitController;
@@ -21,7 +21,6 @@ import models.units.Unit;
 import models.units.Worker;
 import models.units.enums.UnitTemplate;
 import models.units.enums.UnitType;
-import views.enums.CityMessage;
 import views.enums.CivilizationMessage;
 
 public class CivilizationController extends GameController {
@@ -154,8 +153,8 @@ public class CivilizationController extends GameController {
         return count;
     }
 
-    public static HashMap<UnitTemplate,String> getAvailableUnitTemplates(Civilization currentPlayer, Tile tile) {
-        HashMap<UnitTemplate,String> availableUnitTemplates = new HashMap<>();
+    public static LinkedHashMap<UnitTemplate,String> getAvailableUnitTemplates(Civilization currentPlayer, Tile tile) {
+        LinkedHashMap<UnitTemplate,String> availableUnitTemplates = new LinkedHashMap<>();
         for (UnitTemplate unitTemplate : UnitTemplate.values()) {
             if (unitTemplate.getRequiredResource() != null) {
                 if (currentPlayer.getResources().get(unitTemplate.getRequiredResource()) == 0) {
@@ -211,6 +210,8 @@ public class CivilizationController extends GameController {
                 Siege siege = new Siege(tile,civilization,unitTemplate);
                 tile.setMilitary(siege);
                 civilization.addUnit(siege);
+                break;
+            default:
                 break;
         }
     }

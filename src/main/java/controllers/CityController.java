@@ -14,10 +14,9 @@ import models.units.enums.UnitTemplate;
 import models.units.enums.UnitType;
 import views.enums.CityMessage;
 import views.enums.CivilizationMessage;
-import views.enums.UnitMessage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class CityController extends GameController {
     // TODO: check position is in the visible tiles
@@ -260,8 +259,8 @@ public class CityController extends GameController {
         return earnedGold - spentGold;
     }
 
-    public static HashMap<Constructable, CityMessage> getConstructableConstructions(City city) {
-        HashMap<Constructable, CityMessage> result = new HashMap<>();
+    public static LinkedHashMap<Constructable, CityMessage> getConstructableConstructions(City city) {
+        LinkedHashMap<Constructable, CityMessage> result = new LinkedHashMap<>();
 
         for (UnitTemplate unitTemplate : UnitTemplate.values()) {
             result.put(unitTemplate, unitTemplate.checkPossibilityOfConstruction(city));

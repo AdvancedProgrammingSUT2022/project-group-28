@@ -8,5 +8,5 @@ public enum UnitState {
     ALERT,
     FORTIFYING,
     FORTIFYING_UNTIL_HEALED,
-    GARRISONED;
+    PREPARED;
 }

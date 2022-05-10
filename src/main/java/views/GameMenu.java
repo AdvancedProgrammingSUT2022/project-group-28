@@ -2,8 +2,7 @@ package views;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.LinkedHashMap;
 
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.*;
@@ -18,7 +17,6 @@ import models.civilization.City;
 import models.civilization.Civilization;
 import models.civilization.Technology;
 import models.civilization.enums.BuildingTemplate;
-import models.civilization.enums.TechnologyTemplate;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
 import models.tiles.enums.ImprovementTemplate;
@@ -67,8 +65,8 @@ public class GameMenu extends Menu {
             showCityInfo();
         } else if(command.equals("civilization info")){
             showCivilizationInfo();
-        } else if(command.equals("technology info")){
-            showTechnologyInfo();
+        } else if(command.equals("research panel")){
+            showResearchPanel();
         } else if(command.startsWith("cheat increase gold")){
             increaseGold(command);
         } else if (command.startsWith("cheat next turn")) {
@@ -81,6 +79,8 @@ public class GameMenu extends Menu {
             unitAttack(command);
         } else if(command.equals("unit info")){
             showUnitInfo();
+        }else if(command.equals("unit prepare")){
+            prepareUnit();
         } else if(command.equals("menu exit")){
             Menu.setCurrentMenu(MainMenu.getInstance());
             return true;            
@@ -780,7 +780,25 @@ public class GameMenu extends Menu {
         System.out.println("**************************************");
     }
 
-    private void showTechnologyInfo(){
+    private void showResearchPanel(){
+        Civilization civilization = GameController.getGame().getCurrentPlayer();
+        if (civilization.getCurrentStudyTechnology() != null) {
+            System.out.println("# your current study : " + civilization.getCurrentStudyTechnology().getTechnologyTemplate().getName()
+                    + " \t"
+                    + civilization.getCurrentStudyTechnology().getProgress() + " of "
+                    + civilization.getCurrentStudyTechnology().getTechnologyTemplate().getCost());
+            System.out.println("  If you finish this study you will get :");
+            System.out.println("## UNITS :\n" +
+                    TechnologyController.extractTheObtainedUnits(civilization.getCurrentStudyTechnology().getTechnologyTemplate()) +
+                    "## BULDINGS :\n" +
+                    TechnologyController.extractTheObtainedBuildings(civilization.getCurrentStudyTechnology().getTechnologyTemplate()));
+        }
+        System.out.println("# Civilization technologies: ");
+        for (Technology technology : civilization.getStudiedTechnologies()) {
+            System.out.println(" -> " + technology.getTechnologyTemplate().getName() + " : "
+                    + technology.getProgress() + " of " + technology.getTechnologyTemplate().getCost());
+        }
+        if (civilization.getStudiedTechnologies().size() == 0) System.out.println("  nothing");
 
     }
     
@@ -811,7 +829,7 @@ public class GameMenu extends Menu {
             System.out.println("you have to select a city first");
             return;
         }
-        HashMap<UnitTemplate,String> availableUnitTemplates = CivilizationController.getAvailableUnitTemplates(game.getCurrentPlayer(), game.getSelectedCity().getTile());
+        LinkedHashMap<UnitTemplate,String> availableUnitTemplates = CivilizationController.getAvailableUnitTemplates(game.getCurrentPlayer(), game.getSelectedCity().getTile());
         
         for (int i = 0; i < availableUnitTemplates.keySet().size(); i++) {
             UnitTemplate unitTemplate = (UnitTemplate) availableUnitTemplates.keySet().toArray()[i];
@@ -821,7 +839,6 @@ public class GameMenu extends Menu {
             else
                 System.out.printf(Color.BLACK_BRIGHT + "%d- %s: %d  -  %s\n" + Color.RESET, i+1, unitTemplate.getName(),unitTemplate.getCost(), message);
         }
-        // TODO: fix hashmap usage
         while(true){
             System.out.println("choose a unit to buy: (q for exit)");
             System.out.print("> ");
@@ -922,7 +939,7 @@ public class GameMenu extends Menu {
             System.out.println("no selected city");
             return;
         }
-        HashMap<Constructable, CityMessage> allConstructions = CityController.getConstructableConstructions(city);
+        LinkedHashMap<Constructable, CityMessage> allConstructions = CityController.getConstructableConstructions(city);
         ArrayList<Constructable> constructionTemplates = new ArrayList<>(allConstructions.keySet());
         for (int i = 0; i < constructionTemplates.size(); i++) {
             Constructable constructable = constructionTemplates.get(i);
@@ -942,6 +959,9 @@ public class GameMenu extends Menu {
                         break;
                     case SUCCESS:
                         System.out.println( (i + 1) + "- " + unitTemplate.getName());
+                        break;
+                    default:
+                        break;
                 }
 
                 System.out.printf("%s", Color.RESET.toString());
@@ -1019,6 +1039,15 @@ public class GameMenu extends Menu {
             case SUCCESS:
                 System.out.println("attack successfully.");
                 break;
+            case NEEDS_MELEE_UNIT:
+                System.out.println("only melee units can conquer or destroy a city.");
+                break;
+            case NO_MOVE_POINT:
+                System.out.println("you don't have enough move points.");
+                break;
+            case NOT_PREPARED:
+                System.out.println("you have not prepared your siege unit.");
+                break;
         }
     }
 
@@ -1083,10 +1112,26 @@ public class GameMenu extends Menu {
                 System.out.println("unit range: " + ((Ranged) unit).getUnitTemplate().getRange());
                 System.out.println("unit raw ranged combat strength: " + ((Ranged) unit).getCombatStrength());
                 System.out.println("unit ranged combat strength: " + CombatController.getCombatStrength((Ranged) unit, true));
-                if(unit instanceof Siege && ((Siege)unit).isPrepared()) System.out.println("siege unit is prepared");
-                if(unit instanceof Siege && !((Siege)unit).isPrepared()) System.out.println("siege unit is not prepared");
             }
+            System.out.println("unit state :" + unit.getUnitState());
             System.out.println("*****************************");
         }
+    }
+
+    private void prepareUnit(){
+        switch(UnitController.prepareUnit()){
+            case SUCCESS:
+                System.out.println("unit prepared");
+                break;
+            case NO_SELECTED_UNIT:
+                System.out.println("no selected unit");
+                break;
+            case NO_SIEGE_UNIT:
+                System.out.println("unit is not siege unit");
+                break;
+            default:
+                break;   
+        }
+
     }
 }

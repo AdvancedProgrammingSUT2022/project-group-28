@@ -159,7 +159,7 @@ public class TechnologyController extends GameController {
         return out;
     }
 
-    private static String extractTheObtainedUnits(TechnologyTemplate technologyTemplate){
+    public static String extractTheObtainedUnits(TechnologyTemplate technologyTemplate){
         String out = "";
         for (UnitTemplate unit: UnitTemplate.values()) {
             if(unit.getRequiredTechnology() != null &&
@@ -172,7 +172,7 @@ public class TechnologyController extends GameController {
         }
         return out;
     }
-    private static String extractTheObtainedBuildings(TechnologyTemplate technologyTemplate){
+    public static String extractTheObtainedBuildings(TechnologyTemplate technologyTemplate){
         String out = "";
         for (BuildingTemplate building: BuildingTemplate.values()) {
             if(building.getRequiredTechnology() != null &&
