@@ -2,8 +2,6 @@ package views;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.NoSuchElementException;
-import java.util.Set;
 
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.*;
@@ -18,7 +16,6 @@ import models.civilization.City;
 import models.civilization.Civilization;
 import models.civilization.Technology;
 import models.civilization.enums.BuildingTemplate;
-import models.civilization.enums.TechnologyTemplate;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
 import models.tiles.enums.ImprovementTemplate;
@@ -81,6 +78,8 @@ public class GameMenu extends Menu {
             unitAttack(command);
         } else if(command.equals("unit info")){
             showUnitInfo();
+        }else if(command.equals("unit prepare")){
+            prepareUnit();
         } else if(command.equals("menu exit")){
             Menu.setCurrentMenu(MainMenu.getInstance());
             return true;            
@@ -937,6 +936,9 @@ public class GameMenu extends Menu {
                         break;
                     case SUCCESS:
                         System.out.println( (i + 1) + "- " + unitTemplate.getName());
+                        break;
+                    default:
+                        break;
                 }
 
                 System.out.printf("%s", Color.RESET.toString());
@@ -1014,6 +1016,9 @@ public class GameMenu extends Menu {
             case SUCCESS:
                 System.out.println("attack successfully.");
                 break;
+            case NEEDS_MELEE_UNIT:
+                System.out.println("only melee units can conquer or destroy a city.");
+                break;
         }
     }
 
@@ -1082,5 +1087,22 @@ public class GameMenu extends Menu {
             }
             System.out.println("*****************************");
         }
+    }
+
+    private void prepareUnit(){
+        switch(UnitController.prepareUnit()){
+            case SUCCESS:
+                System.out.println("unit prepared");
+                break;
+            case NO_SELECTED_UNIT:
+                System.out.println("no selected unit");
+                break;
+            case NO_SIEGE_UNIT:
+                System.out.println("unit is not siege unit");
+                break;
+            default:
+                break;   
+        }
+
     }
 }

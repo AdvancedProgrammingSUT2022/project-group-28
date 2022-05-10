@@ -6,6 +6,7 @@ import models.tiles.Tile;
 import models.tiles.enums.Direction;
 import models.units.Civilian;
 import models.units.Military;
+import models.units.Siege;
 import models.units.Unit;
 import models.units.Worker;
 import models.units.enums.UnitState;
@@ -150,6 +151,7 @@ public class UnitController extends GameController {
             }
         }
     }
+    
     private static boolean isValidDirection(int i, int j, Direction direction, MapPair[][] checkMap) {
         if (i + direction.i < game.MAP_HEIGHT && i + direction.i >= 0 &&
             j + direction.j < game.MAP_WIDTH && j + direction.j >= 0 &&
@@ -330,6 +332,13 @@ public class UnitController extends GameController {
         unit.setUnitState(UnitState.MOVING);
     }
 
+    public static UnitMessage prepareUnit(){
+        Unit unit = game.getSelectedUnit();
+        if(unit == null) return UnitMessage.NO_SELECTED_UNIT;
+        else if(!(unit instanceof Siege)) return UnitMessage.NO_SIEGE_UNIT;
+        ((Siege)unit).setPrepared(true);
+        return UnitMessage.SUCCESS;
+    }
 }
 
 class MapPair {

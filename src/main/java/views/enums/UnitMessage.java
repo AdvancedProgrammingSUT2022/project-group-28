@@ -21,5 +21,7 @@ public enum UnitMessage {
     // Worker messages
     NOT_PLAYER_TILE,
     CITY_TILE,
-    SUCCESS;
+    SUCCESS, 
+    // prepare siege messages
+    NO_SIEGE_UNIT;
 }
