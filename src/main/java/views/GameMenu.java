@@ -65,8 +65,8 @@ public class GameMenu extends Menu {
             showCityInfo();
         } else if(command.equals("civilization info")){
             showCivilizationInfo();
-        } else if(command.equals("technology info")){
-            showTechnologyInfo();
+        } else if(command.equals("research panel")){
+            showResearchPanel();
         } else if(command.startsWith("cheat increase gold")){
             increaseGold(command);
         } else if (command.startsWith("cheat next turn")) {
@@ -775,7 +775,25 @@ public class GameMenu extends Menu {
         System.out.println("**************************************");
     }
 
-    private void showTechnologyInfo(){
+    private void showResearchPanel(){
+        Civilization civilization = GameController.getGame().getCurrentPlayer();
+        if (civilization.getCurrentStudyTechnology() != null) {
+            System.out.println("# your current study : " + civilization.getCurrentStudyTechnology().getTechnologyTemplate().getName()
+                    + " \t"
+                    + civilization.getCurrentStudyTechnology().getProgress() + " of "
+                    + civilization.getCurrentStudyTechnology().getTechnologyTemplate().getCost());
+            System.out.println("  If you finish this study you will get :");
+            System.out.println("## UNITS :\n" +
+                    TechnologyController.extractTheObtainedUnits(civilization.getCurrentStudyTechnology().getTechnologyTemplate()) +
+                    "## BULDINGS :\n" +
+                    TechnologyController.extractTheObtainedBuildings(civilization.getCurrentStudyTechnology().getTechnologyTemplate()));
+        }
+        System.out.println("# Civilization technologies: ");
+        for (Technology technology : civilization.getStudiedTechnologies()) {
+            System.out.println(" -> " + technology.getTechnologyTemplate().getName() + " : "
+                    + technology.getProgress() + " of " + technology.getTechnologyTemplate().getCost());
+        }
+        if (civilization.getStudiedTechnologies().size() == 0) System.out.println("  nothing");
 
     }
     
