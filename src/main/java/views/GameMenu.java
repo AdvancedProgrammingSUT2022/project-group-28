@@ -73,6 +73,8 @@ public class GameMenu extends Menu {
             cheatNextTurn(command);
         } else if(command.equals("city buy unit")){
             buyUnit();
+        } else if(command.startsWith("unit attack")){
+            unitAttack(command);
         } else if(command.equals("menu exit")){
             Menu.setCurrentMenu(MainMenu.getInstance());
             return true;            
@@ -782,7 +784,9 @@ public class GameMenu extends Menu {
             return;
         }
 
-        int goldValue = parser.getOptionValue(amount);
+        Integer goldValue = parser.getOptionValue(amount);
+
+        if(goldValue == null)System.out.println("invalid command");
 
         Civilization civilization = GameController.getGame().getCurrentPlayer();
         civilization.setGold(civilization.getGold() + goldValue);
@@ -962,6 +966,13 @@ public class GameMenu extends Menu {
         CmdLineParser parser = new CmdLineParser();
         Option<Integer> tileI = parser.addIntegerOption('i', "tileI");
         Option<Integer> tileJ = parser.addIntegerOption('j', "tileJ");
+        
+        try {
+            parser.parse(command.split(" "));
+        } catch (CmdLineParser.OptionException e) {
+            System.out.println("invalid command");
+            return;
+        }
         
         Integer tileIValue = parser.getOptionValue(tileI);
         Integer tileJValue = parser.getOptionValue(tileJ);
