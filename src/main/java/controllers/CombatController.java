@@ -109,8 +109,8 @@ public class CombatController {
             strength = unit.getCombatStrength();
         }
         
-        strength =(int)Math.ceil (1 + unit.getTile().getTerrain().getCombatModifiers() +
-                        ((unit.getTile().getTerrainFeature()==null)?0:unit.getTile().getTerrainFeature().getCombatModifier()));
+        strength =(int)Math.ceil(strength * (1 + unit.getTile().getTerrain().getCombatModifiers() +
+                        ((unit.getTile().getTerrainFeature()==null)?0:unit.getTile().getTerrainFeature().getCombatModifier())));
         return strength;
     }
 }

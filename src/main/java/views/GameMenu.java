@@ -326,6 +326,7 @@ public class GameMenu extends Menu {
         CmdLineParser parser = new CmdLineParser();
         Option<Integer> unitI = parser.addIntegerOption('i', "unitI");
         Option<Integer> unitJ = parser.addIntegerOption('j', "unitJ");
+        Option<Boolean> cheatMode = parser.addBooleanOption('c', "cheat");
 
         try {
             parser.parse(command.split(" "));
@@ -336,11 +337,12 @@ public class GameMenu extends Menu {
 
         Integer unitIValue = parser.getOptionValue(unitI);
         Integer unitJValue = parser.getOptionValue(unitJ);
+        Boolean cheatModeValue = parser.getOptionValue(cheatMode, false);
         if(unitIValue==null || unitJValue==null) {
             System.out.println("Invalid command");
             return;
         }
-        UnitMessage result = UnitController.selectCombatUnit(unitIValue, unitJValue);
+        UnitMessage result = UnitController.selectCombatUnit(unitIValue, unitJValue, cheatModeValue);
 
         switch (result) {
             case INVALID_POSITION:
@@ -364,6 +366,7 @@ public class GameMenu extends Menu {
         CmdLineParser parser = new CmdLineParser();
         Option<Integer> unitI = parser.addIntegerOption('i', "unitI");
         Option<Integer> unitJ = parser.addIntegerOption('j', "unitJ");
+        Option<Boolean> cheatMode = parser.addBooleanOption('c', "cheat");
 
         try {
             parser.parse(command.split(" "));
@@ -374,13 +377,14 @@ public class GameMenu extends Menu {
 
         Integer unitIValue = parser.getOptionValue(unitI);
         Integer unitJValue = parser.getOptionValue(unitJ);
+        Boolean cheatModeValue = parser.getOptionValue(cheatMode, false);
 
         if(unitIValue==null || unitJValue==null) {
             System.out.println("Invalid command");
             return;
         }
 
-        UnitMessage result = UnitController.selectNonCombatUnit(unitIValue, unitJValue);
+        UnitMessage result = UnitController.selectNonCombatUnit(unitIValue, unitJValue, cheatModeValue);
         switch (result) {
             case INVALID_POSITION:
                 System.out.println("Invalid position");
@@ -525,6 +529,7 @@ public class GameMenu extends Menu {
                     break;
             }
         }
+        // TODO: check
         String nickname = GameController.getGame().getCurrentPlayer().getUser().getNickname();
         System.out.println("it is " + nickname + "'s turn");
     }
@@ -1068,6 +1073,7 @@ public class GameMenu extends Menu {
             System.out.println("*****************************");
             System.out.println("unit name: " + unit.getUnitTemplate().getName());
             System.out.println("unit type: " + unit.getUnitTemplate().getUnitType());
+            System.out.println("unit mp: " + unit.getMovePoint());
             System.out.println("unit health: " + unit.getHealth());
             System.out.println("unit coordinates: " + unit.getTile().getCoordinates()[0] + " , " + unit.getTile().getCoordinates()[1]);
             System.out.println("unit raw combat strength: " + unit.getCombatStrength());

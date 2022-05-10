@@ -17,23 +17,22 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class UnitController extends GameController {
-
-    public static UnitMessage selectCombatUnit(int i, int j) {
+    public static UnitMessage selectCombatUnit(int i, int j, boolean cheatMode) {
         if (i < 0 || i >= game.MAP_HEIGHT || j < 0 || j >= game.MAP_WIDTH)
             return UnitMessage.INVALID_POSITION;
         Tile tile = game.getMap()[i][j];
         if (tile.getMilitary() == null) return UnitMessage.NOT_COMBAT_UNIT;
-        if (!tile.getMilitary().getCivilization().equals(game.getCurrentPlayer())) return UnitMessage.NO_PERMISSION;
+        if (!tile.getMilitary().getCivilization().equals(game.getCurrentPlayer()) && !cheatMode) return UnitMessage.NO_PERMISSION;
         game.setSelectedUnit(tile.getMilitary());
         return UnitMessage.SUCCESS;
     }
 
-    public static UnitMessage selectNonCombatUnit(int i, int j) {
+    public static UnitMessage selectNonCombatUnit(int i, int j, boolean cheatMode) {
         if (i < 0 || i >= game.MAP_HEIGHT || j < 0 || j >= game.MAP_WIDTH)
             return UnitMessage.INVALID_POSITION;
         Tile tile = game.getMap()[i][j];
         if (tile.getCivilian() == null) return UnitMessage.NOT_NONCOMBAT_UNIT;
-        if (!tile.getCivilian().getCivilization().equals(game.getCurrentPlayer())) return UnitMessage.NO_PERMISSION;
+        if (!tile.getCivilian().getCivilization().equals(game.getCurrentPlayer()) && !cheatMode) return UnitMessage.NO_PERMISSION;
         game.setSelectedUnit(tile.getCivilian());
         return UnitMessage.SUCCESS;
     }
@@ -124,17 +123,6 @@ public class UnitController extends GameController {
         }
 
         HashMap<Integer[], Integer> distances = getDistances(targetTile, checkMap, currentMovePoint);
-
-        for (int i = -4; i < 5; i++) {
-            for (int j = -4; j < 5; j++) {
-                System.out.printf("%2d ", checkMap[i + startI][j + startJ].getMovePoint());
-            }
-            System.out.println();
-        }
-
-//        for (Integer[] integers : distances.keySet()) {
-//            System.out.println(integers[0] + " " + integers[1] + ": " + distances.get(integers));
-//        }
 
         if (isDirectMovePossible(distances)) {
             directMove(targetTile, checkMap);
@@ -297,14 +285,6 @@ public class UnitController extends GameController {
                 }
             }
         }
-
-        for (int i = -4; i < 5; i++) {
-            for (int j = -4; j < 5; j++) {
-                System.out.printf("%2d ", checkMap[i + startI][j + startJ].getMovePoint());
-            }
-            System.out.println();
-        }
-
 
         HashMap<Integer[], Integer> distances = getDistances(targetTile, checkMap, currentMovePoint);
         if (isDirectMovePossible(distances)) {

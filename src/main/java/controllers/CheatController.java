@@ -30,6 +30,7 @@ public class CheatController {
     }
 
     public UnitMessage moveUnitCheat(Game game, int i, int j) {
+        // TODO: go to accessible tile
         Unit unit = game.getSelectedUnit();
         if (unit == null) return UnitMessage.NO_SELECTED_UNIT;
         if (i >= game.MAP_HEIGHT || i < 0 || j >= game.MAP_WIDTH || j < 0) return UnitMessage.INVALID_POSITION;

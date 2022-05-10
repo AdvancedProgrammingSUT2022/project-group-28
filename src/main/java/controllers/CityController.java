@@ -187,7 +187,8 @@ public class CityController extends GameController {
         int producedFood = 0;
         Tile cityTile = city.getTile();
         producedFood += cityTile.getTerrain().getFood();
-        if (city.getConstruction().getConstructionTemplate() instanceof UnitTemplate) {
+        if (city.getConstruction() != null &&
+            city.getConstruction().getConstructionTemplate() instanceof UnitTemplate) {
             UnitTemplate unitTemplate = (UnitTemplate) city.getConstruction().getConstructionTemplate();
             if (unitTemplate == UnitTemplate.SETTLER) return 0;
         }

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public enum UnitTemplate implements Constructable {
+    // TODO: super check
     WORKER("Worker", 70, 0, 0, 0, 2, 1, null,TechnologyTemplate.AGRICULTURE,UnitType.CIVILIAN),
     SETTLER("Settler", 89, 0, 0, 0, 2, 1, null,TechnologyTemplate.AGRICULTURE,UnitType.CIVILIAN),
     WARRIOR("Warrior", 40, 6, 0, 0, 2, 1, null,TechnologyTemplate.AGRICULTURE,UnitType.MELEE),

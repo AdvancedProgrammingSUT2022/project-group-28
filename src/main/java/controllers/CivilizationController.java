@@ -29,6 +29,7 @@ public class CivilizationController extends GameController {
     public static CivilizationMessage checkNextTurnIsPossible() {
         Civilization civilization = game.getCurrentPlayer();
         // TODO: Add all civlization
+        // TODO: check city to construct something
         CivilizationMessage checkUnits = UnitController.checkUnitsForNextTurn(civilization.getUnits());
         if (checkUnits != CivilizationMessage.SUCCESS)
             return checkUnits;
