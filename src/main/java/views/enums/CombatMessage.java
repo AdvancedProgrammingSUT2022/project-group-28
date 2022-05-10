@@ -7,5 +7,5 @@ public enum CombatMessage {
     OUT_OF_RANGE, 
     NOT_VISIBLE_TILE, 
     CANNOT_ATTACK_YOURSELF,
-    SUCCESS;
+    SUCCESS, NEEDS_MELEE_UNIT;
 }

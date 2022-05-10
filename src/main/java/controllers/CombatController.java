@@ -19,7 +19,7 @@ public class CombatController {
         Tile tile = game.getMap()[i][j];
         if (!CivilizationController.isTileVisible(tile, game.getCurrentPlayer())) return CombatMessage.NOT_VISIBLE_TILE;
         int distance = TileController.getDistance(unit.getTile(), tile);
-        if((unit.getUnitTemplate().getRange()==0)&&(distance!=1) ||
+        if(((unit.getUnitTemplate().getRange()==0)&&(distance!=1)) ||
             distance > unit.getUnitTemplate().getRange()) 
             return CombatMessage.OUT_OF_RANGE;
         if(unit instanceof Melee){
