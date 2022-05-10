@@ -22,7 +22,9 @@ import models.civilization.enums.TechnologyTemplate;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
 import models.tiles.enums.ImprovementTemplate;
+import models.units.Ranged;
 import models.units.Settler;
+import models.units.Siege;
 import models.units.Unit;
 import models.units.Worker;
 import models.units.enums.UnitTemplate;
@@ -77,6 +79,8 @@ public class GameMenu extends Menu {
             buyUnit();
         } else if(command.startsWith("unit attack")){
             unitAttack(command);
+        } else if(command.equals("unit info")){
+            showUnitInfo();
         } else if(command.equals("menu exit")){
             Menu.setCurrentMenu(MainMenu.getInstance());
             return true;            
@@ -1055,4 +1059,28 @@ public class GameMenu extends Menu {
         }
     }
 
+    private void showUnitInfo() {
+        Unit unit = GameController.getGame().getSelectedUnit();
+        if (unit == null) {
+            System.out.println("no selected unit");
+            return;
+        }else{
+            System.out.println("*****************************");
+            System.out.println("unit name: " + unit.getUnitTemplate().getName());
+            System.out.println("unit type: " + unit.getUnitTemplate().getUnitType());
+            System.out.println("unit health: " + unit.getHealth());
+            System.out.println("unit coordinates: " + unit.getTile().getCoordinates()[0] + " , " + unit.getTile().getCoordinates()[1]);
+            System.out.println("unit raw combat strength: " + unit.getCombatStrength());
+            System.out.println("unit combat strength: " + CombatController.getCombatStrength(unit, false));
+            if(unit instanceof Ranged){
+                if(unit instanceof Siege) System.out.println("unit is  a siege unit");
+                System.out.println("unit range: " + ((Ranged) unit).getUnitTemplate().getRange());
+                System.out.println("unit raw ranged combat strength: " + ((Ranged) unit).getCombatStrength());
+                System.out.println("unit ranged combat strength: " + CombatController.getCombatStrength((Ranged) unit, true));
+                if(unit instanceof Siege && ((Siege)unit).isPrepared()) System.out.println("siege unit is prepared");
+                if(unit instanceof Siege && !((Siege)unit).isPrepared()) System.out.println("siege unit is not prepared");
+            }
+            System.out.println("*****************************");
+        }
+    }
 }
