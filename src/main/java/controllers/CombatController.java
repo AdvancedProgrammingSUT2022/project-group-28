@@ -7,6 +7,7 @@ import models.units.Melee;
 import models.units.Ranged;
 import models.units.Siege;
 import models.units.Unit;
+import models.units.enums.UnitState;
 import views.enums.CombatMessage;
 
 public class CombatController {
@@ -98,13 +99,13 @@ public class CombatController {
     private static CombatMessage siegeAttack(Siege unit, Tile tile) {
         Game game = GameController.getGame();
         int strength = getCombatStrength(unit, true);
-        if(unit.isPrepared()==false)return CombatMessage.NOT_PREPARED;
+        if(unit.getUnitState()!=UnitState.PREPARED)return CombatMessage.NOT_PREPARED;
         if (tile.getCity()!=null){
             City city = tile.getCity();
             if(city.getCivilization()==game.getCurrentPlayer()) return CombatMessage.CANNOT_ATTACK_YOURSELF;
             if(city.getHitPoint()-strength<=0)return CombatMessage.NEEDS_MELEE_UNIT;
             city.setHitPoint(city.getHitPoint()-strength);
-            unit.setPrepared(false);
+            unit.setUnitState(UnitState.FREE);
             unit.setMovePoint(0);
             // TODO: add city destruction and check to not destroy city by founder
             if(city.getHitPoint()>0 && CivilizationController.isTileVisible(unit.getTile(), city.getCivilization()) && isInCityRange(unit.getTile(), city)){
@@ -114,7 +115,7 @@ public class CombatController {
             Unit target = tile.getMilitary()!=null?tile.getMilitary():tile.getCivilian();
             if(target.getCivilization()==game.getCurrentPlayer()) return CombatMessage.CANNOT_ATTACK_YOURSELF;
             target.setHealth(target.getHealth()-strength);
-            unit.setPrepared(false);
+            unit.setUnitState(UnitState.FREE);
             unit.setMovePoint(0);
             if(target.getHealth()>0 && 
               (target instanceof Ranged && 

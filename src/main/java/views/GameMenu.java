@@ -1088,9 +1088,8 @@ public class GameMenu extends Menu {
                 System.out.println("unit range: " + ((Ranged) unit).getUnitTemplate().getRange());
                 System.out.println("unit raw ranged combat strength: " + ((Ranged) unit).getCombatStrength());
                 System.out.println("unit ranged combat strength: " + CombatController.getCombatStrength((Ranged) unit, true));
-                if(unit instanceof Siege && ((Siege)unit).isPrepared()) System.out.println("siege unit is prepared");
-                if(unit instanceof Siege && !((Siege)unit).isPrepared()) System.out.println("siege unit is not prepared");
             }
+            System.out.println("unit state :" + unit.getUnitState());
             System.out.println("*****************************");
         }
     }

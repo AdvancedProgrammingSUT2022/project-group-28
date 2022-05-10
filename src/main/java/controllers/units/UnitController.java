@@ -336,7 +336,7 @@ public class UnitController extends GameController {
         Unit unit = game.getSelectedUnit();
         if(unit == null) return UnitMessage.NO_SELECTED_UNIT;
         else if(!(unit instanceof Siege)) return UnitMessage.NO_SIEGE_UNIT;
-        ((Siege)unit).setPrepared(true);
+        ((Siege)unit).setUnitState(UnitState.PREPARED);
         return UnitMessage.SUCCESS;
     }
 }
