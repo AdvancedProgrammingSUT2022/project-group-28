@@ -67,6 +67,8 @@ public class GameMenu extends Menu {
             showCivilizationInfo();
         } else if(command.equals("research panel")){
             showResearchPanel();
+        } else if(command.equals("cities panel")){
+            showCitiesPanel();
         } else if(command.startsWith("cheat increase gold")){
             increaseGold(command);
         } else if (command.startsWith("cheat next turn")) {
@@ -801,7 +803,29 @@ public class GameMenu extends Menu {
         if (civilization.getStudiedTechnologies().size() == 0) System.out.println("  nothing");
 
     }
-    
+
+    private void showCitiesPanel() {
+        Civilization civilization = GameController.getGame().getCurrentPlayer();
+        if(civilization.getCities().size() != 0){
+            System.out.println("your capital : ");
+            System.out.println(" -> Population: " + civilization.getCurrentCapital().getPopulation() + "  |  " +
+                     "Name : " + civilization.getCurrentCapital().getNAME() + "  |  Combat strength : " + civilization.getCurrentCapital().getCombatStrength());
+            System.out.println("Civilization another cities : ");
+            for (City city: civilization.getCities()) {
+                if(!civilization.getCities().contains(civilization.getCurrentCapital()) && civilization.getCities().size() > 1){
+                    System.out.println(" -> " + city.getPopulation() + "  |  " + city.getNAME() + "  |  " + city.getCombatStrength());
+                }
+                else {
+                    System.out.println("nothing :(");
+                }
+            }
+        }
+        else {
+            System.out.println("nothing :(");
+        }
+
+    }
+
     private void increaseGold(String command){
         CmdLineParser parser = new CmdLineParser();
         Option<Integer> amount = parser.addIntegerOption('a', "amount");
