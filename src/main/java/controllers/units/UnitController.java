@@ -97,6 +97,7 @@ public class UnitController extends GameController {
         return false;
     }
 
+    // TODO: SUPER CHECK MOVE
     private static void moveUnit(Unit unit, Tile startTile, Tile targetTile) {
         MapPair[][] checkMap = new MapPair[game.MAP_HEIGHT][game.MAP_WIDTH];
         for (int i = 0; i < game.MAP_HEIGHT; i++) {
@@ -300,7 +301,6 @@ public class UnitController extends GameController {
         } else {
             Tile bestTile = getBestTile(distances);
             if (bestTile != null && !bestTile.equals(startTile)) {
-//                System.out.println("best tile is " + bestTile.getCoordinates()[0] + "-" + bestTile.getCoordinates()[1]);
                 indirectMoveMovingUnit(unit, bestTile, targetTile, checkMap);
             } else {
                 unit.setUnitState(UnitState.FREE);
