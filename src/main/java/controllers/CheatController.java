@@ -20,6 +20,7 @@ public class CheatController {
         for (int i = 0; i < count; i++) {
             for (int j = 0; j < game.getCivilizations().size(); j++) {
                 Civilization currentPlayer = game.getCurrentPlayer();
+                CivilizationController.updateDiscoveredTiles();
                 CivilizationController.nextTurnCivilizationUpdates(currentPlayer);
                 TechnologyController.updateNextTurnTechnology();
                 CivilizationController.updateDiscoveredTiles();

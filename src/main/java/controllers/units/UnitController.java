@@ -116,14 +116,21 @@ public class UnitController extends GameController {
 
         for (Direction direction: Direction.getDirections()) {
             if (isValidDirection(startI, startJ, direction, checkMap)) {
-                int newMovePoint = currentMovePoint * 5 - getDirectionMovePoint(startI, startJ, direction, currentMovePoint);
-                if (newMovePoint >= 0 || currentMovePoint == 1) {
+                int newMovePoint = currentMovePoint * 5 - getDirectionMovePoint(startI, startJ, direction, 5 * currentMovePoint);
+                if (newMovePoint >= 0 || (currentMovePoint >= 1 && currentMovePoint <= 5)) {
                     tagMapMovePoints(startI + direction.i, startJ + direction.j, newMovePoint, checkMap);
                 }
             }
         }
 
         HashMap<Integer[], Integer> distances = getDistances(targetTile, checkMap, currentMovePoint);
+
+        for (int i = -4; i < 5; i++) {
+            for (int j = -4; j < 5; j++) {
+                System.out.printf("%2d ", checkMap[i + startI][j + startJ].getMovePoint());
+            }
+            System.out.println();
+        }
 
 //        for (Integer[] integers : distances.keySet()) {
 //            System.out.println(integers[0] + " " + integers[1] + ": " + distances.get(integers));
@@ -181,7 +188,7 @@ public class UnitController extends GameController {
         for (Direction direction: Direction.getDirections()) {
             if (isValidDirection(i, j, direction, checkMap)) {
                 int newMovePoint = movePoint - getDirectionMovePoint(i, j, direction, movePoint);
-                if (newMovePoint >= 0 || movePoint == 1) {
+                if (newMovePoint >= 0 || (movePoint >= 1 && movePoint <= 5)) {
                     tagMapMovePoints(i + direction.i, j + direction.j, newMovePoint, checkMap);
                 }
             }
@@ -284,12 +291,20 @@ public class UnitController extends GameController {
         checkMap[startI][startJ].setMovePoint(currentMovePoint * 5);
         for (Direction direction: Direction.getDirections()) {
             if (isValidDirection(startI, startJ, direction, checkMap)) {
-                int newMovePoint = currentMovePoint * 5 - getDirectionMovePoint(startI, startJ, direction, currentMovePoint);
-                if (newMovePoint >= 0 || currentMovePoint == 1) {
+                int newMovePoint = currentMovePoint * 5 - getDirectionMovePoint(startI, startJ, direction, 5 * currentMovePoint);
+                if (newMovePoint >= 0 || (currentMovePoint >= 1 && currentMovePoint <= 5)) {
                     tagMapMovePoints(startI + direction.i, startJ + direction.j, newMovePoint, checkMap);
                 }
             }
         }
+
+        for (int i = -4; i < 5; i++) {
+            for (int j = -4; j < 5; j++) {
+                System.out.printf("%2d ", checkMap[i + startI][j + startJ].getMovePoint());
+            }
+            System.out.println();
+        }
+
 
         HashMap<Integer[], Integer> distances = getDistances(targetTile, checkMap, currentMovePoint);
         if (isDirectMovePossible(distances)) {

@@ -183,11 +183,15 @@ public class CityController extends GameController {
     public static int getCityFoodBalance(City city) {
         // TODO: Full check
         // TODO: Add buildings, unhappiness
-        // TODO: Check if settler is under construction
         int consumedFood = city.getPopulation() * 2;
         int producedFood = 0;
         Tile cityTile = city.getTile();
         producedFood += cityTile.getTerrain().getFood();
+        if (city.getConstruction().getConstructionTemplate() instanceof UnitTemplate) {
+            UnitTemplate unitTemplate = (UnitTemplate) city.getConstruction().getConstructionTemplate();
+            if (unitTemplate == UnitTemplate.SETTLER) return 0;
+        }
+
         if (cityTile.getTerrainFeature() != null) producedFood += cityTile.getTerrainFeature().getFood();
         for (Tile tile : city.getTiles()) {
             if (tile.isWorking()) {
