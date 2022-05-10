@@ -2,6 +2,7 @@ package views;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.*;
@@ -805,7 +806,7 @@ public class GameMenu extends Menu {
             System.out.println("you have to select a city first");
             return;
         }
-        HashMap<UnitTemplate,String> availableUnitTemplates = CivilizationController.getAvailableUnitTemplates(game.getCurrentPlayer(), game.getSelectedCity().getTile());
+        LinkedHashMap<UnitTemplate,String> availableUnitTemplates = CivilizationController.getAvailableUnitTemplates(game.getCurrentPlayer(), game.getSelectedCity().getTile());
         
         for (int i = 0; i < availableUnitTemplates.keySet().size(); i++) {
             UnitTemplate unitTemplate = (UnitTemplate) availableUnitTemplates.keySet().toArray()[i];
@@ -815,7 +816,6 @@ public class GameMenu extends Menu {
             else
                 System.out.printf(Color.BLACK_BRIGHT + "%d- %s: %d  -  %s\n" + Color.RESET, i+1, unitTemplate.getName(),unitTemplate.getCost(), message);
         }
-        // TODO: fix hashmap usage
         while(true){
             System.out.println("choose a unit to buy: (q for exit)");
             System.out.print("> ");
@@ -916,7 +916,7 @@ public class GameMenu extends Menu {
             System.out.println("no selected city");
             return;
         }
-        HashMap<Constructable, CityMessage> allConstructions = CityController.getConstructableConstructions(city);
+        LinkedHashMap<Constructable, CityMessage> allConstructions = CityController.getConstructableConstructions(city);
         ArrayList<Constructable> constructionTemplates = new ArrayList<>(allConstructions.keySet());
         for (int i = 0; i < constructionTemplates.size(); i++) {
             Constructable constructable = constructionTemplates.get(i);
