@@ -1,5 +1,6 @@
 package models.units;
 
+import controllers.GameController;
 import models.civilization.Civilization;
 import models.tiles.Tile;
 import models.units.enums.UnitTemplate;
@@ -13,5 +14,6 @@ public abstract class Military extends Unit {
     public void destroy() {
         this.tile.setMilitary(null);
         this.civilization.removeUnit(this);
+        this.civilization.updateDiscoveredTiles(this.tile, GameController.getGame().getTurnNumber());
     }
 }
