@@ -1036,7 +1036,7 @@ public class GameMenu extends Menu {
             return;
         }
         
-        CombatMessage message = CombatController.unitAttack(tileIValue, tileJValue);
+        CombatMessage message = CombatController.unitAttack(tileIValue, tileJValue, this);
         combatMessagePrinter(message);
     }
     
@@ -1155,6 +1155,20 @@ public class GameMenu extends Menu {
                 break;
             default:
                 break;   
+        }
+
+    }
+
+    public boolean destroyOrAttachCity(){
+        System.out.println("city is conquered. do you want to destroy it or attach it?");
+        System.out.println("1. destroy");
+        System.out.println("2. attach");
+        System.out.print(">");
+        while(true){
+            String line = scanner.nextLine();
+            if(line.equals("1"))return true;
+            else if(line.equals("2"))return false;
+            else System.out.println("invalid command");
         }
 
     }

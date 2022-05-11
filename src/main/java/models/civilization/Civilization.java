@@ -140,6 +140,7 @@ public class Civilization {
     public void setResourceCount(ResourceTemplate resourceTemplate, int count) {
         this.resources.replace(resourceTemplate, count);
     }
+    
     private HashMap<ResourceTemplate, Integer> createResources() {
         HashMap<ResourceTemplate, Integer> resources = new HashMap<>();
         for (ResourceTemplate resourceTemplate : ResourceTemplate.values()) {
@@ -149,5 +150,9 @@ public class Civilization {
             }
         }
         return resources;
+    }
+
+    public void removeCity(City city) {
+        this.cities.remove(city);
     }
 }

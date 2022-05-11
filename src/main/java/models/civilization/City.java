@@ -36,6 +36,7 @@ public class City{
         this.FOUNDER = civilization;
         this.tile = tile;
         this.tiles = getInitialTiles(tile);
+        this.hitPoint = 20;
     }
 
     public Civilization getFOUNDER() {
@@ -95,8 +96,6 @@ public class City{
 
     public void setHitPoint(int hitPoint) {
         this.hitPoint = hitPoint;
-        if(hitPoint<=0)
-            this.destroy();
     }
 
     public int getFoodBalance() {
@@ -125,9 +124,13 @@ public class City{
         this.productionBalance = productionBalance; 
     }
 
-    public void setConstruction(Construction construction) { this.construction = construction; }
+    public void setConstruction(Construction construction) { 
+        this.construction = construction; 
+    }
 
-    public void increasePopulation(int value) { population += value; }
+    public void increasePopulation(int value) { 
+        population += value; 
+    }
 
     public void decreasePopulation(int value) {
         population -= value;
@@ -147,7 +150,7 @@ public class City{
 
     public void destroy(){
         // TODO: complete method
-        GameController.getGame().getCurrentPlayer().getCities().remove(this);
+        GameController.getGame().getCurrentPlayer().removeCity(this);
             tile.setCity(null);
             for(Tile t:this.getTiles()){
                 t.setCivilization(null);        
@@ -155,6 +158,11 @@ public class City{
     }
 
     public int getCombatStrength() {
+        // TODO: complete method
         return 5;
+    }
+
+    public void setCivilization(Civilization civilization) {
+        this.civilization = civilization;
     }
 }

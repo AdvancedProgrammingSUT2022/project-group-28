@@ -8,10 +8,11 @@ import models.units.Ranged;
 import models.units.Siege;
 import models.units.Unit;
 import models.units.enums.UnitState;
+import views.GameMenu;
 import views.enums.CombatMessage;
 
 public class CombatController {
-    public static CombatMessage unitAttack(int i,int j){
+    public static CombatMessage unitAttack(int i,int j, GameMenu menu){
         Game game = GameController.getGame();
         if(game.getSelectedUnit() == null) return CombatMessage.NO_UNIT_SELECTED;
         Unit unit = game.getSelectedUnit();
@@ -25,7 +26,7 @@ public class CombatController {
             (!(unit instanceof Melee) && distance > unit.getUnitTemplate().getRange())) 
             return CombatMessage.OUT_OF_RANGE;
         if(unit instanceof Melee){
-            return meleeAttack(unit, tile);
+            return meleeAttack(unit, tile, menu);
         }else if( unit instanceof Siege){ 
             siegeAttack((Siege)unit, tile);
         }else if( unit instanceof Ranged){
@@ -34,7 +35,7 @@ public class CombatController {
         return CombatMessage.SUCCESS;
     }
 
-    private static CombatMessage meleeAttack(Unit unit, Tile tile) {
+    private static CombatMessage meleeAttack(Unit unit, Tile tile,GameMenu menu) {
         Game game = GameController.getGame();
         int strength = getCombatStrength(unit, false);
         if (tile.getCity()!=null){
@@ -42,12 +43,19 @@ public class CombatController {
             if(city.getCivilization()==game.getCurrentPlayer()) return CombatMessage.CANNOT_ATTACK_YOURSELF;
             city.setHitPoint(city.getHitPoint()-strength);
             unit.setMovePoint(0);
-            // TODO: add city destruction and check to not destroy city by founder
             if(city.getHitPoint()>0){
                 unit.setHealth(unit.getHealth()-city.getCombatStrength());
             }else{
                 unit.getTile().setMilitary(null);
                 unit.setTile(city.getTile());
+                if(city.getFOUNDER()==unit.getCivilization() || !menu.destroyOrAttachCity()){
+                    city.getCivilization().getCities().remove(city);
+                    city.setCivilization(unit.getCivilization());
+                    unit.getCivilization().addCity(city);
+                    city.setHitPoint(20);
+                }else{
+                    city.destroy();
+                }
             }
         }else if(tile.getMilitary()!=null || tile.getCivilian()!=null){
             Unit target = tile.getMilitary()!=null?tile.getMilitary():tile.getCivilian();
