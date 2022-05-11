@@ -773,7 +773,7 @@ public class GameMenu extends Menu {
         System.out.println("Civilization gold: " + civilization.getGold());
         System.out.println("Civilization gold balance: " + civilization.getGoldBalance());
         System.out.println("Civilization happiness: " + civilization.getHappiness());
-        System.out.println("Civilization happiness balance: " + civilization.getHappinessBalance());
+        System.out.println("Civilization happiness: " + civilization.getHappiness());
         System.out.println("Civilization science balance: " + civilization.getScienceBalance());
         System.out.print("Civilization cities: ");
         for (City city : civilization.getCities()) {
@@ -982,14 +982,22 @@ public class GameMenu extends Menu {
                 switch (allConstructions.get(constructable)) {
                     case REQUIRED_TECHNOLOGY:
                         String string = Color.BLACK_BRIGHT.toString() + (i + 1) + "- " + unitTemplate.getName() +
-                                " requires tech: ";
+                                "| requires tech: ";
                         if (unitTemplate.getRequiredTechnology() != null)
                             string = string + unitTemplate.getRequiredTechnology().getName();
                         System.out.println(string);
                         break;
                     case REQUIRED_RESOURCE:
                         System.out.println(Color.BLACK_BRIGHT.toString() + (i + 1) + "- " + unitTemplate.getName() +
-                                "requires resource: " + unitTemplate.getRequiredResource().getName());
+                                "| requires resource: " + unitTemplate.getRequiredResource().getName());
+                        break;
+                    case CITY_NOT_GREW:
+                        System.out.println(Color.BLACK_BRIGHT.toString() + (i + 1) + "- " + unitTemplate.getName() +
+                                "| city is not grown");
+                        break;
+                    case UNHAPPY_PEOPLE:
+                        System.out.println(Color.BLACK_BRIGHT.toString() + (i + 1) + "- " + unitTemplate.getName() +
+                                "| unhappy people");
                         break;
                     case SUCCESS:
                         System.out.println( (i + 1) + "- " + unitTemplate.getName());

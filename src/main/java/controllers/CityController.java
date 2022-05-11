@@ -264,8 +264,6 @@ public class CityController extends GameController {
 
         for (UnitTemplate unitTemplate : UnitTemplate.values()) {
             result.put(unitTemplate, unitTemplate.checkPossibilityOfConstruction(city));
-            // TODO: check the settler
-
         }
 
         // TODO: add buildings
@@ -278,6 +276,8 @@ public class CityController extends GameController {
     }
 
     private static void growCity(City city) {
+        // TODO: add unhappiness stops growth
+
         // TODO: change formula
         int growthLimit = city.getPopulation() * (city.getPopulation() + 1) / 2 + 12;
         if (city.getGrowthBucket() + getCityFoodBalance(city) >= growthLimit) {

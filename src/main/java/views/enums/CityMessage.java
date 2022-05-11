@@ -13,6 +13,8 @@ public enum CityMessage {
     WORKING_TILE,
     NOT_ENOUGH_GOLD,
     // Construction messages
+    CITY_NOT_GREW,
+    UNHAPPY_PEOPLE,
     REQUIRED_TECHNOLOGY,
     REQUIRED_RESOURCE,
     SUCCESS;
