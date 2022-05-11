@@ -4,7 +4,6 @@ import controllers.CivilizationController;
 import controllers.TechnologyController;
 import models.Constructable;
 import models.civilization.City;
-import models.civilization.Civilization;
 import models.civilization.enums.TechnologyTemplate;
 import models.tiles.enums.ResourceTemplate;
 import views.enums.CityMessage;
@@ -13,12 +12,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public enum UnitTemplate implements Constructable {
-    // TODO: super check
     WORKER("Worker", 70, 0, 0, 0, 2, 1, null,TechnologyTemplate.AGRICULTURE,UnitType.CIVILIAN),
     SETTLER("Settler", 89, 0, 0, 0, 2, 1, null,TechnologyTemplate.AGRICULTURE,UnitType.CIVILIAN),
     WARRIOR("Warrior", 40, 6, 0, 0, 2, 1, null,TechnologyTemplate.AGRICULTURE,UnitType.MELEE),
-    ARCHER("Archer", 70, 4, 6, 2, 2, 1, null,TechnologyTemplate.AGRICULTURE,UnitType.RANGED),
-    SCOUT("Scout", 25, 4, 0, 0, 2, 1, null,TechnologyTemplate.ARCHERY,UnitType.MELEE),
+    ARCHER("Archer", 70, 4, 6, 2, 2, 1, null,TechnologyTemplate.ARCHERY,UnitType.RANGED),
+    SCOUT("Scout", 25, 4, 0, 0, 2, 1, null,TechnologyTemplate.AGRICULTURE,UnitType.MELEE),
     CHARIOT_ARCHER("Chariot Archer", 60, 3, 6, 2, 4, 1, ResourceTemplate.HORSE,TechnologyTemplate.THE_WHEEL,UnitType.RANGED),
     SPEARMAN("Spearman", 50, 7, 0, 0, 2, 1, null,TechnologyTemplate.BRONZE_WORKING,UnitType.MELEE),
 

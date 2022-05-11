@@ -4,8 +4,6 @@ import models.civilization.enums.TechnologyTemplate;
 import models.tiles.Project;
 import models.tiles.TerrainOrTerrainFeature;
 import models.tiles.Tile;
-import models.units.Worker;
-import models.units.enums.UnitState;
 
 import java.util.ArrayList;
 import java.util.Arrays;

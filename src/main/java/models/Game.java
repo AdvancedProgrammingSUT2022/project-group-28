@@ -9,7 +9,6 @@ import models.civilization.enums.CivilizationNames;
 import models.tiles.Resource;
 import models.tiles.Tile;
 import models.tiles.enums.*;
-import models.units.Settler;
 import models.units.Unit;
 import controllers.units.SettlerController;
 

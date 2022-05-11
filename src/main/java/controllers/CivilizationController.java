@@ -27,7 +27,7 @@ public class CivilizationController extends GameController {
 
     public static CivilizationMessage checkNextTurnIsPossible() {
         Civilization civilization = game.getCurrentPlayer();
-        // TODO: Add all civlization
+        // TODO: Add all civilization
         // TODO: check city to construct something
         CivilizationMessage checkUnits = UnitController.checkUnitsForNextTurn(civilization.getUnits());
         if (checkUnits != CivilizationMessage.SUCCESS)
@@ -115,7 +115,7 @@ public class CivilizationController extends GameController {
     }
 
     public static int getCivilizationGoldBalance(Civilization civilization) {
-        // TODO: add trade route, road mantainence
+        // TODO: add trade route, road maintenance
         int spentGold = civilization.getUnits().size() * 3; // depend on difficulty level
         int producedGold  = 0;
 
@@ -135,8 +135,6 @@ public class CivilizationController extends GameController {
     }
 
     public static int getResourceCount(Civilization civilization, ResourceTemplate resourceTemplate) {
-        // TODO: add diplomacy effects
-
         int count = 0;
         for (City city : civilization.getCities()) {
             for (Tile tile : city.getTiles()) {

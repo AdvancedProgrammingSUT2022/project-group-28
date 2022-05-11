@@ -792,7 +792,7 @@ public class GameMenu extends Menu {
             System.out.println("  If you finish this study you will get :");
             System.out.println("## UNITS :\n" +
                     TechnologyController.extractTheObtainedUnits(civilization.getCurrentStudyTechnology().getTechnologyTemplate()) +
-                    "## BULDINGS :\n" +
+                    "## BUILDINGS :\n" +
                     TechnologyController.extractTheObtainedBuildings(civilization.getCurrentStudyTechnology().getTechnologyTemplate()));
         }
         System.out.println("# Civilization technologies: ");

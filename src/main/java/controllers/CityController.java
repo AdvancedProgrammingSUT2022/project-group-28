@@ -235,7 +235,7 @@ public class CityController extends GameController {
     }
 
     public static int getCityGoldBalance(City city) {
-        // TODO: add tranding routes
+        // TODO: add trading routes
         // TODO: add building maintainance and additional
         int spentGold = 0;
         int earnedGold = 0;

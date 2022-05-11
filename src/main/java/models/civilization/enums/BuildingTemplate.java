@@ -3,7 +3,6 @@ package models.civilization.enums;
 import models.Constructable;
 import models.civilization.BuildingInterface;
 import models.civilization.City;
-import models.civilization.Technology;
 import views.enums.CityMessage;
 
 

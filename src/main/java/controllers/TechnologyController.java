@@ -1,17 +1,14 @@
 package controllers;
 
-import models.User;
 import models.civilization.City;
 import models.civilization.Civilization;
 import models.civilization.Technology;
 import models.civilization.enums.BuildingTemplate;
 import models.civilization.enums.TechnologyTemplate;
 import models.units.enums.UnitTemplate;
-import views.GameMenu;
 import views.enums.CivilizationMessage;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 public class TechnologyController extends GameController {
 
@@ -56,16 +53,15 @@ public class TechnologyController extends GameController {
     }
     public static String printPossibleTechnology(){
         ArrayList<TechnologyTemplate> possibleTechnologyTemplates = PossibleTechnology();
-        int scienceBalance = game.getCurrentPlayer().getScienceBalance();
         String out = "";
         int number = 1 ;
-        for (TechnologyTemplate tecknology: possibleTechnologyTemplates) {
+        for (TechnologyTemplate technology: possibleTechnologyTemplates) {
             int progress = 0 ;
-            if (getTechnology(tecknology) != null){
-                progress = getTechnology(tecknology).getProgress();
+            if (getTechnology(technology) != null){
+                progress = getTechnology(technology).getProgress();
             }
-            out = out + number + "- " +  tecknology.getName() + "\t" +
-                    (int) Math.ceil((double)(tecknology.getCost()-progress) / addEachTurnScienceBalance()) + " turns\n" ;
+            out = out + number + "- " +  technology.getName() + "\t" +
+                    (int) Math.ceil((double)(technology.getCost()-progress) / addEachTurnScienceBalance()) + " turns\n" ;
             number++;
         }
         return out;
@@ -87,9 +83,7 @@ public class TechnologyController extends GameController {
 
 
     private static void getNewTechnology(int number){
-        Civilization tempCivilization = game.getCurrentPlayer();
         ArrayList<TechnologyTemplate> possibleTechnologyTemplates = PossibleTechnology();
-        ArrayList<Technology> UserTechnologies = game.getCurrentPlayer().getStudiedTechnologies();
         int index = number - 1;
         if (getTechnology(possibleTechnologyTemplates.get(index)) == null){
             Technology technology = new Technology(possibleTechnologyTemplates.get(index) , game.getCurrentPlayer().getScienceBalance());
@@ -155,7 +149,7 @@ public class TechnologyController extends GameController {
         TechnologyTemplate nameOfLastTechnology = fullTechnologies.get(fullTechnologies.size()-1);
         String out = nameOfLastTechnology.getName() + " technology completed\n" + "Resources you obtained :\n" +
                 "## UNITS :\n" + extractTheObtainedUnits(nameOfLastTechnology) +
-                "## BULDINGS :\n" + extractTheObtainedBuildings(nameOfLastTechnology);
+                "## BUILDINGS :\n" + extractTheObtainedBuildings(nameOfLastTechnology);
         return out;
     }
 
