@@ -72,9 +72,11 @@ public class GameMenu extends Menu {
         } else if(command.startsWith("cheat increase gold")){
             increaseGold(command);
         } else if (command.startsWith("cheat next turn")) {
-                cheatNextTurn(command);
+            cheatNextTurn(command);
         } else if (command.startsWith("cheat move unit")) {
             cheatMoveUnit(command);
+        } else if (command.startsWith("cheat next player")) {
+            cheatNextPlayer();
         } else if(command.equals("city buy unit")){
             buyUnit();
         } else if(command.startsWith("unit attack")){
@@ -1104,6 +1106,9 @@ public class GameMenu extends Menu {
             case INVALID_POSITION:
                 System.out.println("invalid positions");
                 break;
+            case NOT_ACCESSIBLE_TILE:
+                System.out.println("not accessible tile");
+                break;
             case SAME_TARGET_TILE:
                 System.out.println("same target tile");
                 break;
@@ -1171,6 +1176,10 @@ public class GameMenu extends Menu {
             else if(line.equals("2"))return false;
             else System.out.println("invalid command");
         }
+    }
 
+    private void cheatNextPlayer() {
+        CheatController instance = CheatController.getInstance();
+        instance.nextPlayerCheat(GameController.getGame());
     }
 }
