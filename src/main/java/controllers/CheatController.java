@@ -29,6 +29,8 @@ public class CheatController {
         }
     }
 
+
+
     public UnitMessage moveUnitCheat(Game game, int i, int j) {
         // TODO: go to accessible tile
         Unit unit = game.getSelectedUnit();
@@ -36,6 +38,7 @@ public class CheatController {
         if (i >= game.MAP_HEIGHT || i < 0 || j >= game.MAP_WIDTH || j < 0) return UnitMessage.INVALID_POSITION;
         Tile targetTile = game.getMap()[i][j];
         Tile startTile = unit.getTile();
+        if (!targetTile.isAccessible()) return UnitMessage.NOT_ACCESSIBLE_TILE;
         if (startTile.equals(targetTile)) return UnitMessage.SAME_TARGET_TILE;
         if (TileController.isFullTile(targetTile, unit)) return UnitMessage.FULL_TARGET_TILE;
         TileController.freeTileUnit(startTile, unit);

@@ -1103,6 +1103,9 @@ public class GameMenu extends Menu {
             case INVALID_POSITION:
                 System.out.println("invalid positions");
                 break;
+            case NOT_ACCESSIBLE_TILE:
+                System.out.println("not accessible tile");
+                break;
             case SAME_TARGET_TILE:
                 System.out.println("same target tile");
                 break;
