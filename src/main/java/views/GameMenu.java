@@ -1179,6 +1179,18 @@ public class GameMenu extends Menu {
 
     private void cheatNextPlayer() {
         CheatController instance = CheatController.getInstance();
-        instance.nextPlayerCheat(GameController.getGame());
+        ArrayList<CivilizationMessage> messages = instance.nextPlayerCheat(GameController.getGame());
+        Civilization civilization = GameController.getGame().getCurrentPlayer();
+        System.out.println("it is " + civilization.getUser().getNickname() + "'s turn");
+        for (CivilizationMessage message : messages) {
+            switch (message) {
+                case COMPLETION_OF_THE_STUDY:
+                    String out = TechnologyController.printCompleteTechnologyInfo();
+                    System.out.println(out);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

@@ -4,7 +4,10 @@ import models.Game;
 import models.civilization.Civilization;
 import models.tiles.Tile;
 import models.units.Unit;
+import views.enums.CivilizationMessage;
 import views.enums.UnitMessage;
+
+import java.util.ArrayList;
 
 public class CheatController {
     private static CheatController instance = null;
@@ -17,6 +20,7 @@ public class CheatController {
     }
 
     public void nextTurnCheat(Game game, int count) {
+        // TODO: reform
         for (int i = 0; i < count; i++) {
             for (int j = 0; j < game.getCivilizations().size(); j++) {
                 Civilization currentPlayer = game.getCurrentPlayer();
@@ -30,17 +34,17 @@ public class CheatController {
         }
     }
 
-    public void nextPlayerCheat(Game game) {
+    public ArrayList<CivilizationMessage> nextPlayerCheat(Game game) {
+        // TODO: reform
         Civilization currentPlayer = game.getCurrentPlayer();
         CivilizationController.updateDiscoveredTiles();
         CivilizationController.nextTurnCivilizationUpdates(currentPlayer);
-        TechnologyController.updateNextTurnTechnology();
         CivilizationController.updateDiscoveredTiles();
         GameMenuController.changePlayerTurn(game);
+        return GameMenuController.startNewTurn();
     }
 
     public UnitMessage moveUnitCheat(Game game, int i, int j) {
-        // TODO: go to accessible tile
         Unit unit = game.getSelectedUnit();
         if (unit == null) return UnitMessage.NO_SELECTED_UNIT;
         if (i >= game.MAP_HEIGHT || i < 0 || j >= game.MAP_WIDTH || j < 0) return UnitMessage.INVALID_POSITION;

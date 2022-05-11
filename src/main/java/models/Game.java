@@ -34,11 +34,11 @@ public class Game {
         this.civilizations = new ArrayList<>();
         for (int i = 0; i < users.size(); i++) {
             if (i == 0) {
-                Civilization civilization = new Civilization(users.get(0), CivilizationNames.IRAN);
+                Civilization civilization = new Civilization(users.get(i), CivilizationNames.IRAN);
                 SettlerController.createSettler(civilization, this.map[30][30]);
                 this.civilizations.add(civilization);
             } else if (i == 1) {
-                Civilization civilization = new Civilization(users.get(0), CivilizationNames.AMERICA);
+                Civilization civilization = new Civilization(users.get(i), CivilizationNames.AMERICA);
                 SettlerController.createSettler(civilization, this.map[20][20]);
                 this.civilizations.add(civilization);
             }
