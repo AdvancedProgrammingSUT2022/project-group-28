@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.Option;
 
+import controllers.GameController;
 import controllers.GameMenuController;
 import models.User;
+import models.civilization.Civilization;
 
 public class MainMenu extends Menu {
 
@@ -80,6 +82,8 @@ public class MainMenu extends Menu {
             return false;
         }
         GameMenuController.startNewGame(users, seedValue);
+        Civilization startPlayer = GameController.getGame().getCurrentPlayer();
+        System.out.println("it is " + startPlayer.getUser().getNickname() + "'s turn");
         Menu.setCurrentMenu(GameMenu.getInstance());
         return true;
     }

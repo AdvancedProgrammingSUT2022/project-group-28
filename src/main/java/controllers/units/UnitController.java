@@ -232,7 +232,7 @@ public class UnitController extends GameController {
         int newMovePoint = checkMap[i][j].getMovePoint();
         unit.setMovePoint(newMovePoint / 5);
         unit.setTile(targetTile);
-        // capture unit     
+        // capture unit
         if (unit instanceof Military && targetTile.getCivilian() != null) {
             Civilian civilian = targetTile.getCivilian();
             Civilization civilianCivilization = civilian.getCivilization();
