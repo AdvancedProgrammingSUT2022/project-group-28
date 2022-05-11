@@ -569,6 +569,7 @@ public class GameMenu extends Menu {
         Option<String> cityName = parser.addStringOption('n', "name");
         Option<Integer> cityI = parser.addIntegerOption('i', "positionI");
         Option<Integer> cityJ = parser.addIntegerOption('j', "positionJ");
+        Option<Boolean> cheatMode = parser.addBooleanOption('c', "cheat");
         try {
             parser.parse(command.split(" "));
         } catch (CmdLineParser.OptionException e) {
@@ -578,8 +579,10 @@ public class GameMenu extends Menu {
         String cityNameValue = parser.getOptionValue(cityName);
         Integer cityIValue = parser.getOptionValue(cityI);
         Integer cityJValue = parser.getOptionValue(cityJ);
+        Boolean cheatModeValue = parser.getOptionValue(cheatMode, false);
+
         if (cityNameValue != null) {
-            CityMessage result = CityController.selectCityByName(cityNameValue);
+            CityMessage result = CityController.selectCityByName(cityNameValue, cheatModeValue);
             switch (result) {
                 case INVALID_NAME:
                     System.out.println("invalid name");
@@ -594,7 +597,7 @@ public class GameMenu extends Menu {
                     break;
             }
         } else if (cityIValue != null && cityJValue != null) {
-            CityMessage result = CityController.selectCityByPosition(cityIValue, cityJValue);
+            CityMessage result = CityController.selectCityByPosition(cityIValue, cityJValue, cheatModeValue);
             switch (result) {
                 case INVALID_POSITION:
                     System.out.println("invalid position");

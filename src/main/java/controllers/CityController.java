@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 public class CityController extends GameController {
     // TODO: check position is in the visible tiles
-    public static CityMessage selectCityByName(String name) {
+    public static CityMessage selectCityByName(String name, boolean cheatMode) {
         ArrayList<Civilization> civilizations = game.getCivilizations();
         City targetCity = null;
         for (Civilization civilization : civilizations) {
@@ -29,16 +29,16 @@ public class CityController extends GameController {
             }
         }
         if (targetCity == null) return CityMessage.INVALID_NAME;
-        if (!targetCity.getCivilization().equals(game.getCurrentPlayer())) return CityMessage.NO_PERMISSION;
+        if (!targetCity.getCivilization().equals(game.getCurrentPlayer()) && !cheatMode) return CityMessage.NO_PERMISSION;
         game.setSelectedCity(targetCity);
         return CityMessage.SUCCESS;
     }
 
-    public static CityMessage selectCityByPosition(int i, int j) {
+    public static CityMessage selectCityByPosition(int i, int j, boolean cheatMode) {
         if (i < 0 || i >= game.MAP_HEIGHT || j < 0 || j >= game.MAP_WIDTH) return CityMessage.INVALID_POSITION;
         City city = game.getMap()[i][j].getCity();
         if (city == null) return CityMessage.NOT_CITY;
-        if (!city.getCivilization().equals(game.getCurrentPlayer())) return CityMessage.NO_PERMISSION;
+        if (!city.getCivilization().equals(game.getCurrentPlayer()) && !cheatMode) return CityMessage.NO_PERMISSION;
         game.setSelectedCity(city);
         return CityMessage.SUCCESS;
     }

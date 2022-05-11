@@ -2,6 +2,7 @@ package controllers.units;
 
 import controllers.GameController;
 import controllers.TileController;
+import models.civilization.Civilization;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
 import models.units.Civilian;
@@ -231,6 +232,16 @@ public class UnitController extends GameController {
         int newMovePoint = checkMap[i][j].getMovePoint();
         unit.setMovePoint(newMovePoint / 5);
         unit.setTile(targetTile);
+        // capture unit     
+        if (unit instanceof Military && targetTile.getCivilian() != null) {
+            Civilian civilian = targetTile.getCivilian();
+            Civilization civilianCivilization = civilian.getCivilization();
+            civilianCivilization.removeUnit((Unit) civilian);
+            civilian.setCivilization(unit.getCivilization());
+            Civilization militaryCivilization = unit.getCivilization();
+            militaryCivilization.addUnit((Unit) civilian);
+        }
+
     }
 
     private static void indirectMove(Tile bestTile, Tile targetTile, MapPair[][] checkMap) {
