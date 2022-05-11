@@ -83,9 +83,13 @@ public class GameMenu extends Menu {
             unitAttack(command);
         } else if(command.equals("unit info")){
             showUnitInfo();
-        }else if(command.equals("unit prepare")){
+        } else if(command.equals("unit prepare")){
             prepareUnit();
-        } else if(command.equals("menu exit")){
+        } else if(command.equals("cheat heal unit")){
+            cheatHealUnit();
+        } else if(command.equals("cheat recharge mp")){
+            cheatRechargeMP();
+        }else if(command.equals("menu exit")){
             Menu.setCurrentMenu(MainMenu.getInstance());
             return true;            
         } else {
@@ -1181,5 +1185,23 @@ public class GameMenu extends Menu {
     private void cheatNextPlayer() {
         CheatController instance = CheatController.getInstance();
         instance.nextPlayerCheat(GameController.getGame());
+    }
+
+    private void cheatHealUnit(){
+        Unit unit = GameController.getGame().getSelectedUnit();
+        if(unit==null){
+            System.out.println("no selected unit");
+            return;
+        }
+        else unit.setHealth(10);
+    }
+
+    private void cheatRechargeMP(){
+        Unit unit = GameController.getGame().getSelectedUnit();
+        if(unit==null){
+            System.out.println("no selected unit");
+            return;
+        }
+        else unit.setMovePoint(unit.getUnitTemplate().getMovementPoint());
     }
 }
