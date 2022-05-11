@@ -29,8 +29,9 @@ public class Civilization {
     private int scienceBalance;
     private Technology currentStudyTechnology;
 
-    private int happinessBalance;
-    private int happiness;
+    private int attachedCities = 0;
+    private final int initialHappiness = 5;
+    private int happiness = 5;
 
     private HashMap<ResourceTemplate, Integer> resources;
 
@@ -93,9 +94,9 @@ public class Civilization {
         return scienceBalance;
     }
 
-    public int getHappinessBalance() {
-        return happinessBalance;
-    }
+    public int getAttachedCities() { return attachedCities; }
+
+    public int getInitialHappiness() { return initialHappiness; }
 
     public int getHappiness() {
         return happiness;
@@ -136,6 +137,10 @@ public class Civilization {
     public void setGold(int gold) { this.gold = gold; }
 
     public void setGoldBalance(int goldBalance) { this.goldBalance = goldBalance; }
+
+    public void setAttachedCities(int attachedCities) { this.attachedCities = attachedCities; }
+
+    public void setHappiness(int happiness) { this.happiness = happiness; }
 
     public void setResourceCount(ResourceTemplate resourceTemplate, int count) {
         this.resources.replace(resourceTemplate, count);

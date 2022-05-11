@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -8,10 +9,7 @@ import controllers.units.UnitController;
 import models.civilization.City;
 import models.civilization.Civilization;
 import models.tiles.Tile;
-import models.tiles.enums.Direction;
-import models.tiles.enums.ResourceTemplate;
-import models.tiles.enums.Terrain;
-import models.tiles.enums.TerrainFeature;
+import models.tiles.enums.*;
 import models.units.Civilian;
 import models.units.Melee;
 import models.units.Ranged;
@@ -111,7 +109,7 @@ public class CivilizationController extends GameController {
     public static void updateCivilization(Civilization civilization) {
         civilization.setGoldBalance(getCivilizationGoldBalance(civilization));
         updateResources(civilization);
-
+        civilization.setHappiness(getCivilizationHappiness(civilization));
     }
 
     public static int getCivilizationGoldBalance(Civilization civilization) {
@@ -149,6 +147,23 @@ public class CivilizationController extends GameController {
             if (resourceTemplate.equals(unit.getUnitTemplate().getRequiredResource())) count -= 1;
         }
         return count;
+    }
+
+    public static int getCivilizationHappiness(Civilization civilization) {
+        int happiness = civilization.getInitialHappiness();
+        // TODO: add buildings impact
+        HashMap<ResourceTemplate, Integer> resources = civilization.getResources();
+        for (ResourceTemplate resource : resources.keySet()) {
+            if (resource.getType() == ResourceType.LUXURY && resources.get(resource) > 0) happiness += 5;
+        }
+        int rawPopulation = 0;
+        for (City city : civilization.getCities()) {
+            rawPopulation += city.getPopulation();
+        }
+        happiness -= rawPopulation * 0.2;
+        happiness -= civilization.getCities().size() * 0.1;
+        happiness -= civilization.getAttachedCities() * 0.5;
+        return happiness;
     }
 
     public static LinkedHashMap<UnitTemplate,String> getAvailableUnitTemplates(Civilization currentPlayer, Tile tile) {
