@@ -22,6 +22,7 @@ public class CheatController {
                 Civilization currentPlayer = game.getCurrentPlayer();
                 CivilizationController.updateDiscoveredTiles();
                 CivilizationController.nextTurnCivilizationUpdates(currentPlayer);
+                // TODO: move tech updates to next turn updates
                 TechnologyController.updateNextTurnTechnology();
                 CivilizationController.updateDiscoveredTiles();
                 GameMenuController.changePlayerTurn(game);
@@ -29,7 +30,14 @@ public class CheatController {
         }
     }
 
-
+    public void nextPlayerCheat(Game game) {
+        Civilization currentPlayer = game.getCurrentPlayer();
+        CivilizationController.updateDiscoveredTiles();
+        CivilizationController.nextTurnCivilizationUpdates(currentPlayer);
+        TechnologyController.updateNextTurnTechnology();
+        CivilizationController.updateDiscoveredTiles();
+        GameMenuController.changePlayerTurn(game);
+    }
 
     public UnitMessage moveUnitCheat(Game game, int i, int j) {
         // TODO: go to accessible tile
