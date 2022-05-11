@@ -150,11 +150,13 @@ public class City{
 
     public void destroy(){
         // TODO: complete method
-        GameController.getGame().getCurrentPlayer().removeCity(this);
-            tile.setCity(null);
-            for(Tile t:this.getTiles()){
-                t.setCivilization(null);        
+        this.civilization.removeCity(this);
+        tile.setCity(null);
+        for(Tile t:this.getTiles()){
+            t.setCivilization(null);  
+            this.civilization.updateDiscoveredTiles(tile, GameController.getGame().getTurnNumber());    
         }
+        this.civilization.updateDiscoveredTiles(this.tile, GameController.getGame().getTurnNumber());
     }
 
     public int getCombatStrength() {

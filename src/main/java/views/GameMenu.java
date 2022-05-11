@@ -710,6 +710,7 @@ public class GameMenu extends Menu {
             System.out.println("City food balance: " + city.getFoodBalance());
             System.out.println("City production balance: " + city.getProductionBalance());
             System.out.println("City growth bucket: " + city.getGrowthBucket());
+            System.out.println("City hit point: " + city.getHitPoint());
             System.out.println("*****************************");
         }
     }
