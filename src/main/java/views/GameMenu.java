@@ -48,6 +48,12 @@ public class GameMenu extends Menu {
             foundCity();
         } else if (command.startsWith("unit build")) {
             buildImprovement();
+        } else if (command.startsWith("unit sleep")) {
+            unitSleep();
+        } else if (command.startsWith("unit alert")) {
+            unitAlert();
+        } else if (command.startsWith("unit wake")) {
+            unitWake();
         } else if (command.startsWith("select city")) {
             selectCity(command);
         } else if (command.startsWith("city assign citizen")) {
@@ -1314,4 +1320,65 @@ public class GameMenu extends Menu {
         GsonHandler.saveGame(GameController.getGame());
         System.out.println("game saved.");
     }
+
+    private void unitSleep() {
+        Unit unit = GameController.getGame().getSelectedUnit();
+        if (unit == null) {
+            System.out.println("There is no selected unit");
+            return;
+        }
+        UnitMessage result = UnitController.sleepUnit(unit);
+        switch (result) {
+            case IS_SLEPT:
+                System.out.println("unit already slept");
+                break;
+            case SUCCESS:
+                System.out.println("success");
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void unitAlert() {
+        Unit unit = GameController.getGame().getSelectedUnit();
+        if (unit == null) {
+            System.out.println("There is no selected unit");
+            return;
+        }
+
+        UnitMessage result = UnitController.alertUnit(unit);
+        switch (result) {
+            case NOT_COMBAT_UNIT:
+                System.out.println("noncombat unit can not alert");
+                break;
+            case IS_ALERT:
+                System.out.println("unit already alert");
+                break;
+            case SUCCESS:
+                System.out.println("success");
+                break;
+        }
+    }
+
+    private void unitWake() {
+        Unit unit = GameController.getGame().getSelectedUnit();
+        if (unit == null) {
+            System.out.println("There is no selected unit");
+            return;
+        }
+
+        UnitMessage result = UnitController.wakeUnit(unit);
+        switch (result) {
+            case IS_AWAKE:
+                System.out.println("Unit is awake already");
+                break;
+            case SUCCESS:
+                System.out.println("Success");
+                break;
+            default:
+                break;
+        }
+    }
+
 }

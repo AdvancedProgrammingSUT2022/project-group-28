@@ -2,9 +2,12 @@ package controllers.units;
 
 import controllers.GameController;
 import controllers.TileController;
+import models.Game;
 import models.civilization.Civilization;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
+import models.tiles.enums.Terrain;
+import models.tiles.enums.TerrainFeature;
 import models.units.Civilian;
 import models.units.Military;
 import models.units.Siege;
@@ -15,6 +18,7 @@ import views.enums.UnitMessage;
 import views.notifications.CivilizationNotification;
 import views.notifications.GameNotification;
 
+import java.text.CharacterIterator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,6 +42,26 @@ public class UnitController extends GameController {
         if (tile.getCivilian() == null) return UnitMessage.NOT_NONCOMBAT_UNIT;
         if (!tile.getCivilian().getCivilization().equals(game.getCurrentPlayer()) && !cheatMode) return UnitMessage.NO_PERMISSION;
         game.setSelectedUnit(tile.getCivilian());
+        return UnitMessage.SUCCESS;
+    }
+
+    public static UnitMessage sleepUnit(Unit unit) {
+        if (unit.getUnitState() == UnitState.SLEPT) return UnitMessage.IS_SLEPT;
+        unit.setUnitState(UnitState.SLEPT);
+        return UnitMessage.SUCCESS;
+    }
+
+    public static UnitMessage alertUnit(Unit unit) {
+        if (unit instanceof Civilian) return UnitMessage.NOT_COMBAT_UNIT;
+        if (unit.getUnitState() == UnitState.ALERT) return UnitMessage.IS_ALERT;
+        unit.setUnitState(UnitState.ALERT);
+        return UnitMessage.SUCCESS;
+    }
+
+    public static UnitMessage wakeUnit(Unit unit) {
+        if (unit.getUnitState() != UnitState.ALERT && unit.getUnitState() != UnitState.SLEPT)
+            return UnitMessage.IS_AWAKE;
+        unit.setUnitState(UnitState.FREE);
         return UnitMessage.SUCCESS;
     }
 
@@ -120,12 +144,12 @@ public class UnitController extends GameController {
         int currentMovePoint = unit.getMovePoint();
 
         checkMap[startI][startJ].setChecked(true);
-        checkMap[startI][startJ].setMovePoint(currentMovePoint * 5);
+        checkMap[startI][startJ].setMovePoint(currentMovePoint * 3);
 
         for (Direction direction: Direction.getDirections()) {
             if (isValidDirection(startI, startJ, direction, checkMap)) {
-                int newMovePoint = currentMovePoint * 5 - getDirectionMovePoint(startI, startJ, direction, 5 * currentMovePoint);
-                if (newMovePoint >= 0 || (currentMovePoint >= 1 && currentMovePoint <= 5)) {
+                int newMovePoint = currentMovePoint * 3 - getDirectionMovePoint(startI, startJ, direction, 3 * currentMovePoint);
+                if (newMovePoint >= 0 || (currentMovePoint >= 1 && currentMovePoint <= 3)) {
                     tagMapMovePoints(startI + direction.i, startJ + direction.j, newMovePoint, checkMap);
                 }
             }
@@ -188,7 +212,7 @@ public class UnitController extends GameController {
         for (Direction direction: Direction.getDirections()) {
             if (isValidDirection(i, j, direction, checkMap)) {
                 int newMovePoint = movePoint - getDirectionMovePoint(i, j, direction, movePoint);
-                if (newMovePoint >= 0 || (movePoint >= 1 && movePoint <= 5)) {
+                if (newMovePoint >= 0 || (movePoint >= 1 && movePoint <= 3)) {
                     tagMapMovePoints(i + direction.i, j + direction.j, newMovePoint, checkMap);
                 }
             }
@@ -239,7 +263,7 @@ public class UnitController extends GameController {
         int j = targetTile.getCoordinates()[1];
 
         int newMovePoint = checkMap[i][j].getMovePoint();
-        unit.setMovePoint(newMovePoint / 5);
+        unit.setMovePoint(newMovePoint / 3);
         unit.setTile(targetTile);
         // capture unit
         if (unit instanceof Military && targetTile.getCivilian() != null) {
@@ -298,11 +322,11 @@ public class UnitController extends GameController {
         int currentMovePoint = unit.getMovePoint();
 
         checkMap[startI][startJ].setChecked(true);
-        checkMap[startI][startJ].setMovePoint(currentMovePoint * 5);
+        checkMap[startI][startJ].setMovePoint(currentMovePoint * 3);
         for (Direction direction: Direction.getDirections()) {
             if (isValidDirection(startI, startJ, direction, checkMap)) {
-                int newMovePoint = currentMovePoint * 5 - getDirectionMovePoint(startI, startJ, direction, 5 * currentMovePoint);
-                if (newMovePoint >= 0 || (currentMovePoint >= 1 && currentMovePoint <= 5)) {
+                int newMovePoint = currentMovePoint * 3 - getDirectionMovePoint(startI, startJ, direction, 3 * currentMovePoint);
+                if (newMovePoint >= 0 || (currentMovePoint >= 1 && currentMovePoint <= 3)) {
                     tagMapMovePoints(startI + direction.i, startJ + direction.j, newMovePoint, checkMap);
                 }
             }
@@ -340,6 +364,59 @@ public class UnitController extends GameController {
         unit.setMovePoint(0);
         return UnitMessage.SUCCESS;
     }
+
+    public static void checkAlertUnit(Game game, Unit unit) {
+        if (unit.getUnitState() == UnitState.ALERT) {
+            ArrayList<Tile> scopeOfVision = getUnitScopeOfVision(game, unit);
+            for (Tile tile : scopeOfVision) {
+                if (tile.getMilitary() != null) {
+                    Military military = tile.getMilitary();
+                    if (!military.getCivilization().equals(unit.getCivilization())) {
+                        Integer unitI = unit.getTile().getCoordinates()[0];
+                        Integer unitJ = unit.getTile().getCoordinates()[1];
+                        Integer enemyI = military.getTile().getCoordinates()[0];
+                        Integer enemyJ = military.getTile().getCoordinates()[1];
+                        ArrayList<String> data = new ArrayList<>(Arrays.asList(unitI.toString(), unitJ.toString(),
+                                                                 enemyI.toString(), enemyJ.toString()));
+                        GameNotification unitAlert = new GameNotification(CivilizationNotification.NEAR_ENEMY_UNIT_ALERT,
+                                                    data, game.getTurnNumber());
+                        unit.getCivilization().addGameNotification(unitAlert);
+                        unit.setUnitState(UnitState.FREE);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    public static ArrayList<Tile> getUnitScopeOfVision(Game game, Unit unit) {
+        ArrayList<Tile> scopeOfVision = new ArrayList<>();
+        Tile unitTile = unit.getTile();
+        scopeOfVision.add(unitTile);
+        Tile[][] map = game.getMap();
+        for (Direction direction : Direction.values()) {
+            int i = unitTile.getCoordinates()[0] + direction.i;
+            int j = unitTile.getCoordinates()[1] + direction.j;
+            if (i >= 0 && i < game.MAP_HEIGHT && j >= 0 && j < game.MAP_WIDTH) {
+                Tile tile = map[i][j];
+                scopeOfVision.add(tile);
+                if (tile.getTerrain() != Terrain.MOUNTAIN && tile.getTerrain() != Terrain.HILL &&
+                    tile.getTerrainFeature() != TerrainFeature.JUNGLE && tile.getTerrainFeature() != TerrainFeature.FOREST) {
+                    for (Direction directionPrime : Direction.values()) {
+                        int iPrime = tile.getCoordinates()[0] + directionPrime.i;
+                        int jPrime = tile.getCoordinates()[1] + directionPrime.j;
+                        if (iPrime >= 0 && iPrime < game.MAP_HEIGHT && jPrime >= 0 && jPrime < game.MAP_WIDTH) {
+                            if (!scopeOfVision.contains(map[iPrime][jPrime])) {
+                                scopeOfVision.add(map[iPrime][jPrime]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return scopeOfVision;
+    }
+
 }
 
 class MapPair {

@@ -8,6 +8,9 @@ public enum UnitMessage {
     NO_SELECTED_UNIT,
     NO_PERMISSION,
     NO_MOVE_POINT,
+    IS_SLEPT,
+    IS_ALERT,
+    IS_AWAKE,
     // Move Messages
     NOT_ACCESSIBLE_TILE,
     SAME_TARGET_TILE,

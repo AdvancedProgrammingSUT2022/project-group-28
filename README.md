@@ -40,7 +40,7 @@ project-group-28 created by GitHub Classroom
 ### show currnet menu
 `menu show current`
 ## Game Menu
-## show map
+### show map
 `map show -i [tileI] -j [tileJ] (-c [cheat])`
 ### select combat unit
 `select unit combat -i [unitI] -j [unitJ] (-c [cheat])`
@@ -52,6 +52,12 @@ project-group-28 created by GitHub Classroom
 `unit found city`
 ### build improvement
 `unit build`
+### sleep
+`unit sleep`
+### wake
+`unit wake`
+### alert
+`unit alert`
 ### unit attack
 `unit attack -i [tileI] -j [tileJ]`
 ### prepare siege attack

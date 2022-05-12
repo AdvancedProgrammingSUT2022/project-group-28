@@ -1,11 +1,13 @@
 package controllers;
 
+import controllers.units.UnitController;
 import models.Game;
 import models.User;
 import models.civilization.City;
 import models.civilization.Civilization;
 import models.civilization.enums.TechnologyTemplate;
 import models.tiles.Tile;
+import models.units.Unit;
 import views.enums.CivilizationMessage;
 import views.notifications.CivilizationNotification;
 import views.notifications.GameNotification;
@@ -56,6 +58,11 @@ public class GameMenuController extends GameController {
         for (City city : civilization.getCities()) {
             CityController.checkCityPopulationChange(game, city);
             CityController.checkCityConstructionCompletion(game, city);
+            // TODO: alert city of enemy
+        }
+
+        for (Unit unit : civilization.getUnits()) {
+            UnitController.checkAlertUnit(game, unit);
         }
         // TODO: check ........
 
