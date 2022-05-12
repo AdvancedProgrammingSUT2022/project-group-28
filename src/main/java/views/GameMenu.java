@@ -71,7 +71,9 @@ public class GameMenu extends Menu {
             showResearchPanel();
         } else if(command.equals("cities panel")){
             showCitiesPanel();
-        } else if(command.startsWith("cheat increase gold")){
+        } else if(command.equals("economic overview")){
+            showEconomicOverview();
+        }else if(command.startsWith("cheat increase gold")){
             increaseGold(command);
         } else if (command.startsWith("cheat next turn")) {
             cheatNextTurn(command);
@@ -832,12 +834,41 @@ public class GameMenu extends Menu {
         Civilization civilization = GameController.getGame().getCurrentPlayer();
         if(civilization.getCities().size() != 0){
             System.out.println("your capital : ");
-            System.out.println(" -> Population: " + civilization.getCurrentCapital().getPopulation() + "  |  " +
-                     "Name : " + civilization.getCurrentCapital().getNAME() + "  |  Combat strength : " + civilization.getCurrentCapital().getCombatStrength());
+            System.out.println(" -> Population: " + civilization.getCurrentCapital().getPopulation() + "  |  Name: "
+                     + civilization.getCurrentCapital().getNAME() + "  |  Combat strength : " + civilization.getCurrentCapital().getCombatStrength());
             System.out.println("Civilization another cities : ");
             for (City city: civilization.getCities()) {
                 if(!civilization.getCities().contains(civilization.getCurrentCapital()) && civilization.getCities().size() > 1){
                     System.out.println(" -> " + city.getPopulation() + "  |  " + city.getNAME() + "  |  " + city.getCombatStrength());
+                }
+                else {
+                    System.out.println("nothing :(");
+                }
+            }
+        }
+        else {
+            System.out.println("nothing :(");
+        }
+
+    }
+
+    private void showEconomicOverview(){
+        Civilization civilization = GameController.getGame().getCurrentPlayer();
+        City  capitalCity= civilization.getCurrentCapital();
+        //TODO: check science for city ....
+        //TODO check get production for city
+        if(civilization.getCities().size() != 0){
+            System.out.println("your capital : ");
+            System.out.println(" -> Population: " + capitalCity.getPopulation() + " | Name: "
+                     + capitalCity.getNAME() + " | Combat strength: " + capitalCity.getCombatStrength() +
+                    " | Food: " + capitalCity.getFoodStore() + " | Science: " + capitalCity.getPopulation() +
+                    " | Gold: " + CityController.getCityGoldBalance(capitalCity) + " | Production: " + capitalCity.getProductionBalance() );
+            System.out.println("Civilization another cities : ");
+            for (City city: civilization.getCities()) {
+                if(!civilization.getCities().contains(capitalCity) && civilization.getCities().size() > 1){
+                    System.out.println(" -> Population: " + city.getPopulation() + " | Name: " + city.getNAME() + " | Combat strength: " + city.getCombatStrength() +
+                            " | Food: " + city.getFoodStore() + " | Science: " + city.getPopulation() + " | Gold: " + CityController.getCityGoldBalance(city)
+                             + " | Production: " + city.getProductionBalance());
                 }
                 else {
                     System.out.println("nothing :(");
@@ -863,7 +894,10 @@ public class GameMenu extends Menu {
 
         Integer goldValue = parser.getOptionValue(amount);
 
-        if(goldValue == null)System.out.println("invalid command");
+        if(goldValue == null){
+            System.out.println("invalid command");
+            return;
+        }
 
         Civilization civilization = GameController.getGame().getCurrentPlayer();
         civilization.setGold(civilization.getGold() + goldValue);
@@ -1198,8 +1232,8 @@ public class GameMenu extends Menu {
         System.out.println("city is conquered. do you want to destroy it or attach it?");
         System.out.println("1. destroy");
         System.out.println("2. attach");
-        System.out.print(">");
         while(true){
+            System.out.print(">");
             String line = scanner.nextLine();
             if(line.equals("1"))return true;
             else if(line.equals("2"))return false;
@@ -1230,6 +1264,7 @@ public class GameMenu extends Menu {
             return;
         }
         else unit.setHealth(10);
+        System.out.println("successfully healed");
     }
 
     private void cheatRechargeMP(){
@@ -1239,6 +1274,7 @@ public class GameMenu extends Menu {
             return;
         }
         else unit.setMovePoint(unit.getUnitTemplate().getMovementPoint());
+        System.out.println("successfully recharged");
     }
 
     private void notificationInfo(String command) {

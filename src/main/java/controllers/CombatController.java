@@ -4,6 +4,7 @@ import models.Game;
 import models.civilization.City;
 import models.tiles.Tile;
 import models.units.Melee;
+import models.units.Military;
 import models.units.Ranged;
 import models.units.Siege;
 import models.units.Unit;
@@ -48,6 +49,7 @@ public class CombatController {
             }else{
                 unit.getTile().setMilitary(null);
                 unit.setTile(city.getTile());
+                unit.getTile().setMilitary((Military)unit);
                 if(city.getFOUNDER()==unit.getCivilization() || !menu.destroyOrAttachCity()){
                     city.getCivilization().getCities().remove(city);
                     city.setCivilization(unit.getCivilization());
@@ -67,6 +69,7 @@ public class CombatController {
             }else{
                 unit.getTile().setMilitary(null);
                 unit.setTile(target.getTile());
+                unit.getTile().setMilitary((Military)unit);
             }
         }else{
             return CombatMessage.NO_COMBATABLE;
@@ -83,7 +86,6 @@ public class CombatController {
             if(city.getHitPoint()-strength<=0)return CombatMessage.NEEDS_MELEE_UNIT;
             city.setHitPoint(city.getHitPoint()-strength);
             unit.setMovePoint(0);
-            // TODO: add city destruction and check to not destroy city by founder
             if(city.getHitPoint()>0 && CivilizationController.isTileVisible(unit.getTile(), city.getCivilization()) && isInCityRange(unit.getTile(), city)){
                 unit.setHealth(unit.getHealth()-city.getCombatStrength());
             }
@@ -115,7 +117,6 @@ public class CombatController {
             city.setHitPoint(city.getHitPoint()-strength);
             unit.setUnitState(UnitState.FREE);
             unit.setMovePoint(0);
-            // TODO: add city destruction and check to not destroy city by founder
             if(city.getHitPoint()>0 && CivilizationController.isTileVisible(unit.getTile(), city.getCivilization()) && isInCityRange(unit.getTile(), city)){
                 unit.setHealth(unit.getHealth()-city.getCombatStrength());
             }
@@ -138,10 +139,8 @@ public class CombatController {
     }
 
     private static boolean isInCityRange(Tile tile, City city) {
-        for (Tile cityTile : city.getTiles()) {
-            if (TileController.getDistance(tile, cityTile) <= 2) {
-                return true;
-            }
+        if (TileController.getDistance(tile, city.getTile()) <= 2) {
+            return true;
         }
         return false;
     }
