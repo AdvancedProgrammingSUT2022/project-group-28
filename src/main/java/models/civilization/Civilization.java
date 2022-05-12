@@ -7,7 +7,7 @@ import models.tiles.Tile;
 import models.tiles.enums.ResourceTemplate;
 import models.tiles.enums.ResourceType;
 import models.units.Unit;
-import views.messages.GameMessage;
+import views.notifications.GameNotification;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +37,7 @@ public class Civilization {
 
     private HashMap<ResourceTemplate, Integer> resources;
 
-    private ArrayList<GameMessage> gameMessages = new ArrayList<>();
+    private ArrayList<GameNotification> gameNotifications = new ArrayList<>();
 
     // TODO: Complete fields
     public Civilization(User user, CivilizationNames civilizationNames) {
@@ -112,7 +112,7 @@ public class Civilization {
         return resources;
     }
 
-    public ArrayList<GameMessage> getGameMessages() { return gameMessages; }
+    public ArrayList<GameNotification> getGameNotifications() { return gameNotifications; }
 
     public void addUnit(Unit unit) {
         this.units.add(unit);
@@ -171,5 +171,5 @@ public class Civilization {
         this.cities.remove(city);
     }
 
-    public void addGameMessage(GameMessage gameMessage) { this.gameMessages.add(gameMessage); }
+    public void addGameNotification(GameNotification gameNotification) { this.gameNotifications.add(gameNotification); }
 }

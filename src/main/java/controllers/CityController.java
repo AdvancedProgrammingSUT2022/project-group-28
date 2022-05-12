@@ -14,7 +14,8 @@ import models.units.enums.UnitTemplate;
 import models.units.enums.UnitType;
 import views.enums.CityMessage;
 import views.enums.CivilizationMessage;
-import views.messages.GameMessage;
+import views.notifications.CivilizationNotification;
+import views.notifications.GameNotification;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -287,12 +288,10 @@ public class CityController extends GameController {
             city.increasePopulation(1);
             assignRandomCitizen(city);
             getTileReward(city);
-            // TODO: change message address
             ArrayList<String> data = new ArrayList<>(Arrays.asList(city.getNAME()));
-            GameMessage populationGrowth = new GameMessage(views.messages.CivilizationMessage.POPULATION_GROWTH,
+            GameNotification populationGrowth = new GameNotification(CivilizationNotification.POPULATION_GROWTH,
                                                            data, game.getTurnNumber());
-            city.getCivilization().addGameMessage(populationGrowth);
-
+            city.getCivilization().addGameNotification(populationGrowth);
         } else if (city.getGrowthBucket() == -1) {
             if (city.getPopulation() == 1) {
                 city.setFoodStore(0);
@@ -307,9 +306,9 @@ public class CityController extends GameController {
             freeRandomCitizen(city);
 
             ArrayList<String> data = new ArrayList<>(Arrays.asList(city.getNAME()));
-            GameMessage populationLoss = new GameMessage(views.messages.CivilizationMessage.POPULATION_LOSS,
+            GameNotification populationLoss = new GameNotification(CivilizationNotification.POPULATION_LOSS,
                                                          data, game.getTurnNumber());
-            city.getCivilization().addGameMessage(populationLoss);
+            city.getCivilization().addGameNotification(populationLoss);
         }
         updateCity(city);
         CivilizationController.updateCivilization(city.getCivilization());

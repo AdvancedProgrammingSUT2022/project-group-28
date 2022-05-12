@@ -27,7 +27,7 @@ import models.units.Unit;
 import models.units.Worker;
 import models.units.enums.UnitTemplate;
 import views.enums.*;
-import views.messages.GameMessage;
+import views.notifications.GameNotification;
 
 public class GameMenu extends Menu {
     private static GameMenu instance = new GameMenu();
@@ -535,12 +535,11 @@ public class GameMenu extends Menu {
         System.out.println("it is " + nickname + "'s turn");
 
         Civilization civilization = GameController.getGame().getCurrentPlayer();
-        for (int i = civilization.getGameMessages().size() - 1; i >= 0 ; i--) {
-            GameMessage gameMessage = civilization.getGameMessages().get(i);
-            if (gameMessage.isRead()) break;
-            gameMessage.setRead(true);
-            System.out.println("********************************");
-            System.out.println(gameMessage.toString());
+        for (int i = civilization.getGameNotifications().size() - 1; i >= 0 ; i--) {
+            GameNotification gameNotification = civilization.getGameNotifications().get(i);
+            if (gameNotification.isRead()) break;
+            gameNotification.setRead(true);
+            System.out.println(gameNotification.toString());
             System.out.println("********************************");
         }
 
@@ -1201,13 +1200,16 @@ public class GameMenu extends Menu {
         CheatController instance = CheatController.getInstance();
         instance.nextPlayerCheat(GameController.getGame());
         Civilization civilization = GameController.getGame().getCurrentPlayer();
-        for (int i = civilization.getGameMessages().size() - 1; i >= 0 ; i--) {
-            GameMessage gameMessage = civilization.getGameMessages().get(i);
-            if (gameMessage.isRead()) break;
-            gameMessage.setRead(true);
-            System.out.println(gameMessage.toString());
-        }
+
         System.out.println("it is " + civilization.getUser().getNickname() + "'s turn");
+
+        for (int i = civilization.getGameNotifications().size() - 1; i >= 0 ; i--) {
+            GameNotification gameNotification = civilization.getGameNotifications().get(i);
+            if (gameNotification.isRead()) break;
+            gameNotification.setRead(true);
+            System.out.println(gameNotification.toString());
+            System.out.println("*********************");
+        }
     }
 
     private void cheatHealUnit(){
@@ -1238,18 +1240,17 @@ public class GameMenu extends Menu {
             return;
         }
 
-        Integer countValue = parser.getOptionValue(count);
+        Integer countValue = parser.getOptionValue(count, 5);
         if (countValue == null) {
             System.out.println("Invalid command");
         }
         Civilization civilization = GameController.getGame().getCurrentPlayer();
-        for (int i = civilization.getGameMessages().size() - 1; i >= 0; i--) {
-            GameMessage gameMessage = civilization.getGameMessages().get(i);
-            gameMessage.setRead(true);
+        for (int i = civilization.getGameNotifications().size() - 1; i >= 0; i--) {
+            GameNotification gameNotification = civilization.getGameNotifications().get(i);
+            gameNotification.setRead(true);
             if (countValue > 0) {
-                System.out.println("****************************");
-                System.out.println("Turn " + gameMessage.getTurnNumber() + ":");
-                System.out.println(gameMessage);
+                System.out.println("Turn " + gameNotification.getTurnNumber() + ":");
+                System.out.println(gameNotification);
                 System.out.println("****************************");
             }
             countValue--;

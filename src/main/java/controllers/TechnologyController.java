@@ -8,7 +8,8 @@ import models.civilization.enums.BuildingTemplate;
 import models.civilization.enums.TechnologyTemplate;
 import models.units.enums.UnitTemplate;
 import views.enums.CivilizationMessage;
-import views.messages.GameMessage;
+import views.notifications.CivilizationNotification;
+import views.notifications.GameNotification;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -145,12 +146,12 @@ public class TechnologyController extends GameController {
         if (currentStudy == null) return;
         if (currentStudy.getTechnologyTemplate().getCost() == currentStudy.getProgress()) {
             TechnologyTemplate currentStudyTemplate = currentStudy.getTechnologyTemplate();
+
             ArrayList<String> data = new ArrayList<>(Arrays.asList(currentStudyTemplate.getName(), printCompleteTechnologyInfo()));
-            int turnNumber = game.getTurnNumber();
-            // TODO: change Civilization message address
-            GameMessage technologyCompletion = new GameMessage(views.messages.CivilizationMessage.COMPLETION_OF_STUDY,
-                    data, turnNumber);
-            civilization.addGameMessage(technologyCompletion);
+            GameNotification technologyCompletion = new GameNotification(CivilizationNotification.COMPLETION_OF_STUDY,
+                                                                         data, game.getTurnNumber());
+            civilization.addGameNotification(technologyCompletion);
+
             civilization.setCurrentStudyTechnology(null);
         }
     }
