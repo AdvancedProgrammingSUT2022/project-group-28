@@ -90,6 +90,8 @@ public class GameMenu extends Menu {
             cheatHealUnit();
         } else if(command.equals("cheat recharge mp")){
             cheatRechargeMP();
+        } else if(command.equals("save game")){
+            saveGame();
         } else if (command.startsWith("notification info")) {
             notificationInfo(command);
         } else if(command.equals("menu exit")){
@@ -1255,5 +1257,10 @@ public class GameMenu extends Menu {
             }
             countValue--;
         }
+    }
+
+    private void saveGame() {
+        GsonHandler.saveGame(GameController.getGame());
+        System.out.println("game saved.");
     }
 }

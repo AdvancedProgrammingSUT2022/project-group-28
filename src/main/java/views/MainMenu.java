@@ -7,6 +7,8 @@ import com.sanityinc.jargs.CmdLineParser.Option;
 
 import controllers.GameController;
 import controllers.GameMenuController;
+import controllers.GsonHandler;
+import models.Game;
 import models.User;
 import models.civilization.Civilization;
 
@@ -18,6 +20,8 @@ public class MainMenu extends Menu {
     protected boolean checkCommand(String command) {
         if (command.startsWith("play game")) {
             return startGame(command);
+        } else if (command.equals("load game")) {
+            return loadGame();
         } else if (command.equals("menu show-current")) {
             System.out.println("Main Menu");
         } else if (command.equals("menu exit")) {
@@ -84,6 +88,17 @@ public class MainMenu extends Menu {
         GameMenuController.startNewGame(users, seedValue);
         Civilization startPlayer = GameController.getGame().getCurrentPlayer();
         System.out.println("it is " + startPlayer.getUser().getNickname() + "'s turn");
+        Menu.setCurrentMenu(GameMenu.getInstance());
+        return true;
+    }
+
+    private boolean loadGame() {
+        Game game = GsonHandler.importGame();
+        if(game == null){
+            System.out.println("No game to load");
+            return false;
+        }
+        GameMenuController.setGame(game);
         Menu.setCurrentMenu(GameMenu.getInstance());
         return true;
     }
