@@ -344,6 +344,53 @@ public class CityController extends GameController {
         }
     }
 
+    public static void checkCityConstructionCompletion(Game game, City city) {
+        Construction construction = city.getConstruction();
+        if (construction == null) return;
+        if (construction.getSpentProduction() == construction.getConstructionTemplate().getCost()) {
+            Constructable constructionTemplate = construction.getConstructionTemplate();
+            if (constructionTemplate instanceof UnitTemplate) {
+                UnitTemplate unitTemplate = (UnitTemplate) constructionTemplate;
+                Civilization civilization = city.getCivilization();
+                Tile tile = getNearestFreeTile(city, unitTemplate);
+                switch (unitTemplate.getUnitType()) {
+                    case MELEE:
+                        Melee unit = new Melee(tile,civilization,unitTemplate);
+                        tile.setMilitary(unit);
+                        civilization.addUnit(unit);
+                        break;
+                    case CIVILIAN:
+                        Civilian civilian;
+                        if (unitTemplate == UnitTemplate.WORKER)
+                            civilian = new Worker(tile, civilization);
+                        else
+                            civilian = new Settler(tile, civilization);
+                        tile.setCivilian(civilian);
+                        civilization.addUnit(civilian);
+                        break;
+                    case RANGED:
+                        Ranged ranged = new Ranged(tile,civilization,unitTemplate);
+                        tile.setMilitary(ranged);
+                        civilization.addUnit(ranged);
+                        break;
+                    case SIEGE:
+                        Siege siege = new Siege(tile,civilization,unitTemplate);
+                        tile.setMilitary(siege);
+                        civilization.addUnit(siege);
+                        break;
+
+                }
+            }
+
+            ArrayList<String> data = new ArrayList<>(Arrays.asList(constructionTemplate.getName(), city.getNAME()));
+            GameNotification constructionCompleted = new GameNotification(CivilizationNotification.COMPLETION_OF_CONSTRUCTION,
+                                                    data, game.getTurnNumber());
+            city.getCivilization().addGameNotification(constructionCompleted);
+
+            city.setConstruction(null);
+        }
+    }
+
     private static void constructConstruction(City city) {
         if (city.getConstruction() != null) {
             int productionBalance = getCityProductionBalance(city);
@@ -351,44 +398,13 @@ public class CityController extends GameController {
             Construction construction = city.getConstruction();
             Constructable constructionTemplate = city.getConstruction().getConstructionTemplate();
             if (productionBalance + construction.getSpentProduction() < constructionTemplate.getCost()) {
-                construction.setSpentProduction(construction.getSpentProduction() + productionBalance);
+                construction.setSpentProduction(construction.getSpentProduction() + productionBalance +
+                                                city.getProductionStore());
+                city.setProductionStore(0);
             } else {
-                if (constructionTemplate instanceof UnitTemplate) {
-                    UnitTemplate unitTemplate = (UnitTemplate) constructionTemplate;
-                    Civilization civilization = city.getCivilization();
-                    Tile tile = getNearestFreeTile(city, unitTemplate);
-                    switch (unitTemplate.getUnitType()) {
-                        case MELEE:
-                            Melee unit = new Melee(tile,civilization,unitTemplate);
-                            tile.setMilitary(unit);
-                            civilization.addUnit(unit);
-                            break;
-                        case CIVILIAN:
-                            Civilian civilian;
-                            if (unitTemplate == UnitTemplate.WORKER)
-                                civilian = new Worker(tile,civilization);
-                            else
-                                civilian = new Settler(tile, civilization);
-                            tile.setCivilian(civilian);
-                            civilization.addUnit(civilian);
-                            break;
-                        case RANGED:
-                            Ranged ranged = new Ranged(tile,civilization,unitTemplate);
-                            tile.setMilitary(ranged);
-                            civilization.addUnit(ranged);
-                            break;
-                        case SIEGE:
-                            Siege siege = new Siege(tile,civilization,unitTemplate);
-                            tile.setMilitary(siege);
-                            civilization.addUnit(siege);
-                            break;
-
-                    }
-                } else if (constructionTemplate instanceof BuildingTemplate) {
-                    // TODO: add
-                }
-
-                city.setConstruction(null);
+                city.setProductionStore(construction.getSpentProduction() + productionBalance -
+                                                construction.getConstructionTemplate().getCost());
+                construction.setSpentProduction(construction.getConstructionTemplate().getCost());
             }
         }
     }

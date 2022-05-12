@@ -2,7 +2,6 @@ package views.notifications;
 
 public enum CivilizationNotification implements NotificationTemplate {
     // TODO: modify data
-    COMPLETION_OF_IMPROVEMENT("Improvement completion", "@@ improvement has been completed in @@ at @@,@@."),
     NO_CONSTRUCTION("No Construction", "@@ does not have construction."),
     NO_TECHNOLOGY("No technology", "You have to study a technology"),
     FREE_UNIT("Free unit", "There is a free unit at @@,@@."),

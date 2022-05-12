@@ -27,6 +27,7 @@ public class City{
     private int foodStore = 0;
 
     private int productionBalance;
+    private int productionStore;
 
     private Construction construction;
 
@@ -110,6 +111,8 @@ public class City{
         return productionBalance;
     }
 
+    public int getProductionStore() { return productionStore; }
+
     public Construction getConstruction() { return construction; }
 
     public ArrayList<BuildingTemplate> getBuildings() {
@@ -129,6 +132,8 @@ public class City{
     public void setProductionBalance(int productionBalance) { 
         this.productionBalance = productionBalance; 
     }
+
+    public void setProductionStore(int productionStore) { this.productionStore = productionStore; }
 
     public void setConstruction(Construction construction) { 
         this.construction = construction; 

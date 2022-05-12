@@ -55,6 +55,7 @@ public class GameMenuController extends GameController {
 
         for (City city : civilization.getCities()) {
             CityController.checkCityPopulationChange(game, city);
+            CityController.checkCityConstructionCompletion(game, city);
         }
         // TODO: check ........
 
