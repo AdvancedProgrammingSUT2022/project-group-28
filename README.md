@@ -12,4 +12,12 @@ project-group-28 created by GitHub Classroom
 
 # Phase 1 commands
 ## Register Menu
-`user login -u ,--username [username] -p ,--password [password]`
+### register
+`user create -u [username] -p [password] -n [nickname]`
+
+### login
+`user login -u [username] -p [password]`
+### show current menu
+`menu show-current`
+
+
