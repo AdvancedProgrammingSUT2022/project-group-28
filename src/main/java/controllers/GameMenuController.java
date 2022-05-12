@@ -8,7 +8,6 @@ import models.civilization.Civilization;
 import models.civilization.enums.TechnologyTemplate;
 import models.tiles.Tile;
 import models.units.Unit;
-import views.enums.CivilizationMessage;
 import views.notifications.CivilizationNotification;
 import views.notifications.GameNotification;
 
@@ -79,9 +78,9 @@ public class GameMenuController extends GameController {
                     ArrayList<TechnologyTemplate> userFullTechnologyTemplates = TechnologyController.extractFullProgressTechnology();
                     if(userFullTechnologyTemplates.contains(requiredTechnology)) return tile.getResource().getResourceTemplate().getMapSign();
                 }
-                return "#######";
+                return "###";
             }
         }else
-            return "#######";
+            return "###";
     }
 }

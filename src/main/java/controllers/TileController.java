@@ -1,5 +1,6 @@
 package controllers;
 
+import models.civilization.Civilization;
 import models.civilization.enums.TechnologyTemplate;
 import models.tiles.Tile;
 import models.tiles.enums.ImprovementTemplate;
@@ -51,4 +52,12 @@ public class TileController extends  GameController {
         if (unit instanceof Military) tile.setMilitary((Military) unit);
     }
 
+
+    public static Civilization getTileCivilization(Tile tile){
+        if (tile.getCity()!=null)return tile.getCity().getCivilization();
+        else if (tile.getMilitary()!=null)return tile.getMilitary().getCivilization();
+        else if (tile.getCivilian()!=null)return tile.getCivilian().getCivilization();
+        else if(tile.getCivilization()!=null)return tile.getCivilization();
+        else return null;
+    }
 }

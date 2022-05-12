@@ -5,12 +5,12 @@ import models.tiles.TerrainOrTerrainFeature;
 import java.util.Random;
 
 public enum TerrainFeature implements TerrainOrTerrainFeature {
-    FOOD_PLAIN("Food plain","FPlain#", 2, 0, 0, 1, -1/3f, true),
-    FOREST("Forest","Forest#", 1, 1, 0, 2, 1/4f, true),
-    ICE("Ice","##Ice##", 0, 0, 0, 0, 0, false),
-    JUNGLE("Jungle","Jungle#", 1, -1, 0, 2, 1/4f, true),
-    MARSH("Marsh","#Marsh#", -1, 0, 0, 2, -1/3f, true),
-    OASIS("Oasis","#Oasis#", 3, 0, 1, 1, -1/3f, true);
+    FOOD_PLAIN("Food plain","FP#", 2, 0, 0, 1, -1/3f, true),
+    FOREST("Forest","FOR", 1, 1, 0, 2, 1/4f, true),
+    ICE("Ice","ICE", 0, 0, 0, 0, 0, false),
+    JUNGLE("Jungle","JG#", 1, -1, 0, 2, 1/4f, true),
+    MARSH("Marsh","MAR", -1, 0, 0, 2, -1/3f, true),
+    OASIS("Oasis","OAS", 3, 0, 1, 1, -1/3f, true);
 
     private String name;
     private String mapSign;

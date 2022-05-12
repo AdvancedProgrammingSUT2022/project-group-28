@@ -157,11 +157,11 @@ public class GameMenu extends Menu {
     private ArrayList<String> fillHexData(int i, int j, boolean fogOfWar) {
         Game game = GameController.getGame();
         String template ="   _______\n"  // 0 - 13
-                       + "  /#CWQQQ#\\\n" // 14 - 26
+                       + "  /#C#QQQ#\\\n" // 14 - 26
                        + " /##II,JJ##\\\n" // 27 - 39
-                       + "/##FFFFFFF##\\\n" // 40 - 52
-                       + "\\##RRRRRRR##/\n" // 53 - 65 
-                       + " \\##TT#MMM#/\n" // 66 - 78
+                       + "/#FFF#W#VVV#\\\n" // 40 - 52
+                       + "\\##RRR######/\n" // 53 - 65 
+                       + " \\#TTT#MMM#/\n" // 66 - 78
                        + "  \\_______/";  // 79 - 92
         template = template.replace("II", String.format("%02d", i));
         template = template.replace("JJ", String.format("%02d", j));
@@ -182,9 +182,9 @@ public class GameMenu extends Menu {
         }
         if(tile!=null){    
             if(tile.getTerrainFeature()!=null)
-                template = template.replace("FFFFFFF", tile.getTerrainFeature().getMapSign());
+                template = template.replace("FFF", tile.getTerrainFeature().getMapSign());
             else
-                template = template.replace("FFFFFFF", "#######");
+                template = template.replace("FFF", "###");
 
             if (tile.getCity() != null)
                 template = template.replace("QQQ", tile.getCity().getNAME());
@@ -208,8 +208,12 @@ public class GameMenu extends Menu {
             else
                 template = template.replace("MMM", "###");
 
-            template = template.replace("TT", String.format("%02d", lastDiscovery));
-            template = template.replace("RRRRRRR", GameMenuController.getTileShowableResource(tile, game.getCurrentPlayer(),!fogOfWar));
+            if(TileController.getTileCivilization(tile)!=null)
+                template = template.replace("VVV", TileController.getTileCivilization(tile).getCivilizationNames().getMapSign());
+            else
+                template = template.replace("VVV", "###");
+            template = template.replace("TTT", String.format("%03d", lastDiscovery%1000));
+            template = template.replace("RRR", GameMenuController.getTileShowableResource(tile, game.getCurrentPlayer(),!fogOfWar));
             colors= getHexColors(template, i, j);
         }else if (i < game.MAP_HEIGHT && i >= 0 && j < game.MAP_WIDTH && j >= 0) {
             template ="   _______\n"  // 0 - 11
