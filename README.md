@@ -19,5 +19,16 @@ project-group-28 created by GitHub Classroom
 `user login -u [username] -p [password]`
 ### show current menu
 `menu show-current`
+## Main Menu
+### start new game
+`play game -p [player1] [player2] ...`
+### load game
+`load game`
+### enter profile menu
+`menu enter profile`
+### exit menu
+`menu exit`
+### show current menu
+`menu show current`
 
 
