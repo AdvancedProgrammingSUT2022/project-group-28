@@ -20,22 +20,19 @@ public class CheatController {
     }
 
     public void nextTurnCheat(Game game, int count) {
-        // TODO: reform
         for (int i = 0; i < count; i++) {
             for (int j = 0; j < game.getCivilizations().size(); j++) {
                 Civilization currentPlayer = game.getCurrentPlayer();
                 CivilizationController.updateDiscoveredTiles();
                 CivilizationController.nextTurnCivilizationUpdates(currentPlayer);
-                // TODO: move tech updates to next turn updates
-                TechnologyController.updateNextTurnTechnology();
                 CivilizationController.updateDiscoveredTiles();
                 GameMenuController.changePlayerTurn(game);
+                GameMenuController.startNewTurn();
             }
         }
     }
 
     public void nextPlayerCheat(Game game) {
-        // TODO: reform
         Civilization currentPlayer = game.getCurrentPlayer();
         CivilizationController.updateDiscoveredTiles();
         CivilizationController.nextTurnCivilizationUpdates(currentPlayer);

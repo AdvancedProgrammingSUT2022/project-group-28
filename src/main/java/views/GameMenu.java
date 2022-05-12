@@ -90,7 +90,9 @@ public class GameMenu extends Menu {
             cheatHealUnit();
         } else if(command.equals("cheat recharge mp")){
             cheatRechargeMP();
-        }else if(command.equals("menu exit")){
+        } else if (command.startsWith("notification info")) {
+            notificationInfo(command);
+        } else if(command.equals("menu exit")){
             Menu.setCurrentMenu(MainMenu.getInstance());
             return true;            
         } else {
@@ -537,7 +539,9 @@ public class GameMenu extends Menu {
             GameMessage gameMessage = civilization.getGameMessages().get(i);
             if (gameMessage.isRead()) break;
             gameMessage.setRead(true);
+            System.out.println("********************************");
             System.out.println(gameMessage.toString());
+            System.out.println("********************************");
         }
 
     }
@@ -1222,5 +1226,33 @@ public class GameMenu extends Menu {
             return;
         }
         else unit.setMovePoint(unit.getUnitTemplate().getMovementPoint());
+    }
+
+    private void notificationInfo(String command) {
+        CmdLineParser parser = new CmdLineParser();
+        Option<Integer> count = parser.addIntegerOption('c', "count");
+        try {
+            parser.parse(command.split(" "));
+        } catch (CmdLineParser.OptionException e) {
+            System.out.println("invalid command");
+            return;
+        }
+
+        Integer countValue = parser.getOptionValue(count);
+        if (countValue == null) {
+            System.out.println("Invalid command");
+        }
+        Civilization civilization = GameController.getGame().getCurrentPlayer();
+        for (int i = civilization.getGameMessages().size() - 1; i >= 0; i++) {
+            GameMessage gameMessage = civilization.getGameMessages().get(i);
+            gameMessage.setRead(true);
+            if (countValue > 0) {
+                System.out.println("****************************");
+                System.out.println("Turn " + gameMessage.getTurnNumber() + " :");
+                System.out.println(gameMessage);
+                System.out.println("****************************");
+            }
+            countValue--;
+        }
     }
 }

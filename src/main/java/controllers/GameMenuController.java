@@ -46,7 +46,7 @@ public class GameMenuController extends GameController {
     public static void startNewTurn() {
         Civilization civilization = game.getCurrentPlayer();
         // TODO: tech check
-        TechnologyController.checkCompletionOfTechnology(civilization);
+        TechnologyController.checkCompletionOfTechnology(game, civilization);
         // TODO: check ........
 
     }

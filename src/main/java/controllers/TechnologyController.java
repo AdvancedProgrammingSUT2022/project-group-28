@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Game;
 import models.civilization.City;
 import models.civilization.Civilization;
 import models.civilization.Technology;
@@ -139,14 +140,16 @@ public class TechnologyController extends GameController {
         return population;
     }
 
-    public static void checkCompletionOfTechnology(Civilization civilization) {
+    public static void checkCompletionOfTechnology(Game game, Civilization civilization) {
         Technology currentStudy = civilization.getCurrentStudyTechnology();
         if (currentStudy == null) return;
         if (currentStudy.getTechnologyTemplate().getCost() == currentStudy.getProgress()) {
             TechnologyTemplate currentStudyTemplate = currentStudy.getTechnologyTemplate();
             ArrayList<String> data = new ArrayList<>(Arrays.asList(currentStudyTemplate.getName(), printCompleteTechnologyInfo()));
+            int turnNumber = game.getTurnNumber();
+            // TODO: change Civilization message address
             GameMessage technologyCompletion = new GameMessage(views.messages.CivilizationMessage.COMPLETION_OF_STUDY,
-                    data, 1);
+                    data, turnNumber);
             civilization.addGameMessage(technologyCompletion);
             civilization.setCurrentStudyTechnology(null);
         }
@@ -156,7 +159,7 @@ public class TechnologyController extends GameController {
     public static String printCompleteTechnologyInfo() {
         ArrayList<TechnologyTemplate> fullTechnologies = extractFullProgressTechnology();
         TechnologyTemplate nameOfLastTechnology = fullTechnologies.get(fullTechnologies.size()-1);
-        String out = nameOfLastTechnology.getName() + " technology completed\n" + "Resources you obtained :\n" +
+        String out = "Resources you obtained :\n" +
                 "## UNITS :\n" + extractTheObtainedUnits(nameOfLastTechnology) +
                 "## BUILDINGS :\n" + extractTheObtainedBuildings(nameOfLastTechnology);
         return out;
