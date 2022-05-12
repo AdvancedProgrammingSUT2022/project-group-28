@@ -14,8 +14,10 @@ import models.units.enums.UnitTemplate;
 import models.units.enums.UnitType;
 import views.enums.CityMessage;
 import views.enums.CivilizationMessage;
+import views.messages.GameMessage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 public class CityController extends GameController {
@@ -275,28 +277,65 @@ public class CityController extends GameController {
         city.setConstruction(new Construction(construction));
     }
 
-    private static void growCity(City city) {
-        // TODO: add unhappiness stops growth
 
-        // TODO: change formula
+    public static void checkCityPopulationChange(Game game, City city) {
         int growthLimit = city.getPopulation() * (city.getPopulation() + 1) / 2 + 12;
-        if (city.getGrowthBucket() + getCityFoodBalance(city) >= growthLimit) {
-            city.increasePopulation(1);
-            city.setGrowthBucket(city.getGrowthBucket() + getCityFoodBalance(city) - growthLimit);
+        if (city.getGrowthBucket() == growthLimit) {
+            city.setGrowthBucket(city.getFoodStore());
+            city.setFoodStore(0);
 
+            city.increasePopulation(1);
             assignRandomCitizen(city);
             getTileReward(city);
-        } else if (city.getGrowthBucket() + getCityFoodBalance(city) < 0) {
-            if (city.getPopulation() > 1) {
-                city.decreasePopulation(1);
-                freeRandomCitizen(city);
-                int newGrowthLimit = city.getPopulation() * (city.getPopulation() + 1) / 2 + 12;
-                city.setGrowthBucket(newGrowthLimit + city.getGrowthBucket() + getCityFoodBalance(city));
-            } else city.setGrowthBucket(0);
-        } else city.setGrowthBucket(city.getGrowthBucket() + getCityFoodBalance(city));
+            // TODO: change message address
+            ArrayList<String> data = new ArrayList<>(Arrays.asList(city.getNAME()));
+            GameMessage populationGrowth = new GameMessage(views.messages.CivilizationMessage.POPULATION_GROWTH,
+                                                           data, game.getTurnNumber());
+            city.getCivilization().addGameMessage(populationGrowth);
 
+        } else if (city.getGrowthBucket() == -1) {
+            if (city.getPopulation() == 1) {
+                city.setFoodStore(0);
+                city.setFoodBalance(0);
+                return;
+            }
+
+            city.setGrowthBucket(city.getFoodStore());
+            city.setFoodStore(0);
+
+            city.decreasePopulation(1);
+            freeRandomCitizen(city);
+
+            ArrayList<String> data = new ArrayList<>(Arrays.asList(city.getNAME()));
+            GameMessage populationLoss = new GameMessage(views.messages.CivilizationMessage.POPULATION_LOSS,
+                                                         data, game.getTurnNumber());
+            city.getCivilization().addGameMessage(populationLoss);
+        }
         updateCity(city);
         CivilizationController.updateCivilization(city.getCivilization());
+    }
+
+    private static void growCity(City city) {
+        int happiness = city.getCivilization().getHappiness();
+        int growthLimit = city.getPopulation() * (city.getPopulation() + 1) / 2 + 12;
+        int cityFoodBalance = getCityFoodBalance(city);
+        int growthBucket = city.getGrowthBucket();
+
+        Construction construction = city.getConstruction();
+        if ((cityFoodBalance > 0 && happiness < 0) ||
+             (construction != null && construction.getConstructionTemplate() == UnitTemplate.SETTLER)) return;
+
+        if (growthBucket + cityFoodBalance >= growthLimit) {
+            city.setGrowthBucket(growthLimit);
+            city.setFoodStore(growthBucket + cityFoodBalance - growthLimit);
+        } else if (growthBucket + cityFoodBalance < 0) {
+            city.setGrowthBucket(-1);
+            int newGrowthLimit = city.getPopulation() * (city.getPopulation() - 1) / 2 + 12;
+            city.setFoodStore(newGrowthLimit + growthBucket + cityFoodBalance);
+        } else {
+            city.setGrowthBucket(growthBucket + cityFoodBalance);
+            city.setFoodStore(0);
+        }
     }
 
     private static void constructConstruction(City city) {

@@ -17,13 +17,15 @@ public class City{
 
     private int citizens = 0;
     private int population = 1;
-    private int growthBucket = 0;
 
     // TODO: add all initial values
     private int strength;
     private int hitPoint;
 
     private int foodBalance;
+    private int growthBucket = 0;
+    private int foodStore = 0;
+
     private int productionBalance;
 
     private Construction construction;
@@ -86,6 +88,8 @@ public class City{
         return growthBucket; 
     }
 
+    public int getFoodStore() { return foodStore; }
+
     public int getStrength() {
         return strength;
     }
@@ -119,6 +123,8 @@ public class City{
     public void setFoodBalance(int foodBalance) { 
         this.foodBalance = foodBalance; 
     }
+
+    public void setFoodStore(int foodStore) { this.foodStore = foodStore; }
 
     public void setProductionBalance(int productionBalance) { 
         this.productionBalance = productionBalance; 

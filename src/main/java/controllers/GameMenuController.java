@@ -2,6 +2,7 @@ package controllers;
 
 import models.Game;
 import models.User;
+import models.civilization.City;
 import models.civilization.Civilization;
 import models.civilization.enums.TechnologyTemplate;
 import models.tiles.Tile;
@@ -47,6 +48,9 @@ public class GameMenuController extends GameController {
         Civilization civilization = game.getCurrentPlayer();
         // TODO: tech check
         TechnologyController.checkCompletionOfTechnology(game, civilization);
+        for (City city : civilization.getCities()) {
+            CityController.checkCityPopulationChange(game, city);
+        }
         // TODO: check ........
 
     }

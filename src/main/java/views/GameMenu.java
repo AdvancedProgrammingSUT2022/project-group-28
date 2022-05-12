@@ -1243,12 +1243,12 @@ public class GameMenu extends Menu {
             System.out.println("Invalid command");
         }
         Civilization civilization = GameController.getGame().getCurrentPlayer();
-        for (int i = civilization.getGameMessages().size() - 1; i >= 0; i++) {
+        for (int i = civilization.getGameMessages().size() - 1; i >= 0; i--) {
             GameMessage gameMessage = civilization.getGameMessages().get(i);
             gameMessage.setRead(true);
             if (countValue > 0) {
                 System.out.println("****************************");
-                System.out.println("Turn " + gameMessage.getTurnNumber() + " :");
+                System.out.println("Turn " + gameMessage.getTurnNumber() + ":");
                 System.out.println(gameMessage);
                 System.out.println("****************************");
             }
