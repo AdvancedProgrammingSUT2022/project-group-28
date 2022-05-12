@@ -16,6 +16,7 @@ import views.enums.UnitMessage;
 import views.notifications.CivilizationNotification;
 import views.notifications.GameNotification;
 
+import java.text.CharacterIterator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,6 +40,26 @@ public class UnitController extends GameController {
         if (tile.getCivilian() == null) return UnitMessage.NOT_NONCOMBAT_UNIT;
         if (!tile.getCivilian().getCivilization().equals(game.getCurrentPlayer()) && !cheatMode) return UnitMessage.NO_PERMISSION;
         game.setSelectedUnit(tile.getCivilian());
+        return UnitMessage.SUCCESS;
+    }
+
+    public static UnitMessage sleepUnit(Unit unit) {
+        if (unit.getUnitState() == UnitState.SLEPT) return UnitMessage.IS_SLEPT;
+        unit.setUnitState(UnitState.SLEPT);
+        return UnitMessage.SUCCESS;
+    }
+
+    public static UnitMessage alertUnit(Unit unit) {
+        if (unit instanceof Civilian) return UnitMessage.NOT_COMBAT_UNIT;
+        if (unit.getUnitState() == UnitState.ALERT) return UnitMessage.IS_ALERT;
+        unit.setUnitState(UnitState.ALERT);
+        return UnitMessage.SUCCESS;
+    }
+
+    public static UnitMessage wakeUnit(Unit unit) {
+        if (unit.getUnitState() != UnitState.ALERT && unit.getUnitState() != UnitState.SLEPT)
+            return UnitMessage.IS_AWAKE;
+        unit.setUnitState(UnitState.FREE);
         return UnitMessage.SUCCESS;
     }
 
