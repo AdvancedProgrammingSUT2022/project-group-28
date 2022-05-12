@@ -28,8 +28,6 @@ public class CivilizationController extends GameController {
     public static GameNotification checkNextTurnIsPossible() {
         Civilization civilization = game.getCurrentPlayer();
         // TODO: Add all civilization
-        // TODO: check city to construct something
-
         GameNotification checkUnits = UnitController.checkUnitsForNextTurn(civilization.getUnits());
         if (checkUnits.getNotificationTemplate() != CivilizationNotification.SUCCESS)
             return checkUnits;
@@ -46,15 +44,16 @@ public class CivilizationController extends GameController {
     }
 
     public static void nextTurnCivilizationUpdates(Civilization civilization) {
-        updateCivilization(civilization);
-
-        // TODO: add gold and sciences
-
+        // updates all fields of civilization
+        updateCivilizationFields(civilization);
+        // increase gold
+        civilization.setGold(civilization.getGold() + civilization.getGoldBalance());
+        // science progress
+        TechnologyController.updateNextTurnTechnology();
+        // units: move, work, heal, ...
         UnitController.nextTurnUnitUpdates(civilization.getUnits());
-
+        // cities: construct, repair, ...
         CityController.nextTurnCityUpdates(civilization.getCities());
-
-
 
         updateDiscoveredTiles();
     }
@@ -113,10 +112,13 @@ public class CivilizationController extends GameController {
         civilization.updateDiscoveredTiles(newTile, turnNumber);
     }
 
-    public static void updateCivilization(Civilization civilization) {
-        TechnologyController.updateNextTurnTechnology();
+    public static void updateCivilizationFields(Civilization civilization) {
+        TechnologyController.updateScienceBalance();
+
         civilization.setGoldBalance(getCivilizationGoldBalance(civilization));
+
         updateResources(civilization);
+
         civilization.setHappiness(getCivilizationHappiness(civilization));
     }
 

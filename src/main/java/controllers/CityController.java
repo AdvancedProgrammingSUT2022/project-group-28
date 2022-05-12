@@ -318,7 +318,7 @@ public class CityController extends GameController {
             city.getCivilization().addGameNotification(populationLoss);
         }
         updateCity(city);
-        CivilizationController.updateCivilization(city.getCivilization());
+        CivilizationController.updateCivilizationFields(city.getCivilization());
     }
 
     private static void growCity(City city) {

@@ -25,7 +25,6 @@ public class GameMenuController extends GameController {
     public static GameNotification nextTurn() {
         // TODO: redirect errors to map
         GameNotification checkResult = CivilizationController.checkNextTurnIsPossible();
-//        CivilizationMessage checkResult = CivilizationController.checkNextTurnIsPossible();
         if (checkResult.getNotificationTemplate() != CivilizationNotification.SUCCESS) return checkResult;
 
         Civilization civilization = GameController.getGame().getCurrentPlayer();
@@ -51,8 +50,9 @@ public class GameMenuController extends GameController {
 
     public static void startNewTurn() {
         Civilization civilization = game.getCurrentPlayer();
-        // TODO: tech check
+
         TechnologyController.checkCompletionOfTechnology(game, civilization);
+
         for (City city : civilization.getCities()) {
             CityController.checkCityPopulationChange(game, city);
         }

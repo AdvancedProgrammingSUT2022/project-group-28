@@ -124,7 +124,7 @@ public class TechnologyController extends GameController {
         }
     }
 
-    private static void updateScienceBalance() {
+    public static void updateScienceBalance() {
         Civilization civilization = game.getCurrentPlayer();
         civilization.setScienceBalance(addEachTurnScienceBalance());
     }
