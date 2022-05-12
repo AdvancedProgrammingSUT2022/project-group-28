@@ -89,14 +89,16 @@ public class GameMenu extends Menu {
             showUnitInfo();
         } else if(command.equals("unit prepare")){
             prepareUnit();
-        } else if(command.equals("cheat heal unit")){
+        } else if(command.equals("cheat heal unit")) {
             cheatHealUnit();
-        } else if(command.equals("cheat recharge mp")){
+        } else if(command.equals("cheat recharge mp")) {
             cheatRechargeMP();
         } else if(command.equals("save game")){
             saveGame();
         } else if (command.startsWith("notification info")) {
             notificationInfo(command);
+        } else if (command.startsWith("menu show-current")) {
+            System.out.println("this is game menu");
         } else if(command.equals("menu exit")){
             Menu.setCurrentMenu(MainMenu.getInstance());
             return true;            
@@ -639,8 +641,8 @@ public class GameMenu extends Menu {
 
     public void assignCitizen(String command) {
         CmdLineParser parser = new CmdLineParser();
-        Option<Integer> startI = parser.addIntegerOption('i', "startI");
-        Option<Integer> startJ = parser.addIntegerOption('j', "startJ");
+        Option<Integer> startI = parser.addIntegerOption('i', "tileI");
+        Option<Integer> startJ = parser.addIntegerOption('j', "tileJ");
 
         try {
             parser.parse(command.split(" "));
@@ -682,8 +684,8 @@ public class GameMenu extends Menu {
 
     public void freeCitizen(String command) {
         CmdLineParser parser = new CmdLineParser();
-        Option<Integer> startI = parser.addIntegerOption('i', "startI");
-        Option<Integer> startJ = parser.addIntegerOption('j', "startJ");
+        Option<Integer> startI = parser.addIntegerOption('i', "tileI");
+        Option<Integer> startJ = parser.addIntegerOption('j', "tileJ");
 
         try {
             parser.parse(command.split(" "));
