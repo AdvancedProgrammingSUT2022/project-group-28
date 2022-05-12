@@ -30,5 +30,13 @@ project-group-28 created by GitHub Classroom
 `menu exit`
 ### show current menu
 `menu show current`
-
+## Profile menu 
+### change password
+`profile change -p [password]`
+### change nickname
+`profile change -n [nickname]`
+### exit menu
+`menu exit`
+### show currnet menu
+`menu show current`
 
