@@ -105,6 +105,8 @@ public class GameMenu extends Menu {
             notificationInfo(command);
         } else if (command.startsWith("tile info")) {
             tileInfo(command);
+        } else if (command.startsWith("city attack")) {
+            cityAttack(command);
         } else if (command.startsWith("menu show-current")) {
             System.out.println("this is game menu");
         } else if(command.equals("menu exit")){
@@ -1154,6 +1156,12 @@ public class GameMenu extends Menu {
             case CITY_DESTROYED:
                 System.out.println("city destroyed.");
                 break;
+            case CANNOT_ATTACK_TWICE:
+                System.out.println("you cannot attack twice in one turn.");
+                break;
+            case NO_CITY_SELECTED:
+                System.out.println("no city selected.");
+                break;
         }
     }
 
@@ -1447,5 +1455,29 @@ public class GameMenu extends Menu {
         System.out.println("tile civilian unit: " + ((tile.getCivilian()!=null)?tile.getCivilian().getUnitTemplate().getName() + " , health : "+ tile.getCivilian().getHealth():"none"));
         System.out.println("tile city: " + ((tile.getCity()!=null)?tile.getCity().getNAME()+" , hit point : "+tile.getCity().getHitPoint():"none"));
         System.out.println("*****************************");
+    }
+
+    public void cityAttack(String command){
+        CmdLineParser parser = new CmdLineParser();
+        Option<Integer> tileI = parser.addIntegerOption('i', "tileI");
+        Option<Integer> tileJ = parser.addIntegerOption('j', "tileJ");
+        
+        try {
+            parser.parse(command.split(" "));
+        } catch (CmdLineParser.OptionException e) {
+            System.out.println("invalid command");
+            return;
+        }
+        
+        Integer tileIValue = parser.getOptionValue(tileI);
+        Integer tileJValue = parser.getOptionValue(tileJ);
+        
+        if(tileJValue==null || tileIValue==null) {
+            System.out.println("invalid command");
+            return;
+        }
+        
+        CombatMessage message = CombatController.cityAttack(tileIValue, tileJValue);
+        combatMessagePrinter(message);
     }
 }

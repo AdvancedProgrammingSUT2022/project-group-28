@@ -31,6 +31,8 @@ public class City{
 
     private Construction construction;
 
+    private boolean attacked = false;
+
     private ArrayList<BuildingTemplate> buildings = new ArrayList<>();
 
     public City(String name, Civilization civilization, Tile tile) {
@@ -40,6 +42,14 @@ public class City{
         this.tile = tile;
         this.tiles = getInitialTiles(tile);
         this.hitPoint = 20;
+    }
+
+    public boolean isAttacked() {
+        return attacked;
+    }
+
+    public void setAttacked(boolean attacked) {
+        this.attacked = attacked;
     }
 
     public Civilization getFOUNDER() {

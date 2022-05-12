@@ -161,4 +161,35 @@ public class CombatController {
                         ((unit.getTile().getTerrainFeature()==null)?0:unit.getTile().getTerrainFeature().getCombatModifier())));
         return strength;
     }
+
+    public static CombatMessage cityAttack(int i,int j){
+        Game game = GameController.getGame();
+        if(game.getSelectedCity() == null) return CombatMessage.NO_CITY_SELECTED;
+        City city = game.getSelectedCity();
+        if (i < 0 || i >= game.MAP_HEIGHT || j < 0 || j >= game.MAP_WIDTH)
+            return CombatMessage.INVALID_POSITION;
+        Tile tile = game.getMap()[i][j];
+        if(city.isAttacked()) return CombatMessage.CANNOT_ATTACK_TWICE;
+        if (!CivilizationController.isTileVisible(tile, game.getCurrentPlayer())) return CombatMessage.NOT_VISIBLE_TILE;
+        int distance = TileController.getDistance(city.getTile(), tile);
+        if(distance > 2) return CombatMessage.OUT_OF_RANGE;
+        int strength = city.getCombatStrength();
+        if(tile.getMilitary()!=null || tile.getCivilian()!=null){
+            Unit target = tile.getMilitary()!=null?tile.getMilitary():tile.getCivilian();
+            if(target.getCivilization()==game.getCurrentPlayer()) return CombatMessage.CANNOT_ATTACK_YOURSELF;
+            target.setHealth(target.getHealth()-strength);
+            city.setAttacked(true);
+            if(target.getHealth()>0 && 
+              (target instanceof Ranged && 
+              !(target instanceof Siege) && 
+              TileController.getDistance(tile, city.getTile()) <= target.getUnitTemplate().getRange())){
+                city.setHitPoint(city.getHitPoint()-getCombatStrength(target, true));
+                if(city.getHitPoint()<=0)
+                    city.destroy();
+            }
+        }else{
+            return CombatMessage.NO_COMBATABLE;
+        }
+        return CombatMessage.SUCCESS;
+    }
 }

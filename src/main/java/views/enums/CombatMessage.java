@@ -11,5 +11,7 @@ public enum CombatMessage {
     NOT_PREPARED, 
     NO_MOVE_POINT,
     CITY_DESTROYED,
-    CITY_ATTACHED;
+    CITY_ATTACHED, 
+    NO_CITY_SELECTED, 
+    CANNOT_ATTACK_TWICE;
 }
