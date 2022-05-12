@@ -128,8 +128,15 @@ public class CityController extends GameController {
     }
 
 
-    public static CivilizationMessage checkCitiesForNextTurn(ArrayList<City> cities) {
-        return CivilizationMessage.SUCCESS;
+    public static GameNotification checkCitiesForNextTurn(ArrayList<City> cities) {
+        for (City city : cities) {
+            if (city.getConstruction() == null) {
+                ArrayList<String> data = new ArrayList<>(Arrays.asList(city.getNAME()));
+                return new GameNotification(CivilizationNotification.NO_CONSTRUCTION, data, 0);
+            }
+        }
+
+        return new GameNotification(CivilizationNotification.SUCCESS, new ArrayList<>(), 0);
     }
 
     public static void nextTurnCityUpdates(ArrayList<City> cities) {

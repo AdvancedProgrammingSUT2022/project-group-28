@@ -20,23 +20,29 @@ import models.units.Worker;
 import models.units.enums.UnitTemplate;
 import models.units.enums.UnitType;
 import views.enums.CivilizationMessage;
+import views.notifications.CivilizationNotification;
+import views.notifications.GameNotification;
 
 public class CivilizationController extends GameController {
 
-    public static CivilizationMessage checkNextTurnIsPossible() {
+    public static GameNotification checkNextTurnIsPossible() {
         Civilization civilization = game.getCurrentPlayer();
         // TODO: Add all civilization
         // TODO: check city to construct something
-        CivilizationMessage checkUnits = UnitController.checkUnitsForNextTurn(civilization.getUnits());
-        if (checkUnits != CivilizationMessage.SUCCESS)
+
+        GameNotification checkUnits = UnitController.checkUnitsForNextTurn(civilization.getUnits());
+        if (checkUnits.getNotificationTemplate() != CivilizationNotification.SUCCESS)
             return checkUnits;
-        CivilizationMessage checkCities = CityController.checkCitiesForNextTurn(civilization.getCities());
-        if (checkCities != CivilizationMessage.SUCCESS)
+
+        GameNotification checkCities = CityController.checkCitiesForNextTurn(civilization.getCities());
+        if (checkCities.getNotificationTemplate() != CivilizationNotification.SUCCESS)
             return checkCities;
-        if(civilization.getCities().size() != 0 && civilization.getCurrentStudyTechnology() == null){
-            return CivilizationMessage.NO_TECHNOLOGY_TO_STUDY;
+
+        if (civilization.getCities().size() != 0 && civilization.getCurrentStudyTechnology() == null){
+            return new GameNotification(CivilizationNotification.NO_TECHNOLOGY, new ArrayList<>(), 0);
         }
-        return CivilizationMessage.SUCCESS;
+
+        return new GameNotification(CivilizationNotification.SUCCESS, new ArrayList<>(), 0);
     }
 
     public static void nextTurnCivilizationUpdates(Civilization civilization) {

@@ -27,6 +27,7 @@ import models.units.Unit;
 import models.units.Worker;
 import models.units.enums.UnitTemplate;
 import views.enums.*;
+import views.notifications.CivilizationNotification;
 import views.notifications.GameNotification;
 
 public class GameMenu extends Menu {
@@ -511,25 +512,33 @@ public class GameMenu extends Menu {
     }
 
     private void nextTurn() {
-        CivilizationMessage result = GameMenuController.nextTurn();
+        GameNotification nextTurnCheck = GameMenuController.nextTurn();
 
-        switch (result) {
-            case FREE_UNITS:
-                Unit unit = UnitController.findFreeUnit();
-                int[] coordinates = unit.getTile().getCoordinates();
-                System.out.printf("there is a free unit with movePoint at %d %d\n", coordinates[0], coordinates[1]);
-                break;
-            case NO_TECHNOLOGY_TO_STUDY:
-                System.out.println("you don't have current study technology");
-                break;
-            case SUCCESS:
-                System.out.println("success");
-                break;
-            default:
-                break;
+        if (nextTurnCheck.getNotificationTemplate() != CivilizationNotification.SUCCESS) {
+            System.out.println(nextTurnCheck);
+
+            switch ((CivilizationNotification)nextTurnCheck.getNotificationTemplate()) {
+                case FREE_UNIT:
+                    int unitI = Integer.parseInt(nextTurnCheck.getData().get(0));
+                    int unitJ = Integer.parseInt(nextTurnCheck.getData().get(1));
+                    CivilizationController.updateDiscoveredTiles();
+                    drawBoard(unitI, unitJ, true);
+                    break;
+                case NO_CONSTRUCTION:
+                    String cityName = nextTurnCheck.getData().get(0);
+                    CityController.selectCityByName(cityName, false);
+                    Tile cityTile = GameController.getGame().getSelectedCity().getTile();
+                    int cityI = cityTile.getCoordinates()[0];
+                    int cityJ = cityTile.getCoordinates()[1];
+                    CivilizationController.updateDiscoveredTiles();
+                    drawBoard(cityI, cityJ, true);
+                    break;
+                default:
+                    break;
+            }
         }
 
-        if (result != CivilizationMessage.SUCCESS) return;
+        if (nextTurnCheck.getNotificationTemplate() != CivilizationNotification.SUCCESS) return;
 
         GameMenuController.startNewTurn();
 

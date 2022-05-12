@@ -2,6 +2,9 @@ package views.notifications;
 
 public enum CivilizationNotification implements NotificationTemplate {
     // TODO: modify data
+    NO_CONSTRUCTION("No Construction", "@@ does not have construction."),
+    NO_TECHNOLOGY("No technology", "You have to study a technology"),
+    FREE_UNIT("Free unit", "There is a free unit at @@,@@."),
     CITY_LOSS("City loss", "@@ has been lost."),
     UNIT_CAPTURE("Unit capture", "A unit captured in @@,@@."),
     UNIT_DEATH("Unit death", "A unit died in @@,@@."),
@@ -10,7 +13,8 @@ public enum CivilizationNotification implements NotificationTemplate {
     POPULATION_GROWTH("Population growth", "Population of @@ has been increased."),
     POPULATION_LOSS("Population loss", "Populations of @@ has been decreased."),
     COMPLETION_OF_STUDY("Technology studied", "The study of @@ completed.\n@@"), // second is the unlocked stuff
-    COMPLETION_OF_CONSTRUCTION("Construction end", "@@ has been constructed in @@.");
+    COMPLETION_OF_CONSTRUCTION("Construction end", "@@ has been constructed in @@."),
+    SUCCESS("Success", "Task was successful");
     private String title;
     private String content;
 

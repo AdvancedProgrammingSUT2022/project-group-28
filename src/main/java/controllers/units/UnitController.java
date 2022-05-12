@@ -13,8 +13,11 @@ import models.units.Worker;
 import models.units.enums.UnitState;
 import views.enums.CivilizationMessage;
 import views.enums.UnitMessage;
+import views.notifications.CivilizationNotification;
+import views.notifications.GameNotification;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -58,12 +61,17 @@ public class UnitController extends GameController {
         return UnitMessage.SUCCESS;
     }
 
-    public static CivilizationMessage checkUnitsForNextTurn(ArrayList<Unit> units) {
+    public static GameNotification checkUnitsForNextTurn(ArrayList<Unit> units) {
         for (Unit unit : units) {
-            if (unit.getUnitState() == UnitState.FREE && unit.getMovePoint() > 0) return CivilizationMessage.FREE_UNITS;
+            if (unit.getUnitState() == UnitState.FREE && unit.getMovePoint() > 0) {
+                Integer i = unit.getTile().getCoordinates()[0];
+                Integer j = unit.getTile().getCoordinates()[1];
+                ArrayList<String> data = new ArrayList<>(Arrays.asList(i.toString(), j.toString()));
+                return new GameNotification(CivilizationNotification.FREE_UNIT, data, 0);
+            }
             // TODO: check all stuff
         }
-        return CivilizationMessage.SUCCESS;
+        return new GameNotification(CivilizationNotification.SUCCESS, new ArrayList<>(), 0);
     }
 
     public static Unit findFreeUnit() {

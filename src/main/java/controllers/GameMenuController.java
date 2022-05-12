@@ -7,6 +7,8 @@ import models.civilization.Civilization;
 import models.civilization.enums.TechnologyTemplate;
 import models.tiles.Tile;
 import views.enums.CivilizationMessage;
+import views.notifications.CivilizationNotification;
+import views.notifications.GameNotification;
 
 import java.util.ArrayList;
 
@@ -20,16 +22,17 @@ public class GameMenuController extends GameController {
          setGame(new Game(players, seed));
     }
 
-    public static CivilizationMessage nextTurn() {
+    public static GameNotification nextTurn() {
         // TODO: redirect errors to map
-        CivilizationMessage checkResult = CivilizationController.checkNextTurnIsPossible();
-        if (checkResult != CivilizationMessage.SUCCESS) return checkResult;
+        GameNotification checkResult = CivilizationController.checkNextTurnIsPossible();
+//        CivilizationMessage checkResult = CivilizationController.checkNextTurnIsPossible();
+        if (checkResult.getNotificationTemplate() != CivilizationNotification.SUCCESS) return checkResult;
 
         Civilization civilization = GameController.getGame().getCurrentPlayer();
         CivilizationController.nextTurnCivilizationUpdates(civilization);
         changePlayerTurn(game);
 
-        return CivilizationMessage.SUCCESS;
+        return checkResult;
     }
 
     public static void changePlayerTurn(Game game) {
