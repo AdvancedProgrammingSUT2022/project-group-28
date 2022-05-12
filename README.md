@@ -87,7 +87,7 @@ project-group-28 created by GitHub Classroom
 ### economic overview
 `ecoonomic overview`
 ### notification info
-`notification info -c [count]`
+`notification info (-c [count])`
 ### increase gold(cheat)
 `cheat increase gold -a [amount]`
 ### next turn(cheat)
