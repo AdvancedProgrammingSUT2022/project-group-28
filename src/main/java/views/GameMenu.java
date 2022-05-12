@@ -70,7 +70,9 @@ public class GameMenu extends Menu {
             showResearchPanel();
         } else if(command.equals("cities panel")){
             showCitiesPanel();
-        } else if(command.startsWith("cheat increase gold")){
+        } else if(command.equals("economic overview")){
+            showEconomicOverview();
+        }else if(command.startsWith("cheat increase gold")){
             increaseGold(command);
         } else if (command.startsWith("cheat next turn")) {
             cheatNextTurn(command);
@@ -840,6 +842,10 @@ public class GameMenu extends Menu {
             System.out.println("nothing :(");
         }
 
+    }
+
+    private void showEconomicOverview(){
+        
     }
 
     private void increaseGold(String command){
