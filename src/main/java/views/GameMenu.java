@@ -843,7 +843,10 @@ public class GameMenu extends Menu {
         }
 
     }
-    
+
+    private void showEconomicOverview(){
+        
+    }
 
     private void increaseGold(String command){
         CmdLineParser parser = new CmdLineParser();
