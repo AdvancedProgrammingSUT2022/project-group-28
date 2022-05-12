@@ -52,6 +52,12 @@ project-group-28 created by GitHub Classroom
 `unit found city`
 ### build improvement
 `unit build`
+### sleep
+`unit sleep`
+### wake
+`unit wake`
+### alert
+`unit alert`
 ### unit attack
 `unit attack -i [tileI] -j [tileJ]`
 ### prepare siege attack
