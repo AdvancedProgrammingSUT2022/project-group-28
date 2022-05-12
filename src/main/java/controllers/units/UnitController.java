@@ -164,14 +164,16 @@ public class UnitController extends GameController {
         Tile tile = map[i][j];
         // TODO: check next tile is in border
         Tile nextTile = map[i + direction.i][j + direction.j];
-        if (nextTile.getCity() != null || nextTile.isRoadConstructed()) return 1;
+        if (nextTile.getCity() != null) return 1;
+        if (nextTile.isRailRoadConstructed()) return 1;
+        if (nextTile.isRoadConstructed()) return 2;
         if (tile.getRivers().contains(direction)) return currentMovePoint;
         int terrainMP = nextTile.getTerrain().getMovementCost();
         int terrainFeatureMP = 0;
         if (nextTile.getTerrainFeature() != null) {
             terrainFeatureMP = nextTile.getTerrainFeature().getMovementCost();
         }
-        return 5 * Math.max(terrainMP, terrainFeatureMP);
+        return 3 * Math.max(terrainMP, terrainFeatureMP);
     }
 
     private static void tagMapMovePoints(int i, int j, int movePoint, MapPair[][] checkMap) {

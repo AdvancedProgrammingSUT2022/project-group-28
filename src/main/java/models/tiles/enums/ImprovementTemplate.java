@@ -29,6 +29,23 @@ public enum ImprovementTemplate {
             tile.setRoadConstructed(true);
         }
     },
+    RAILROAD("Railroad", 3, 0, 0, 0, TechnologyTemplate.STEAM_POWER) {
+        @Override
+        public boolean isPossiblePlaceToBuild(Tile tile) {
+            if (TerrainFeature.ICE.equals(tile.getTerrainFeature())) return false;
+            if (tile.isRailRoadConstructed()) return false;
+            return true;
+        }
+        @Override
+        public void startImprovement(Tile tile) { tile.setProject(new Project(RAILROAD));}
+
+        @Override
+        public void completeImprovement(Tile tile) {
+            tile.setProject(null);
+            tile.setNextImprovement(null);
+            tile.setRoadConstructed(true);
+        }
+    },
     CAMP("Camp", 6, 0, 0, 0, TechnologyTemplate.TRAPPING) {
         @Override
         public boolean isPossiblePlaceToBuild(Tile tile) {
@@ -312,7 +329,7 @@ public enum ImprovementTemplate {
             tile.setTerrainFeature(null);
         }
     },
-    REMOVE_ROAD("Remove Road", 3, 0, 0, 0, TechnologyTemplate.THE_WHEEL) {
+    REMOVE_ROAD("Remove road", 3, 0, 0, 0, TechnologyTemplate.THE_WHEEL) {
         @Override
         public boolean isPossiblePlaceToBuild(Tile tile) {
             if (tile.isRoadConstructed()) return true;
@@ -330,6 +347,26 @@ public enum ImprovementTemplate {
             tile.setProject(null);
             tile.setNextImprovement(null);
             tile.setRoadConstructed(false);
+        }
+    },
+    REMOVE_RAILROAD("Remove railroad", 3, 0, 0, 0, TechnologyTemplate.STEAM_POWER) {
+        @Override
+        public boolean isPossiblePlaceToBuild(Tile tile) {
+            if (tile.isRailRoadConstructed()) return true;
+            return false;
+        }
+
+        @Override
+        public void startImprovement(Tile tile) {
+            tile.setProject(new Project(REMOVE_RAILROAD));
+            tile.setNextImprovement(null);
+        }
+
+        @Override
+        public void completeImprovement(Tile tile) {
+            tile.setProject(null);
+            tile.setNextImprovement(null);
+            tile.setRailRoadConstructed(false);
         }
     },
     REPAIR("Repair", 3, 0, 0, 0, TechnologyTemplate.AGRICULTURE) {

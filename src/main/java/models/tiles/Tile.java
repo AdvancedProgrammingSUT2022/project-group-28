@@ -23,6 +23,7 @@ public class Tile {
     private ImprovementTemplate nextImprovement;
     private Project project;
     private boolean roadConstructed = false;
+    private boolean railRoadConstructed = false;
 
     private City city;
 
@@ -102,6 +103,8 @@ public class Tile {
 
     public boolean isRoadConstructed() { return roadConstructed; }
 
+    public boolean isRailRoadConstructed() { return railRoadConstructed; }
+
     public void setTerrainFeature(TerrainFeature terrainFeature) { this.terrainFeature = terrainFeature; }
 
     public void setImprovement(ImprovementTemplate improvement) { this.improvement = improvement; }
@@ -125,6 +128,8 @@ public class Tile {
     public void setCivilian(Civilian civilian) {
         this.civilian = civilian;
     }
+
+    public void setRailRoadConstructed(boolean railRoadConstructed) { this.railRoadConstructed = railRoadConstructed; }
 
     public boolean isAccessible() {
         if (terrainFeature != null) return terrain.isAccessible() && terrainFeature.isAccessible();
