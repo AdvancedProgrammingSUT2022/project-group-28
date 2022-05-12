@@ -100,6 +100,8 @@ public class MainMenu extends Menu {
         }
         GameMenuController.setGame(game);
         Menu.setCurrentMenu(GameMenu.getInstance());
+        System.out.println("game loaded");
+        System.out.println("it is " + game.getCurrentPlayer().getUser().getNickname() + "'s turn");
         return true;
     }
 }

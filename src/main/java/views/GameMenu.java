@@ -855,7 +855,10 @@ public class GameMenu extends Menu {
 
         Integer goldValue = parser.getOptionValue(amount);
 
-        if(goldValue == null)System.out.println("invalid command");
+        if(goldValue == null){
+            System.out.println("invalid command");
+            return;
+        }
 
         Civilization civilization = GameController.getGame().getCurrentPlayer();
         civilization.setGold(civilization.getGold() + goldValue);
@@ -1190,8 +1193,8 @@ public class GameMenu extends Menu {
         System.out.println("city is conquered. do you want to destroy it or attach it?");
         System.out.println("1. destroy");
         System.out.println("2. attach");
-        System.out.print(">");
         while(true){
+            System.out.print(">");
             String line = scanner.nextLine();
             if(line.equals("1"))return true;
             else if(line.equals("2"))return false;
@@ -1219,6 +1222,7 @@ public class GameMenu extends Menu {
             return;
         }
         else unit.setHealth(10);
+        System.out.println("successfully healed");
     }
 
     private void cheatRechargeMP(){
@@ -1228,6 +1232,7 @@ public class GameMenu extends Menu {
             return;
         }
         else unit.setMovePoint(unit.getUnitTemplate().getMovementPoint());
+        System.out.println("successfully recharged");
     }
 
     private void notificationInfo(String command) {
