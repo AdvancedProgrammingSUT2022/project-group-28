@@ -9,5 +9,7 @@ public enum CombatMessage {
     CANNOT_ATTACK_YOURSELF,
     SUCCESS, NEEDS_MELEE_UNIT, 
     NOT_PREPARED, 
-    NO_MOVE_POINT;
+    NO_MOVE_POINT,
+    CITY_DESTROYED,
+    CITY_ATTACHED;
 }

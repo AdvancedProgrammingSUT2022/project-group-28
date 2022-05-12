@@ -22,7 +22,6 @@ import models.tiles.enums.Direction;
 import models.tiles.enums.ImprovementTemplate;
 import models.units.Ranged;
 import models.units.Settler;
-import models.units.Siege;
 import models.units.Unit;
 import models.units.Worker;
 import models.units.enums.UnitTemplate;
@@ -801,7 +800,7 @@ public class GameMenu extends Menu {
         System.out.print("Civilization technologies: ");
         for (Technology technology : civilization.getStudiedTechnologies()) {
             System.out.print(technology.getTechnologyTemplate().getName() + " : " + 
-                            (technology.getProgress()/(float)technology.getTechnologyTemplate().getCost())*100 +"%\t" );
+                            (String.format("%.2f",technology.getProgress()/(float)technology.getTechnologyTemplate().getCost()*100) +"%\t" ));
         }
         System.out.println();
         if(civilization.getCurrentStudyTechnology()!=null)
@@ -1140,6 +1139,12 @@ public class GameMenu extends Menu {
             case NOT_PREPARED:
                 System.out.println("you have not prepared your siege unit.");
                 break;
+            case CITY_ATTACHED:
+                System.out.println("city attached to your civilization.");
+                break;
+            case CITY_DESTROYED:
+                System.out.println("city destroyed.");
+                break;
         }
     }
 
@@ -1203,9 +1208,8 @@ public class GameMenu extends Menu {
             System.out.println("unit raw combat strength: " + unit.getCombatStrength());
             System.out.println("unit combat strength: " + CombatController.getCombatStrength(unit, false));
             if(unit instanceof Ranged){
-                if(unit instanceof Siege) System.out.println("unit is  a siege unit");
                 System.out.println("unit range: " + ((Ranged) unit).getUnitTemplate().getRange());
-                System.out.println("unit raw ranged combat strength: " + ((Ranged) unit).getCombatStrength());
+                System.out.println("unit raw ranged combat strength: " + ((Ranged) unit).getRangedCombatStrength());
                 System.out.println("unit ranged combat strength: " + CombatController.getCombatStrength((Ranged) unit, true));
             }
             System.out.println("unit state :" + unit.getUnitState());

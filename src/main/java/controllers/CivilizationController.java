@@ -19,7 +19,6 @@ import models.units.Unit;
 import models.units.Worker;
 import models.units.enums.UnitTemplate;
 import models.units.enums.UnitType;
-import views.enums.CivilizationMessage;
 import views.notifications.CivilizationNotification;
 import views.notifications.GameNotification;
 
@@ -80,6 +79,8 @@ public class CivilizationController extends GameController {
                        tile.getTerrainFeature()!=TerrainFeature.FOREST){
                         addTilesAroundCoordinates(tile, civilization);
                     }
+                    Tile newTile=new Tile(tile);
+                    civilization.updateDiscoveredTiles(newTile, turnNumber);
                 }
                 Tile newTile=new Tile(unit.getTile());
                 civilization.updateDiscoveredTiles(newTile, turnNumber);
@@ -108,8 +109,6 @@ public class CivilizationController extends GameController {
                 civilization.updateDiscoveredTiles(newTile, turnNumber);
             }
         }
-        Tile newTile=new Tile(tile);
-        civilization.updateDiscoveredTiles(newTile, turnNumber);
     }
 
     public static void updateCivilizationFields(Civilization civilization) {

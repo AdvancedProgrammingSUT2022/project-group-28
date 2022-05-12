@@ -86,7 +86,8 @@ public abstract class Unit{
     }
 
     public int getCombatStrength(){
-        return unitTemplate.getCombatStrength() - (int) (((10-health)/10) * unitTemplate.getCombatStrength());
+        int modifier = (int) (((10-health)/20f) * unitTemplate.getCombatStrength());
+        return (unitTemplate.getCombatStrength() - modifier);
     }
 
     public abstract void destroy();

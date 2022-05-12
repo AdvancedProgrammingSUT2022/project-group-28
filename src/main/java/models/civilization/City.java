@@ -169,6 +169,8 @@ public class City{
             this.civilization.updateDiscoveredTiles(tile, GameController.getGame().getTurnNumber());    
         }
         tile.setWorking(false);
+        if(GameController.getGame().getSelectedCity()==this)
+            GameController.getGame().setSelectedCity(null);
         this.civilization.updateDiscoveredTiles(this.tile, GameController.getGame().getTurnNumber());
     }
 

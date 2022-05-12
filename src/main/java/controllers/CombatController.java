@@ -29,7 +29,7 @@ public class CombatController {
         if(unit instanceof Melee){
             return meleeAttack(unit, tile, menu);
         }else if( unit instanceof Siege){ 
-            siegeAttack((Siege)unit, tile);
+            return siegeAttack((Siege)unit, tile);
         }else if( unit instanceof Ranged){
             return rangedAttack((Ranged)unit, tile);
         }
@@ -55,8 +55,10 @@ public class CombatController {
                     city.setCivilization(unit.getCivilization());
                     unit.getCivilization().addCity(city);
                     city.setHitPoint(20);
+                    return CombatMessage.CITY_ATTACHED;
                 }else{
                     city.destroy();
+                    return CombatMessage.CITY_DESTROYED;
                 }
             }
         }else if(tile.getMilitary()!=null || tile.getCivilian()!=null){
@@ -117,6 +119,7 @@ public class CombatController {
             city.setHitPoint(city.getHitPoint()-strength);
             unit.setUnitState(UnitState.FREE);
             unit.setMovePoint(0);
+            unit.setUnitState(UnitState.FREE);
             if(city.getHitPoint()>0 && CivilizationController.isTileVisible(unit.getTile(), city.getCivilization()) && isInCityRange(unit.getTile(), city)){
                 unit.setHealth(unit.getHealth()-city.getCombatStrength());
             }
@@ -126,6 +129,7 @@ public class CombatController {
             target.setHealth(target.getHealth()-strength);
             unit.setUnitState(UnitState.FREE);
             unit.setMovePoint(0);
+            unit.setUnitState(UnitState.FREE);
             if(target.getHealth()>0 && 
               (target instanceof Ranged && 
               !(target instanceof Siege) && 

@@ -14,6 +14,8 @@ public abstract class Military extends Unit {
     public void destroy() {
         this.tile.setMilitary(null);
         this.civilization.removeUnit(this);
+        if(GameController.getGame().getSelectedUnit()==this)
+            GameController.getGame().setSelectedUnit(null);
         this.civilization.updateDiscoveredTiles(this.tile, GameController.getGame().getTurnNumber());
     }
 }

@@ -11,7 +11,6 @@ import models.units.Siege;
 import models.units.Unit;
 import models.units.Worker;
 import models.units.enums.UnitState;
-import views.enums.CivilizationMessage;
 import views.enums.UnitMessage;
 import views.notifications.CivilizationNotification;
 import views.notifications.GameNotification;
@@ -338,6 +337,7 @@ public class UnitController extends GameController {
         if(unit == null) return UnitMessage.NO_SELECTED_UNIT;
         else if(!(unit instanceof Siege)) return UnitMessage.NO_SIEGE_UNIT;
         ((Siege)unit).setUnitState(UnitState.PREPARED);
+        unit.setMovePoint(0);
         return UnitMessage.SUCCESS;
     }
 }

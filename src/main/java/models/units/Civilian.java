@@ -13,6 +13,8 @@ public abstract class Civilian extends Unit{
     public void destroy() {
         this.tile.setCivilian(null);
         this.civilization.removeUnit(this);
+        if(GameController.getGame().getSelectedUnit()==this)
+            GameController.getGame().setSelectedUnit(null);
         this.civilization.updateDiscoveredTiles(this.tile, GameController.getGame().getTurnNumber());
     }
 }
