@@ -3,6 +3,7 @@ package views;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.*;
@@ -102,6 +103,8 @@ public class GameMenu extends Menu {
             saveGame();
         } else if (command.startsWith("notification info")) {
             notificationInfo(command);
+        } else if (command.startsWith("tile info")) {
+            tileInfo(command);
         } else if (command.startsWith("menu show-current")) {
             System.out.println("this is game menu");
         } else if(command.equals("menu exit")){
@@ -1358,6 +1361,8 @@ public class GameMenu extends Menu {
             case SUCCESS:
                 System.out.println("success");
                 break;
+            default:
+                break;
         }
     }
 
@@ -1381,4 +1386,66 @@ public class GameMenu extends Menu {
         }
     }
 
+    private void tileInfo(String command) {
+        CmdLineParser parser = new CmdLineParser();
+        Option<Integer> tileI = parser.addIntegerOption('i', "tileI");
+        Option<Integer> tileJ = parser.addIntegerOption('j', "tileJ");
+        Option<Boolean> cheat = parser.addBooleanOption('c', "cheat");
+
+        try {
+            parser.parse(command.split(" "));
+        } catch (CmdLineParser.OptionException e) {
+            System.out.println("invalid command");
+            return;
+        }
+
+        Integer tileIValue =  parser.getOptionValue(tileI);
+        Integer tileJValue =  parser.getOptionValue(tileJ);
+        Boolean cheatValue =  !parser.getOptionValue(cheat, false);
+
+        if(tileJValue==null || tileIValue==null) {
+            System.out.println("invalid command");
+            return;
+        }
+        Game game = GameController.getGame();
+        if (tileIValue < 0 || tileIValue >= game.MAP_HEIGHT || tileJValue < 0 || tileJValue >= game.MAP_WIDTH){
+            System.out.println("invalid position");
+            return;
+        }
+        CivilizationController.updateDiscoveredTiles();
+        Tile tile = null;
+        int lastSeen = 0;
+        if(cheatValue){
+            for (Map.Entry<Tile,Integer> entry : game.getCurrentPlayer().getDiscoveredTiles().entrySet()) {
+                if(tileIValue==entry.getKey().getCoordinates()[0] &&
+                tileJValue==entry.getKey().getCoordinates()[1]){
+                    tile = entry.getKey();
+                    lastSeen = entry.getValue();
+                    break;
+                }  
+            }
+        }else{
+            tile = game.getMap()[tileIValue][tileJValue];
+            lastSeen = game.getTurnNumber();
+        }
+        if(tile == null) {
+            System.out.println("tile is not visible");
+            return;
+        }
+
+        System.out.println("*****************************");
+        System.out.println("tile coordinates: " + tile.getCoordinates()[0] + "," + tile.getCoordinates()[1]);
+        System.out.println("tile last discovery: " + lastSeen);
+        System.out.println("tile terrain: " + tile.getTerrain().getName());
+        System.out.println("tile terrain feature: " + ((tile.getTerrainFeature()!=null)?tile.getTerrainFeature().getName():"none"));
+        System.out.println("tile resource: " + ((tile.getResource()!=null)?tile.getResource().getResourceTemplate().getName():"none"));
+        System.out.println("tile improvement: " + ((tile.getImprovement()!=null)?tile.getImprovement().getName():"none"));
+        System.out.println("tile next improvement: " + ((tile.getNextImprovement()!=null)?tile.getNextImprovement().getName():"none"));;
+        System.out.println("tile project: " + ((tile.getProject()!=null)?(tile.getProject().getImprovement() + " , spent turns :"+ tile.getProject().getSpentTurns()):"none"));
+        System.out.println("tile civilization: " + ((tile.getCivilization()!=null)?tile.getCivilization().getCivilizationNames():"none"));
+        System.out.println("tile military unit: " + ((tile.getMilitary()!=null)?tile.getMilitary().getUnitTemplate().getName() + " , health : "+ tile.getMilitary().getHealth():"none"));
+        System.out.println("tile civilian unit: " + ((tile.getCivilian()!=null)?tile.getCivilian().getUnitTemplate().getName() + " , health : "+ tile.getCivilian().getHealth():"none"));
+        System.out.println("tile city: " + ((tile.getCity()!=null)?tile.getCity().getNAME()+" , hit point : "+tile.getCity().getHitPoint():"none"));
+        System.out.println("*****************************");
+    }
 }
