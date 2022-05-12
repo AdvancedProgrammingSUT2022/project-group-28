@@ -34,14 +34,14 @@ public class CheatController {
         }
     }
 
-    public ArrayList<CivilizationMessage> nextPlayerCheat(Game game) {
+    public void nextPlayerCheat(Game game) {
         // TODO: reform
         Civilization currentPlayer = game.getCurrentPlayer();
         CivilizationController.updateDiscoveredTiles();
         CivilizationController.nextTurnCivilizationUpdates(currentPlayer);
         CivilizationController.updateDiscoveredTiles();
         GameMenuController.changePlayerTurn(game);
-        return GameMenuController.startNewTurn();
+        GameMenuController.startNewTurn();
     }
 
     public UnitMessage moveUnitCheat(Game game, int i, int j) {

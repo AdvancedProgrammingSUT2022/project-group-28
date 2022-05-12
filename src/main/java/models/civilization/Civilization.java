@@ -7,6 +7,7 @@ import models.tiles.Tile;
 import models.tiles.enums.ResourceTemplate;
 import models.tiles.enums.ResourceType;
 import models.units.Unit;
+import views.messages.GameMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ public class Civilization {
     private int gold = 50;
 
     private int scienceBalance;
+    private int scienceStore;
     private Technology currentStudyTechnology;
 
     private int attachedCities = 0;
@@ -34,6 +36,8 @@ public class Civilization {
     private int happiness = 5;
 
     private HashMap<ResourceTemplate, Integer> resources;
+
+    private ArrayList<GameMessage> gameMessages = new ArrayList<>();
 
     // TODO: Complete fields
     public Civilization(User user, CivilizationNames civilizationNames) {
@@ -102,9 +106,13 @@ public class Civilization {
         return happiness;
     }
 
+    public int getScienceStore() { return scienceStore; }
+
     public HashMap<ResourceTemplate, Integer> getResources() {
         return resources;
     }
+
+    public ArrayList<GameMessage> getGameMessages() { return gameMessages; }
 
     public void addUnit(Unit unit) {
         this.units.add(unit);
@@ -129,6 +137,8 @@ public class Civilization {
     public void setScienceBalance(int scienceBalance) {
         this.scienceBalance = scienceBalance;
     }
+
+    public void setScienceStore(int scienceStore) { this.scienceStore = scienceStore; }
 
     public void setCurrentCapital(City currentCapital) {
         this.currentCapital = currentCapital;
@@ -160,4 +170,6 @@ public class Civilization {
     public void removeCity(City city) {
         this.cities.remove(city);
     }
+
+    public void addGameMessage(GameMessage gameMessage) { this.gameMessages.add(gameMessage); }
 }

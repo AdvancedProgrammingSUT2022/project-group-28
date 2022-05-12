@@ -27,6 +27,7 @@ import models.units.Unit;
 import models.units.Worker;
 import models.units.enums.UnitTemplate;
 import views.enums.*;
+import views.messages.GameMessage;
 
 public class GameMenu extends Menu {
     private static GameMenu instance = new GameMenu();
@@ -526,20 +527,19 @@ public class GameMenu extends Menu {
 
         if (result != CivilizationMessage.SUCCESS) return;
 
-        ArrayList<CivilizationMessage> newTurnMessages = GameMenuController.startNewTurn();
-        for (CivilizationMessage message : newTurnMessages) {
-            switch (message) {
-                case COMPLETION_OF_THE_STUDY:
-                    String out = TechnologyController.printCompleteTechnologyInfo();
-                    System.out.println(out);
-                    break;
-                default:
-                    break;
-            }
-        }
-        // TODO: check
+        GameMenuController.startNewTurn();
+
         String nickname = GameController.getGame().getCurrentPlayer().getUser().getNickname();
         System.out.println("it is " + nickname + "'s turn");
+
+        Civilization civilization = GameController.getGame().getCurrentPlayer();
+        for (int i = civilization.getGameMessages().size() - 1; i >= 0 ; i--) {
+            GameMessage gameMessage = civilization.getGameMessages().get(i);
+            if (gameMessage.isRead()) break;
+            gameMessage.setRead(true);
+            System.out.println(gameMessage.toString());
+        }
+
     }
 
     private void foundCity() {
@@ -1195,19 +1195,15 @@ public class GameMenu extends Menu {
 
     private void cheatNextPlayer() {
         CheatController instance = CheatController.getInstance();
-        ArrayList<CivilizationMessage> messages = instance.nextPlayerCheat(GameController.getGame());
+        instance.nextPlayerCheat(GameController.getGame());
         Civilization civilization = GameController.getGame().getCurrentPlayer();
-        System.out.println("it is " + civilization.getUser().getNickname() + "'s turn");
-        for (CivilizationMessage message : messages) {
-            switch (message) {
-                case COMPLETION_OF_THE_STUDY:
-                    String out = TechnologyController.printCompleteTechnologyInfo();
-                    System.out.println(out);
-                    break;
-                default:
-                    break;
-            }
+        for (int i = civilization.getGameMessages().size() - 1; i >= 0 ; i--) {
+            GameMessage gameMessage = civilization.getGameMessages().get(i);
+            if (gameMessage.isRead()) break;
+            gameMessage.setRead(true);
+            System.out.println(gameMessage.toString());
         }
+        System.out.println("it is " + civilization.getUser().getNickname() + "'s turn");
     }
 
     private void cheatHealUnit(){

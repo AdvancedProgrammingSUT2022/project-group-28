@@ -49,6 +49,7 @@ public class CivilizationController extends GameController {
         CityController.nextTurnCityUpdates(civilization.getCities());
 
 
+
         updateDiscoveredTiles();
     }
 
@@ -107,6 +108,7 @@ public class CivilizationController extends GameController {
     }
 
     public static void updateCivilization(Civilization civilization) {
+        TechnologyController.updateNextTurnTechnology();
         civilization.setGoldBalance(getCivilizationGoldBalance(civilization));
         updateResources(civilization);
         civilization.setHappiness(getCivilizationHappiness(civilization));

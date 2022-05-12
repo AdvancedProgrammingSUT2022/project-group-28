@@ -1,10 +1,10 @@
 package views.messages;
 
 public enum UserMessage implements MessageTemplate {
-    NICKNAME_EXISTS("Nickname exists", "Nickname ## has been taken by someone."),
-    USERNAME_EXISTS("Username exists", "Username ## has been taken by someone."),
-    FAILURE("Failure", "## was not successful"),
-    SUCCESS("Success", "## was successful.");
+    NICKNAME_EXISTS("Nickname exists", "Nickname @@ has been taken by someone."),
+    USERNAME_EXISTS("Username exists", "Username @@ has been taken by someone."),
+    FAILURE("Failure", "@@ was not successful"),
+    SUCCESS("Success", "@@ was successful.");
     private String title;
     private String message;
 

@@ -7,8 +7,10 @@ import models.civilization.enums.BuildingTemplate;
 import models.civilization.enums.TechnologyTemplate;
 import models.units.enums.UnitTemplate;
 import views.enums.CivilizationMessage;
+import views.messages.GameMessage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TechnologyController extends GameController {
 
@@ -104,31 +106,25 @@ public class TechnologyController extends GameController {
         return null;
     }
 
-    public static boolean updateNextTurnTechnology(){
+    public static void updateNextTurnTechnology(){
         Technology currentTechnology = game.getCurrentPlayer().getCurrentStudyTechnology();
+        if (currentTechnology == null) return;
         Civilization civilization = game.getCurrentPlayer();
-        if (currentTechnology == null) return true; // TODO: change this method
         updateScienceBalance();
-        if(currentTechnology.getProgress() + civilization.getScienceBalance() < currentTechnology.getTechnologyTemplate().getCost()){
+        if (currentTechnology.getProgress() + civilization.getScienceBalance() < currentTechnology.getTechnologyTemplate().getCost()) {
             currentTechnology.setProgress(currentTechnology.getProgress() + civilization.getScienceBalance());
-            civilization.setScienceBalance(0);
-        } else{
+            civilization.setScienceStore(0);
+        } else {
             int overFlow = (currentTechnology.getProgress() + civilization.getScienceBalance()) -
-                            currentTechnology.getTechnologyTemplate().getCost();
-
-
+                    currentTechnology.getTechnologyTemplate().getCost();
             currentTechnology.setProgress(currentTechnology.getTechnologyTemplate().getCost());
-            civilization.setScienceBalance(overFlow);
-            game.getCurrentPlayer().setCurrentStudyTechnology(null);
-            return true;
+            civilization.setScienceStore(overFlow);
         }
-        return false;
-
     }
 
     private static void updateScienceBalance() {
         Civilization civilization = game.getCurrentPlayer();
-        civilization.setScienceBalance(civilization.getScienceBalance() + addEachTurnScienceBalance());
+        civilization.setScienceBalance(addEachTurnScienceBalance());
     }
 
     private static int addEachTurnScienceBalance(){
@@ -141,6 +137,19 @@ public class TechnologyController extends GameController {
             population += city.getPopulation();
         }
         return population;
+    }
+
+    public static void checkCompletionOfTechnology(Civilization civilization) {
+        Technology currentStudy = civilization.getCurrentStudyTechnology();
+        if (currentStudy == null) return;
+        if (currentStudy.getTechnologyTemplate().getCost() == currentStudy.getProgress()) {
+            TechnologyTemplate currentStudyTemplate = currentStudy.getTechnologyTemplate();
+            ArrayList<String> data = new ArrayList<>(Arrays.asList(currentStudyTemplate.getName(), printCompleteTechnologyInfo()));
+            GameMessage technologyCompletion = new GameMessage(views.messages.CivilizationMessage.COMPLETION_OF_STUDY,
+                    data, 1);
+            civilization.addGameMessage(technologyCompletion);
+            civilization.setCurrentStudyTechnology(null);
+        }
     }
 
 

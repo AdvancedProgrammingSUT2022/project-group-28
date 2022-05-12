@@ -43,14 +43,12 @@ public class GameMenuController extends GameController {
         // TODO: Add another next turn stuff such as selected city
     }
 
-    public static ArrayList<CivilizationMessage> startNewTurn() {
+    public static void startNewTurn() {
         Civilization civilization = game.getCurrentPlayer();
-        ArrayList<CivilizationMessage> result = new ArrayList<>();
-        if (civilization.getCurrentStudyTechnology() != null && TechnologyController.updateNextTurnTechnology()){
-            result.add(CivilizationMessage.COMPLETION_OF_THE_STUDY);
-        }
+        // TODO: tech check
+        TechnologyController.checkCompletionOfTechnology(civilization);
+        // TODO: check ........
 
-        return result;
     }
 
 
