@@ -826,8 +826,8 @@ public class GameMenu extends Menu {
         Civilization civilization = GameController.getGame().getCurrentPlayer();
         if(civilization.getCities().size() != 0){
             System.out.println("your capital : ");
-            System.out.println(" -> Population: " + civilization.getCurrentCapital().getPopulation() + "  |  " +
-                     "Name : " + civilization.getCurrentCapital().getNAME() + "  |  Combat strength : " + civilization.getCurrentCapital().getCombatStrength());
+            System.out.println(" -> Population: " + civilization.getCurrentCapital().getPopulation() + "  |  Name: "
+                     + civilization.getCurrentCapital().getNAME() + "  |  Combat strength : " + civilization.getCurrentCapital().getCombatStrength());
             System.out.println("Civilization another cities : ");
             for (City city: civilization.getCities()) {
                 if(!civilization.getCities().contains(civilization.getCurrentCapital()) && civilization.getCities().size() > 1){
@@ -845,7 +845,32 @@ public class GameMenu extends Menu {
     }
 
     private void showEconomicOverview(){
-        
+        Civilization civilization = GameController.getGame().getCurrentPlayer();
+        City  capitalCity= civilization.getCurrentCapital();
+        //TODO: check science for city ....
+        //TODO check get production for city
+        if(civilization.getCities().size() != 0){
+            System.out.println("your capital : ");
+            System.out.println(" -> Population: " + capitalCity.getPopulation() + " | Name: "
+                     + capitalCity.getNAME() + " | Combat strength: " + capitalCity.getCombatStrength() +
+                    " | Food: " + capitalCity.getFoodStore() + " | Science: " + capitalCity.getPopulation() +
+                    " | Gold: " + CityController.getCityGoldBalance(capitalCity) + " | Production: " + capitalCity.getProductionBalance() );
+            System.out.println("Civilization another cities : ");
+            for (City city: civilization.getCities()) {
+                if(!civilization.getCities().contains(capitalCity) && civilization.getCities().size() > 1){
+                    System.out.println(" -> Population: " + city.getPopulation() + " | Name: " + city.getNAME() + " | Combat strength: " + city.getCombatStrength() +
+                            " | Food: " + city.getFoodStore() + " | Science: " + city.getPopulation() + " | Gold: " + CityController.getCityGoldBalance(city)
+                             + " | Production: " + city.getProductionBalance());
+                }
+                else {
+                    System.out.println("nothing :(");
+                }
+            }
+        }
+        else {
+            System.out.println("nothing :(");
+        }
+
     }
 
     private void increaseGold(String command){
