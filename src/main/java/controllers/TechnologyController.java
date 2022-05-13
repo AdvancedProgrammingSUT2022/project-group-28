@@ -56,6 +56,7 @@ public class TechnologyController extends GameController {
         return userFullTechnologyTemplates;
     }
     public static String printPossibleTechnology(){
+        Civilization civilization = game.getCurrentPlayer();
         ArrayList<TechnologyTemplate> possibleTechnologyTemplates = PossibleTechnology();
         String out = "";
         int number = 1 ;
@@ -65,7 +66,7 @@ public class TechnologyController extends GameController {
                 progress = getTechnology(technology).getProgress();
             }
             out = out + number + "- " +  technology.getName() + "\t" +
-                    (int) Math.ceil((double)(technology.getCost()-progress) / addEachTurnScienceBalance()) + " turns\n" ;
+                    (int) Math.ceil((double)(technology.getCost()-progress) / addEachTurnScienceBalance(civilization)) + " turns\n" ;
             number++;
         }
         return out;
@@ -126,10 +127,13 @@ public class TechnologyController extends GameController {
 
     public static void updateScienceBalance() {
         Civilization civilization = game.getCurrentPlayer();
-        civilization.setScienceBalance(addEachTurnScienceBalance());
+        civilization.setScienceBalance(addEachTurnScienceBalance(civilization));
     }
 
-    private static int addEachTurnScienceBalance(){
+
+    // TODO: change coefficient
+    private static int addEachTurnScienceBalance(Civilization civilization){
+        if (civilization.getGold() < 0) return (int)((calculateThePopulation() + 3) * 0.7);
         return calculateThePopulation()+3;      //+3 is constant
     }
     private static int calculateThePopulation(){
