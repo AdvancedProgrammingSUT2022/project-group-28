@@ -807,7 +807,6 @@ public class GameMenu extends Menu {
         System.out.println("Civilization gold: " + civilization.getGold());
         System.out.println("Civilization gold balance: " + civilization.getGoldBalance());
         System.out.println("Civilization happiness: " + civilization.getHappiness());
-        System.out.println("Civilization happiness: " + civilization.getHappiness());
         System.out.println("Civilization science balance: " + civilization.getScienceBalance());
         System.out.print("Civilization cities: ");
         for (City city : civilization.getCities()) {
@@ -902,10 +901,21 @@ public class GameMenu extends Menu {
     private void showMilitaryOverview(){
         Civilization civilization = GameController.getGame().getCurrentPlayer();
         System.out.println("Your units: ");
+        String range = "";
         for (Unit unit: civilization.getUnits()) {
+            if(unit instanceof Ranged){
+                range = Integer.toString(((Ranged) unit).getRangedCombatStrength());
+            }
+            else{
+                range = "null" ;
+            }
             System.out.println(" -> Name: " + unit.getUnitTemplate().getName() + " | Status: " + unit.getUnitState() +
                     " | Move point: " + unit.getMovePoint()+ " / " + unit.getUnitTemplate().getMovementPoint() +
-                    " | Move state: " + UnitController.getMoveUnitState(unit.getMovePoint(),unit.getUnitTemplate().getMovementPoint() ) + " | Combat strength: " + unit.getCombatStrength());
+                    " | Move state: " + UnitController.getMoveUnitState(unit.getMovePoint(),unit.getUnitTemplate().getMovementPoint()) +
+                    " | Combat strength: " + unit.getCombatStrength() + " | Ranged combat strength: " + range);
+        }
+        if(civilization.getUnits().size() == 0){
+            System.out.println("nothing :(");
         }
 
     }

@@ -421,11 +421,11 @@ public class UnitController extends GameController {
         if(currentMovePoint == movementPoint){
             return "green";
         }
-        else if(currentMovePoint < movementPoint){
-            return "yellow";
+        else if(currentMovePoint == 0 ){
+            return "empty";
         }
         else {
-            return "empty";
+            return "yellow";
         }
     }
 }
