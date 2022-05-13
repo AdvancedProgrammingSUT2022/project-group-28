@@ -57,8 +57,10 @@ public class GameMenu extends Menu {
             unitWake();
         } else if (command.startsWith("unit fortify")) {
             unitFortify();
-        } else if (command.startsWith("unit fortify and heal")) {
-
+        } else if (command.startsWith("unit heal")) {
+            unitHeal();
+        } else if (command.startsWith("unit pillage")) {
+            unitPillage();
         } else if (command.startsWith("select city")) {
             selectCity(command);
         } else if (command.startsWith("city assign citizen")) {
@@ -1555,6 +1557,35 @@ public class GameMenu extends Menu {
         switch (result) {
             case FULL_HEALTH:
                 System.out.println("unit health is full");
+                break;
+            case SUCCESS:
+                System.out.println("success");
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void unitPillage() {
+        Unit unit = GameController.getGame().getSelectedUnit();
+        if (unit == null) {
+            System.out.println("no selected unit");
+            return;
+        }
+
+        UnitMessage result = CombatController.pillageTile(unit);
+        switch (result) {
+            case NOT_COMBAT_UNIT:
+                System.out.println("not combat unit");
+                break;
+            case NO_MOVE_POINT:
+                System.out.println("unit don't have move point");
+                break;
+            case NO_IMPROVEMENT:
+                System.out.println("there is no improvement on tile");
+                break;
+            case SAME_SIDE:
+                System.out.println("you can not pillage your improvements");
                 break;
             case SUCCESS:
                 System.out.println("success");

@@ -2,15 +2,14 @@ package controllers;
 
 import models.Game;
 import models.civilization.City;
+import models.tiles.Project;
 import models.tiles.Tile;
-import models.units.Melee;
-import models.units.Military;
-import models.units.Ranged;
-import models.units.Siege;
-import models.units.Unit;
+import models.tiles.enums.ImprovementTemplate;
+import models.units.*;
 import models.units.enums.UnitState;
 import views.GameMenu;
 import views.enums.CombatMessage;
+import views.enums.UnitMessage;
 
 public class CombatController {
     public static CombatMessage unitAttack(int i,int j, GameMenu menu){
@@ -192,4 +191,21 @@ public class CombatController {
         }
         return CombatMessage.SUCCESS;
     }
+
+    public static UnitMessage pillageTile(Unit unit) {
+        if (unit instanceof Civilian) return UnitMessage.NOT_COMBAT_UNIT;
+        if (unit.getMovePoint() == 0) return UnitMessage.NO_MOVE_POINT;
+
+        Tile tile = unit.getTile();
+        if (tile.getImprovement() == null) return UnitMessage.NO_IMPROVEMENT;
+        if (unit.getCivilization().equals(tile.getCivilization())) return UnitMessage.SAME_SIDE;
+
+        ImprovementTemplate improvement = tile.getImprovement();
+        tile.setProject(new Project(improvement, true));
+        tile.setImprovement(null);
+
+        unit.setMovePoint(0);
+        return UnitMessage.SUCCESS;
+    }
+
 }

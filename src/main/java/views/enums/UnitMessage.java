@@ -13,6 +13,8 @@ public enum UnitMessage {
     IS_AWAKE,
     IS_FORTIFYING,
     FULL_HEALTH,
+    NO_IMPROVEMENT,
+    SAME_SIDE,
     // Move Messages
     NOT_ACCESSIBLE_TILE,
     SAME_TARGET_TILE,
