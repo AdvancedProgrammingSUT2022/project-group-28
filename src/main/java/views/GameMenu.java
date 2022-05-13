@@ -79,6 +79,8 @@ public class GameMenu extends Menu {
             showCitiesPanel();
         } else if(command.equals("economic overview")){
             showEconomicOverview();
+        }else if(command.equals("military overview")){
+            showMilitaryOverview();
         }else if(command.startsWith("cheat increase gold")){
             increaseGold(command);
         } else if (command.startsWith("cheat next turn")) {
@@ -897,6 +899,9 @@ public class GameMenu extends Menu {
 
     }
 
+    private void showMilitaryOverview(){
+        
+    }
     private void increaseGold(String command){
         CmdLineParser parser = new CmdLineParser();
         Option<Integer> amount = parser.addIntegerOption('a', "amount");
