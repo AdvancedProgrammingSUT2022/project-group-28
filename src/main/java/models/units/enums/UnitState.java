@@ -7,6 +7,6 @@ public enum UnitState {
     SLEPT,
     ALERT,
     FORTIFYING,
-    FORTIFYING_UNTIL_HEALED,
+    HEALING,
     PREPARED;
 }

@@ -115,6 +115,11 @@ public class UnitController extends GameController {
                 case WORKING:
                     WorkerController.nextTurnWorkerUpdates((Worker) unit);
                     break;
+                case FORTIFYING:
+                    UnitController.healFortifyingUnit(unit);
+                case HEALING:
+                    UnitController.healHealingUnit(unit);
+                    break;
                 default:
                     break;
             }
@@ -389,6 +394,37 @@ public class UnitController extends GameController {
         }
     }
 
+    public static UnitMessage fortifyUnit(Unit unit) {
+        if (unit instanceof Civilian) return UnitMessage.NOT_COMBAT_UNIT;
+        if (unit.getUnitState() == UnitState.FORTIFYING) return UnitMessage.IS_FORTIFYING;
+        unit.setUnitState(UnitState.FORTIFYING);
+        return UnitMessage.SUCCESS;
+    }
+
+    public static UnitMessage healUnit(Unit unit) {
+        if (unit.getHealth() == 10) return UnitMessage.FULL_HEALTH;
+        unit.setUnitState(UnitState.HEALING);
+        return UnitMessage.SUCCESS;
+    }
+
+    private static void healFortifyingUnit(Unit unit) {
+        Tile tile = unit.getTile();
+        if (unit.getHealth() < 10) {
+            if (unit.getCivilization().equals(tile.getCivilization()))
+                unit.setHealth(Math.min(unit.getHealth() + 2, 10));
+            else unit.setHealth(unit.getHealth() + 1);
+        }
+    }
+
+    private static void healHealingUnit(Unit unit) {
+        Tile tile = unit.getTile();
+        if (unit.getHealth() < 10) {
+            if (unit.getCivilization().equals(tile.getCivilization()))
+                unit.setHealth(Math.min(unit.getHealth() + 2, 10));
+            else unit.setHealth(unit.getHealth() + 1);
+        }
+        if (unit.getHealth() == 10) unit.setUnitState(UnitState.FREE);
+    }
     public static ArrayList<Tile> getUnitScopeOfVision(Game game, Unit unit) {
         ArrayList<Tile> scopeOfVision = new ArrayList<>();
         Tile unitTile = unit.getTile();

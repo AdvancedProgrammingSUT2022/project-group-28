@@ -55,6 +55,10 @@ public class GameMenu extends Menu {
             unitAlert();
         } else if (command.startsWith("unit wake")) {
             unitWake();
+        } else if (command.startsWith("unit fortify")) {
+            unitFortify();
+        } else if (command.startsWith("unit fortify and heal")) {
+
         } else if (command.startsWith("select city")) {
             selectCity(command);
         } else if (command.startsWith("city assign citizen")) {
@@ -1517,5 +1521,46 @@ public class GameMenu extends Menu {
         
         CombatMessage message = CombatController.cityAttack(tileIValue, tileJValue);
         combatMessagePrinter(message);
+    }
+
+    private void unitFortify() {
+        Unit unit = GameController.getGame().getSelectedUnit();
+        if (unit == null) {
+            System.out.println("no selected unit");
+            return;
+        }
+        UnitMessage result = UnitController.fortifyUnit(unit);
+        switch (result) {
+            case NOT_COMBAT_UNIT:
+                System.out.println("not combat unit");
+                break;
+            case IS_FORTIFYING:
+                System.out.println("unit already fortifying");
+                break;
+            case SUCCESS:
+                System.out.println("success");
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void unitHeal() {
+        Unit unit = GameController.getGame().getSelectedUnit();
+        if (unit == null) {
+            System.out.println("no selected unit");
+            return;
+        }
+        UnitMessage result = UnitController.healUnit(unit);
+        switch (result) {
+            case FULL_HEALTH:
+                System.out.println("unit health is full");
+                break;
+            case SUCCESS:
+                System.out.println("success");
+                break;
+            default:
+                break;
+        }
     }
 }

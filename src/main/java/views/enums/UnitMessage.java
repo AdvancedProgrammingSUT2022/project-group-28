@@ -11,6 +11,8 @@ public enum UnitMessage {
     IS_SLEPT,
     IS_ALERT,
     IS_AWAKE,
+    IS_FORTIFYING,
+    FULL_HEALTH,
     // Move Messages
     NOT_ACCESSIBLE_TILE,
     SAME_TARGET_TILE,
