@@ -417,6 +417,17 @@ public class UnitController extends GameController {
         return scopeOfVision;
     }
 
+    public static String getMoveUnitState(int currentMovePoint, int movementPoint) {
+        if(currentMovePoint == movementPoint){
+            return "green";
+        }
+        else if(currentMovePoint < movementPoint){
+            return "yellow";
+        }
+        else {
+            return "empty";
+        }
+    }
 }
 
 class MapPair {

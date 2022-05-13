@@ -900,7 +900,14 @@ public class GameMenu extends Menu {
     }
 
     private void showMilitaryOverview(){
-        
+        Civilization civilization = GameController.getGame().getCurrentPlayer();
+        System.out.println("Your units: ");
+        for (Unit unit: civilization.getUnits()) {
+            System.out.println(" -> Name: " + unit.getUnitTemplate().getName() + " | Status: " + unit.getUnitState() +
+                    " | Move point: " + unit.getMovePoint()+ " / " + unit.getUnitTemplate().getMovementPoint() +
+                    " | Move state: " + UnitController.getMoveUnitState(unit.getMovePoint(),unit.getUnitTemplate().getMovementPoint() ) + " | Combat strength: " + unit.getCombatStrength());
+        }
+
     }
     private void increaseGold(String command){
         CmdLineParser parser = new CmdLineParser();
