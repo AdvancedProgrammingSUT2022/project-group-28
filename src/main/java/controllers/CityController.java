@@ -228,6 +228,7 @@ public class CityController extends GameController {
         Tile cityTile = city.getTile();
         productionsBalance += cityTile.getTerrain().getProduction();
         if (cityTile.getTerrainFeature() != null) productionsBalance += cityTile.getTerrainFeature().getProduction();
+
         for (Tile tile : city.getTiles()) {
             if (tile.isWorking()) {
                 productionsBalance += tile.getTerrain().getProduction();
@@ -241,6 +242,8 @@ public class CityController extends GameController {
             }
             if (tile.getImprovement() != null) productionsBalance += tile.getImprovement().getProduction();
         }
+
+        productionsBalance += city.getCitizens();
         return productionsBalance;
     }
 
