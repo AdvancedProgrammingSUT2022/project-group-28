@@ -53,6 +53,8 @@ public class Tile {
         this.project=tile.getProject();
         this.improvement = tile.getImprovement();
         this.working = tile.isWorking();
+        this.roadConstructed = tile.isRoadConstructed();
+        this.railRoadConstructed = tile.isRailRoadConstructed();
     }
 
     public int[] getCoordinates() {

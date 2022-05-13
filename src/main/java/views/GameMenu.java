@@ -162,7 +162,7 @@ public class GameMenu extends Menu {
                        + "  /#C#QQQ#\\\n" // 14 - 26
                        + " /##II,JJ##\\\n" // 27 - 39
                        + "/#FFF#W#VVV#\\\n" // 40 - 52
-                       + "\\##RRR######/\n" // 53 - 65 
+                       + "\\##RRROiiiD#/\n" // 53 - 65
                        + " \\#TTT#MMM#/\n" // 66 - 78
                        + "  \\_______/";  // 79 - 92
         template = template.replace("II", String.format("%02d", i));
@@ -192,8 +192,18 @@ public class GameMenu extends Menu {
                 template = template.replace("QQQ", tile.getCity().getNAME());
             else template = template.replace("QQQ", "###");
 
+            if (tile.getProject() != null) {
+                template = template.replace("iii", tile.getProject().getImprovement().getName().substring(0, 3));
+                template = template.replace("D", "-");
+            } else if (tile.getImprovement() != null) {
+                template = template.replace("iii", tile.getImprovement().getName().substring(0, 3));
+                template = template.replace("D", "+");
+            } else template = template.replace("iiiD", "####");
 
-            // TODO: just show citizens to city owner
+            if (tile.isRoadConstructed()) {
+                template = template.replace("O", "*");
+            } else template = template.replace("O", "#");
+
             if (tile.isWorking())
                 template = template.replace("W", "*");
             else template = template.replace("W", "#");
@@ -1051,6 +1061,7 @@ public class GameMenu extends Menu {
         }
         CheatController instance = CheatController.getInstance();
         instance.nextTurnCheat(GameController.getGame(), countValue);
+        System.out.println("success");
     }
 
     private void cityConstruct() {
@@ -1294,6 +1305,7 @@ public class GameMenu extends Menu {
         CheatController instance = CheatController.getInstance();
         instance.nextPlayerCheat(GameController.getGame());
         Civilization civilization = GameController.getGame().getCurrentPlayer();
+        System.out.println("success");
 
         System.out.println("it is " + civilization.getUser().getNickname() + "'s turn");
 

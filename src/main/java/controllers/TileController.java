@@ -20,6 +20,8 @@ public class TileController extends  GameController {
         for (ImprovementTemplate improvement : ImprovementTemplate.values()) {
             if (!reachedTechnologies.contains(improvement.getRequiredTechnology())) continue;
             if (!improvement.isPossiblePlaceToBuild(tile)) continue;
+            if (improvement == tile.getImprovement()) continue;
+            if (tile.getProject() != null && improvement == tile.getProject().getImprovement()) continue;
             result.add(improvement);
         }
 
