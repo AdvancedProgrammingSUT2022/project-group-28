@@ -115,6 +115,8 @@ public class GameMenu extends Menu {
             tileInfo(command);
         } else if (command.startsWith("city attack")) {
             cityAttack(command);
+        }else if (command.startsWith("cheat get technology")) {
+            cheatGetTechnology();
         } else if (command.startsWith("menu show-current")) {
             System.out.println("this is game menu");
         } else if(command.equals("menu exit")){
@@ -168,7 +170,7 @@ public class GameMenu extends Menu {
                        + "  /#C#QQQ#\\\n" // 14 - 26
                        + " /##II,JJ##\\\n" // 27 - 39
                        + "/#FFF#W#VVV#\\\n" // 40 - 52
-                       + "\\##RRROiiiD#/\n" // 53 - 65
+                       + "\\##RRRoiiiD#/\n" // 53 - 65
                        + " \\#TTT#MMM#/\n" // 66 - 78
                        + "  \\_______/";  // 79 - 92
         template = template.replace("II", String.format("%02d", i));
@@ -207,8 +209,8 @@ public class GameMenu extends Menu {
             } else template = template.replace("iiiD", "####");
 
             if (tile.isRoadConstructed()) {
-                template = template.replace("O", "*");
-            } else template = template.replace("O", "#");
+                template = template.replace("o", "*");
+            } else template = template.replace("o", "#");
 
             if (tile.isWorking())
                 template = template.replace("W", "*");
@@ -764,6 +766,7 @@ public class GameMenu extends Menu {
             System.out.println("*****************************");
             System.out.println("City name: " + city.getNAME());
             System.out.println("City owner: " + city.getCivilization().getCivilizationNames());
+            System.out.println("City coordinates: " + city.getTile().getCoordinates()[0] + "," + city.getTile().getCoordinates()[1]);
             System.out.println("City population: " + city.getPopulation());
             System.out.println("City number of citizens: " + city.getCitizens());
             System.out.println("City food balance: " + city.getFoodBalance());
@@ -935,6 +938,7 @@ public class GameMenu extends Menu {
         }
 
     }
+    
     private void increaseGold(String command){
         CmdLineParser parser = new CmdLineParser();
         Option<Integer> amount = parser.addIntegerOption('a', "amount");
@@ -1593,5 +1597,28 @@ public class GameMenu extends Menu {
             default:
                 break;
         }
+    }
+
+    private void cheatGetTechnology() {
+        System.out.println(TechnologyController.printAllRemainingTechnology());
+        System.out.println("Enter the number of technology:");
+        while (true){
+            String input = scanner.nextLine().trim();
+            CivilizationMessage message = TechnologyController.checkCheatNumber(input);
+            switch (message){
+                case SUCCESS:
+                    System.out.println("success");
+                    return;
+                case OUT_OF_RANGE:
+                    System.out.println("your number is out of range");
+                    break;
+                case INVALID_INPUT:
+                    System.out.println("invalid number");
+                    break;
+                default:
+                    break;
+            }
+        }
+
     }
 }

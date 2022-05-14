@@ -55,6 +55,7 @@ public class TechnologyController extends GameController {
         }
         return userFullTechnologyTemplates;
     }
+
     public static String printPossibleTechnology(){
         Civilization civilization = game.getCurrentPlayer();
         ArrayList<TechnologyTemplate> possibleTechnologyTemplates = PossibleTechnology();
@@ -136,6 +137,7 @@ public class TechnologyController extends GameController {
         if (civilization.getGold() < 0) return (int)((calculateThePopulation() + 3) * 0.7);
         return calculateThePopulation()+3;      //+3 is constant
     }
+    
     private static int calculateThePopulation(){
         Civilization civilization = game.getCurrentPlayer();
         int population = 0;
@@ -183,6 +185,7 @@ public class TechnologyController extends GameController {
         }
         return out;
     }
+    
     public static String extractTheObtainedBuildings(TechnologyTemplate technologyTemplate){
         String out = "";
         for (BuildingTemplate building: BuildingTemplate.values()) {
@@ -195,5 +198,43 @@ public class TechnologyController extends GameController {
             out = "      nothing\n";
         }
         return out;
+    }
+
+    public static String printAllRemainingTechnology(){
+        ArrayList<TechnologyTemplate> possibleTechnologyTemplates = new ArrayList<>();
+        for(TechnologyTemplate template: TechnologyTemplate.values()){
+            if(extractFullProgressTechnology().contains(template)){
+                continue;
+            }
+            possibleTechnologyTemplates.add(template);
+        }
+        String out = "";
+        int number = 1 ;
+        for (TechnologyTemplate technology: possibleTechnologyTemplates) {
+            out = out + number + "- " +  technology.getName() + "\n";
+            number++;
+        }
+        return out;
+    }
+
+    public static CivilizationMessage checkCheatNumber(String input) {
+        ArrayList<TechnologyTemplate> possibleTechnologyTemplates = new ArrayList<>();
+        for(TechnologyTemplate template: TechnologyTemplate.values()){
+            if(extractFullProgressTechnology().contains(template)){
+                continue;
+            }
+            possibleTechnologyTemplates.add(template);
+        }
+        boolean inputValidation = input.matches("\\d+");
+        if(!inputValidation){
+            return CivilizationMessage.INVALID_INPUT;
+        }
+        int number = Integer.parseInt(input);
+        if(number <= 0 || number > possibleTechnologyTemplates.size()){
+            return CivilizationMessage.OUT_OF_RANGE;
+        }
+        Technology technology = new Technology(possibleTechnologyTemplates.get(number-1), possibleTechnologyTemplates.get(number-1).getCost());
+        game.getCurrentPlayer().addTechnology(technology);
+        return CivilizationMessage.SUCCESS;
     }
 }
