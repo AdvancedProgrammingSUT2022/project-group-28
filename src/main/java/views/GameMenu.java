@@ -83,6 +83,8 @@ public class GameMenu extends Menu {
             showResearchPanel();
         } else if(command.equals("cities panel")){
             showCitiesPanel();
+        } else if(command.equals("units panel")){
+            showUnitsPanel();
         } else if(command.equals("economic overview")){
             showEconomicOverview();
         }else if(command.equals("military overview")){
@@ -885,6 +887,9 @@ public class GameMenu extends Menu {
 
     }
 
+    private void showUnitsPanel(){
+        
+    }
     private void showEconomicOverview(){
         Civilization civilization = GameController.getGame().getCurrentPlayer();
         City  capitalCity= civilization.getCurrentCapital();
