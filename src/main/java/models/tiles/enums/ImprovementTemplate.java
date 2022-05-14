@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public enum ImprovementTemplate {
-    // tile check city
-    // tech check ??
-    // TODO: check privous improvement
     ROAD("Road", 3, 0, 0, 0, TechnologyTemplate.THE_WHEEL) {
         @Override
         public boolean isPossiblePlaceToBuild(Tile tile) {
@@ -389,8 +386,6 @@ public enum ImprovementTemplate {
             return false;
         }
     };
-
-    // TODO: Add repair
 
     private String name;
     private int turnCost;

@@ -39,7 +39,6 @@ public class Civilization {
 
     private ArrayList<GameNotification> gameNotifications = new ArrayList<>();
 
-    // TODO: Complete fields
     public Civilization(User user, CivilizationNames civilizationNames) {
         this.user = user;
         this.civilizationNames = civilizationNames;

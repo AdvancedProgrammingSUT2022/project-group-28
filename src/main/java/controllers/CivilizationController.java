@@ -26,7 +26,6 @@ public class CivilizationController extends GameController {
 
     public static GameNotification checkNextTurnIsPossible() {
         Civilization civilization = game.getCurrentPlayer();
-        // TODO: Add all civilization
         GameNotification checkUnits = UnitController.checkUnitsForNextTurn(civilization.getUnits());
         if (checkUnits.getNotificationTemplate() != CivilizationNotification.SUCCESS)
             return checkUnits;
@@ -122,7 +121,6 @@ public class CivilizationController extends GameController {
     }
 
     public static int getCivilizationGoldBalance(Civilization civilization) {
-        // TODO: add trade route, road maintenance
         int spentGold = civilization.getUnits().size() * 3; // depend on difficulty level
         int producedGold  = 0;
 
@@ -160,7 +158,6 @@ public class CivilizationController extends GameController {
 
     public static int getCivilizationHappiness(Civilization civilization) {
         int happiness = civilization.getInitialHappiness();
-        // TODO: add buildings impact
         HashMap<ResourceTemplate, Integer> resources = civilization.getResources();
         for (ResourceTemplate resource : resources.keySet()) {
             if (resource.getType() == ResourceType.LUXURY && resources.get(resource) > 0) happiness += 5;

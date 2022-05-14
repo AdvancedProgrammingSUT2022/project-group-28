@@ -5,7 +5,6 @@ import models.Game;
 import models.civilization.City;
 import models.civilization.Civilization;
 import models.civilization.Construction;
-import models.civilization.enums.BuildingTemplate;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
 import models.tiles.enums.ResourceTemplate;
@@ -13,7 +12,6 @@ import models.units.*;
 import models.units.enums.UnitTemplate;
 import models.units.enums.UnitType;
 import views.enums.CityMessage;
-import views.enums.CivilizationMessage;
 import views.notifications.CivilizationNotification;
 import views.notifications.GameNotification;
 
@@ -22,7 +20,6 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 public class CityController extends GameController {
-    // TODO: check position is in the visible tiles
     public static CityMessage selectCityByName(String name, boolean cheatMode) {
         ArrayList<Civilization> civilizations = game.getCivilizations();
         City targetCity = null;
@@ -60,11 +57,9 @@ public class CityController extends GameController {
         // for initial population
         assignRandomCitizen(city);
 
-        // TODO: check there is no reference to settler
         // Delete settler
         Settler settler = (Settler)tile.getCivilian();
-        civilization.removeUnit((Unit)settler);
-        tile.setCivilian(null);
+        settler.destroy();
     }
 
     // call for each population gain
@@ -123,8 +118,8 @@ public class CityController extends GameController {
     public static void updateCity(City city) {
         city.setFoodBalance(getCityFoodBalance(city));
         city.setProductionBalance(getCityProductionBalance(city));
-
-        // TODO: Add all updates
+        if(city.getHitPoint()<20) city.setHitPoint(city.getHitPoint()+1);
+        city.setAttacked(false);
     }
 
 
@@ -144,7 +139,6 @@ public class CityController extends GameController {
             updateCity(city);
             growCity(city);
             constructConstruction(city);
-            // TODO: some tasks
         }
     }
 
@@ -168,7 +162,6 @@ public class CityController extends GameController {
         return availableTiles;
     }
 
-    // TODO: change formula
     public static int getTileValue(City city, Tile tile) {
         int value = 0;
         if (tile.getTerrainFeature() != null) value += 10;
@@ -190,8 +183,6 @@ public class CityController extends GameController {
 
 
     public static int getCityFoodBalance(City city) {
-        // TODO: Full check
-        // TODO: Add buildings, unhappiness
         int consumedFood = city.getPopulation() * 2;
         int producedFood = 0;
         Tile cityTile = city.getTile();
@@ -217,13 +208,11 @@ public class CityController extends GameController {
 
             if (tile.getImprovement() != null) producedFood += tile.getImprovement().getFood();
         }
-
+        if(city.getCivilization().getHappiness()<0 && (producedFood - consumedFood) > 0) return 0;
         return producedFood - consumedFood;
     }
 
     public static int getCityProductionBalance(City city) {
-        // TODO: full check
-        // TODO: add buildings
         int productionsBalance = 0;
         Tile cityTile = city.getTile();
         productionsBalance += cityTile.getTerrain().getProduction();
@@ -248,8 +237,6 @@ public class CityController extends GameController {
     }
 
     public static int getCityGoldBalance(City city) {
-        // TODO: add trading routes
-        // TODO: add building maintainance and additional
         int spentGold = 0;
         int earnedGold = 0;
         Tile cityTile = city.getTile();
@@ -278,9 +265,6 @@ public class CityController extends GameController {
         for (UnitTemplate unitTemplate : UnitTemplate.values()) {
             result.put(unitTemplate, unitTemplate.checkPossibilityOfConstruction(city));
         }
-
-        // TODO: add buildings
-
         return result;
     }
 
@@ -457,7 +441,6 @@ public class CityController extends GameController {
         for (String cityName : civilization.getCivilizationNames().getCities()) {
             if (!allCitiesNames.contains(cityName)) return cityName;
         }
-        // TODO: handle this
         return "HAVIG ABAD";
     }
 }

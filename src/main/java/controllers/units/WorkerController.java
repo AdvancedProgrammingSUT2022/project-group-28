@@ -36,7 +36,7 @@ public class WorkerController extends GameController {
             return;
         }
         project.setSpentTurns(project.getSpentTurns() + 1);
-        // TODO: test tow phase improvement
+        // TODO: test two phase improvement
         if (project.getSpentTurns() == project.getImprovement().getTurnCost()) {
             if (tile.getNextImprovement() == null) worker.setUnitState(UnitState.FREE);
             else worker.setUnitState(UnitState.WORKING);

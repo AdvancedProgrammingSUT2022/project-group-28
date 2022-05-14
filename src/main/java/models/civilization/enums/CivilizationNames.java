@@ -7,7 +7,6 @@ public enum CivilizationNames {
     AMERICA("AMERICA","USA" ,"MIT", new ArrayList<>(Arrays.asList("MBA", "OCW"))),
     IRAN("Iran", "IR#","SUT", new ArrayList<String>(Arrays.asList("IUT", "AUT")));
     // TODO: add more civilizations
-    // TODO: add color to civilizations 
     private String name;
     private String mapSign;
     private String capital;

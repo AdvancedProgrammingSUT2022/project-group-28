@@ -4,11 +4,7 @@ import models.Game;
 import models.civilization.Civilization;
 import models.tiles.Tile;
 import models.units.Unit;
-import views.enums.CivilizationMessage;
 import views.enums.UnitMessage;
-
-import java.util.ArrayList;
-
 public class CheatController {
     private static CheatController instance = null;
 

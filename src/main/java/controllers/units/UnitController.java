@@ -18,7 +18,6 @@ import views.enums.UnitMessage;
 import views.notifications.CivilizationNotification;
 import views.notifications.GameNotification;
 
-import java.text.CharacterIterator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -65,8 +64,6 @@ public class UnitController extends GameController {
         return UnitMessage.SUCCESS;
     }
 
-    // TODO: Reform move methods
-    // TODO: check methods to work properly
     public static UnitMessage moveUnitToTarget(int i, int j) {
         if (i < 0 || i >= game.MAP_HEIGHT || j < 0 || j >= game.MAP_WIDTH)
             return UnitMessage.INVALID_POSITION;
@@ -92,7 +89,6 @@ public class UnitController extends GameController {
                 ArrayList<String> data = new ArrayList<>(Arrays.asList(i.toString(), j.toString()));
                 return new GameNotification(CivilizationNotification.FREE_UNIT, data, 0);
             }
-            // TODO: check all stuff
         }
         return new GameNotification(CivilizationNotification.SUCCESS, new ArrayList<>(), 0);
     }
@@ -109,7 +105,6 @@ public class UnitController extends GameController {
         for (Unit unit : units) {
             switch (unit.getUnitState()) {
                 case MOVING:
-                    // TODO: change the conditions
                     if (unit.getMovePoint() == unit.getUnitTemplate().getMovementPoint()) moveMovingUnit(unit);
                     break;
                 case WORKING:
@@ -134,7 +129,6 @@ public class UnitController extends GameController {
         return false;
     }
 
-    // TODO: SUPER CHECK MOVE
     private static void moveUnit(Unit unit, Tile startTile, Tile targetTile) {
         MapPair[][] checkMap = new MapPair[game.MAP_HEIGHT][game.MAP_WIDTH];
         for (int i = 0; i < game.MAP_HEIGHT; i++) {
@@ -190,7 +184,6 @@ public class UnitController extends GameController {
     private static int getDirectionMovePoint(int i, int j, Direction direction, int currentMovePoint) {
         Tile[][] map = game.getMap();
         Tile tile = map[i][j];
-        // TODO: check next tile is in border
         Tile nextTile = map[i + direction.i][j + direction.j];
         if (nextTile.getCity() != null) return 1;
         if (nextTile.isRailRoadConstructed()) return 1;

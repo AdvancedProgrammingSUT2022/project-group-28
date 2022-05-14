@@ -30,7 +30,6 @@ public class Game {
 
         this.map = generateRandomMap(random);
 
-        // TODO: add more civilizations
         this.civilizations = new ArrayList<>();
         for (int i = 0; i < users.size(); i++) {
             if (i == 0) {

@@ -18,7 +18,6 @@ public class City{
     private int citizens = 0;
     private int population = 1;
 
-    // TODO: add all initial values
     private int strength;
     private int hitPoint;
 
@@ -170,7 +169,6 @@ public class City{
     }
 
     public void destroy(){
-        // TODO: complete method
         this.civilization.removeCity(this);
         tile.setCity(null);
         for(Tile t:this.getTiles()){
@@ -185,8 +183,7 @@ public class City{
     }
 
     public int getCombatStrength() {
-        // TODO: complete method
-        return 5;
+        return 2 + population;
     }
 
     public void setCivilization(Civilization civilization) {
