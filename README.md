@@ -115,7 +115,7 @@ project-group-28 created by GitHub Classroom
 ### save game
 `save game`
 ### tile info
-`tile info -i [tileI] -j [tileJ]`
+`tile info -i [tileI] -j [tileJ] (-c [cheat])`
 ### city attack
 `city attack -i [tileI] -j [tileJ]`
 ### get technology(cheat)
