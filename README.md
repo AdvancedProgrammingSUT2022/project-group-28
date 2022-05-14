@@ -90,10 +90,14 @@ project-group-28 created by GitHub Classroom
 `next turn`
 ### research panel
 `research panel`
+### units panel
+`units panel`
 ### civilization info
 `civilization info`
 ### economic overview
 `ecoonomic overview`
+### military overview
+`military overview`
 ### notification info
 `notification info (-c [count])`
 ### increase gold(cheat)
