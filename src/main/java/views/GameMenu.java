@@ -25,6 +25,7 @@ import models.units.Ranged;
 import models.units.Settler;
 import models.units.Unit;
 import models.units.Worker;
+import models.units.enums.UnitState;
 import models.units.enums.UnitTemplate;
 import views.enums.*;
 import views.notifications.CivilizationNotification;
@@ -117,8 +118,12 @@ public class GameMenu extends Menu {
             tileInfo(command);
         } else if (command.startsWith("city attack")) {
             cityAttack(command);
-        }else if (command.startsWith("cheat get technology")) {
+        } else if (command.startsWith("cheat get technology")) {
             cheatGetTechnology();
+        } else if (command.startsWith("unit delete")) {
+            deleteUnit();
+        } else if (command.startsWith("unit free")) {
+            freeUnit();
         } else if (command.startsWith("menu show-current")) {
             System.out.println("this is game menu");
         } else if(command.equals("menu exit")){
@@ -898,6 +903,7 @@ public class GameMenu extends Menu {
                     "   |   Move state: " + UnitController.getMoveUnitState(unit.getMovePoint(),unit.getUnitTemplate().getMovementPoint()));
         }
     }
+    
     private void showEconomicOverview(){
         Civilization civilization = GameController.getGame().getCurrentPlayer();
         City  capitalCity= civilization.getCurrentCapital();
@@ -1277,6 +1283,7 @@ public class GameMenu extends Menu {
             System.out.println("unit name: " + unit.getUnitTemplate().getName());
             System.out.println("unit type: " + unit.getUnitTemplate().getUnitType());
             System.out.println("unit mp: " + unit.getMovePoint());
+            System.out.println("unit move target: " + ((unit.getMoveTarget()!=null)?(unit.getMoveTarget().getCoordinates()[0] + " , " + unit.getMoveTarget().getCoordinates()[1]):"none"));
             System.out.println("unit health: " + unit.getHealth());
             System.out.println("unit coordinates: " + unit.getTile().getCoordinates()[0] + " , " + unit.getTile().getCoordinates()[1]);
             System.out.println("unit raw combat strength: " + unit.getCombatStrength());
@@ -1630,6 +1637,29 @@ public class GameMenu extends Menu {
                     break;
             }
         }
+
+    }
+
+    private void deleteUnit(){
+        Unit unit = GameController.getGame().getSelectedUnit();
+        if(unit == null){
+            System.out.println("no selected unit");
+            return;
+        }
+        unit.destroy();
+        System.out.println("unit deleted");
+
+    }
+
+    private void freeUnit(){
+        Unit unit = GameController.getGame().getSelectedUnit();
+        if(unit == null){
+            System.out.println("no selected unit");
+            return;
+        }
+        unit.setUnitState(UnitState.FREE);
+        unit.setMoveTarget(null);
+        System.out.println("unit deleted");
 
     }
 }
