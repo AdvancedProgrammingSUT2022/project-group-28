@@ -773,7 +773,12 @@ public class GameMenu extends Menu {
             System.out.println("*****************************");
             System.out.println("City name: " + city.getNAME());
             System.out.println("City owner: " + city.getCivilization().getCivilizationNames());
-            System.out.println("City coordinates: " + city.getTile().getCoordinates()[0] + "," + city.getTile().getCoordinates()[1]);
+            System.out.println("City coordinates: " + city.getTile());
+            System.out.print("City tiles: ");
+            for (Tile tile : city.getTiles()) {
+                System.out.print(tile + "\t");
+            }
+            System.out.println();
             System.out.println("City population: " + city.getPopulation());
             System.out.println("City number of citizens: " + city.getCitizens());
             System.out.println("City food balance: " + city.getFoodBalance());
@@ -1283,9 +1288,9 @@ public class GameMenu extends Menu {
             System.out.println("unit name: " + unit.getUnitTemplate().getName());
             System.out.println("unit type: " + unit.getUnitTemplate().getUnitType());
             System.out.println("unit mp: " + unit.getMovePoint());
-            System.out.println("unit move target: " + ((unit.getMoveTarget()!=null)?(unit.getMoveTarget().getCoordinates()[0] + " , " + unit.getMoveTarget().getCoordinates()[1]):"none"));
+            System.out.println("unit move target: " + ((unit.getMoveTarget()!=null)?(unit.getMoveTarget()):"none"));
             System.out.println("unit health: " + unit.getHealth());
-            System.out.println("unit coordinates: " + unit.getTile().getCoordinates()[0] + " , " + unit.getTile().getCoordinates()[1]);
+            System.out.println("unit coordinates: " + unit.getTile());
             System.out.println("unit raw combat strength: " + unit.getCombatStrength());
             System.out.println("unit combat strength: " + CombatController.getCombatStrength(unit, false));
             if(unit instanceof Ranged){
@@ -1508,7 +1513,7 @@ public class GameMenu extends Menu {
         }
 
         System.out.println("*****************************");
-        System.out.println("tile coordinates: " + tile.getCoordinates()[0] + "," + tile.getCoordinates()[1]);
+        System.out.println("tile coordinates: " + tile);
         System.out.println("tile last discovery: " + lastSeen);
         System.out.println("tile terrain: " + tile.getTerrain().getName());
         System.out.println("tile terrain feature: " + ((tile.getTerrainFeature()!=null)?tile.getTerrainFeature().getName():"none"));

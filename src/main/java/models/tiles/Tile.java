@@ -153,5 +153,10 @@ public class Tile {
         if (unit instanceof Military) military = (Military) unit;
         if (unit instanceof Civilian) civilian = (Civilian) unit;
     }
+
+    @Override
+    public String toString(){
+        return "(" + coordinates[0] + ", " + coordinates[1] + ")";
+    }
 }
 
