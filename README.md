@@ -58,6 +58,8 @@ project-group-28 created by GitHub Classroom
 `unit wake`
 ### alert
 `unit alert`
+### pillage
+`unit pillage`
 ### unit attack
 `unit attack -i [tileI] -j [tileJ]`
 ### prepare siege attack
