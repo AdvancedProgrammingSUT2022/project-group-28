@@ -174,10 +174,10 @@ public class GameMenu extends Menu {
     private ArrayList<String> fillHexData(int i, int j, boolean fogOfWar) {
         Game game = GameController.getGame();
         String template ="   _______\n"  // 0 - 13
-                       + "  /#C#QQQ#\\\n" // 14 - 26
+                       + "  /#c#QQQ#\\\n" // 14 - 26
                        + " /##II,JJ##\\\n" // 27 - 39
                        + "/#FFF#W#VVV#\\\n" // 40 - 52
-                       + "\\##RRRoiiiD#/\n" // 53 - 65
+                       + "\\##RRRoiiid#/\n" // 53 - 65
                        + " \\#TTT#MMM#/\n" // 66 - 78
                        + "  \\_______/";  // 79 - 92
         template = template.replace("II", String.format("%02d", i));
@@ -209,11 +209,11 @@ public class GameMenu extends Menu {
 
             if (tile.getProject() != null) {
                 template = template.replace("iii", tile.getProject().getImprovement().getName().substring(0, 3));
-                template = template.replace("D", "-");
+                template = template.replace("d", "-");
             } else if (tile.getImprovement() != null) {
                 template = template.replace("iii", tile.getImprovement().getName().substring(0, 3));
-                template = template.replace("D", "+");
-            } else template = template.replace("iiiD", "####");
+                template = template.replace("d", "+");
+            } else template = template.replace("iiid", "####");
 
             if (tile.isRoadConstructed()) {
                 template = template.replace("o", "*");
@@ -224,11 +224,11 @@ public class GameMenu extends Menu {
             else template = template.replace("W", "#");
 
             if(tile.getCivilian() instanceof Worker)
-                template = template.replace("C", "W");
+                template = template.replace("c", "W");
             else if(tile.getCivilian() instanceof Settler)
-                template = template.replace("C", "S");
+                template = template.replace("c", "S");
             else
-                template = template.replace("C", "#");
+                template = template.replace("c", "#");
 
             if(tile.getMilitary()!=null)
                 template = template.replace("MMM", tile.getMilitary().getUnitTemplate().getName().substring(0, 3).toLowerCase());
