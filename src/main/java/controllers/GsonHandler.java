@@ -42,11 +42,11 @@ public class GsonHandler {
             fileWriter.write(new Gson().toJson(users));
             fileWriter.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            
         }
     }
 
-    public static void saveGame(Game game){ 
+    public static boolean saveGame(Game game){ 
         try {
             FileWriter fileWriter;
             if(Files.exists(Paths.get("data/gameInformation.xml")))
@@ -58,8 +58,9 @@ public class GsonHandler {
             XStream xStream = new XStream();
             fileWriter.write(xStream.toXML(game));
             fileWriter.close();
+            return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            return false;
         }
     }
 

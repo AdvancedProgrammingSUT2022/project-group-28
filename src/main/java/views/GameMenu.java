@@ -1386,8 +1386,9 @@ public class GameMenu extends Menu {
     }
 
     private void saveGame() {
-        GsonHandler.saveGame(GameController.getGame());
-        System.out.println("game saved.");
+        if(GsonHandler.saveGame(GameController.getGame()))
+            System.out.println("game saved.");
+        else System.out.println("failed to save game.");
     }
 
     private void unitSleep() {
