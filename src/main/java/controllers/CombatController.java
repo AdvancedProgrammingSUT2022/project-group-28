@@ -50,10 +50,7 @@ public class CombatController {
                 unit.setTile(city.getTile());
                 unit.getTile().setMilitary((Military)unit);
                 if(city.getFOUNDER()==unit.getCivilization() || !menu.destroyOrAttachCity()){
-                    city.getCivilization().getCities().remove(city);
-                    city.setCivilization(unit.getCivilization());
-                    unit.getCivilization().addCity(city);
-                    city.setHitPoint(20);
+                    attachCity(unit, city);
                     return CombatMessage.CITY_ATTACHED;
                 }else{
                     city.destroy();
@@ -76,6 +73,17 @@ public class CombatController {
             return CombatMessage.NO_COMBATABLE;
         }
         return CombatMessage.SUCCESS;
+    }
+
+    private static void attachCity(Unit unit, City city) {
+        city.getCivilization().getCities().remove(city);
+        if(city.getFOUNDER()!=city.getCivilization())
+            city.getCivilization().setAttachedCities(city.getCivilization().getAttachedCities()-1);
+        city.setCivilization(unit.getCivilization());
+        unit.getCivilization().addCity(city);
+        city.setHitPoint(20);
+        if(city.getFOUNDER()!=city.getCivilization())
+            city.getCivilization().setAttachedCities(city.getCivilization().getAttachedCities()+1);
     }
 
     private static CombatMessage rangedAttack(Ranged unit, Tile tile) {
