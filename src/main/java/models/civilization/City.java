@@ -1,10 +1,12 @@
 package models.civilization;
 
+import controllers.CombatController;
 import controllers.GameController;
 import models.Game;
 import models.civilization.enums.BuildingTemplate;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
+import models.tiles.enums.Terrain;
 
 import java.util.ArrayList;
 
@@ -98,7 +100,9 @@ public class City{
         return growthBucket; 
     }
 
-    public int getFoodStore() { return foodStore; }
+    public int getFoodStore() { 
+        return foodStore; 
+    }
 
     public int getStrength() {
         return strength;
@@ -120,9 +124,13 @@ public class City{
         return productionBalance;
     }
 
-    public int getProductionStore() { return productionStore; }
+    public int getProductionStore() { 
+        return productionStore; 
+    }
 
-    public Construction getConstruction() { return construction; }
+    public Construction getConstruction() { 
+        return construction; 
+    }
 
     public ArrayList<BuildingTemplate> getBuildings() {
         return buildings;
@@ -171,6 +179,7 @@ public class City{
     public void destroy(){
         this.civilization.removeCity(this);
         tile.setCity(null);
+        if(this.tile.getMilitary()!=null)this.tile.getMilitary().destroy();
         for(Tile t:this.getTiles()){
             t.setCivilization(null);  
             t.setWorking(false);
@@ -183,7 +192,11 @@ public class City{
     }
 
     public int getCombatStrength() {
-        return 2 + population;
+        int strength = 2 + population;
+        if(tile.getMilitary()!=null)
+            strength += CombatController.getCombatStrength(tile.getMilitary(), false);
+        if(tile.getTerrain() == Terrain.HILL) strength = (int) Math.floor(1.2*strength);
+        return strength;
     }
 
     public void setCivilization(Civilization civilization) {
