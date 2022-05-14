@@ -110,6 +110,16 @@ project-group-28 created by GitHub Classroom
 `cheat recharge mp`
 ### save game
 `save game`
+### tile info
+`tile info -i [tileI] -j [tileJ]`
+### city attack
+`city attack -i [tileI] -j [tileJ]`
+### get technology(cheat)
+`cheat get technology`
+### delete unit
+`unit delete`
+### free unit
+`unit free`
 ### exit menu
 `menu exit`
 ### show current menu
