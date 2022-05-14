@@ -1651,6 +1651,8 @@ public class GameMenu extends Menu {
             System.out.println("no selected unit");
             return;
         }
+        Civilization current = GameController.getGame().getCurrentPlayer();
+        current.setGold(current.getGold() + unit.getUnitTemplate().getCost()/10);
         unit.destroy();
         System.out.println("unit deleted");
 
