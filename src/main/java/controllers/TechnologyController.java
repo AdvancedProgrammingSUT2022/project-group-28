@@ -233,8 +233,23 @@ public class TechnologyController extends GameController {
         if(number <= 0 || number > possibleTechnologyTemplates.size()){
             return CivilizationMessage.OUT_OF_RANGE;
         }
-        Technology technology = new Technology(possibleTechnologyTemplates.get(number-1), possibleTechnologyTemplates.get(number-1).getCost());
-        game.getCurrentPlayer().addTechnology(technology);
+        if(checkNotCompleteTechnology(possibleTechnologyTemplates.get(number-1)) != null){
+            Technology technology = checkNotCompleteTechnology(possibleTechnologyTemplates.get(number-1));
+            technology.setProgress(technology.getTechnologyTemplate().getCost());
+        }
+        else {
+            Technology technology = new Technology(possibleTechnologyTemplates.get(number-1), possibleTechnologyTemplates.get(number-1).getCost());
+            game.getCurrentPlayer().addTechnology(technology);
+        }
         return CivilizationMessage.SUCCESS;
+    }
+
+    private static Technology checkNotCompleteTechnology(TechnologyTemplate technologyTemplate){
+        for (Technology technology : game.getCurrentPlayer().getStudiedTechnologies()) {
+            if(technology.getTechnologyTemplate().equals(technologyTemplate)){
+                return technology;
+            }
+        }
+        return null;
     }
 }
