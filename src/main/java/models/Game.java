@@ -52,12 +52,16 @@ public class Game {
         Tile[][] map = new Tile[MAP_HEIGHT][MAP_WIDTH];
         for (int i = 0; i < MAP_HEIGHT; i++) {
             for (int j = MAP_WIDTH - 1; j >= 0; j--) {
-                ArrayList<Direction> rivers = getRandomRivers(random);
-                Terrain terrain = Terrain.generateRandomTerrain(random);
-                TerrainFeature terrainFeature = getPossibleTerrainFeature(random, terrain, rivers);
-                Resource resource = getPossibleResource(random, terrain, terrainFeature);
-                map[i][j] = new Tile(i, j, terrain, terrainFeature, resource, rivers);
-                addAdjacentRivers(i, j, map, rivers);
+                if(i<2 || j<2 || i>=MAP_HEIGHT || j>=MAP_WIDTH) {
+                    map[i][j] = new Tile(i, j, Terrain.OCEAN,null,null,new ArrayList<>());
+                } else{
+                    ArrayList<Direction> rivers = getRandomRivers(random);
+                    Terrain terrain = Terrain.generateRandomTerrain(random);
+                    TerrainFeature terrainFeature = getPossibleTerrainFeature(random, terrain, rivers);
+                    Resource resource = getPossibleResource(random, terrain, terrainFeature);
+                    map[i][j] = new Tile(i, j, terrain, terrainFeature, resource, rivers);
+                    addAdjacentRivers(i, j, map, rivers);
+                }
             }
         }
         return map;

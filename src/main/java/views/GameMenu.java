@@ -194,8 +194,10 @@ public class GameMenu extends Menu {
                 }
             }
         }else{
-            tile=game.getMap()[i][j];
-            lastDiscovery = game.getTurnNumber();
+            if(i>=0 && j>=0 && i<game.MAP_HEIGHT && j<game.MAP_WIDTH){
+                tile=game.getMap()[i][j];
+                lastDiscovery = game.getTurnNumber();
+            }
         }
         if(tile!=null){    
             if(tile.getTerrainFeature()!=null)
@@ -356,6 +358,12 @@ public class GameMenu extends Menu {
 
         if(tileJValue==null || tileIValue==null) {
             System.out.println("invalid command");
+            return;
+        }
+        
+        if (tileIValue<0 || tileIValue>=GameController.getGame().MAP_HEIGHT || 
+            tileJValue<0 || tileJValue>=GameController.getGame().MAP_WIDTH) {
+            System.out.println("invalid position");
             return;
         }
         CivilizationController.updateDiscoveredTiles();
