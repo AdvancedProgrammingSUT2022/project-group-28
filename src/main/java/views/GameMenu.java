@@ -888,7 +888,12 @@ public class GameMenu extends Menu {
     }
 
     private void showUnitsPanel(){
-        
+        Civilization civilization = GameController.getGame().getCurrentPlayer();
+        System.out.println("Your units: ");
+        for (Unit unit: civilization.getUnits()) {
+            System.out.println(" -> Name: " + unit.getUnitTemplate().getName() +
+                    "   |   Move state: " + UnitController.getMoveUnitState(unit.getMovePoint(),unit.getUnitTemplate().getMovementPoint()));
+        }
     }
     private void showEconomicOverview(){
         Civilization civilization = GameController.getGame().getCurrentPlayer();
