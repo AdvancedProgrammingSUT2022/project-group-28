@@ -14,17 +14,17 @@
    <right>
       <AnchorPane prefHeight="900.0" prefWidth="833.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="189.0" fitWidth="514.0" layoutX="175.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="189.0" fitWidth="514.0" layoutX="175.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/image/civilization logo.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="262.0" fitWidth="295.0" layoutX="41.0" layoutY="186.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="262.0" fitWidth="295.0" layoutX="41.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/image/lock.png" />
                </image>
             </ImageView>
-            <TextField layoutX="278.0" layoutY="204.0" prefHeight="35.0" prefWidth="336.0" styleClass="login_text_field">
+            <TextField layoutX="278.0" layoutY="247.0" prefHeight="35.0" prefWidth="336.0" styleClass="login_text_field">
                <font>
                   <Font size="24.0" />
                </font>
@@ -32,17 +32,17 @@
                   <Glow level="0.64" />
                </effect>
             </TextField>
-            <Label layoutX="278.0" layoutY="171.0" text="Username :" textFill="#0a2438">
+            <Label layoutX="278.0" layoutY="214.0" text="Username :" textFill="#0a2438">
                <font>
                   <Font name="Arial Rounded MT Bold" size="28.0" />
                </font>
             </Label>
-            <Label layoutX="278.0" layoutY="281.0" text="Password:" textFill="#0a2438">
+            <Label layoutX="278.0" layoutY="324.0" text="Password:" textFill="#0a2438">
                <font>
                   <Font name="Arial Rounded MT Bold" size="28.0" />
                </font>
             </Label>
-            <TextField layoutX="278.0" layoutY="316.0" prefHeight="35.0" prefWidth="336.0" styleClass="login_text_field">
+            <TextField layoutX="278.0" layoutY="359.0" prefHeight="35.0" prefWidth="336.0" styleClass="login_text_field">
                <font>
                   <Font size="24.0" />
                </font>
@@ -50,16 +50,21 @@
                   <Glow level="1.0" />
                </effect>
             </TextField>
-            <Button layoutX="402.0" layoutY="399.0" mnemonicParsing="false" text="Login">
+            <Button layoutX="402.0" layoutY="442.0" mnemonicParsing="false" onMouseClicked="#goMainMenu" text="Login">
                <font>
                   <Font name="Arial Rounded MT Bold" size="22.0" />
                </font>
             </Button>
-            <Button layoutX="387.0" layoutY="447.0" mnemonicParsing="false" text="Register" onMouseClicked="#goRegisterPage">
+            <Button layoutX="387.0" layoutY="490.0" mnemonicParsing="false" onMouseClicked="#goRegisterPage" text="Register">
                <font>
                   <Font name="Arial Rounded MT Bold" size="22.0" />
                </font>
             </Button>
+            <Label layoutX="419.0" layoutY="178.0" textFill="#f4a365">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="20.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </right>

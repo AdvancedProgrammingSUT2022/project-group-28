@@ -8,4 +8,7 @@ public class LoginPage {
     public void goRegisterPage(MouseEvent mouseEvent) throws IOException {
         App.setRoot("registerPage");
     }
+
+    public void goMainMenu(MouseEvent mouseEvent) {
+    }
 }
