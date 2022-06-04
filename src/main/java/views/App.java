@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class App extends Application{
@@ -21,7 +22,7 @@ public class App extends Application{
 
         currentScene = new Scene(loadFXML("startPage"));
         stage.setScene(currentScene);
-
+        stage.getIcons().add(new Image(resource.resolve("assets/image/icon.png").toString()));
 
         stage.show();
         currentScene.getRoot().requestFocus();
