@@ -24,20 +24,7 @@
                   <Font name="Arial Rounded MT Bold" size="28.0" />
                </font>
             </Label>
-            <TextField layoutX="190.0" layoutY="228.0" prefHeight="35.0" prefWidth="336.0" styleClass="register_text_field">
-               <font>
-                  <Font size="24.0" />
-               </font>
-               <effect>
-                  <Glow level="0.64" />
-               </effect>
-            </TextField>
-            <Label layoutX="190.0" layoutY="400.0" text="Password:" textFill="#912d0c">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="28.0" />
-               </font>
-            </Label>
-            <TextField layoutX="191.0" layoutY="433.0" prefHeight="35.0" prefWidth="336.0" styleClass="register_text_field">
+            <TextField fx:id="username" layoutX="190.0" layoutY="228.0" prefHeight="35.0" prefWidth="336.0" styleClass="register_text_field">
                <font>
                   <Font size="24.0" />
                </font>
@@ -50,7 +37,7 @@
                   <Font name="Arial Rounded MT Bold" size="28.0" />
                </font>
             </Label>
-            <TextField layoutX="189.0" layoutY="336.0" prefHeight="35.0" prefWidth="336.0" styleClass="register_text_field">
+            <TextField fx:id="nickname" layoutX="189.0" layoutY="336.0" prefHeight="35.0" prefWidth="336.0" styleClass="register_text_field">
                <font>
                   <Font size="24.0" />
                </font>
@@ -58,6 +45,20 @@
                   <Glow level="0.64" />
                </effect>
             </TextField>
+            <Label layoutX="190.0" layoutY="400.0" text="Password:" textFill="#912d0c">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="28.0" />
+               </font>
+            </Label>
+            <TextField fx:id="password" layoutX="191.0" layoutY="433.0" prefHeight="35.0" prefWidth="336.0" styleClass="register_text_field">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <effect>
+                  <Glow level="0.64" />
+               </effect>
+            </TextField>
+
             <Button layoutX="299.0" layoutY="522.0" mnemonicParsing="false" text="Register">
                <font>
                   <Font name="Arial Rounded MT Bold" size="22.0" />
