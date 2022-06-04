@@ -13,9 +13,7 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 
 
-public class StartPage implements PageController {
-    private ArrayList<Transition> transitions = new ArrayList<>();
-
+public class StartPage extends PageController {
     @FXML
     private BorderPane borderPane;
     @FXML
@@ -32,7 +30,7 @@ public class StartPage implements PageController {
         borderPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                StartPage.this.onPageChanged();
+                StartPage.this.onExit();
                 // TODO: go to next page
             }
         });
@@ -40,7 +38,7 @@ public class StartPage implements PageController {
         borderPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                StartPage.this.onPageChanged();
+                StartPage.this.onExit();
                 // TODO: go to next page
             }
         });
@@ -65,13 +63,8 @@ public class StartPage implements PageController {
         opacityUpdater.play();
 
         this.transitions.add(opacityUpdater);
+
         return text;
     }
 
-    @Override
-    public void onPageChanged() {
-        for (Transition transition : this.transitions) {
-            transition.stop();
-        }
-    }
 }
