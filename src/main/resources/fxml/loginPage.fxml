@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="900.0" prefWidth="1600.0" styleClass="register_page_root" stylesheets="@../css/ui_styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.LoginPage">
+<BorderPane prefHeight="900.0" prefWidth="1600.0" styleClass="login_page_root" stylesheets="@../css/ui_styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.LoginPage">
    <right>
       <AnchorPane prefHeight="900.0" prefWidth="833.0" BorderPane.alignment="CENTER">
          <children>
@@ -24,7 +24,7 @@
                   <Image url="@../assets/image/lock.png" />
                </image>
             </ImageView>
-            <TextField layoutX="278.0" layoutY="204.0" prefHeight="35.0" prefWidth="336.0" styleClass="text_field">
+            <TextField layoutX="278.0" layoutY="204.0" prefHeight="35.0" prefWidth="336.0" styleClass="login_text_field">
                <font>
                   <Font size="24.0" />
                </font>
@@ -42,7 +42,7 @@
                   <Font name="Arial Rounded MT Bold" size="28.0" />
                </font>
             </Label>
-            <TextField layoutX="278.0" layoutY="316.0" prefHeight="35.0" prefWidth="336.0" styleClass="text_field">
+            <TextField layoutX="278.0" layoutY="316.0" prefHeight="35.0" prefWidth="336.0" styleClass="login_text_field">
                <font>
                   <Font size="24.0" />
                </font>

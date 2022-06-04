@@ -6,10 +6,15 @@
     -fx-background-image: url("../assets/image/background/ui_background.png");
 }
 
-.register_page_root {
-    -fx-background-image: url("../assets/image/background/register_background.jpg");
+.login_page_root {
+    -fx-background-image: url("../assets/image/background/login_background.jpg");
 }
 
+
+.register_page_root {
+    -fx-background-image: url("../assets/image/background/register_background.jpg");
+
+}
 
 
 .start {
@@ -75,10 +80,17 @@
     -fx-font-size: 40;
 }
 
-.text_field {
+.login_text_field {
     -fx-background-color: transparent;
     -fx-border-color: #0a2438;
     -fx-border-width: 0 0 4 0;
     -fx-text-fill: #023034;
 
+}
+
+.register_text_field {
+    -fx-background-color: transparent;
+    -fx-border-color: #6c2409;
+    -fx-border-width: 0 0 4 0;
+    -fx-text-fill: #560101;
 }
