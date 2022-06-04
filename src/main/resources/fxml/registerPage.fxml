@@ -32,17 +32,12 @@
                   <Glow level="0.64" />
                </effect>
             </TextField>
-            <Label layoutX="190.0" layoutY="295.0" text="Password:" textFill="#912d0c">
+            <Label layoutX="190.0" layoutY="400.0" text="Password:" textFill="#912d0c">
                <font>
                   <Font name="Arial Rounded MT Bold" size="28.0" />
                </font>
             </Label>
-            <Button layoutX="299.0" layoutY="418.0" mnemonicParsing="false" text="Register">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="22.0" />
-               </font>
-            </Button>
-            <TextField layoutX="191.0" layoutY="328.0" prefHeight="35.0" prefWidth="336.0" styleClass="register_text_field">
+            <TextField layoutX="191.0" layoutY="433.0" prefHeight="35.0" prefWidth="336.0" styleClass="register_text_field">
                <font>
                   <Font size="24.0" />
                </font>
@@ -50,11 +45,30 @@
                   <Glow level="0.64" />
                </effect>
             </TextField>
-            <Label layoutX="340.0" layoutY="155.0" textFill="#ea540a">
+            <Label layoutX="186.0" layoutY="300.0" text="Nickname:" textFill="#912d0c">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="28.0" />
+               </font>
+            </Label>
+            <TextField layoutX="189.0" layoutY="336.0" prefHeight="35.0" prefWidth="336.0" styleClass="register_text_field">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <effect>
+                  <Glow level="0.64" />
+               </effect>
+            </TextField>
+            <Button layoutX="299.0" layoutY="522.0" mnemonicParsing="false" text="Register">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="22.0" />
+               </font>
+            </Button>
+            <Label fx:id="error" layoutX="340.0" layoutY="155.0" textFill="#ea540a">
                <font>
                   <Font name="Arial Rounded MT Bold" size="20.0" />
                </font>
             </Label>
+
          </children>
       </AnchorPane>
    </right>
