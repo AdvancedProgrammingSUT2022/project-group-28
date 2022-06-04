@@ -10,10 +10,12 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="views.StartPage"
-            prefHeight="720.0" prefWidth="1280.0"
+            fx:id="borderPane"
+            prefHeight="900.0" prefWidth="1600.0"
             stylesheets="@../css/ui_styles.css"
-            styleClass="page_root">
-    <center>
-        <Text text="Press any key to start Game"/>
-    </center>
+            styleClass="start_page_root">
+    <bottom>
+        <VBox fx:id="textContainer" alignment="CENTER" prefHeight="300">
+        </VBox>
+    </bottom>
 </BorderPane>

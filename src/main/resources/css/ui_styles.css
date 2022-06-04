@@ -1,3 +1,14 @@
-.page_root {
-    -fx-background-image: url("../assets/image/ui_background.jpg");
+.start_page_root {
+    -fx-background-image: url("../assets/image/background/start_background.png");
+}
+
+.ui_page_root {
+    -fx-background-image: url("../assets/image/background/ui_background.png");
+}
+
+
+
+.start {
+    -fx-font-size: 45;
+    -fx-fill: white;
 }

@@ -26,10 +26,13 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         String javaVersion = System.getProperty("java.version");
         String javafxVersion = System.getProperty("javafx.version");
-        
-        Scene scene = new Scene(loadFXML("startPage"));
-        stage.setScene(scene);
+
+        currentScene = new Scene(loadFXML("startPage"));
+        stage.setScene(currentScene);
+
+
         stage.show();
+        currentScene.getRoot().requestFocus();
     }
 
     public static Parent loadFXML(String fxml) throws IOException {
@@ -37,8 +40,9 @@ public class Main extends Application {
         return fxmlLoader.load();
     }
 
-    public static void setRoot() {
-
+    public static void setRoot(String fxml) throws IOException{
+        currentScene.setRoot(loadFXML(fxml));
+        currentScene.getRoot().requestFocus();
     }
 
     public static void main(String[] args) {
