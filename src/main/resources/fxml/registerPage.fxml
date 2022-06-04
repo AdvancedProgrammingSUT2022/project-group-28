@@ -59,7 +59,7 @@
                </effect>
             </TextField>
 
-            <Button layoutX="299.0" layoutY="522.0" mnemonicParsing="false" text="Register">
+            <Button layoutX="299.0" layoutY="522.0" mnemonicParsing="false" text="Register" onMouseClicked="#goLoginMenu">
                <font>
                   <Font name="Arial Rounded MT Bold" size="22.0" />
                </font>
