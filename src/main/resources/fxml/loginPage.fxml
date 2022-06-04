@@ -24,7 +24,12 @@
                   <Image url="@../assets/image/lock.png" />
                </image>
             </ImageView>
-            <TextField layoutX="278.0" layoutY="247.0" prefHeight="35.0" prefWidth="336.0" styleClass="login_text_field">
+            <Label layoutX="278.0" layoutY="214.0" text="Username :" textFill="#0a2438">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="28.0" />
+               </font>
+            </Label>
+            <TextField fx:id="username" layoutX="278.0" layoutY="247.0" prefHeight="35.0" prefWidth="336.0" styleClass="login_text_field">
                <font>
                   <Font size="24.0" />
                </font>
@@ -32,17 +37,12 @@
                   <Glow level="0.64" />
                </effect>
             </TextField>
-            <Label layoutX="278.0" layoutY="214.0" text="Username :" textFill="#0a2438">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="28.0" />
-               </font>
-            </Label>
             <Label layoutX="278.0" layoutY="324.0" text="Password:" textFill="#0a2438">
                <font>
                   <Font name="Arial Rounded MT Bold" size="28.0" />
                </font>
             </Label>
-            <TextField layoutX="278.0" layoutY="359.0" prefHeight="35.0" prefWidth="336.0" styleClass="login_text_field">
+            <TextField fx:id="password" layoutX="278.0" layoutY="359.0" prefHeight="35.0" prefWidth="336.0" styleClass="login_text_field">
                <font>
                   <Font size="24.0" />
                </font>
