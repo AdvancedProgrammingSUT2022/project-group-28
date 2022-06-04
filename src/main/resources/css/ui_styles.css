@@ -6,6 +6,10 @@
     -fx-background-image: url("../assets/image/background/ui_background.png");
 }
 
+.register_page_root {
+    -fx-background-image: url("../assets/image/background/register_background.jpg");
+}
+
 
 
 .start {

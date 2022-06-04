@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -31,6 +32,11 @@ public class StartPage extends PageController {
             @Override
             public void handle(MouseEvent event) {
                 StartPage.this.onExit();
+                try {
+                    App.setRoot("registerPage");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 // TODO: go to next page
             }
         });
@@ -39,6 +45,11 @@ public class StartPage extends PageController {
             @Override
             public void handle(KeyEvent event) {
                 StartPage.this.onExit();
+                try {
+                    App.setRoot("registerPage");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 // TODO: go to next page
             }
         });
