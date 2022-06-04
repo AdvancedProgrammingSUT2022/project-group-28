@@ -33,7 +33,7 @@ public class StartPage extends PageController {
             public void handle(MouseEvent event) {
                 StartPage.this.onExit();
                 try {
-                    App.setRoot("registerPage");
+                    App.setRoot("loginPage");
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -46,7 +46,7 @@ public class StartPage extends PageController {
             public void handle(KeyEvent event) {
                 StartPage.this.onExit();
                 try {
-                    App.setRoot("registerPage");
+                    App.setRoot("loginPage");
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
