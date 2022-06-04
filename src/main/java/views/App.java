@@ -1,0 +1,48 @@
+package views;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public class App extends Application{
+    
+    public static Scene currentScene;
+    public static URI resource;
+
+    @Override
+    public void start(Stage stage) throws IOException {
+
+        currentScene = new Scene(loadFXML("startPage"));
+        stage.setScene(currentScene);
+
+
+        stage.show();
+        currentScene.getRoot().requestFocus();
+    }
+
+    public static Parent loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(resource.resolve("fxml/" + fxml + ".fxml").toURL());
+        return fxmlLoader.load();
+    }
+
+    public static void setRoot(String fxml) throws IOException{
+        currentScene.setRoot(loadFXML(fxml));
+        currentScene.getRoot().requestFocus();
+    }
+
+    public static void run(URL resource) {
+        try {
+            App.resource = resource.toURI();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        launch();
+    }
+}
