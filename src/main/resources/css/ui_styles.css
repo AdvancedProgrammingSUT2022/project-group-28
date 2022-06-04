@@ -74,3 +74,12 @@
     -fx-background-color: #06555caa;
     -fx-font-size: 40;
 }
+
+.text_field {
+    -fx-background-color: transparent;
+    -fx-border-color: #0a2438;
+    -fx-border-width: 0 0 4 0;
+    -fx-text-fill: #023034;
+
+
+}
