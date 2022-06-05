@@ -6,19 +6,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" styleClass="ui_page_root" stylesheets="@../css/ui_styles.css" xmlns="http://javafx.com/javafx/8.0.331" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.Profile">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" styleClass="ui_page_root" stylesheets="@../css/ui_styles.css" xmlns="http://javafx.com/javafx/8.0.331" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ProfilePage">
    <children>
       <ImageView fx:id="picture" fitHeight="256.0" fitWidth="256.0" layoutX="672.0" layoutY="46.0" onMouseClicked="#chooseAvatar">
          <image>
-            <Image url="@../assets/image/profilePictures/unknown.png" />
+            <Image url="@../assets/image/profilePictures/0.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="120.0" fitWidth="70.0" layoutX="978.0" layoutY="114.0" onMouseClicked="#rightPic">
+      <ImageView fx:id="right" fitHeight="120.0" fitWidth="70.0" layoutX="978.0" layoutY="114.0" onMouseClicked="#rightPic">
          <image>
             <Image url="@../assets/image/right.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="120.0" fitWidth="70.0" layoutX="552.0" layoutY="114.0" onMouseClicked="#leftPic">
+      <ImageView fx:id="left" fitHeight="120.0" fitWidth="70.0" layoutX="552.0" layoutY="114.0" onMouseClicked="#leftPic">
          <image>
             <Image url="@../assets/image/left.png" />
          </image>
@@ -33,7 +33,7 @@
             <Font size="27.0" />
          </font>
       </Button>
-      <Button layoutX="738.0" layoutY="600.0" mnemonicParsing="false" onAction="#back" text="Back">
+      <Button layoutX="754.0" layoutY="601.0" mnemonicParsing="false" onAction="#back" text="Back">
          <font>
             <Font size="27.0" />
          </font>

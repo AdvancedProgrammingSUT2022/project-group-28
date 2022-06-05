@@ -11,7 +11,7 @@ import models.User;
 
 public class ProfilePage extends PageController{
     @FXML
-    private ImageView picture;
+    private ImageView picture,right,left;
 
     private User currentUser;
 
@@ -21,6 +21,8 @@ public class ProfilePage extends PageController{
         currentUser = App.getCurrentUser();
         picture.setImage(currentUser.getAvatar());
         this.imagePointer = currentUser.getProfilePicNumber();
+        if(imagePointer==7) left.setVisible(false);
+        else if(imagePointer==1) right.setVisible(false);
     }
 
     public void back(){
@@ -45,8 +47,10 @@ public class ProfilePage extends PageController{
         if (imagePointer==7)return;
         else {
             imagePointer++;
+            if(imagePointer==7) left.setVisible(false);
             picture.setImage(new Image(App.resource.resolve("assets/image/profilePictures/" + imagePointer + ".png").toString()));
             currentUser.setProfilePicNumber(imagePointer);
+            right.setVisible(true);
         }
     }
 
@@ -55,8 +59,10 @@ public class ProfilePage extends PageController{
         if (imagePointer==1)return;
         else {
             imagePointer--;
+            if(imagePointer==1) right.setVisible(false);
             picture.setImage(new Image(App.resource.resolve("assets/image/profilePictures/" + imagePointer + ".png").toString()));
             currentUser.setProfilePicNumber(imagePointer);
+            left.setVisible(true);
         }
     }
 
