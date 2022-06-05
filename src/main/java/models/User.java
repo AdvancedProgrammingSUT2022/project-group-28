@@ -7,8 +7,6 @@ import views.App;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -130,6 +128,7 @@ public class User {
     }
 
     public void setAvatar(Image avatar){
+        removeOldAvatar();
         new File("data/profilePictures").mkdirs();
         File outputFile = new File("data/profilePictures/" + username + ".png");
         try {
@@ -137,5 +136,11 @@ public class User {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void removeOldAvatar(){
+        try{
+            new File ("data/avatars/" + username + ".png").delete();
+        }catch (Exception e){}
     }
 }

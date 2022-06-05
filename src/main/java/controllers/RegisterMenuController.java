@@ -2,7 +2,6 @@ package controllers;
 
 import models.User;
 import views.App;
-import views.Menu;
 import views.enums.Message;
 
 public class RegisterMenuController {

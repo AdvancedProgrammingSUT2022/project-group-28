@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" styleClass="ui_page_root" stylesheets="@../css/ui_styles.css" xmlns="http://javafx.com/javafx/8.0.331" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.Profile">
    <children>
       <ImageView fx:id="picture" fitHeight="256.0" fitWidth="256.0" layoutX="672.0" layoutY="46.0" onMouseClicked="#chooseAvatar">
