@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Rectangle?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="views.MainPage"
+            prefHeight="900.0" prefWidth="1600.0"
+            stylesheets="@../css/main_page.css"
+            styleClass="ui_page_root">
+    <center>
+        <VBox alignment="CENTER" spacing="30">
+            <VBox alignment="CENTER" spacing="20">
+                <Button styleClass="general_button" text="New Game"/>
+                <Button styleClass="general_button" text="Profile"/>
+                <Button styleClass="general_button" text="Scoreboard"/>
+                <Button styleClass="general_button" text="Setting"/>
+            </VBox>
+            <Rectangle styleClass="line" width="350" height="7"/>
+            <VBox alignment="CENTER">
+                <Button styleClass="logout_button" text="Logout"/>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>
