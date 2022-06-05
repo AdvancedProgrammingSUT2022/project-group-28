@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="views.StartGamePage"
+            prefHeight="900.0" prefWidth="1600.0"
+            stylesheets="@../css/start_game_page.css"
+            styleClass="ui_page_root">
+    <left>
+        <VBox styleClass="left_container" alignment="CENTER" spacing="20" prefWidth="600">
+            <VBox fx:id="playersContainer" alignment="CENTER" spacing="20">
+
+            </VBox>
+            <VBox alignment="CENTER" spacing="30">
+                <TextField fx:id="playerUsername" styleClass="player_username" promptText="nextPlayer"/>
+                <Label fx:id="message" styleClass="alert" visible="false" managed="false"/>
+                <Button onMouseClicked="#addPlayer" styleClass="add_user_button" text="Add player"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox alignment="CENTER">
+            <Button styleClass="start_game_button" text="Start Game"/>
+        </VBox>
+    </center>
+
+</BorderPane>

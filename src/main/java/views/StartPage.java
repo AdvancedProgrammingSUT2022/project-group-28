@@ -33,7 +33,6 @@ public class StartPage extends PageController {
             public void handle(MouseEvent event) {
                 StartPage.this.onExit();
                 App.setRoot("loginPage");
-                // TODO: go to next page
             }
         });
 
@@ -42,7 +41,6 @@ public class StartPage extends PageController {
             public void handle(KeyEvent event) {
                 StartPage.this.onExit();
                 App.setRoot("loginPage");
-                // TODO: go to next page
             }
         });
     }
