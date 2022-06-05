@@ -9,7 +9,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import models.User;
 
-public class Profile extends PageController{
+public class ProfilePage extends PageController{
     @FXML
     private ImageView picture;
 
