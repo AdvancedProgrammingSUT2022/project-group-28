@@ -1,13 +1,13 @@
 package controllers;
 
 import models.User;
-import views.Menu;
+import views.App;
 import views.enums.Message;
 
 public class ProfileMenuController {
 
     public static Message changeNickname(String nickname) {
-        User user = Menu.getLoggedInUser();
+        User user = App.getCurrentUser();
         User tempUser = User.getUserByNickname(nickname);
         if (tempUser != null) {
             return Message.CHANGE_NICKNAME_ERROR;
@@ -17,7 +17,7 @@ public class ProfileMenuController {
     }
 
     public static Message changePassword(String currentPassword, String newPassword) {
-        User user = Menu.getLoggedInUser();
+        User user = App.getCurrentUser();
         if (!checkPassword(user, currentPassword)) {
             return Message.INCORRECT_PASSWORD;
         } else if (currentPassword.equals(newPassword)) {

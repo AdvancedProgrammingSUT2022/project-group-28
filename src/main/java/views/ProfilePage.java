@@ -3,10 +3,14 @@ package views;
 import java.io.File;
 
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import models.User;
 
 public class ProfilePage extends PageController{
@@ -67,16 +71,19 @@ public class ProfilePage extends PageController{
     }
 
     public void changePassword(){
-        
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initOwner(picture.getScene().getWindow());
+        Scene scene;
+        scene = new Scene(App.loadFXML("changePassword"), 788, 488);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+        scene.getRoot().requestFocus();
     }
 
     public void changeNickname(){
 
     }
-}
-
-class ChangePassword{
-    String current;
-    String newPass;
-    String confirm;
 }

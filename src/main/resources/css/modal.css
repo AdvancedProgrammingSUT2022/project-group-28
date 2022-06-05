@@ -1,0 +1,6 @@
+.modal {    
+    -fx-effect: dropshadow(three-pass-box, derive(rgb(58, 66, 66), -20%), 10, 0, 4, 4); 
+    -fx-background-color: derive(rgb(224, 224, 189), -20%); 
+    -fx-background-insets: 12; 
+    -fx-background-radius: 6;
+}
