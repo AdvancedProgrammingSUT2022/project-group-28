@@ -13,7 +13,7 @@
     <center>
         <VBox alignment="CENTER" spacing="30">
             <VBox alignment="CENTER" spacing="20">
-                <Button styleClass="general_button" text="New Game"/>
+                <Button styleClass="general_button" onMouseClicked="#newGame" text="New Game"/>
                 <Button styleClass="general_button" text="Load Game"/>
                 <Button styleClass="general_button" text="Profile" onAction="#profile"/>
                 <Button styleClass="general_button" text="Scoreboard"/>

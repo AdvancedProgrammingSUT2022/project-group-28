@@ -26,7 +26,6 @@ public class App extends Application{
     
     @Override
     public void start(Stage stage) throws IOException {
-        
         currentScene = new Scene(loadFXML("loginPage"));
         stage.setScene(currentScene);
         stage.getIcons().add(new Image(resource.resolve("assets/image/icon.png").toString()));

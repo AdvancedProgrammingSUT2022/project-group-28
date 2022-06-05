@@ -50,3 +50,19 @@
 .start_game_button:hover {
     -fx-background-color: #065c46cc;
 }
+
+.line {
+    -fx-fill: #2b0870;
+}
+
+.back_button {
+    -fx-padding: 10 30 10 30;
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #06445eaa;
+    -fx-font-size: 40;
+}
+
+.back_button:hover {
+    -fx-background-color: #06445ecc;
+}

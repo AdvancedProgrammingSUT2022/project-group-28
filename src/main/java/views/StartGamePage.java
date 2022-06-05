@@ -98,15 +98,31 @@ public class StartGamePage extends PageController {
             return;
         }
 
+        String usernameValue = this.playerUsername.getText();
+
+        for (Node child : this.playersContainer.getChildren()) {
+            if (child.getId().equals(usernameValue)) {
+                this.message.setText("Request has been sent to \"" + usernameValue + "\"");
+                this.message.setManaged(true);
+                this.message.setVisible(true);
+                return;
+            }
+        }
+
         // TODO: send request while adding
         // TODO: change to real users
-        String usernameValue = this.playerUsername.getText();
         User user = new User(usernameValue, usernameValue, usernameValue);
 
         playersContainer.getChildren().add(createUserHBox(user));
 
         this.message.setManaged(false);
         this.message.setVisible(false);
+    }
+
+    @FXML
+    private void back() {
+        this.onExit();
+        App.setRoot("mainPage");
     }
 
     // TODO: add accept request tasks and change the user condition
