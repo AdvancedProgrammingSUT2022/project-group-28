@@ -21,7 +21,7 @@ public class App extends Application{
     @Override
     public void start(Stage stage) throws IOException {
 
-        currentScene = new Scene(loadFXML("startPage"));
+        currentScene = new Scene(loadFXML("startGamePage"));
         stage.setScene(currentScene);
         stage.getIcons().add(new Image(resource.resolve("assets/image/icon.png").toString()));
 

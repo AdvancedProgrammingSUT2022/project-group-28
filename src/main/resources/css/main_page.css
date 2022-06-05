@@ -6,12 +6,12 @@
     -fx-padding: 10 40 10 40;
     -fx-border-radius: 40 40 40 40;
     -fx-background-radius: 40 40 40 40;
-    -fx-background-color: #06445eaa;
+    -fx-background-color: #065c46aa;
     -fx-font-size: 45;
 }
 
 .general_button:hover {
-    -fx-background-color: #06445eff;
+    -fx-background-color: #065c46ee;
 }
 
 .line {
@@ -22,10 +22,10 @@
     -fx-padding: 10 30 10 30;
     -fx-border-radius: 40 40 40 40;
     -fx-background-radius: 40 40 40 40;
-    -fx-background-color: #065c46aa;
+    -fx-background-color: #06445eaa;
     -fx-font-size: 40;
 }
 
 .logout_button:hover {
-    -fx-background-color: #065c46ee ;
+    -fx-background-color: #06445eff;
 }

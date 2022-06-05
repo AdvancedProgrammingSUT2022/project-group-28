@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.shape.Rectangle?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="views.StartGamePage"
@@ -27,8 +28,14 @@
     </left>
 
     <center>
-        <VBox alignment="CENTER">
-            <Button styleClass="start_game_button" text="Start Game"/>
+        <VBox alignment="CENTER" spacing="30">
+            <VBox alignment="CENTER">
+                <Button styleClass="start_game_button" text="Start Game"/>
+            </VBox>
+            <Rectangle styleClass="line" width="350" height="5"/>
+            <VBox alignment="CENTER">
+                <Button styleClass="back_button" onMouseClicked="#back" text="Back"/>
+            </VBox>
         </VBox>
     </center>
 
