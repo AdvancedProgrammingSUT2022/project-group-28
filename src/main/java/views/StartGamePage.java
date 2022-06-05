@@ -26,8 +26,7 @@ public class StartGamePage extends PageController {
 
     @FXML
     private void initialize() {
-        User user = new User("sdf", "asdf", "dasf");
-
+        User user = new User("asdf", "asdf", "dasf");
 
         this.playersContainer.getChildren().add(createUserHBox(user));
     }
@@ -45,11 +44,11 @@ public class StartGamePage extends PageController {
         avatar.setFill(avatarPattern);
         hBox.getChildren().add(avatar);
 
-        VBox nicknameVBox = new VBox();
-        nicknameVBox.setPrefWidth(300);
-        Text nickname = new Text(user.getNickname());
-        nicknameVBox.getChildren().add(nickname);
-        hBox.getChildren().add(nicknameVBox);
+        VBox usernameVBox = new VBox();
+        usernameVBox.setPrefWidth(300);
+        Text username = new Text(user.getUsername());
+        usernameVBox.getChildren().add(username);
+        hBox.getChildren().add(usernameVBox);
 
         // TODO: add logged in user condition
         ImagePattern removePattern = new ImagePattern(new Image(App.class.getResource("../assets/image/ui_icon/cross.png").toExternalForm()));

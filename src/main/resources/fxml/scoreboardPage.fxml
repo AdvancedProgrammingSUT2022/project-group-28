@@ -26,7 +26,7 @@
     </center>
     <bottom>
         <VBox alignment="CENTER" prefHeight="200">
-            <Button styleClass="back_button" text="Back"/>
+            <Button styleClass="back_button" onMouseClicked="#back" text="Back"/>
         </VBox>
     </bottom>
 </BorderPane>

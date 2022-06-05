@@ -8,7 +8,13 @@ public class MainPage extends PageController{
         this.onExit();
         App.setRoot("startGamePage");
     }
-    public void profile(){
-        App.setRoot("profilePage");
+    @FXML
+    private void profile(){
+        App.setRoot("profile");
     }
+    @FXML
+    private void scoreboard() {
+        App.setRoot("scoreboardPage");
+    }
+
 }

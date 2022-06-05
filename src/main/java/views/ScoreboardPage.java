@@ -53,4 +53,10 @@ public class ScoreboardPage extends PageController {
 
     // TODO: add start game stuff
 
+    @FXML
+    private void back() {
+        this.onExit();
+        App.setRoot("mainPage");
+    }
+
 }

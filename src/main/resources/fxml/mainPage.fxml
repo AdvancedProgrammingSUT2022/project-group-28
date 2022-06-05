@@ -15,8 +15,8 @@
             <VBox alignment="CENTER" spacing="20">
                 <Button styleClass="general_button" onMouseClicked="#newGame" text="New Game"/>
                 <Button styleClass="general_button" text="Load Game"/>
-                <Button styleClass="general_button" text="Profile" onAction="#profile"/>
-                <Button styleClass="general_button" text="Scoreboard"/>
+                <Button styleClass="general_button" onMouseClicked="#profile" text="Profile"/>
+                <Button styleClass="general_button" onMouseClicked="#scoreboard" text="Scoreboard"/>
                 <Button styleClass="general_button" text="Setting"/>
             </VBox>
             <Rectangle styleClass="line" width="350" height="7"/>
