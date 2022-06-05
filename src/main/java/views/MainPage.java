@@ -10,7 +10,7 @@ public class MainPage extends PageController{
     }
     @FXML
     private void profile(){
-        App.setRoot("profile");
+        App.setRoot("profilePage");
     }
     @FXML
     private void scoreboard() {
