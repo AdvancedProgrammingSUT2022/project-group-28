@@ -1,6 +1,7 @@
 package controllers;
 
 import models.User;
+import views.App;
 import views.Menu;
 import views.enums.Message;
 
@@ -31,6 +32,6 @@ public class RegisterMenuController {
     }
 
     public static void setLoggedInUser(String username){
-        Menu.setLoggedInUser(User.getUserByUsername(username));
+        App.setCurrentUser(User.getUserByUsername(username));
     }
 }
