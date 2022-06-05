@@ -23,17 +23,23 @@ public class App extends Application{
         currentScene = new Scene(loadFXML("startPage"));
         stage.setScene(currentScene);
         stage.getIcons().add(new Image(resource.resolve("assets/image/icon.png").toString()));
-
+        stage.setTitle("Civilization");
+        stage.setResizable(false);
         stage.show();
         currentScene.getRoot().requestFocus();
     }
 
-    public static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(resource.resolve("fxml/" + fxml + ".fxml").toURL());
-        return fxmlLoader.load();
+    public static Parent loadFXML(String fxml){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(resource.resolve("fxml/" + fxml + ".fxml").toURL());
+            return fxmlLoader.load();
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public static void setRoot(String fxml) throws IOException{
+    public static void setRoot(String fxml){
         currentScene.setRoot(loadFXML(fxml));
         currentScene.getRoot().requestFocus();
     }
