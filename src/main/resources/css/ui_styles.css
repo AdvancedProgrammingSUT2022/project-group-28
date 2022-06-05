@@ -1,9 +1,13 @@
 .start_page_root {
     -fx-background-image: url("../assets/image/background/start_background.png");
+
+    background-image: url("../assets/image/background/start_background.png");
 }
 
 .ui_page_root {
     -fx-background-image: url("../assets/image/background/ui_background.png");
+
+    background-image: url("../assets/image/background/ui_background.png");
 }
 
 .login_page_root {
@@ -20,7 +24,11 @@
 .start {
     -fx-font-size: 45;
     -fx-fill: white;
+
+    font-size: 45;
+    fill: white;
 }
+
 
 .title {
     -fx-padding: 10 40 10 40;
