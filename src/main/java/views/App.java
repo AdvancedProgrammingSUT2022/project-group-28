@@ -1,6 +1,7 @@
 package views;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -28,12 +29,17 @@ public class App extends Application{
         currentScene.getRoot().requestFocus();
     }
 
-    public static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(resource.resolve("fxml/" + fxml + ".fxml").toURL());
-        return fxmlLoader.load();
+    public static Parent loadFXML(String fxml) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(resource.resolve("fxml/" + fxml + ".fxml").toURL());
+            return fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public static void setRoot(String fxml) throws IOException{
+    public static void setRoot(String fxml) {
         currentScene.setRoot(loadFXML(fxml));
         currentScene.getRoot().requestFocus();
     }
