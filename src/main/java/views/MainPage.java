@@ -9,6 +9,6 @@ public class MainPage extends PageController{
         App.setRoot("startGamePage");
     }
     public void profile(){
-        App.setRoot("profile");
+        App.setRoot("profilePage");
     }
 }
