@@ -10,6 +10,15 @@
     background-image: url("../assets/image/background/ui_background.png");
 }
 
+.login_page_root {
+    -fx-background-image: url("../assets/image/background/login_background.jpg");
+}
+
+
+.register_page_root {
+    -fx-background-image: url("../assets/image/background/register_background.jpg");
+
+}
 
 
 .start {
@@ -18,4 +27,78 @@
 
     font-size: 45;
     fill: white;
+}
+
+
+.title {
+    -fx-padding: 10 40 10 40;
+    -fx-border-radius: 40 0 40 0;
+    -fx-background-radius: 40 0 40 0;
+    -fx-background-color: #06445ecc;
+    -fx-font-size: 45;
+}
+
+.back_button {
+    -fx-padding: 10 30 10 30;
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #065c46aa;
+    -fx-font-size: 40;
+}
+
+.back_button:hover {
+    -fx-padding: 10 30 10 30;
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #065c46ff;
+    -fx-font-size: 40;
+}
+
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #065c46ff;
+    -fx-background-radius: 5em;
+}
+
+.user_ranking_info {
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #06555caa;
+    -fx-font-size: 40;
+}
+
+.login_text_field {
+    -fx-background-color: transparent;
+    -fx-border-color: #0a2438;
+    -fx-border-width: 0 0 4 0;
+    -fx-text-fill: #023034;
+
+}
+
+.register_text_field {
+    -fx-background-color: transparent;
+    -fx-border-color: #6c2409;
+    -fx-border-width: 0 0 4 0;
+    -fx-text-fill: #560101;
 }

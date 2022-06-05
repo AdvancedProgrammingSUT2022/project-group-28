@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="views.ScoreboardPage"
+            prefHeight="900.0" prefWidth="1600.0"
+            stylesheets="@../css/ui_styles.css"
+            styleClass="ui_page_root">
+    <top>
+        <VBox alignment="CENTER" prefHeight="200">
+                <Label styleClass="title" text="Scoreboard"/>
+        </VBox>
+    </top>
+    <center>
+        <ScrollPane maxWidth="750" hbarPolicy="NEVER">
+            <VBox fx:id="rankings" alignment="CENTER" spacing="15">
+            </VBox>
+        </ScrollPane>
+    </center>
+    <bottom>
+        <VBox alignment="CENTER" prefHeight="200">
+            <Button styleClass="back_button" text="Back"/>
+        </VBox>
+    </bottom>
+</BorderPane>
