@@ -52,5 +52,6 @@ public class ScoreboardPage extends PageController {
         return hBox;
     }
 
+    // TODO: add start game stuff
 
 }
