@@ -14,6 +14,7 @@
         <VBox alignment="CENTER" spacing="30">
             <VBox alignment="CENTER" spacing="20">
                 <Button styleClass="general_button" text="New Game"/>
+                <Button styleClass="general_button" text="Load Game"/>
                 <Button styleClass="general_button" text="Profile"/>
                 <Button styleClass="general_button" text="Scoreboard"/>
                 <Button styleClass="general_button" text="Setting"/>
