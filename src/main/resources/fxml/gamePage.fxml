@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.Pane?>
 
-<Pane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="views.GamePage"
-            prefHeight="900.0" prefWidth="1600.0"
-            fx:id="pane">
+
+<Pane fx:id="pane" onKeyPressed="#keyPressed" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.GamePage">
 
 </Pane>
