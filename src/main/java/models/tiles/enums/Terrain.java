@@ -6,16 +6,17 @@ import views.enums.Color;
 import java.util.Random;
 
 public enum Terrain implements TerrainOrTerrainFeature {
-    DESERT("Desert", 0, 0, 0, 1, -1/3f, true, Color.YELLOW_BACKGROUND),
-    GRASSLAND("Grassland", 2, 0, 0, 1, -1/3f, true, Color.GREEN_BACKGROUND_BRIGHT),
-    HILL("Hill", 0, 2, 0, 2, 1/4f, true, Color.MAGENTA_BACKGROUND),
-    MOUNTAIN("Mountain", 0, 0, 0, 0, 0, false, Color.BLACK_BACKGROUND_BRIGHT),
-    OCEAN("Ocean", 0, 0, 0, 0, 0, false, Color.BLUE_BACKGROUND),
-    PLAIN("Plain", 1, 1, 0, 1, -1/3f, true, Color.GREEN_BACKGROUND),
-    SNOW("Snow", 0, 0, 0, 1, -1/3f, true, Color.WHITE_BACKGROUND),
-    TUNDRA("Tundra", 1, 0, 0, 1, -1/3f, true, Color.CYAN_BACKGROUND);
+    DESERT("Desert", "desert", 0, 0, 0, 1, -1/3f, true, Color.YELLOW_BACKGROUND),
+    GRASSLAND("Grassland", "grassland",2, 0, 0, 1, -1/3f, true, Color.GREEN_BACKGROUND_BRIGHT),
+    HILL("Hill", "hill", 0, 2, 0, 2, 1/4f, true, Color.MAGENTA_BACKGROUND),
+    MOUNTAIN("Mountain", "mountain", 0, 0, 0, 0, 0, false, Color.BLACK_BACKGROUND_BRIGHT),
+    OCEAN("Ocean", "ocean", 0, 0, 0, 0, 0, false, Color.BLUE_BACKGROUND),
+    PLAIN("Plain", "plain", 1, 1, 0, 1, -1/3f, true, Color.GREEN_BACKGROUND),
+    SNOW("Snow", "snow",0, 0, 0, 1, -1/3f, true, Color.WHITE_BACKGROUND),
+    TUNDRA("Tundra", "tundra", 1, 0, 0, 1, -1/3f, true, Color.CYAN_BACKGROUND);
     
     private String name;
+    private String filename;
     private int food;
     private int production;
     private int gold;
@@ -24,8 +25,9 @@ public enum Terrain implements TerrainOrTerrainFeature {
     private boolean accessible;
     private Color color;
 
-    Terrain(String name, int food, int production, int gold, int movementCost, float combatModifiers, boolean accessible, Color color) {
+    Terrain(String name, String filename, int food, int production, int gold, int movementCost, float combatModifiers, boolean accessible, Color color) {
         this.name = name;
+        this.filename = filename;
         this.food = food;
         this.production = production;
         this.gold = gold;
@@ -44,6 +46,10 @@ public enum Terrain implements TerrainOrTerrainFeature {
 
     public String getName() {
         return name;
+    }
+
+    public String getFilename() {
+        return filename;
     }
 
     public int getFood() {
