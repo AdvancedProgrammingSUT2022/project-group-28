@@ -21,6 +21,7 @@ public class RegisterPage extends PageController {
     private Label error;
 
 
+    @FXML
     private void checkDataOfUser(){
         Message message = RegisterMenuController.checkUserRegisterData(username.getText() , password.getText() , nickname.getText());
         String textOfError = "";
@@ -53,6 +54,6 @@ public class RegisterPage extends PageController {
     }
 
     public void goLoginMenu(MouseEvent mouseEvent) throws IOException {
-        checkDataOfUser();
+        App.setRoot("loginPage");
     }
 }

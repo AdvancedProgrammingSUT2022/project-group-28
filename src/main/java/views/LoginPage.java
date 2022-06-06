@@ -32,7 +32,7 @@ public class LoginPage extends PageController {
             String textOfError = "username or password is incorrect.";
             error.setStyle("-fx-text-fill: #ea540a");
             error.setText(textOfError);
-            error.setLayoutX(340- textOfError.length()*4.5);
+            error.setLayoutX(410- textOfError.length()*4.5);
         }
     }
 }
