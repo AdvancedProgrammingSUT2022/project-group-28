@@ -78,7 +78,6 @@ public class StartGamePage extends PageController {
                             StartGamePage.this.playersContainer.getChildren().remove(child);
                             StartGamePage.this.message.setManaged(false);
                             StartGamePage.this.message.setVisible(false);
-
                             checkStartGamePossibility();
                             return;
                         }
@@ -98,15 +97,24 @@ public class StartGamePage extends PageController {
         if (this.playersContainer.getChildren().size() == 5) {
             this.message.setText("Maximum players is 5");
             this.message.setManaged(true);
+            this.message.setVisible(true);
             return;
         }
 
         String usernameValue = this.playerUsername.getText();
 
+        if (usernameValue.equals(App.getCurrentUser().getUsername())) {
+            this.message.setText("You can not play with yourself");
+            this.message.setManaged(true);
+            this.message.setVisible(true);
+            return;
+        }
+
         for (Node child : this.playersContainer.getChildren()) {
             if (child.getId().equals(usernameValue)) {
                 this.message.setText("Request has been sent to \"" + usernameValue + "\"");
                 this.message.setManaged(true);
+                this.message.setVisible(true);
                 return;
             }
         }
@@ -116,6 +124,7 @@ public class StartGamePage extends PageController {
         if (user == null) {
             this.message.setText("\"" + usernameValue + "\" does not exists");
             this.message.setManaged(true);
+            this.message.setVisible(true);
             return;
         }
 
@@ -125,6 +134,7 @@ public class StartGamePage extends PageController {
         checkStartGamePossibility();
 
         this.message.setManaged(false);
+        this.message.setVisible(false);
 
     }
 
@@ -135,7 +145,7 @@ public class StartGamePage extends PageController {
     }
 
     @FXML
-    private void newGame() {
+    private void startGame() {
         GameMenuController.startNewGame(getPlayers(), 100);
         this.onExit();
         App.setRoot("gamePage");
