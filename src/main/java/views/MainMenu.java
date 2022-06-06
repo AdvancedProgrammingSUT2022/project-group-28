@@ -76,6 +76,7 @@ public class MainMenu extends Menu {
                 users.add(thisUser);
             }
         }
+        loggedInUser = App.getCurrentUser();
         if(users.contains(loggedInUser)){
             System.out.println("You cannot play with yourself");
             return false;
