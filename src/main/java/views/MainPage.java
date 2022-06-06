@@ -17,4 +17,11 @@ public class MainPage extends PageController{
         App.setRoot("scoreboardPage");
     }
 
+    @FXML
+    private void logout() {
+        App.setCurrentUser(null);
+        App.setRoot("loginPage");
+    }
+
+
 }

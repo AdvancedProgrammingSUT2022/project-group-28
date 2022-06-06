@@ -21,7 +21,7 @@
             </VBox>
             <Rectangle styleClass="line" width="350" height="7"/>
             <VBox alignment="CENTER">
-                <Button styleClass="logout_button" text="Logout"/>
+                <Button styleClass="logout_button" onMouseClicked="#logout" text="Logout"/>
             </VBox>
         </VBox>
     </center>

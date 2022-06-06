@@ -17,13 +17,15 @@ import javafx.stage.WindowEvent;
 import models.User;
 
 public class App extends Application{
-    
+    // TODO: private
     public static Scene currentScene;
     public static URI resource;
 
     private static User currentUser;
 
-    
+    // TODO: check all on exit
+
+
     @Override
     public void start(Stage stage) throws IOException {
         currentScene = new Scene(loadFXML("loginPage"));

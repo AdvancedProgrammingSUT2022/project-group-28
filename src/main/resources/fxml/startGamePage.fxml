@@ -21,7 +21,7 @@
             </VBox>
             <VBox alignment="CENTER" spacing="30">
                 <TextField fx:id="playerUsername" styleClass="player_username" promptText="nextPlayer"/>
-                <Label fx:id="message" styleClass="alert" visible="false" managed="false"/>
+                <Label fx:id="message" styleClass="alert" managed="false"/>
                 <Button onMouseClicked="#addPlayer" styleClass="add_user_button" text="Add player"/>
             </VBox>
         </VBox>
