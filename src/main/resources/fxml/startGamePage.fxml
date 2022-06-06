@@ -30,7 +30,7 @@
     <center>
         <VBox alignment="CENTER" spacing="30">
             <VBox alignment="CENTER">
-                <Button styleClass="start_game_button" text="Start Game"/>
+                <Button fx:id="startGameButton" disable="true" styleClass="start_game_button" text="Start Game"/>
             </VBox>
             <Rectangle styleClass="line" width="350" height="5"/>
             <VBox alignment="CENTER">

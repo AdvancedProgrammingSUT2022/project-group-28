@@ -4,6 +4,7 @@ import controllers.GameMenuController;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -26,6 +27,8 @@ public class StartGamePage extends PageController {
     private TextField playerUsername;
     @FXML
     private Label message;
+    @FXML
+    private Button startGameButton;
 
     @FXML
     private void initialize() {
@@ -75,6 +78,8 @@ public class StartGamePage extends PageController {
                             StartGamePage.this.playersContainer.getChildren().remove(child);
                             StartGamePage.this.message.setManaged(false);
                             StartGamePage.this.message.setVisible(false);
+
+                            checkStartGamePossibility();
                             return;
                         }
                     }
@@ -117,7 +122,16 @@ public class StartGamePage extends PageController {
         // TODO: send request while adding
         playersContainer.getChildren().add(createUserHBox(user));
 
+        checkStartGamePossibility();
+
         this.message.setManaged(false);
+
+    }
+
+    private void checkStartGamePossibility() {
+        if (this.playersContainer.getChildren().size() == 1) {
+            startGameButton.setDisable(true);
+        } else startGameButton.setDisable(false);
     }
 
     @FXML
