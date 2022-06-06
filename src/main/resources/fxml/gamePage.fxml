@@ -5,6 +5,7 @@
 <Pane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="views.GamePage"
-            prefHeight="900.0" prefWidth="1600.0">
+            prefHeight="900.0" prefWidth="1600.0"
+            fx:id="pane">
 
 </Pane>
