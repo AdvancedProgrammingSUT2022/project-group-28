@@ -3,6 +3,7 @@ package views;
 import controllers.GameController;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import views.components.Hex;
 
@@ -51,5 +52,25 @@ public class GamePage extends PageController{
             offsetI+=5;
         }
         createMap(30, 30);
+    }
+
+    @FXML
+    private void mouseMoved(MouseEvent mouseEvent){
+        if(mouseEvent.getX()<20){
+            offsetI-=5;
+            createMap(30, 30);
+        }
+        if(mouseEvent.getX()>1580){
+            offsetI+=5;
+            createMap(30, 30);
+        }
+        if(mouseEvent.getY()<20){
+            offsetJ-=5;
+            createMap(30, 30);
+        }
+        if(mouseEvent.getY()>880){
+            offsetJ+=5;
+            createMap(30, 30);
+        }
     }
 }
