@@ -67,9 +67,9 @@ public class Game {
 
     private ArrayList<Direction> getRandomRivers(Random random) {
         ArrayList<Direction> result = new ArrayList<>();
-        if (random.nextInt(50) == 0) result.add(Direction.UP);
-        if (random.nextInt(50) == 0) result.add(Direction.UP_RIGHT);
-        if (random.nextInt(50) == 0) result.add(Direction.RIGHT);
+        if (random.nextInt(30) == 0) result.add(Direction.UP);
+        if (random.nextInt(30) == 0) result.add(Direction.UP_RIGHT);
+        if (random.nextInt(30) == 0) result.add(Direction.RIGHT);
         return result;
     }
 
