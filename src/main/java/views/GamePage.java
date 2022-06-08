@@ -26,7 +26,6 @@ public class GamePage extends PageController{
 
     @FXML
     private void initialize() {
-        //createMap(30, 30);
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -51,7 +50,8 @@ public class GamePage extends PageController{
 
                 if (tileI >= 0 && tileI < 100 && tileJ >= 0 && tileJ < 100) {
                     Tile tile = GameController.getGame().getMap()[tileI][tileJ];
-                    Hex hex = new Hex(tile, hexX, hexY);
+                    int discoveryTurn = 0; // TODO: change it to real number
+                    Hex hex = new Hex(tile, discoveryTurn, hexX, hexY);
                     hex.setMouseTransparent(true);
                     this.gameContent.getChildren().add(hex);
                 }

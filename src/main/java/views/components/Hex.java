@@ -1,5 +1,6 @@
 package views.components;
 
+import controllers.GameController;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -38,9 +39,10 @@ public class Hex extends Group {
 
     // Components
     private Polygon mainPolygon;
+    private Polygon shadow;
     private Text banner;
 
-    public Hex(Tile tile, Double x, Double y) {
+    public Hex(Tile tile, int discoveryTurn, Double x, Double y) {
         this.tile = tile;
         if (tile == null) {
             return;
@@ -51,15 +53,17 @@ public class Hex extends Group {
         this.mainPolygon = new Polygon();
         setPolygonPoints(this.mainPolygon);
         updateTerrainPicture();
-
         this.getChildren().add(this.mainPolygon);
+
+        if (discoveryTurn != GameController.getGame().getTurnNumber()) {
+            this.shadow = createShadow();
+            this.getChildren().add(this.shadow);
+        }
 
         this.banner = new Text(tile.getCoordinates()[0] + "," + tile.getCoordinates()[1]);
         this.getChildren().add(this.banner);
 
         addRiver();
-
-
     }
 
     private void setPolygonPoints(Polygon polygon) {
@@ -70,6 +74,22 @@ public class Hex extends Group {
             points[i * 2 + 1] = Math.cos(Math.PI/3 * i) * this.RADIUS;
         }
         polygon.getPoints().addAll(points);
+    }
+
+    private Polygon createShadow() {
+        Polygon shadow = new Polygon();
+
+        Double[] points = new Double[12];
+        for (int i = 0; i < 6; i++) {
+            points[i * 2] = -Math.sin(Math.PI/3 * i) * this.RADIUS;
+            points[i * 2 + 1] = Math.cos(Math.PI/3 * i) * this.RADIUS;
+        }
+
+        shadow.getPoints().addAll(points);
+
+        shadow.setFill(Color.color(0,0, 0, 0.5));
+
+        return shadow;
     }
 
     private void addRiver() {
@@ -92,7 +112,6 @@ public class Hex extends Group {
 
         if (this.tile.getRivers().contains(Direction.UP_RIGHT)) {
             Rectangle river = new Rectangle(10, 100);
-            this.banner.setText("********");
             river.setRotate(120);
             river.setLayoutX(38);
             river.setLayoutY(-125);
@@ -107,18 +126,5 @@ public class Hex extends Group {
         } else this.mainPolygon.setFill(terrainImages.get(this.tile.getTerrain()));
     }
 
-    public void move(Double x, Double y) {
-//        this.center[0] = this.center[0] + x;
-//        this.center[1] = this.center[1] + y;
-//        for (int i = 0; i < 12; i++) {
-//            Double temp = this.getPoints().get(i);
-//            this.getPoints().remove(i);
-//            if (i%2 == 0) this.getPoints().add(i, temp + x);
-//            else this.getPoints().add(i, temp + y);
-//        }
-        this.setLayoutX(this.getLayoutX() + x);
-        this.setLayoutY(this.getLayoutY() + y);
-
-    }
 
 }
