@@ -38,6 +38,9 @@ public class Hex extends Group {
 
     public Hex(Tile tile, Double x, Double y) {
         this.tile = tile;
+        if (tile == null) {
+            return;
+        }
         this.setLayoutX(x);
         this.setLayoutY(y);
 

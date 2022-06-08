@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import models.tiles.Tile;
 import models.tiles.enums.Terrain;
@@ -14,6 +15,8 @@ import views.components.Hex;
 public class GamePage extends PageController{
     @FXML
     private AnchorPane pane;
+    @FXML
+    private Pane gameContent;
 
     private boolean rightKey = false, leftKey = false, topKey = false, bottomKey = false;
     private boolean rightMouse = false, leftMouse = false, topMouse = false, bottomMouse = false;
@@ -34,7 +37,8 @@ public class GamePage extends PageController{
     }
 
     private void createMap(int baseI, int baseJ) {
-        this.pane.getChildren().clear();
+        this.gameContent.getChildren().clear();
+        // TODO: add river to map
         for (int j = 0; j < 200; j++) {
             for (int i = 0; i < 200; i++) {
                 int tileI = baseI + i - 50;
@@ -43,14 +47,14 @@ public class GamePage extends PageController{
                 double hexY = tileI * 150 - baseI * 135 + offsetJ;
                 if (hexX<-100 || hexX>=1700 || hexY<-100 || hexY>=1000)
                     continue;
-
+                
                 Tile tile;
                 if (tileI < 0 || tileI >= 100 || tileJ < 0 || tileJ >= 100) {
                     tile = new Tile(tileI, tileJ, Terrain.OCEAN, null, null, null);
                 } else tile = GameController.getGame().getMap()[tileI][tileJ];
                 Hex hex = new Hex(tile, hexX, hexY);
                 hex.setMouseTransparent(true);
-                this.pane.getChildren().add(hex);
+                this.gameContent.getChildren().add(hex);
             }
         }
     }

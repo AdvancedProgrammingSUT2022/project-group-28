@@ -4,5 +4,15 @@
 <?import javafx.scene.shape.Rectangle?>
 
 
-<AnchorPane fx:id="pane" onKeyPressed="#keyPressed" onKeyReleased="#keyReleased" onMouseMoved="#mouseMoved" xmlns="http://javafx.com/javafx/8.0.331" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.GamePage">
+<?import javafx.scene.layout.Pane?>
+<AnchorPane fx:id="pane"
+            xmlns="http://javafx.com/javafx/8.0.331"
+            xmlns:fx="http://javafx.com/fxml/1"
+            onKeyPressed="#keyPressed"
+            onKeyReleased="#keyReleased"
+            onMouseMoved="#mouseMoved"
+            fx:controller="views.GamePage">
+    <Pane fx:id="gameContent">
+
+    </Pane>
 </AnchorPane>
