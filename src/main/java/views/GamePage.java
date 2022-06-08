@@ -43,18 +43,18 @@ public class GamePage extends PageController{
             for (int i = 0; i < 200; i++) {
                 int tileI = baseI + i - 50;
                 int tileJ = baseJ + j - i/2 - 50;
-                double hexX = tileJ * 173.2 + tileI * 86.6 - baseJ * 230 + offsetI;
+                double hexX = tileJ * 173.2050 + tileI * 86.6025 - baseJ * 230 + offsetI;
                 double hexY = tileI * 150 - baseI * 135 + offsetJ;
+
                 if (hexX<-100 || hexX>=1700 || hexY<-100 || hexY>=1000)
                     continue;
-                
-                Tile tile;
-                if (tileI < 0 || tileI >= 100 || tileJ < 0 || tileJ >= 100) {
-                    tile = new Tile(tileI, tileJ, Terrain.OCEAN, null, null, null);
-                } else tile = GameController.getGame().getMap()[tileI][tileJ];
-                Hex hex = new Hex(tile, hexX, hexY);
-                hex.setMouseTransparent(true);
-                this.gameContent.getChildren().add(hex);
+
+                if (tileI >= 0 && tileI < 100 && tileJ >= 0 && tileJ < 100) {
+                    Tile tile = GameController.getGame().getMap()[tileI][tileJ];
+                    Hex hex = new Hex(tile, hexX, hexY);
+                    hex.setMouseTransparent(true);
+                    this.gameContent.getChildren().add(hex);
+                }
             }
         }
     }

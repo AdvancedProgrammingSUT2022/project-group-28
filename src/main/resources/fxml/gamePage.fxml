@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
-
-
 <?import javafx.scene.layout.Pane?>
 <AnchorPane fx:id="pane"
             xmlns="http://javafx.com/javafx/8.0.331"
@@ -11,7 +8,9 @@
             onKeyPressed="#keyPressed"
             onKeyReleased="#keyReleased"
             onMouseMoved="#mouseMoved"
-            fx:controller="views.GamePage">
+            fx:controller="views.GamePage"
+            stylesheets="@../css/game_page.css"
+            styleClass="game_root">
     <Pane fx:id="gameContent">
 
     </Pane>
