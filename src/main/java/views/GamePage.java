@@ -14,8 +14,6 @@ import views.components.Hex;
 
 public class GamePage extends PageController{
     @FXML
-    private AnchorPane pane;
-    @FXML
     private Pane gameContent;
 
     private boolean rightKey = false, leftKey = false, topKey = false, bottomKey = false;
@@ -42,10 +40,10 @@ public class GamePage extends PageController{
             for (int i = 0; i < 200; i++) {
                 int tileI = baseI + i - 50;
                 int tileJ = baseJ + j - i/2 - 50;
-                double hexX = tileJ * 173.2050 + tileI * 86.6025 - baseJ * 230 + offsetI;
-                double hexY = tileI * 150 - baseI * 135 + offsetJ;
+                double hexX = tileJ * 259.8076 + tileI * 129.9038 - baseJ * 360 + offsetI;
+                double hexY = tileI * 225 - baseI * 210 + offsetJ;
 
-                if (hexX<-100 || hexX>=1700 || hexY<-100 || hexY>=1000)
+                if (hexX < -200 || hexX >= 1800 || hexY <- 200 || hexY >= 1100)
                     continue;
 
                 if (tileI >= 0 && tileI < 100 && tileJ >= 0 && tileJ < 100) {
@@ -96,22 +94,22 @@ public class GamePage extends PageController{
 
     private void update() {
         if(rightKey || rightMouse) {
-            if (offsetI * 1.72 + 20295 > offsetJ) {
+            if (offsetI * 1.72 + 20395 > offsetJ) {
                 offsetI -= 5;
             }
         }
         if(leftKey || leftMouse){
-            if (offsetI * 1.72 - 7615 < offsetJ) {
+            if (offsetI * 1.72 - 7715 < offsetJ) {
                 offsetI+=5;
             }
         }
         if(topKey || topMouse) {
-            if (offsetJ < 4150) {
+            if (offsetJ < 4250) {
                 offsetJ += 5;
             }
         }
         if(bottomKey || bottomMouse){
-            if (offsetJ > -10250) {
+            if (offsetJ > -10350) {
                 offsetJ-=5;
             }
         }
