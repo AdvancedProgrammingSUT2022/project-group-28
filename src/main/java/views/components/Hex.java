@@ -2,8 +2,8 @@ package views.components;
 
 import controllers.GameController;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
@@ -12,18 +12,18 @@ import javafx.scene.text.Text;
 import models.tiles.TerrainOrTerrainFeature;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
+import models.tiles.enums.ImprovementTemplate;
 import models.tiles.enums.Terrain;
 import models.tiles.enums.TerrainFeature;
 import models.units.Melee;
-import models.units.Military;
 import models.units.enums.UnitTemplate;
 import views.App;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class Hex extends Group {
-    private static HashMap<TerrainOrTerrainFeature, ImagePattern> terrainImages = new HashMap<>();
+    private static final HashMap<TerrainOrTerrainFeature, ImagePattern> terrainImages = new HashMap<>();
+    private static final HashMap<ImprovementTemplate, Image> improvementImages = new HashMap<>();
 
     static {
         for (Terrain terrain : Terrain.values()) {
@@ -33,6 +33,13 @@ public class Hex extends Group {
         for (TerrainFeature terrainFeature : TerrainFeature.values()) {
             Image image = new Image(App.class.getResource("../assets/image/terrain_feature/" + terrainFeature.getFilename() + ".png").toExternalForm());
             terrainImages.put(terrainFeature, new ImagePattern(image));
+        }
+
+        for (ImprovementTemplate improvementTemplate : ImprovementTemplate.values()) {
+            if (improvementTemplate.getFilename() != null) {
+                Image image = new Image(App.class.getResource("../assets/image/improvement/" + improvementTemplate.getFilename() + ".png").toExternalForm());
+                improvementImages.put(improvementTemplate, image);
+            }
         }
     }
 
@@ -82,6 +89,15 @@ public class Hex extends Group {
             military.setLayoutY(55);
             this.getChildren().add(military);
         }
+
+        if (this.tile.getImprovement() != null) {
+            Image image = improvementImages.get(this.tile.getImprovement());
+            ImageView improvement = new ImageView(image);
+            improvement.setLayoutX(-image.getWidth()/2);
+            improvement.setLayoutY(35);
+            this.getChildren().add(improvement);
+        }
+        // TODO: add project icon
 
     }
 
