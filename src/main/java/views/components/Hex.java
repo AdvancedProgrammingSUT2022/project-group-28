@@ -6,15 +6,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import models.tiles.TerrainOrTerrainFeature;
 import models.tiles.Tile;
-import models.tiles.enums.Direction;
-import models.tiles.enums.ImprovementTemplate;
-import models.tiles.enums.Terrain;
-import models.tiles.enums.TerrainFeature;
+import models.tiles.enums.*;
 import models.units.Melee;
 import models.units.enums.UnitTemplate;
 import views.App;
@@ -24,6 +22,7 @@ import java.util.HashMap;
 public class Hex extends Group {
     private static final HashMap<TerrainOrTerrainFeature, ImagePattern> terrainImages = new HashMap<>();
     private static final HashMap<ImprovementTemplate, Image> improvementImages = new HashMap<>();
+    private static final HashMap<ResourceTemplate, ImagePattern> resourceImages = new HashMap<>();
 
     static {
         for (Terrain terrain : Terrain.values()) {
@@ -40,6 +39,11 @@ public class Hex extends Group {
                 Image image = new Image(App.class.getResource("../assets/image/improvement/" + improvementTemplate.getFilename() + ".png").toExternalForm());
                 improvementImages.put(improvementTemplate, image);
             }
+        }
+
+        for (ResourceTemplate resourceTemplate : ResourceTemplate.values()) {
+            Image image = new Image(App.class.getResource("../assets/image/resource/" + resourceTemplate.getFilename() + ".png").toExternalForm());
+            resourceImages.put(resourceTemplate, new ImagePattern(image));
         }
     }
 
@@ -90,6 +94,7 @@ public class Hex extends Group {
             this.getChildren().add(military);
         }
 
+
         if (this.tile.getImprovement() != null) {
             Image image = improvementImages.get(this.tile.getImprovement());
             ImageView improvement = new ImageView(image);
@@ -98,6 +103,14 @@ public class Hex extends Group {
             this.getChildren().add(improvement);
         }
         // TODO: add project icon
+
+        if (this.tile.getResource() != null) {
+            Circle resource = new Circle(35);
+            resource.setLayoutX(90);
+            resource.setLayoutY(30);
+            resource.setFill(resourceImages.get(this.tile.getResource().getResourceTemplate()));
+            this.getChildren().add(resource);
+        }
 
     }
 
