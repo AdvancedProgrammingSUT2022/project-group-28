@@ -1,15 +1,16 @@
 package views;
 
+import java.util.HashMap;
+
+import controllers.CivilizationController;
 import controllers.GameController;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
+import models.Game;
 import models.tiles.Tile;
-import models.tiles.enums.Terrain;
 import views.components.Hex;
 
 public class GamePage extends PageController{
@@ -20,6 +21,8 @@ public class GamePage extends PageController{
     private boolean rightMouse = false, leftMouse = false, topMouse = false, bottomMouse = false;
 
     private int offsetI=0, offsetJ=0;
+
+    private int baseI = 30, baseJ = 30;
 
 
     @FXML
@@ -33,33 +36,51 @@ public class GamePage extends PageController{
         timer.start();
     }
 
-    private void createMap(int baseI, int baseJ) {
+    private void createMap(boolean fogOfWar) {
+        Game game = GameController.getGame();
+        CivilizationController.updateDiscoveredTiles();
         this.gameContent.getChildren().clear();
-        // TODO: add river to map
-        for (int j = 0; j < 200; j++) {
-            for (int i = 0; i < 200; i++) {
-                int tileI = baseI + i - 50;
-                int tileJ = baseJ + j - i/2 - 50;
-                double hexX = tileJ * 259.8076 + tileI * 129.9038 - baseJ * 360 + offsetI;
-                double hexY = tileI * 225 - baseI * 210 + offsetJ;
-
-                if (hexX < -200 || hexX >= 1800 || hexY <- 200 || hexY >= 1100)
-                    continue;
-
-                if (tileI >= 0 && tileI < 100 && tileJ >= 0 && tileJ < 100) {
-                    Tile tile = GameController.getGame().getMap()[tileI][tileJ];
-                    int discoveryTurn = 0; // TODO: change it to real number
-                    Hex hex = new Hex(tile, discoveryTurn, hexX, hexY);
-                    hex.setMouseTransparent(true);
-                    this.gameContent.getChildren().add(hex);
+        HashMap<Tile,Integer> discoveredTiles = game.getCurrentPlayer().getDiscoveredTiles();
+        if (fogOfWar){
+            for (Tile tile : discoveredTiles.keySet()){
+                createHex(tile, discoveredTiles.get(tile));
+            }
+        }else{
+            int turnNumber = game.getTurnNumber();
+            for (int i = 0; i < 100 ; i++) {
+                for (int j = 0; j < 100 ; j++) {
+                    Tile tile = GameController.getGame().getMap()[i][j];
+                    createHex(tile, turnNumber);
                 }
             }
         }
+            
+    }
+
+    private void createHex(Tile tile, int discoveryTurn){
+        int[] coordinates = tile.getCoordinates();
+        int tileI = coordinates[0];
+        int tileJ = coordinates[1];
+        double hexX = getHexX(tileI, tileJ);
+        double hexY = getHexY(tileI, tileJ);
+
+        if (hexX < -200 || hexX >= 1800 || hexY <- 200 || hexY >= 1100)
+                return;
+        Hex hex = new Hex(tile, discoveryTurn, hexX, hexY);
+        //hex.setMouseTransparent(true);
+        this.gameContent.getChildren().add(hex);
+    }
+
+    private double getHexX(int tileI,int tileJ){
+        return tileJ * 259.8076 + tileI * 129.9038 - baseJ * 360 + offsetI;
+    }
+
+    private double getHexY(int tileI,int tileJ){
+        return tileI * 225 - baseI * 210 + offsetJ;
     }
 
     @FXML
     private void keyPressed(KeyEvent keyEvent){
-        // TODO:cant move out of page
         if(keyEvent.getCode().getName().equals("Up")){
             topKey = true;
         } else if(keyEvent.getCode().getName().equals("Down")){
@@ -94,25 +115,25 @@ public class GamePage extends PageController{
 
     private void update() {
         if(rightKey || rightMouse) {
-            if (offsetI * 1.72 + 20395 > offsetJ) {
+            if (getHexX(99, 99)>600) {
                 offsetI -= 5;
             }
         }
         if(leftKey || leftMouse){
-            if (offsetI * 1.72 - 7715 < offsetJ) {
+            if (getHexX(0, 0)<1000) {
                 offsetI+=5;
             }
         }
         if(topKey || topMouse) {
-            if (offsetJ < 4250) {
+            if (getHexY(0, 50)<300) {
                 offsetJ += 5;
             }
         }
         if(bottomKey || bottomMouse){
-            if (offsetJ > -10350) {
+            if (getHexY(99, 50)>600) {
                 offsetJ-=5;
             }
         }
-        createMap(30,30);
+        createMap(false);
     }
 }
