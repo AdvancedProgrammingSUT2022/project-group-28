@@ -26,6 +26,7 @@ public class UnitIcon extends Group {
         this.unit = unit;
 
         Circle background = new Circle(25);
+        // TODO: set background the civ color
         background.setFill(Color.color(0,0, 0, 0.5));
         this.getChildren().add(background);
 

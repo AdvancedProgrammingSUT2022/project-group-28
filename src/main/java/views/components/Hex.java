@@ -10,10 +10,15 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import models.User;
+import models.civilization.City;
+import models.civilization.Civilization;
+import models.civilization.enums.CivilizationNames;
 import models.tiles.TerrainOrTerrainFeature;
 import models.tiles.Tile;
 import models.tiles.enums.*;
 import models.units.Melee;
+import models.units.Unit;
 import models.units.enums.UnitTemplate;
 import views.App;
 
@@ -55,9 +60,18 @@ public class Hex extends Group {
     private Polygon mainPolygon;
     private Polygon shadow;
     private Text banner;
+    private CityBanner cityBanner;
+    private UnitIcon civilian;
+    private UnitIcon military;
 
     public Hex(Tile tile, int discoveryTurn, Double x, Double y) {
         this.tile = tile;
+
+        // TODO: remove this
+        this.tile.setCity(new City("how", new Civilization(new User("2134", "324", "541234"), CivilizationNames.IRAN), this.tile));
+
+
+
         if (tile == null) {
             return;
         }
@@ -79,19 +93,25 @@ public class Hex extends Group {
 
         addRiver();
 
+        if (this.tile.getCity() != null) {
+            this.cityBanner = new CityBanner(this.tile.getCity());
+            this.cityBanner.setLayoutX(0);
+            this.cityBanner.setLayoutY(-200);
+            this.getChildren().add(this.cityBanner);
+        }
+
         if (this.tile.getCivilian() != null) {
-            UnitIcon civilian = new UnitIcon(this.tile.getCivilian());
-            civilian.setLayoutX(-95);
-            civilian.setLayoutY(0);
-            this.getChildren().add(civilian);
-            this.tile.setMilitary(new Melee(this.tile, this.tile.getCivilian().getCivilization(), UnitTemplate.ANTI_TANK));
+            this.civilian = new UnitIcon(this.tile.getCivilian());
+            this.civilian.setLayoutX(-95);
+            this.civilian.setLayoutY(0);
+            this.getChildren().add(this.civilian);
         }
 
         if (this.tile.getMilitary() != null) {
-            UnitIcon military = new UnitIcon(this.tile.getMilitary());
-            military.setLayoutX(-95);
-            military.setLayoutY(55);
-            this.getChildren().add(military);
+            this.military = new UnitIcon(this.tile.getMilitary());
+            this.military.setLayoutX(-95);
+            this.military.setLayoutY(55);
+            this.getChildren().add(this.military);
         }
 
 
@@ -174,5 +194,19 @@ public class Hex extends Group {
         } else this.mainPolygon.setFill(terrainImages.get(this.tile.getTerrain()));
     }
 
+    public UnitIcon getCivilian() {
+        return civilian;
+    }
 
+    public UnitIcon getMilitary() {
+        return military;
+    }
+
+    public void setCivilian(UnitIcon civilian) {
+        this.civilian = civilian;
+    }
+
+    public void setMilitary(UnitIcon military) {
+        this.military = military;
+    }
 }
