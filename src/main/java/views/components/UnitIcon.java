@@ -16,7 +16,7 @@ public class UnitIcon extends Group {
     private static final HashMap<UnitTemplate, ImagePattern> icons = new HashMap<>();
     static {
         for (UnitTemplate unitTemplate : UnitTemplate.values()) {
-            Image icon = new Image(App.class.getResource("../assets/image/unit/" + unitTemplate.getFilename() + ".png").toExternalForm());
+            Image icon = new Image(App.class.getResource("../assets/image/unit_icon/" + unitTemplate.getFilename() + ".png").toExternalForm());
             icons.put(unitTemplate, new ImagePattern(icon));
         }
     }

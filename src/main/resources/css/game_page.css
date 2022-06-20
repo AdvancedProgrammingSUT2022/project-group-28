@@ -7,14 +7,45 @@
 }
 
 .city_banner {
-    -fx-padding: 10 30 10 30;
-    -fx-border-radius: 40 40 40 40;
-    -fx-background-radius: 40 40 40 40;
+    -fx-border-radius: 30 30 30 30;
+    -fx-background-radius: 30 30 30 30;
     -fx-background-color: #065c46ff;
     -fx-opacity: 0.7;
-    -fx-font-size: 40;
+    -fx-font-size: 20;
 }
 
 .city_banner:hover {
-    -fx-opacity: 0.85;
+    -fx-background-color: #00504622;
+}
+
+.population {
+    -fx-font-size: 20;
+}
+
+.growth_bar {
+    -fx-accent: #3ec40e;
+}
+
+.growth_bar > .track {
+      -fx-text-box-border: #248203;
+      -fx-control-inner-background: #9ef77e;
+}
+
+.growth_bar > .bar {
+    -fx-background-insets: 1 1 2 1;
+    -fx-padding: 5;
+}
+
+.production_bar {
+    -fx-accent: #a1701b;
+}
+
+.production_bar > .track {
+      -fx-text-box-border: #915d03;
+      -fx-control-inner-background: #cca768;
+}
+
+.production_bar > .bar {
+        -fx-background-insets: 1 1 2 1;
+        -fx-padding: 5;
 }

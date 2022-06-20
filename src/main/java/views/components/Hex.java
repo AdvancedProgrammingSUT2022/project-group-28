@@ -67,12 +67,8 @@ public class Hex extends Group {
     public Hex(Tile tile, int discoveryTurn, Double x, Double y) {
         this.tile = tile;
 
-        // TODO: remove this
-        this.tile.setCity(new City("how", new Civilization(new User("2134", "324", "541234"), CivilizationNames.IRAN), this.tile));
-
-
-
         if (tile == null) {
+            // TODO: add fog of war
             return;
         }
         this.setLayoutX(x);
@@ -95,8 +91,8 @@ public class Hex extends Group {
 
         if (this.tile.getCity() != null) {
             this.cityBanner = new CityBanner(this.tile.getCity());
-            this.cityBanner.setLayoutX(0);
-            this.cityBanner.setLayoutY(-200);
+            this.cityBanner.setLayoutX(-100);
+            this.cityBanner.setLayoutY(-100);
             this.getChildren().add(this.cityBanner);
         }
 
