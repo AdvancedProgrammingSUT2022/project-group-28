@@ -1,6 +1,7 @@
 package views.components;
 
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
@@ -9,9 +10,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -55,8 +59,8 @@ public class CityBanner extends HBox {
     public CityBanner(City city) {
         super(-10);
         this.setAlignment(Pos.CENTER);
-        // TODO: set background color to civ color
         this.getStyleClass().add("city_banner");
+        this.setStyle("-fx-background-color: " + city.getCivilization().getCivilizationNames().getColorHex() + "aa");
         this.city = city;
 
         HBox growthBox = new HBox(-10);
@@ -124,4 +128,5 @@ public class CityBanner extends HBox {
     public City getCity() {
         return city;
     }
+
 }
