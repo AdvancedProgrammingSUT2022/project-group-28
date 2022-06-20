@@ -9,13 +9,7 @@
 .city_banner {
     -fx-border-radius: 30 30 30 30;
     -fx-background-radius: 30 30 30 30;
-    -fx-background-color: #065c46ff;
-    -fx-opacity: 0.7;
-    -fx-font-size: 20;
-}
 
-.city_banner:hover {
-    -fx-background-color: #00504622;
 }
 
 .population {
@@ -34,6 +28,15 @@
 .growth_bar > .bar {
     -fx-background-insets: 1 1 2 1;
     -fx-padding: 5;
+}
+
+.city_name {
+    -fx-background-color: #757575aa;
+    -fx-font-size: 20;
+}
+
+.city_name:hover {
+    -fx-background-color: #291414aa;
 }
 
 .production_bar {

@@ -1,10 +1,13 @@
 package views.components;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -50,7 +53,7 @@ public class CityBanner extends HBox {
     //                    - onClick open 3 menus 1. buy tile 2. buy unit and building 3. assign citizens
     private final City city;
     public CityBanner(City city) {
-        super(0);
+        super(-10);
         this.setAlignment(Pos.CENTER);
         // TODO: set background color to civ color
         this.getStyleClass().add("city_banner");
@@ -74,14 +77,20 @@ public class CityBanner extends HBox {
         this.getChildren().add(growthBox);
 
 
+        HBox nameBox = new HBox(0);
+        nameBox.setAlignment(Pos.CENTER);
+
         if (city.equals(city.getCivilization().getCurrentCapital())) {
             Circle capitalStar = new Circle(10);
             capitalStar.setFill(star);
-            this.getChildren().add(capitalStar);
+            nameBox.getChildren().add(capitalStar);
         }
 
-        Text cityName = new Text(city.getNAME());
-        this.getChildren().add(cityName);
+        Button cityName = new Button(city.getNAME());
+        cityName.getStyleClass().add("city_name");
+        nameBox.getChildren().add(cityName);
+
+        this.getChildren().add(nameBox);
 
         HBox productionBox = new HBox(-20);
         productionBox.setAlignment(Pos.CENTER);
