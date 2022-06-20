@@ -49,7 +49,7 @@ public class GsonHandler {
     public static boolean saveGame(Game game){ 
         try {
             FileWriter fileWriter;
-            if(Files.exists(Paths.get("data/gameInformation.xml")))
+            if (Files.exists(Paths.get("data/gameInformation.xml")))
                 fileWriter = new FileWriter("data/gameInformation.xml",false);
             else{
                 new File("data").mkdir();
