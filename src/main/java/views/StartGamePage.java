@@ -3,6 +3,7 @@ package views;
 import controllers.GameMenuController;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -37,6 +38,7 @@ public class StartGamePage extends PageController {
 
     private HBox createUserHBox(User user) {
         HBox hBox = new HBox();
+        hBox.setAlignment(Pos.CENTER);
         hBox.setId(user.getUsername());
         hBox.setSpacing(30);
         hBox.setPrefWidth(700);
@@ -56,7 +58,6 @@ public class StartGamePage extends PageController {
             ImagePattern removePattern = new ImagePattern(new Image(App.class.getResource("../assets/image/ui_icon/cross.png").toExternalForm()));
             ImagePattern redRemovePattern = new ImagePattern(new Image(App.class.getResource("../assets/image/ui_icon/red_cross.png").toExternalForm()));
             Rectangle remove = new Rectangle(50, 50);
-            remove.getStyleClass().add("remove_button");
             remove.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {

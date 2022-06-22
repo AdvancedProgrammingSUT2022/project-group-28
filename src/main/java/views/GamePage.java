@@ -16,6 +16,9 @@ import views.components.Hex;
 public class GamePage extends PageController{
     @FXML
     private Pane gameContent;
+    @FXML
+    private Pane HUD;
+
 
     private boolean rightKey = false, leftKey = false, topKey = false, bottomKey = false;
     private boolean rightMouse = false, leftMouse = false, topMouse = false, bottomMouse = false;
@@ -27,6 +30,8 @@ public class GamePage extends PageController{
 
     @FXML
     private void initialize() {
+        HUDController.getInstance().createHUD(HUD);
+
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
