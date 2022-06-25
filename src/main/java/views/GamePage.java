@@ -14,6 +14,8 @@ import models.tiles.Tile;
 import views.components.Hex;
 
 public class GamePage extends PageController{
+    private static GamePage instance;
+
     @FXML
     private Pane gameContent;
     @FXML
@@ -30,6 +32,8 @@ public class GamePage extends PageController{
 
     @FXML
     private void initialize() {
+        instance = this;
+
         HUDController.getInstance().createHUD(HUD);
 
         AnimationTimer timer = new AnimationTimer() {
@@ -76,11 +80,9 @@ public class GamePage extends PageController{
         this.gameContent.getChildren().add(hex);
     }
 
-    private double getHexX(int tileI,int tileJ){
-        return tileJ * 259.8076 + tileI * 129.9038 - baseJ * 360 + offsetI;
-    }
+    public double getHexX(int tileI,int tileJ){ return tileJ * 259.8076 + tileI * 129.9038 - baseJ * 360 + offsetI; }
 
-    private double getHexY(int tileI,int tileJ){
+    public double getHexY(int tileI,int tileJ){
         return tileI * 225 - baseI * 210 + offsetJ;
     }
 
@@ -140,5 +142,43 @@ public class GamePage extends PageController{
             }
         }
         createMap(false);
+    }
+
+    public static GamePage getInstance() {
+        return instance;
+    }
+
+
+
+    public int getBaseI() {
+        return baseI;
+    }
+
+    public int getBaseJ() {
+        return baseJ;
+    }
+
+    public int getOffsetI() {
+        return offsetI;
+    }
+
+    public int getOffsetJ() {
+        return offsetJ;
+    }
+
+    public void setOffsetI(int offsetI) {
+        this.offsetI = offsetI;
+    }
+
+    public void setOffsetJ(int offsetJ) {
+        this.offsetJ = offsetJ;
+    }
+
+    public void setBaseI(int baseI) {
+        this.baseI = baseI;
+    }
+
+    public void setBaseJ(int baseJ) {
+        this.baseJ = baseJ;
     }
 }

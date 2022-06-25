@@ -1,13 +1,16 @@
 package views;
 
+import controllers.GameController;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import views.components.MessageBox;
+import views.components.MiniMap;
 
 public class HUDController {
     private static HUDController instance;
@@ -21,10 +24,12 @@ public class HUDController {
     private Button nextTurnButton;
     private VBox messageBoxContainer;
     private ScrollPane messageScrollPane;
+    private Group miniMap;
 
     public void createHUD(Pane HUD) {
         createNextTurnButton(HUD);
         createMessageBoxContainer(HUD);
+        createMiniMap(HUD);
     }
 
     private void createNextTurnButton(Pane HUD) {
@@ -32,7 +37,7 @@ public class HUDController {
         nextTurnButton.setMinWidth(350);
         nextTurnButton.setMinHeight(50);
         nextTurnButton.setLayoutX(1200);
-        nextTurnButton.setLayoutY(700);
+        nextTurnButton.setLayoutY(595);
         nextTurnButton.getStyleClass().add("next_turn");
         HUD.getChildren().add(nextTurnButton);
 
@@ -43,7 +48,6 @@ public class HUDController {
                 messageBoxContainer.getChildren().add(0, new MessageBox());
             }
         });
-
 
     }
 
@@ -62,7 +66,14 @@ public class HUDController {
         messageScrollPane.setMinWidth(375);
         messageScrollPane.setMaxHeight(290);
         messageScrollPane.setLayoutX(1200);
-        messageScrollPane.setLayoutY(400);
+        messageScrollPane.setLayoutY(295);
         HUD.getChildren().add(messageScrollPane);
+    }
+
+    private void createMiniMap(Pane HUD) {
+        miniMap = new MiniMap(GameController.getGame().getCurrentPlayer());
+        miniMap.setLayoutX(1200);
+        miniMap.setLayoutY(650);
+        HUD.getChildren().add(miniMap);
     }
 }
