@@ -10,16 +10,9 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import models.User;
-import models.civilization.City;
-import models.civilization.Civilization;
-import models.civilization.enums.CivilizationNames;
 import models.tiles.TerrainOrTerrainFeature;
 import models.tiles.Tile;
 import models.tiles.enums.*;
-import models.units.Melee;
-import models.units.Unit;
-import models.units.enums.UnitTemplate;
 import views.App;
 
 import java.util.HashMap;
@@ -28,6 +21,7 @@ public class Hex extends Group {
     private static final HashMap<TerrainOrTerrainFeature, ImagePattern> terrainImages = new HashMap<>();
     private static final HashMap<ImprovementTemplate, Image> improvementImages = new HashMap<>();
     private static final HashMap<ResourceTemplate, ImagePattern> resourceImages = new HashMap<>();
+    private static final Image fog = new Image(App.class.getResource("../assets/image/terrain/fog.png").toExternalForm());
 
     static {
         for (Terrain terrain : Terrain.values()) {
@@ -67,10 +61,6 @@ public class Hex extends Group {
     public Hex(Tile tile, int discoveryTurn, Double x, Double y) {
         this.tile = tile;
 
-        if (tile == null) {
-            // TODO: add fog of war
-            return;
-        }
         this.setLayoutX(x);
         this.setLayoutY(y);
 
@@ -130,6 +120,24 @@ public class Hex extends Group {
 
     }
 
+    public Hex(Double x, Double y,int i,int j) {
+
+        this.setLayoutX(x);
+        this.setLayoutY(y);
+
+        this.mainPolygon = new Polygon();
+        setPolygonPoints(this.mainPolygon);
+        updateTerrainPicture();
+        this.getChildren().add(this.mainPolygon);
+
+        this.banner = new Text(i + "," + j);
+        this.banner.setFill(Color.color(1,1,1));
+        this.getChildren().add(this.banner);
+
+    }
+
+    
+
     private void setPolygonPoints(Polygon polygon) {
         Double[] points = new Double[12];
 
@@ -185,6 +193,10 @@ public class Hex extends Group {
     }
 
     private void updateTerrainPicture() {
+        if(this.tile == null){
+            this.mainPolygon.setFill(new ImagePattern(fog));
+            return;
+        }
         if (this.tile.getTerrainFeature() != null) {
             this.mainPolygon.setFill(terrainImages.get(this.tile.getTerrainFeature()));
         } else this.mainPolygon.setFill(terrainImages.get(this.tile.getTerrain()));

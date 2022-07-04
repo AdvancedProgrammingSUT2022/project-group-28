@@ -51,8 +51,20 @@ public class GamePage extends PageController{
         this.gameContent.getChildren().clear();
         HashMap<Tile,Integer> discoveredTiles = game.getCurrentPlayer().getDiscoveredTiles();
         if (fogOfWar){
-            for (Tile tile : discoveredTiles.keySet()){
-                createHex(tile, discoveredTiles.get(tile));
+            for (int i = 0; i < 100 ; i++) {
+                for (int j = 0; j < 100 ; j++) {
+                    boolean found = false;
+                    for (Tile tile : discoveredTiles.keySet()) {
+                        if (tile.getCoordinates()[0] == i && tile.getCoordinates()[1] == j) {
+                            createHex(tile, discoveredTiles.get(tile));
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(!found){
+                        createFogOfWarHex(i, j);
+                    }
+                }
             }
         }else{
             int turnNumber = game.getTurnNumber();
@@ -80,7 +92,18 @@ public class GamePage extends PageController{
         this.gameContent.getChildren().add(hex);
     }
 
-    public double getHexX(int tileI,int tileJ){ return tileJ * 259.8076 + tileI * 129.9038 - baseJ * 360 + offsetI; }
+    private void createFogOfWarHex(int tileI , int tileJ){
+        double hexX = getHexX(tileI, tileJ);
+        double hexY = getHexY(tileI, tileJ);
+        if (hexX < -200 || hexX >= 1800 || hexY <- 200 || hexY >= 1100)
+                return;
+        Hex hex = new Hex(hexX, hexY,tileI,tileJ);
+        this.gameContent.getChildren().add(hex);
+    }
+
+    public double getHexX(int tileI,int tileJ){ 
+        return tileJ * 259.8076 + tileI * 129.9038 - baseJ * 360 + offsetI; 
+    }
 
     public double getHexY(int tileI,int tileJ){
         return tileI * 225 - baseI * 210 + offsetJ;
@@ -141,7 +164,7 @@ public class GamePage extends PageController{
                 offsetJ-=5;
             }
         }
-        createMap(false);
+        createMap(true);
     }
 
     public static GamePage getInstance() {
