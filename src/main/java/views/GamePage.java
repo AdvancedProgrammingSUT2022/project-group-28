@@ -6,6 +6,7 @@ import controllers.CivilizationController;
 import controllers.GameController;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -19,7 +20,7 @@ public class GamePage extends PageController{
     @FXML
     private Pane gameContent;
     @FXML
-    private Pane HUD;
+    private Group HUD;
 
 
     private boolean rightKey = false, leftKey = false, topKey = false, bottomKey = false;
@@ -45,7 +46,7 @@ public class GamePage extends PageController{
         timer.start();
     }
 
-    private void createMap(boolean fogOfWar) {
+    public void createMap(boolean fogOfWar) {
         Game game = GameController.getGame();
         CivilizationController.updateDiscoveredTiles();
         this.gameContent.getChildren().clear();

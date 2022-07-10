@@ -7,7 +7,6 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import views.components.MessageBox;
 import views.components.MiniMap;
@@ -26,13 +25,13 @@ public class HUDController {
     private ScrollPane messageScrollPane;
     private Group miniMap;
 
-    public void createHUD(Pane HUD) {
+    public void createHUD(Group HUD) {
         createNextTurnButton(HUD);
         createMessageBoxContainer(HUD);
         createMiniMap(HUD);
     }
 
-    private void createNextTurnButton(Pane HUD) {
+    private void createNextTurnButton(Group HUD) {
         nextTurnButton = new Button("Next Turn");
         nextTurnButton.setMinWidth(350);
         nextTurnButton.setMinHeight(50);
@@ -51,7 +50,7 @@ public class HUDController {
 
     }
 
-    private void createMessageBoxContainer(Pane HUD) {
+    private void createMessageBoxContainer(Group HUD) {
         messageBoxContainer = new VBox(5);
         messageBoxContainer.setAlignment(Pos.CENTER);
         messageBoxContainer.setPrefWidth(350);
@@ -70,7 +69,7 @@ public class HUDController {
         HUD.getChildren().add(messageScrollPane);
     }
 
-    private void createMiniMap(Pane HUD) {
+    private void createMiniMap(Group HUD) {
         miniMap = new MiniMap(GameController.getGame().getCurrentPlayer());
         miniMap.setLayoutX(1200);
         miniMap.setLayoutY(650);

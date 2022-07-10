@@ -117,6 +117,7 @@ public class MiniMap extends Group {
                 GamePage.getInstance().setBaseJ(tileJ);
                 GamePage.getInstance().setOffsetI(0);
                 GamePage.getInstance().setOffsetJ(0);
+                GamePage.getInstance().createMap(true);
             }
         });
 
