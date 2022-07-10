@@ -24,6 +24,7 @@ import models.civilization.City;
 import models.civilization.Construction;
 import models.units.enums.UnitTemplate;
 import views.App;
+import views.GameMediator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,14 +42,6 @@ public class CityBanner extends HBox {
 
 
     private static ImageView sdf = new ImageView(new Image(App.class.getResource("../assets/image/icon.png").toExternalForm()));
-    // assign citizen
-    // buy tile
-    // construction
-    // buy buildings and units
-    // change captured city mode
-    // population
-
-
     // a banner includes: - name
     //                    - capital start
     //                    - civilization color
@@ -101,7 +94,8 @@ public class CityBanner extends HBox {
 
         if (city.getConstruction() != null) {
             // TODO: set this value
-            ProgressBar productionProgress = new ProgressBar(0.4);
+            double progress = (double) city.getProductionStore() / city.getConstruction().getConstructionTemplate().getCost();
+            ProgressBar productionProgress = new ProgressBar(progress);
             productionProgress.getStyleClass().add("production_bar");
             productionProgress.setMaxWidth(50);
             productionProgress.setRotate(-90);
@@ -109,6 +103,12 @@ public class CityBanner extends HBox {
 
             Constructable constructable = city.getConstruction().getConstructionTemplate();
             Circle production = new Circle(30);
+            production.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    GameMediator.getInstance().openConstructionMenu(city);
+                }
+            });
             production.setFill(constructions.get(constructable));
             productionBox.getChildren().add(production);
         } else {
@@ -119,6 +119,12 @@ public class CityBanner extends HBox {
             productionBox.getChildren().add(productionProgress);
 
             Circle production = new Circle(30);
+            production.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    GameMediator.getInstance().openConstructionMenu(city);
+                }
+            });
             production.setFill(unknown);
             productionBox.getChildren().add(production);
         }

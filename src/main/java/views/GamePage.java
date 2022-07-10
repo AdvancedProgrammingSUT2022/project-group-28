@@ -176,6 +176,13 @@ public class GamePage extends PageController{
     }
 
 
+    public Pane getGameContent() {
+        return gameContent;
+    }
+
+    public Group getHUD() {
+        return HUD;
+    }
 
     public int getBaseI() {
         return baseI;

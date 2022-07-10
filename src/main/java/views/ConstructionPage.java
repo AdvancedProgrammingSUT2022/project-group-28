@@ -3,6 +3,7 @@ package views;
 import controllers.GameController;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -14,46 +15,61 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import models.Constructable;
 import models.civilization.City;
+import models.civilization.Construction;
 import models.units.enums.UnitTemplate;
 import views.enums.CityMessage;
 
 public class ConstructionPage extends PageController {
 
     @FXML
-    private ScrollPane constructionsContainer;
+    private VBox constructionsContainer;
+    @FXML
+    private Button backButton;
 
     @FXML
     public void initialize() {
-
+        City city = GameController.getGame().getSelectedCity();
+        for (UnitTemplate unitTemplate : UnitTemplate.values()) {
+            if (unitTemplate.checkPossibilityOfConstruction(city) != CityMessage.REQUIRED_TECHNOLOGY) {
+                constructionsContainer.getChildren().add(createUnitItem(unitTemplate));
+            }
+        }
     }
 
     @FXML
-    public void back() {
-
+    private void back() {
+        this.onExit();
+        this.backButton.getParent().getScene().getWindow().hide();
     }
 
-    private HBox getUnitItem(UnitTemplate unitTemplate) {
-        HBox unitItem = new HBox();
+    private HBox createUnitItem(UnitTemplate unitTemplate) {
+        HBox unitItem = new HBox(15);
+        unitItem.setAlignment(Pos.CENTER_LEFT);
 
-        City city = GameController.getGame().getSelectedCity();
-
-        Circle icon = new Circle(20);
-        icon.setFill(new ImagePattern(new Image(App.class.getResource("../unit/" + unitTemplate.getFilename() + ".png").toExternalForm())));
+        Circle icon = new Circle(30);
+        String address = App.class.getResource("../assets/image/unit/" + unitTemplate.getFilename() + ".png").toExternalForm();
+        icon.setFill(new ImagePattern(new Image(address)));
         unitItem.getChildren().add(icon);
 
         Text name = new Text(unitTemplate.getName());
+        name.getStyleClass().add("normal_text");
         unitItem.getChildren().add(name);
 
         Text cost = new Text("Cost: " + unitTemplate.getCost());
+        cost.getStyleClass().add("normal_text");
         unitItem.getChildren().add(cost);
 
         Button button = new Button();
+
+        City city = GameController.getGame().getSelectedCity();
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 GameMediator.getInstance().startUnitConstruction(unitTemplate, city);
+                ConstructionPage.this.back();
             }
         });
+
         // TODO: set invalid button
         switch (unitTemplate.checkPossibilityOfConstruction(city)) {
             case SUCCESS:
@@ -62,20 +78,25 @@ public class ConstructionPage extends PageController {
                 break;
             case REQUIRED_RESOURCE:
                 button.setText("Resource required");
+                button.setDisable(true);
                 button.getStyleClass().add("invalid_construction_button");
                 break;
             case UNHAPPY_PEOPLE:
                 button.setText("Unhappy people");
+                button.setDisable(true);
                 button.getStyleClass().add("invalid_construction_button");
                 break;
             case CITY_NOT_GREW:
                 button.setText("City is small");
+                button.setDisable(true);
                 button.getStyleClass().add("invalid_construction_button");
                 break;
             default:
                 break;
         }
         
+        unitItem.getChildren().add(button);
+
         return unitItem;
     }
 

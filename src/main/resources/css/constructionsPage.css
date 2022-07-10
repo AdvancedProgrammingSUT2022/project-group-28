@@ -1,19 +1,38 @@
+.background {
+    -fx-background-color: #4c7060ff;
+}
+
+.item {
+    -fx-padding: 10 30 10 30;
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #065c46aa;
+}
+
+.normal_text {
+    -fx-font-size: 24;
+}
+
 .back_button {
     -fx-padding: 10 30 10 30;
     -fx-border-radius: 40 40 40 40;
     -fx-background-radius: 40 40 40 40;
     -fx-background-color: #06445eaa;
-    -fx-font-size: 40;
+    -fx-font-size: 30;
+}
+
+.back_button:hover {
+    -fx-background-color: #06445edd;
 }
 
 .valid_construction_button {
     -fx-border-radius: 40 40 40 40;
     -fx-background-radius: 40 40 40 40;
     -fx-background-color: #065c46aa;
-    -fx-font-size: 40;
+    -fx-font-size: 24;
 }
 
-.valid_construction_button {
+.valid_construction_button:hover {
     -fx-background-color: #065c46dd;
 }
 
@@ -21,13 +40,12 @@
     -fx-border-radius: 40 40 40 40;
     -fx-background-radius: 40 40 40 40;
     -fx-background-color: #595e5aaa;
-    -fx-font-size: 40;
+    -fx-font-size: 24;
 }
 
-.invalid_construction_button {
+.invalid_construction_button:hover {
     -fx-background-color: #595e5add;
 }
-
 
 .productions {
     -fx-background-color: transparent;

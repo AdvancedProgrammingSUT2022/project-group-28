@@ -79,7 +79,7 @@ public class Hex extends Group {
         }
 
 
-        // TODO: reform these hover borders 
+        // TODO: reform these hover borders
         this.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -194,8 +194,8 @@ public class Hex extends Group {
         for (int i = 0; i < 6; i++) {
             outPoints[i * 2] = -Math.sin(Math.PI/3 * i) * (this.RADIUS - 1);
             outPoints[i * 2 + 1] = Math.cos(Math.PI/3 * i) * (this.RADIUS - 1);
-            inPoints[i * 2] = -Math.sin(Math.PI/3 * i) * (this.RADIUS - 11);
-            inPoints[i * 2 + 1] = Math.cos(Math.PI/3 * i) * (this.RADIUS - 11);
+            inPoints[i * 2] = -Math.sin(Math.PI/3 * i) * (this.RADIUS - 6);
+            inPoints[i * 2 + 1] = Math.cos(Math.PI/3 * i) * (this.RADIUS - 6);
         }
 
         out.getPoints().addAll(outPoints);
