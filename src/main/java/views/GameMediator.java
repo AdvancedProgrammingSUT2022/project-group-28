@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import models.Constructable;
 import models.civilization.City;
 import models.units.enums.UnitTemplate;
 
@@ -21,9 +22,9 @@ public class GameMediator {
         if (instance == null) instance = new GameMediator();
         return instance;
     }
-
-    public void startUnitConstruction(UnitTemplate unitTemplate, City city) {
-        CityController.startConstructing(city, unitTemplate);
+    // TODO:
+    public void startConstruction(Constructable constructable, City city) {
+        CityController.startConstructing(city, constructable);
         GamePage.getInstance().createMap(true);
     }
 

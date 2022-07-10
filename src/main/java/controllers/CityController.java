@@ -5,6 +5,7 @@ import models.Game;
 import models.civilization.City;
 import models.civilization.Civilization;
 import models.civilization.Construction;
+import models.civilization.enums.BuildingTemplate;
 import models.tiles.Tile;
 import models.tiles.enums.Direction;
 import models.tiles.enums.ResourceTemplate;
@@ -336,9 +337,9 @@ public class CityController extends GameController {
         if (construction == null) return;
         if (construction.getSpentProduction() == construction.getConstructionTemplate().getCost()) {
             Constructable constructionTemplate = construction.getConstructionTemplate();
+            Civilization civilization = city.getCivilization();
             if (constructionTemplate instanceof UnitTemplate) {
                 UnitTemplate unitTemplate = (UnitTemplate) constructionTemplate;
-                Civilization civilization = city.getCivilization();
                 Tile tile = getNearestFreeTile(city, unitTemplate);
                 switch (unitTemplate.getUnitType()) {
                     case MELEE:
@@ -367,6 +368,9 @@ public class CityController extends GameController {
                         break;
 
                 }
+            } else if (constructionTemplate instanceof BuildingTemplate) {
+                BuildingTemplate buildingTemplate = (BuildingTemplate) constructionTemplate;
+                city.getBuildings().add(buildingTemplate);
             }
 
             ArrayList<String> data = new ArrayList<>(Arrays.asList(constructionTemplate.getName(), city.getNAME()));
