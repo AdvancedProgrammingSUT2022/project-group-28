@@ -35,7 +35,7 @@ public class GamePage extends PageController{
         instance = this;
 
         HUDController.getInstance().createHUD(HUD);
-
+        createMap(true);
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -147,24 +147,27 @@ public class GamePage extends PageController{
         if(rightKey || rightMouse) {
             if (getHexX(99, 99)>600) {
                 offsetI -= 5;
+                createMap(true);
             }
         }
         if(leftKey || leftMouse){
             if (getHexX(0, 0)<1000) {
                 offsetI+=5;
+                createMap(true);
             }
         }
         if(topKey || topMouse) {
             if (getHexY(0, 50)<300) {
                 offsetJ += 5;
+                createMap(true);
             }
         }
         if(bottomKey || bottomMouse){
             if (getHexY(99, 50)>600) {
                 offsetJ-=5;
+                createMap(true);
             }
         }
-        createMap(true);
     }
 
     public static GamePage getInstance() {
