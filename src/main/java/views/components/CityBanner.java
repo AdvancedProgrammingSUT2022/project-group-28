@@ -22,6 +22,7 @@ import javafx.scene.text.Text;
 import models.Constructable;
 import models.civilization.City;
 import models.civilization.Construction;
+import models.civilization.enums.BuildingTemplate;
 import models.units.enums.UnitTemplate;
 import views.App;
 import views.GameMediator;
@@ -37,6 +38,10 @@ public class CityBanner extends HBox {
         for (UnitTemplate unitTemplate : UnitTemplate.values()) {
             Image image = new Image(App.class.getResource("../assets/image/unit/" + unitTemplate.getFilename() + ".png").toExternalForm());
             constructions.put(unitTemplate, new ImagePattern(image));
+        }
+        for (BuildingTemplate buildingTemplate : BuildingTemplate.values()) {
+            Image image = new Image(App.class.getResource("../assets/image/building/" + buildingTemplate.getFilename() + ".png").toExternalForm());
+            constructions.put(buildingTemplate, new ImagePattern(image));
         }
     }
 
