@@ -1,14 +1,17 @@
 package views.components;
 
 import controllers.GameController;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 import models.tiles.TerrainOrTerrainFeature;
 import models.tiles.Tile;
@@ -53,6 +56,7 @@ public class Hex extends Group {
     // Components
     private Polygon mainPolygon;
     private Polygon shadow;
+    private Shape hoverBorder;
     private Text banner;
     private CityBanner cityBanner;
     private UnitIcon civilian;
@@ -73,6 +77,24 @@ public class Hex extends Group {
             this.shadow = createShadow();
             this.getChildren().add(this.shadow);
         }
+
+
+        // TODO: reform these hover borders 
+        this.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Hex.this.hoverBorder = createHoverBorder();
+                Hex.this.getChildren().add(Hex.this.hoverBorder);
+            }
+        });
+
+        this.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (Hex.this.getChildren().contains(Hex.this.hoverBorder))
+                    Hex.this.getChildren().remove(Hex.this.hoverBorder);
+            }
+        });
 
         this.banner = new Text(tile.getCoordinates()[0] + "," + tile.getCoordinates()[1]);
         this.getChildren().add(this.banner);
@@ -121,7 +143,6 @@ public class Hex extends Group {
     }
 
     public Hex(Double x, Double y,int i,int j) {
-
         this.setLayoutX(x);
         this.setLayoutY(y);
 
@@ -133,7 +154,6 @@ public class Hex extends Group {
         this.banner = new Text(i + "," + j);
         this.banner.setFill(Color.color(1,1,1));
         this.getChildren().add(this.banner);
-
     }
 
     
@@ -162,6 +182,26 @@ public class Hex extends Group {
         shadow.setFill(Color.color(0,0, 0, 0.5));
 
         return shadow;
+    }
+
+    private Shape createHoverBorder() {
+        Polygon out = new Polygon();
+        Polygon in = new Polygon();
+
+        Double[] outPoints = new Double[12];
+        Double[] inPoints = new Double[12];
+
+        for (int i = 0; i < 6; i++) {
+            outPoints[i * 2] = -Math.sin(Math.PI/3 * i) * (this.RADIUS - 1);
+            outPoints[i * 2 + 1] = Math.cos(Math.PI/3 * i) * (this.RADIUS - 1);
+            inPoints[i * 2] = -Math.sin(Math.PI/3 * i) * (this.RADIUS - 11);
+            inPoints[i * 2 + 1] = Math.cos(Math.PI/3 * i) * (this.RADIUS - 11);
+        }
+
+        out.getPoints().addAll(outPoints);
+        in.getPoints().addAll(inPoints);
+
+        return Shape.subtract(out, in);
     }
 
     private void addRiver() {
