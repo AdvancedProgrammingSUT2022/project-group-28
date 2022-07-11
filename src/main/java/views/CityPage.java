@@ -16,6 +16,13 @@ public class CityPage extends PageController {
     }
 
     @FXML
+    private void buyTile() {
+        GamePage.getInstance().setMapState(GamePage.MapState.BUY_TILE);
+        this.back();
+        GamePage.getInstance().createMap(true);
+    }
+
+    @FXML
     private void back() {
         this.onExit();
         this.backButton.getParent().getScene().getWindow().hide();

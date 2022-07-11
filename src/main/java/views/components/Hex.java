@@ -60,6 +60,7 @@ public class Hex extends Group {
     // Components
     private Polygon mainPolygon;
     private Polygon shadow;
+    private Shape border;
     private Shape hoverBorder;
     private Text banner;
     private CityBanner cityBanner;
@@ -82,12 +83,24 @@ public class Hex extends Group {
             this.getChildren().add(this.shadow);
         }
 
+        if (tile.getCivilization() != null) {
+            this.border = createBorder(5);
+            this.border.setFill(tile.getCivilization().getCivilizationNames().getColor());
+            this.getChildren().add(this.border);
+        }
+
+        if (tile.getCity() != null) {
+            this.border = createBorder(5);
+            this.border.setFill(tile.getCity().getCivilization().getCivilizationNames().getColor());
+            this.getChildren().add(this.border);
+        }
+
 
         // TODO: reform these hover borders
         this.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                Hex.this.hoverBorder = createHoverBorder();
+                Hex.this.hoverBorder = createBorder(8);
                 Hex.this.getChildren().add(Hex.this.hoverBorder);
             }
         });
@@ -217,7 +230,7 @@ public class Hex extends Group {
         return shadow;
     }
 
-    private Shape createHoverBorder() {
+    private Shape createBorder(int width) {
         Polygon out = new Polygon();
         Polygon in = new Polygon();
 
@@ -227,8 +240,8 @@ public class Hex extends Group {
         for (int i = 0; i < 6; i++) {
             outPoints[i * 2] = -Math.sin(Math.PI/3 * i) * (this.RADIUS - 1);
             outPoints[i * 2 + 1] = Math.cos(Math.PI/3 * i) * (this.RADIUS - 1);
-            inPoints[i * 2] = -Math.sin(Math.PI/3 * i) * (this.RADIUS - 6);
-            inPoints[i * 2 + 1] = Math.cos(Math.PI/3 * i) * (this.RADIUS - 6);
+            inPoints[i * 2] = -Math.sin(Math.PI/3 * i) * (this.RADIUS - 1 - width);
+            inPoints[i * 2 + 1] = Math.cos(Math.PI/3 * i) * (this.RADIUS - 1 - width);
         }
 
         out.getPoints().addAll(outPoints);

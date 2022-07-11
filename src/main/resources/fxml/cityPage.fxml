@@ -17,7 +17,7 @@
         <VBox alignment="CENTER" spacing="20">
             <Button styleClass="normal_button" text="Attack"/>
             <Button styleClass="normal_button" onMouseClicked="#assignCitizen" text="Assign citizen"/>
-            <Button styleClass="normal_button" text="Buy tile"/>
+            <Button styleClass="normal_button" onMouseClicked="#buyTile" text="Buy tile"/>
             <Button styleClass="normal_button" text="Buy unit"/>
             <Button styleClass="back_button" fx:id="backButton" onMouseClicked="#back" text="Back"/>
         </VBox>

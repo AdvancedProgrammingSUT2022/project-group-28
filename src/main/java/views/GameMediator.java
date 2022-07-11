@@ -39,8 +39,8 @@ public class GameMediator {
 
     public void tryFreeCitizen(int i, int j) {
         // TODO: notify server
-        // certainly it is success
-        System.out.println(CityController.freeCitizen(i, j));
+        // certainly it is successful
+        CityController.freeCitizen(i, j);
 
         GamePage.getInstance().createMap(true);
     }
