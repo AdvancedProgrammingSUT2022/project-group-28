@@ -22,6 +22,7 @@ import models.tiles.enums.*;
 import views.App;
 import views.GameMediator;
 import views.GamePage;
+import views.HUDController;
 
 import java.util.HashMap;
 
@@ -130,6 +131,18 @@ public class Hex extends Group {
             this.civilian = new UnitIcon(this.tile.getCivilian());
             this.civilian.setLayoutX(-95);
             this.civilian.setLayoutY(0);
+
+            this.civilian.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    Civilization civilization = GameController.getGame().getCurrentPlayer();
+                    if (Hex.this.tile.getCivilian().getCivilization().equals(civilization)) {
+                        GameController.getGame().setSelectedUnit(Hex.this.tile.getCivilian());
+                        HUDController.getInstance().getUnitInfo().update();
+                    }
+                }
+            });
+
             this.getChildren().add(this.civilian);
         }
 
@@ -137,6 +150,18 @@ public class Hex extends Group {
             this.military = new UnitIcon(this.tile.getMilitary());
             this.military.setLayoutX(-95);
             this.military.setLayoutY(55);
+
+            this.military.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    Civilization civilization = GameController.getGame().getCurrentPlayer();
+                    if (Hex.this.tile.getMilitary().getCivilization().equals(civilization)) {
+                        GameController.getGame().setSelectedUnit(Hex.this.tile.getMilitary());
+                        HUDController.getInstance().getUnitInfo().update();
+                    }
+                }
+            });
+
             this.getChildren().add(this.military);
         }
 

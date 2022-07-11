@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import views.components.MessageBox;
 import views.components.MiniMap;
+import views.components.UnitInfo;
 
 public class HUDController {
     private static HUDController instance;
@@ -23,12 +24,14 @@ public class HUDController {
     private Button nextTurnButton;
     private VBox messageBoxContainer;
     private ScrollPane messageScrollPane;
-    private Group miniMap;
+    private MiniMap miniMap;
+    private UnitInfo unitInfo;
 
     public void createHUD(Group HUD) {
         createNextTurnButton(HUD);
         createMessageBoxContainer(HUD);
         createMiniMap(HUD);
+        createUnitInfo(HUD);
     }
 
     public void addMessage(String message) {
@@ -78,5 +81,16 @@ public class HUDController {
         miniMap.setLayoutX(1200);
         miniMap.setLayoutY(650);
         HUD.getChildren().add(miniMap);
+    }
+
+    private void createUnitInfo(Group HUD) {
+        unitInfo = new UnitInfo();
+        unitInfo.setLayoutX(50);
+        unitInfo.setLayoutY(650);
+        HUD.getChildren().add(unitInfo);
+    }
+
+    public UnitInfo getUnitInfo() {
+        return unitInfo;
     }
 }

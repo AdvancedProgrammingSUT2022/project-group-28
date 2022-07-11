@@ -6,6 +6,10 @@
     background-image:url("../assets/image/fog.png");
 }
 
+.normal_text {
+    -fx-font-size: 20;
+}
+
 .city_banner {
     -fx-border-radius: 30 30 30 30;
     -fx-background-radius: 30 30 30 30;
