@@ -163,6 +163,17 @@ public class CityController extends GameController {
         return availableTiles;
     }
 
+    public static boolean isAvailableToBuy(City city, Tile tile) {
+        if (tile.getCivilization() != null || tile.getCity() != null) return false;
+
+        int minDistance = Integer.MAX_VALUE;
+        for (Tile cityTile : city.getTiles()) {
+            int distance = TileController.getDistance(tile, cityTile);
+            if (distance < minDistance) minDistance = distance;
+        }
+        return minDistance <= 1;
+    }
+
     public static int getTileValue(City city, Tile tile) {
         int value = 0;
         if (tile.getTerrainFeature() != null) value += 10;

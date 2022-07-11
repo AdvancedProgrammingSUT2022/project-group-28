@@ -8,7 +8,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.Constructable;
+import models.Game;
 import models.civilization.City;
+import models.tiles.Tile;
 import views.enums.CityMessage;
 
 public class GameMediator {
@@ -52,6 +54,19 @@ public class GameMediator {
             // TODO: change message type
             HUDController.getInstance().addMessage("There is no free citizen in city");
         }
+
+        GamePage.getInstance().createMap(true);
+    }
+
+    public void tryBuyTile(City city, Tile tile) {
+        if (CityController.buyTile(city, tile) == CityMessage.SUCCESS) {
+            // TODO: notify server
+        } else {
+            // TODO: change message type
+            HUDController.getInstance().addMessage("You don not have enough gold");
+        }
+
+        // TODO: update hud
 
         GamePage.getInstance().createMap(true);
     }

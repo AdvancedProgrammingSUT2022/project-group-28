@@ -67,3 +67,15 @@
 .not_working_citizen:hover {
     -fx-fill: #5c5c5cee;
 }
+
+.to_buy_tile {
+    -fx-fill: #c98422aa;
+}
+
+.to_buy_tile:hover {
+    -fx-fill: #c98422ee;
+}
+
+.tile_cost {
+    -fx-font-size: 24;
+}

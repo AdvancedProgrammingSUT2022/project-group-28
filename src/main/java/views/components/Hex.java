@@ -1,5 +1,6 @@
 package views.components;
 
+import controllers.CityController;
 import controllers.GameController;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -159,6 +160,7 @@ public class Hex extends Group {
 
         GamePage.MapState mapState = GamePage.getInstance().getMapState();
         City city = GameController.getGame().getSelectedCity();
+
         if (mapState == GamePage.MapState.ASSIGN_CITIZEN && city != null) {
             if (city.getTiles().contains(this.tile)) {
                 Circle citizen = new Circle(30);
@@ -183,6 +185,31 @@ public class Hex extends Group {
                 }
 
                 this.getChildren().add(citizen);
+            }
+        }
+
+        if (mapState == GamePage.MapState.BUY_TILE && city != null) {
+            if (CityController.isAvailableToBuy(city, this.tile)) {
+                Group group = new Group();
+
+                group.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        GameMediator.getInstance().tryBuyTile(city, Hex.this.tile);
+                    }
+                });
+
+                Circle toBuy = new Circle(30);
+                toBuy.getStyleClass().add("to_buy_tile");
+                group.getChildren().add(toBuy);
+
+                Text cost = new Text(String.valueOf(CityController.getTileValue(city, this.tile)));
+                cost.setLayoutX(-10);
+                cost.setLayoutY(10);
+                cost.getStyleClass().add("tile_cost");
+                group.getChildren().add(cost);
+
+                this.getChildren().add(group);
             }
         }
 
