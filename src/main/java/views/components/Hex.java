@@ -13,10 +13,14 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
+import models.civilization.City;
+import models.civilization.Civilization;
 import models.tiles.TerrainOrTerrainFeature;
 import models.tiles.Tile;
 import models.tiles.enums.*;
 import views.App;
+import views.GameMediator;
+import views.GamePage;
 
 import java.util.HashMap;
 
@@ -138,6 +142,35 @@ public class Hex extends Group {
             resource.setLayoutY(30);
             resource.setFill(resourceImages.get(this.tile.getResource().getResourceTemplate()));
             this.getChildren().add(resource);
+        }
+
+        GamePage.MapState mapState = GamePage.getInstance().getMapState();
+        City city = GameController.getGame().getSelectedCity();
+        if (mapState == GamePage.MapState.ASSIGN_CITIZEN && city != null) {
+            if (city.getTiles().contains(this.tile)) {
+                Circle citizen = new Circle(30);
+                int i = this.tile.getCoordinates()[0];
+                int j = this.tile.getCoordinates()[1];
+                if (this.tile.isWorking()) {
+                    citizen.getStyleClass().add("working_citizen");
+                    citizen.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            GameMediator.getInstance().tryFreeCitizen(i, j);
+                        }
+                    });
+                } else {
+                    citizen.getStyleClass().add("not_working_citizen");
+                    citizen.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            GameMediator.getInstance().tryAssignCitizen(i, j);
+                        }
+                    });
+                }
+
+                this.getChildren().add(citizen);
+            }
         }
 
     }

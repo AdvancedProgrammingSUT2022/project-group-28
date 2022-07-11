@@ -8,6 +8,7 @@ import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import models.Game;
@@ -17,11 +18,19 @@ import views.components.Hex;
 public class GamePage extends PageController{
     private static GamePage instance;
 
+    public enum MapState {
+        NORMAL,
+        ASSIGN_CITIZEN,
+        BUY_TILE;
+        //TODO: complete
+    }
+
     @FXML
     private Pane gameContent;
     @FXML
     private Group HUD;
 
+    private MapState mapState = MapState.ASSIGN_CITIZEN;
 
     private boolean rightKey = false, leftKey = false, topKey = false, bottomKey = false;
     private boolean rightMouse = false, leftMouse = false, topMouse = false, bottomMouse = false;
@@ -88,7 +97,8 @@ public class GamePage extends PageController{
 
         if (hexX < -200 || hexX >= 1800 || hexY <- 200 || hexY >= 1100)
                 return;
-        Hex hex = new Hex(tile, discoveryTurn, hexX, hexY);
+        Tile mapTile = GameController.getGame().getMap()[tileI][tileJ];
+        Hex hex = new Hex(mapTile, discoveryTurn, hexX, hexY);
         //hex.setMouseTransparent(true);
         this.gameContent.getChildren().add(hex);
     }
@@ -144,6 +154,14 @@ public class GamePage extends PageController{
         rightMouse = (mouseEvent.getX()<1580)?false:true;
     }
 
+    @FXML
+    private void mouseClicked(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+            this.mapState = MapState.NORMAL;
+            this.createMap(true);
+        }
+    }
+
     private void update() {
         if(rightKey || rightMouse) {
             if (getHexX(99, 99)>600) {
@@ -184,6 +202,8 @@ public class GamePage extends PageController{
         return HUD;
     }
 
+    public MapState getMapState() { return mapState; }
+
     public int getBaseI() {
         return baseI;
     }
@@ -215,4 +235,6 @@ public class GamePage extends PageController{
     public void setBaseJ(int baseJ) {
         this.baseJ = baseJ;
     }
+
+    public void setMapState(MapState mapState) { this.mapState = mapState; }
 }

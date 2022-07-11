@@ -16,7 +16,10 @@ public class MessageBox extends HBox {
     // TODO: add Notification object to constructor
     private static final ImagePattern removePattern = new ImagePattern(new Image(App.class.getResource("../assets/image/ui_icon/cross.png").toExternalForm()));
     private static final ImagePattern redRemovePattern = new ImagePattern(new Image(App.class.getResource("../assets/image/ui_icon/red_cross.png").toExternalForm()));
-    public MessageBox() {
+
+    private final Text message;
+
+    public MessageBox(String message) {
         this.setAlignment(Pos.CENTER);
         this.getStyleClass().add("message_box_warning");
         this.setLayoutX(0);
@@ -24,8 +27,8 @@ public class MessageBox extends HBox {
         this.setMinWidth(350);
         this.setHeight(80);
 
-        Text message = new Text("this is message");
-        this.getChildren().add(message);
+        this.message = new Text(message);
+        this.getChildren().add(this.message);
 
         Rectangle remove = new Rectangle(30, 30);
         remove.setFill(removePattern);

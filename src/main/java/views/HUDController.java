@@ -31,6 +31,10 @@ public class HUDController {
         createMiniMap(HUD);
     }
 
+    public void addMessage(String message) {
+        this.messageBoxContainer.getChildren().add(0, new MessageBox(message));
+    }
+
     private void createNextTurnButton(Group HUD) {
         nextTurnButton = new Button("Next Turn");
         nextTurnButton.setMinWidth(350);
@@ -44,7 +48,7 @@ public class HUDController {
         nextTurnButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                messageBoxContainer.getChildren().add(0, new MessageBox());
+                messageBoxContainer.getChildren().add(0, new MessageBox("new message"));
             }
         });
 
@@ -55,7 +59,7 @@ public class HUDController {
         messageBoxContainer.setAlignment(Pos.CENTER);
         messageBoxContainer.setPrefWidth(350);
 
-        MessageBox messageBox = new MessageBox();
+        MessageBox messageBox = new MessageBox("first message");
         messageBoxContainer.getChildren().add(messageBox);
 
         messageScrollPane = new ScrollPane(messageBoxContainer);

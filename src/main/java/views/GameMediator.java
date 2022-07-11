@@ -9,9 +9,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.Constructable;
 import models.civilization.City;
-import models.units.enums.UnitTemplate;
-
-import java.awt.*;
+import views.enums.CityMessage;
 
 public class GameMediator {
     private static GameMediator instance;
@@ -37,6 +35,25 @@ public class GameMediator {
         stage.setScene(scene);
         stage.show();
         scene.getRoot().requestFocus();
+    }
+
+    public void tryFreeCitizen(int i, int j) {
+        // TODO: notify server
+        // certainly it is success
+        System.out.println(CityController.freeCitizen(i, j));
+
+        GamePage.getInstance().createMap(true);
+    }
+
+    public void tryAssignCitizen(int i, int j) {
+        if (CityController.assignCitizen(i, j) == CityMessage.SUCCESS) {
+            // TODO: notify server
+        } else {
+            // TODO: change message type
+            HUDController.getInstance().addMessage("There is no free citizen in city");
+        }
+
+        GamePage.getInstance().createMap(true);
     }
 
     public void openConstructionMenu(City city) {

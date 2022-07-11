@@ -51,3 +51,19 @@
         -fx-background-insets: 1 1 2 1;
         -fx-padding: 5;
 }
+
+.working_citizen {
+    -fx-fill: #0b993daa;
+}
+
+.working_citizen:hover {
+    -fx-fill: #0b993dee;
+}
+
+.not_working_citizen {
+    -fx-fill: #5c5c5caa;
+}
+
+.not_working_citizen:hover {
+    -fx-fill: #5c5c5cee;
+}

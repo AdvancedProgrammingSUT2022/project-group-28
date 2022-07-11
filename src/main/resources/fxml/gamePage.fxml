@@ -10,6 +10,7 @@
             onKeyPressed="#keyPressed"
             onKeyReleased="#keyReleased"
             onMouseMoved="#mouseMoved"
+            onMouseClicked="#mouseClicked"
             fx:controller="views.GamePage"
             styleClass="game_root">
     <stylesheets>

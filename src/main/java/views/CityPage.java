@@ -9,6 +9,13 @@ public class CityPage extends PageController {
     private Button backButton;
 
     @FXML
+    private void assignCitizen() {
+        GamePage.getInstance().setMapState(GamePage.MapState.ASSIGN_CITIZEN);
+        this.back();
+        GamePage.getInstance().createMap(true);
+    }
+
+    @FXML
     private void back() {
         this.onExit();
         this.backButton.getParent().getScene().getWindow().hide();
