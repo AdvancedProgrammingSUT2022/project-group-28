@@ -30,7 +30,7 @@ public class GamePage extends PageController{
     @FXML
     private Group HUD;
 
-    private MapState mapState = MapState.ASSIGN_CITIZEN;
+    private MapState mapState = MapState.NORMAL;
 
     private boolean rightKey = false, leftKey = false, topKey = false, bottomKey = false;
     private boolean rightMouse = false, leftMouse = false, topMouse = false, bottomMouse = false;

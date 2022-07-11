@@ -65,6 +65,14 @@ public enum UnitTemplate implements Constructable {
         return CityMessage.SUCCESS;
     }
 
+    public CityMessage checkPossibleToBuy(City city) {
+        CityMessage cityMessage = this.checkPossibilityOfConstruction(city);
+        if (cityMessage != CityMessage.SUCCESS) return cityMessage;
+        if (city.getCivilization().getGold() < this.getCost()) return CityMessage.NOT_ENOUGH_GOLD;
+        if (city.getTile().getCivilian() != null && this.unitType == UnitType.CIVILIAN) return CityMessage.FULL_TILE;
+        if (city.getTile().getMilitary() != null && this.unitType != UnitType.CIVILIAN) return CityMessage.FULL_TILE;
+        return CityMessage.SUCCESS;
+    }
 
     private final String name;
     private final String filename;

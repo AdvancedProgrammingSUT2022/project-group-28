@@ -1,7 +1,9 @@
 package views;
 
 import controllers.CityController;
+import controllers.CivilizationController;
 import controllers.GameController;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -11,6 +13,7 @@ import models.Constructable;
 import models.Game;
 import models.civilization.City;
 import models.tiles.Tile;
+import models.units.enums.UnitTemplate;
 import views.enums.CityMessage;
 
 public class GameMediator {
@@ -54,6 +57,29 @@ public class GameMediator {
             // TODO: change message type
             HUDController.getInstance().addMessage("There is no free citizen in city");
         }
+
+        GamePage.getInstance().createMap(true);
+    }
+
+    public void openBuyUnitMenu(Node node) {
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initOwner(node.getParent().getScene().getWindow());
+        Scene scene;
+        scene = new Scene(App.loadFXML("buyUnitPage"));
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+        scene.getRoot().requestFocus();
+    }
+
+    public void buyUnit(City city, UnitTemplate unitTemplate) {
+        // TODO: check if the buy decrease gold or not
+        // TODO: notify server
+        CivilizationController.buyUnit(city.getCivilization(), city.getTile(), unitTemplate);
+
+        // TODO: update hud
 
         GamePage.getInstance().createMap(true);
     }

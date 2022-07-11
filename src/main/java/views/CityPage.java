@@ -23,6 +23,11 @@ public class CityPage extends PageController {
     }
 
     @FXML
+    private void buyUnit() {
+        GameMediator.getInstance().openBuyUnitMenu(backButton);
+    }
+
+    @FXML
     private void back() {
         this.onExit();
         this.backButton.getParent().getScene().getWindow().hide();

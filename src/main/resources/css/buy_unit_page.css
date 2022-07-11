@@ -1,0 +1,67 @@
+.background {
+    -fx-background-color: #4c7060ff;
+}
+
+.back_button {
+    -fx-padding: 10 30 10 30;
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #06445eaa;
+    -fx-font-size: 30;
+}
+
+.back_button:hover {
+    -fx-background-color: #06445edd;
+}
+
+.normal_text {
+    -fx-font-size: 24;
+}
+
+.valid_buy_button {
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #065c46aa;
+    -fx-font-size: 24;
+}
+
+.valid_buy_button:hover {
+    -fx-background-color: #065c46dd;
+}
+
+.invalid_buy_button {
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #595e5aaa;
+    -fx-font-size: 24;
+}
+
+.invalid_buy_button:hover {
+    -fx-background-color: #595e5add;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .increment-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #5e5e5eff;
+    -fx-background-radius: 5em;
+}

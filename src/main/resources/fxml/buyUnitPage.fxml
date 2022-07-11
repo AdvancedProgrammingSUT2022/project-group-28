@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="views.BuyUnitPage"
+            prefHeight="800.0" prefWidth="600.0"
+            stylesheets="@../css/buy_unit_page.css"
+            styleClass="background">
+    <center>
+        <VBox alignment="CENTER" spacing="15">
+            <ScrollPane>
+                <VBox fx:id="unitsContainer" alignment="CENTER" spacing="20">
+
+                </VBox>
+            </ScrollPane>
+            <Button styleClass="back_button" fx:id="backButton" onMouseClicked="#back" text="back"/>
+        </VBox>
+    </center>
+</BorderPane>
