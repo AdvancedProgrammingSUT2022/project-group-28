@@ -22,13 +22,25 @@ public class GameMediator {
         if (instance == null) instance = new GameMediator();
         return instance;
     }
-    // TODO:
-    public void startConstruction(Constructable constructable, City city) {
-        CityController.startConstructing(city, constructable);
-        GamePage.getInstance().createMap(true);
+
+    public void openCityMenu(City city) {
+        // TODO: notify server
+        GameController.getGame().setSelectedCity(city);
+
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initOwner(GamePage.getInstance().getGameContent().getParent().getScene().getWindow());
+        Scene scene;
+        scene = new Scene(App.loadFXML("cityPage"));
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+        scene.getRoot().requestFocus();
     }
 
     public void openConstructionMenu(City city) {
+        // TODO: notify server
         GameController.getGame().setSelectedCity(city);
 
         Stage stage = new Stage();
@@ -43,4 +55,10 @@ public class GameMediator {
         scene.getRoot().requestFocus();
     }
 
+    public void startConstruction(Constructable constructable, City city) {
+        // TODO: notify server
+        CityController.startConstructing(city, constructable);
+
+        GamePage.getInstance().createMap(true);
+    }
 }

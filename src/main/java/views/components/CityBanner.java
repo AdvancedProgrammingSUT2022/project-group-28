@@ -90,6 +90,12 @@ public class CityBanner extends HBox {
 
         Button cityName = new Button(city.getNAME());
         cityName.getStyleClass().add("city_name");
+        cityName.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                GameMediator.getInstance().openCityMenu(CityBanner.this.city);
+            }
+        });
         nameBox.getChildren().add(cityName);
 
         this.getChildren().add(nameBox);
@@ -111,7 +117,7 @@ public class CityBanner extends HBox {
             production.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    GameMediator.getInstance().openConstructionMenu(city);
+                    GameMediator.getInstance().openConstructionMenu(CityBanner.this.city);
                 }
             });
             production.setFill(constructions.get(constructable));
@@ -127,7 +133,7 @@ public class CityBanner extends HBox {
             production.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    GameMediator.getInstance().openConstructionMenu(city);
+                    GameMediator.getInstance().openConstructionMenu(CityBanner.this.city);
                 }
             });
             production.setFill(unknown);
