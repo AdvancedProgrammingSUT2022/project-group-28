@@ -26,10 +26,10 @@ public abstract class Menu {
     }
 
     public void run() {
-
+        Menu oldMenu = currentMenu;
         while (true) {
             String line = scanner.nextLine();
-            if (checkCommand(line)) {
+            if (checkCommand(line) || oldMenu != currentMenu) {
                 break;
             }
         }

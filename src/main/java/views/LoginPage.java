@@ -27,6 +27,7 @@ public class LoginPage extends PageController {
         if (RegisterMenuController.checkUserLoginData(username.getText(), password.getText())==Message.SUCCESS) {
             RegisterMenuController.setLoggedInUser(username.getText());
             App.setRoot("mainPage");
+            Menu.setCurrentMenu(MainMenu.getInstance());
         }
         else {
             String textOfError = "username or password is incorrect.";

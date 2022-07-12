@@ -5,8 +5,6 @@ import controllers.GsonHandler;
 import javafx.fxml.FXML;
 import models.Game;
 
-import java.awt.*;
-
 public class MainPage extends PageController{
     @FXML
     private void newGame() {
@@ -25,11 +23,13 @@ public class MainPage extends PageController{
         this.onExit();
         GameMenuController.setGame(game);
         App.setRoot("gamePage");
+        Menu.setCurrentMenu(GameMenu.getInstance());
     }
 
     @FXML
     private void profile(){
         App.setRoot("profilePage");
+        Menu.setCurrentMenu(ProfileMenu.getInstance());
     }
     @FXML
     private void scoreboard() {
@@ -40,6 +40,7 @@ public class MainPage extends PageController{
     private void logout() {
         App.setCurrentUser(null);
         App.setRoot("loginPage");
+        Menu.setCurrentMenu(RegisterMenu.getInstance());
     }
 
 
