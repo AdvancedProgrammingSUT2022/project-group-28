@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="views.TechnologyTreePage"
-            prefHeight="900.0" prefWidth="1600.0">
 
-</AnchorPane>
+<ScrollPane prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8.0.331" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.TechnologyTreePage">
+   <content>
+      <AnchorPane prefHeight="880.0" prefWidth="3000.0" />
+   </content>
+</ScrollPane>
