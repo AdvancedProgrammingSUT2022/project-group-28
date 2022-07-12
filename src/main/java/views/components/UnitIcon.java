@@ -1,9 +1,7 @@
 package views.components;
 
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -33,14 +31,6 @@ public class UnitIcon extends Group {
 
         Circle icon = new Circle(25);
         icon.setFill(icons.get(this.unit.getUnitTemplate()));
-        
-        this.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println("salsrjgm");
-            }
-
-        });
 
         this.getChildren().add(icon);
     }

@@ -2,6 +2,7 @@ package views.components;
 
 import controllers.CityController;
 import controllers.GameController;
+import controllers.units.UnitController;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -19,10 +20,12 @@ import models.civilization.Civilization;
 import models.tiles.TerrainOrTerrainFeature;
 import models.tiles.Tile;
 import models.tiles.enums.*;
+import models.units.Unit;
 import views.App;
 import views.GameMediator;
 import views.GamePage;
 import views.HUDController;
+import views.GamePage.MapState;
 
 import java.util.HashMap;
 
@@ -81,7 +84,7 @@ public class Hex extends Group {
         this.getChildren().add(this.mainPolygon);
 
         if (discoveryTurn != GameController.getGame().getTurnNumber()) {
-            this.shadow = createShadow();
+            this.shadow = createShadow(Color.color(0,0, 0, 0.5));
             this.getChildren().add(this.shadow);
         }
 
@@ -139,6 +142,8 @@ public class Hex extends Group {
                     if (Hex.this.tile.getCivilian().getCivilization().equals(civilization)) {
                         GameController.getGame().setSelectedUnit(Hex.this.tile.getCivilian());
                         HUDController.getInstance().getUnitInfo().update();
+                        GamePage.getInstance().setMapState(MapState.UNIT_SELECTED);
+                        GamePage.getInstance().createMap(true);
                     }
                 }
             });
@@ -158,6 +163,7 @@ public class Hex extends Group {
                     if (Hex.this.tile.getMilitary().getCivilization().equals(civilization)) {
                         GameController.getGame().setSelectedUnit(Hex.this.tile.getMilitary());
                         HUDController.getInstance().getUnitInfo().update();
+                        GamePage.getInstance().setMapState(MapState.UNIT_SELECTED);
                     }
                 }
             });
@@ -185,6 +191,7 @@ public class Hex extends Group {
 
         GamePage.MapState mapState = GamePage.getInstance().getMapState();
         City city = GameController.getGame().getSelectedCity();
+        Unit unit = GameController.getGame().getSelectedUnit();
 
         if (mapState == GamePage.MapState.ASSIGN_CITIZEN && city != null) {
             if (city.getTiles().contains(this.tile)) {
@@ -238,6 +245,22 @@ public class Hex extends Group {
             }
         }
 
+        if (mapState == GamePage.MapState.UNIT_SELECTED && unit != null) {
+            if (UnitController.isTileAccessible(this.tile,unit)) {
+
+                this.shadow = createShadow(Color.color(.0, .0, .50, .3));
+                this.getChildren().add(this.shadow);
+                this.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        GameMediator.getInstance().moveUnit(unit, Hex.this.tile);
+                        GamePage.getInstance().createMap(true);
+                        HUDController.getInstance().getUnitInfo().update();
+                    }
+                });
+            }
+        }
+
     }
 
     public Hex(Double x, Double y,int i,int j) {
@@ -266,7 +289,7 @@ public class Hex extends Group {
         polygon.getPoints().addAll(points);
     }
 
-    private Polygon createShadow() {
+    private Polygon createShadow(Color color) {
         Polygon shadow = new Polygon();
 
         Double[] points = new Double[12];
@@ -277,7 +300,7 @@ public class Hex extends Group {
 
         shadow.getPoints().addAll(points);
 
-        shadow.setFill(Color.color(0,0, 0, 0.5));
+        shadow.setFill(color);
 
         return shadow;
     }

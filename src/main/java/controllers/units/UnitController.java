@@ -457,6 +457,22 @@ public class UnitController extends GameController {
             return "yellow";
         }
     }
+
+    public static boolean isTileAccessible(Tile tile, Unit unit) {
+        if (tile.getTerrain() == Terrain.MOUNTAIN || 
+            tile.getTerrain() == Terrain.HILL ||
+            tile.getTerrainFeature() == TerrainFeature.ICE ||
+            tile.getTerrain() == Terrain.OCEAN ) {
+            return false;
+        }
+        if (tile.getMilitary() != null && unit instanceof Military ||
+            tile.getCivilian() != null && unit instanceof Civilian) {
+                return false;
+        }
+        if (unit.getCivilization().getDiscoveredTiles().containsKey(tile) && unit.getCivilization().getDiscoveredTiles().get(tile) == game.getTurnNumber())
+            return false;
+        return true;
+    }
 }
 
 class MapPair {

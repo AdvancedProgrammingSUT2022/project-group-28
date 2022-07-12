@@ -3,6 +3,7 @@ package views;
 import controllers.CityController;
 import controllers.CivilizationController;
 import controllers.GameController;
+import controllers.units.UnitController;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
@@ -10,9 +11,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.Constructable;
-import models.Game;
 import models.civilization.City;
 import models.tiles.Tile;
+import models.units.Unit;
 import models.units.enums.UnitTemplate;
 import views.enums.CityMessage;
 
@@ -118,5 +119,11 @@ public class GameMediator {
         CityController.startConstructing(city, constructable);
 
         GamePage.getInstance().createMap(true);
+    }
+
+    public void moveUnit(Unit unit, Tile destination){
+        int i = destination.getCoordinates()[0];
+        int j = destination.getCoordinates()[1];
+        UnitController.moveUnitToTarget(i, j);
     }
 }

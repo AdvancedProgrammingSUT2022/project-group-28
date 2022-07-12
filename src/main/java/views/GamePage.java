@@ -21,7 +21,8 @@ public class GamePage extends PageController{
     public enum MapState {
         NORMAL,
         ASSIGN_CITIZEN,
-        BUY_TILE;
+        BUY_TILE,
+        UNIT_SELECTED;
         //TODO: complete
     }
 
