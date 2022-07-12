@@ -74,7 +74,12 @@ public enum TechnologyTemplate {
         return cost;
     }
 
+    public String getFileName() {
+        return fileName;
+    }
+
     public ArrayList<TechnologyTemplate> getRequiredTechnologies() {
         return requiredTechnologies;
     }
+
 }
