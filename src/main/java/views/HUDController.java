@@ -90,4 +90,6 @@ public class HUDController {
     public UnitInfo getUnitInfo() {
         return unitInfo;
     }
+
+    public MiniMap getMiniMap() { return miniMap; }
 }
