@@ -3,6 +3,7 @@ package views;
 import controllers.GameMenuController;
 import controllers.GsonHandler;
 import javafx.fxml.FXML;
+import javafx.scene.input.MouseEvent;
 import models.Game;
 
 public class MainPage extends PageController{
@@ -42,6 +43,5 @@ public class MainPage extends PageController{
         App.setRoot("loginPage");
         Menu.setCurrentMenu(RegisterMenu.getInstance());
     }
-
 
 }
