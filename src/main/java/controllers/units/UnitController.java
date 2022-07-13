@@ -1,5 +1,6 @@
 package controllers.units;
 
+import controllers.CombatController;
 import controllers.GameController;
 import controllers.TileController;
 import models.Game;
@@ -9,6 +10,7 @@ import models.tiles.enums.Direction;
 import models.tiles.enums.Terrain;
 import models.tiles.enums.TerrainFeature;
 import models.units.Civilian;
+import models.units.Melee;
 import models.units.Military;
 import models.units.Siege;
 import models.units.Unit;
@@ -471,6 +473,27 @@ public class UnitController extends GameController {
         }
         if (unit.getCivilization().getDiscoveredTiles().containsKey(tile) && unit.getCivilization().getDiscoveredTiles().get(tile) == game.getTurnNumber())
             return false;
+        return true;
+    }
+
+    public static boolean isTileAttackable(Tile tile, Unit unit) {
+        if (unit instanceof Civilian) return false;
+        if (unit instanceof Siege && ((Siege)unit).getUnitState() != UnitState.PREPARED) return false;
+        if (tile.getMilitary() == null && tile.getCivilian() == null && tile.getCity() == null) return false;
+        if (unit.getCivilization().getDiscoveredTiles().containsKey(tile) && unit.getCivilization().getDiscoveredTiles().get(tile) == game.getTurnNumber())
+            return false;
+        if (tile.getMilitary() != null && tile.getMilitary().getCivilization().equals(unit.getCivilization())) return false;
+        if (tile.getCivilian() != null && tile.getCivilian().getCivilization().equals(unit.getCivilization())) return false;
+        if (tile.getCity() != null && tile.getCity().getCivilization().equals(unit.getCivilization())) return false;
+        if (unit.getMovePoint() == 0) return false;
+        int distance = TileController.getDistance(unit.getTile(), tile);
+        if(((unit instanceof Melee)&&(distance>1)) ||
+            (!(unit instanceof Melee) && distance > unit.getUnitTemplate().getRange())) return false;
+        if(!(unit instanceof Melee) && tile.getCity() != null) {
+            int strength = CombatController.getCombatStrength(unit, true);
+            if (tile.getCity().getHitPoint()-strength <= 0) return false;
+        }
+                                            
         return true;
     }
 }

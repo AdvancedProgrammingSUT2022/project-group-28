@@ -164,6 +164,7 @@ public class Hex extends Group {
                         GameController.getGame().setSelectedUnit(Hex.this.tile.getMilitary());
                         HUDController.getInstance().getUnitInfo().update();
                         GamePage.getInstance().setMapState(MapState.UNIT_SELECTED);
+                        GamePage.getInstance().createMap(true);
                     }
                 }
             });
@@ -254,6 +255,20 @@ public class Hex extends Group {
                     @Override
                     public void handle(MouseEvent event) {
                         GameMediator.getInstance().moveUnit(unit, Hex.this.tile);
+                        GamePage.getInstance().createMap(true);
+                        HUDController.getInstance().getUnitInfo().update();
+                    }
+                });
+            }
+
+            if (UnitController.isTileAttackable(this.tile,unit)) {
+
+                this.shadow = createShadow(Color.color(.60, .0, .0, .5));
+                this.getChildren().add(this.shadow);
+                this.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        GameMediator.getInstance().attack(unit, Hex.this.tile);
                         GamePage.getInstance().createMap(true);
                         HUDController.getInstance().getUnitInfo().update();
                     }

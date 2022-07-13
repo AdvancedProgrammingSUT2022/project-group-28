@@ -2,6 +2,7 @@ package views;
 
 import controllers.CityController;
 import controllers.CivilizationController;
+import controllers.CombatController;
 import controllers.GameController;
 import controllers.units.UnitController;
 import javafx.scene.Node;
@@ -125,5 +126,11 @@ public class GameMediator {
         int i = destination.getCoordinates()[0];
         int j = destination.getCoordinates()[1];
         UnitController.moveUnitToTarget(i, j);
+    }
+
+    public void attack(Unit unit, Tile destination){
+        int i = destination.getCoordinates()[0];
+        int j = destination.getCoordinates()[1];
+        CombatController.unitAttack(i, j, GameMenu.getInstance());
     }
 }
