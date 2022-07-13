@@ -51,7 +51,7 @@ public class HUDController {
         nextTurnButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                messageBoxContainer.getChildren().add(0, new MessageBox("new message"));
+                GameMediator.getInstance().nextTurn();
             }
         });
 
@@ -61,9 +61,6 @@ public class HUDController {
         messageBoxContainer = new VBox(5);
         messageBoxContainer.setAlignment(Pos.CENTER);
         messageBoxContainer.setPrefWidth(350);
-
-        MessageBox messageBox = new MessageBox("first message");
-        messageBoxContainer.getChildren().add(messageBox);
 
         messageScrollPane = new ScrollPane(messageBoxContainer);
         messageScrollPane.getStyleClass().add("message_box");
