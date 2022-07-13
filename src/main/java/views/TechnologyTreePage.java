@@ -29,8 +29,23 @@ public class TechnologyTreePage {
     }
 
     public void initialize(){
-        ArrayList<TechnologyTemplate> userFullTechnologyTemplates = TechnologyController.extractFullProgressTechnology();
-        ArrayList<TechnologyTemplate> possibleTechnologyTemplates = TechnologyController.PossibleTechnology();
+        //ArrayList<TechnologyTemplate> userFullTechnologyTemplates = TechnologyController.extractFullProgressTechnology();
+        //ArrayList<TechnologyTemplate> possibleTechnologyTemplates = TechnologyController.PossibleTechnology();
+//
+        for (TechnologyTemplate technologyTemplate:TechnologyTemplate.values()) {
+            HBox node = new HBox(25);
+            node.setAlignment(Pos.CENTER_LEFT);
+            node.setPrefWidth(250);
+            node.setLayoutX(technologyTemplate.getX());
+            node.setLayoutY(technologyTemplate.getY());
+            node.getStyleClass().add("node");
+            Circle picture = new Circle(35);
+            picture.setFill(technologies.get(technologyTemplate));
+            Text technologyName = new Text(technologyTemplate.getName());
+            node.getChildren().addAll(picture , technologyName);
+            anchorPane.getChildren().add(node);
+        }
+
 
 
     }
