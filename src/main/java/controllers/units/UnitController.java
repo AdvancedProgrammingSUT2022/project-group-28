@@ -462,7 +462,6 @@ public class UnitController extends GameController {
 
     public static boolean isTileAccessible(Tile tile, Unit unit) {
         if (tile.getTerrain() == Terrain.MOUNTAIN || 
-            tile.getTerrain() == Terrain.HILL ||
             tile.getTerrainFeature() == TerrainFeature.ICE ||
             tile.getTerrain() == Terrain.OCEAN ) {
             return false;
