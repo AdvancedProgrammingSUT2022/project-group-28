@@ -1,3 +1,19 @@
 .node{
-    -fx-background-color: #7f7fc7;
+    -fx-background-radius: 10;
+}
+
+.available_node{
+    -fx-background-color: #73d050;
+}
+
+.researched_node{
+    -fx-background-color: #daa332;
+}
+
+.not_available_node{
+    -fx-background-color: #9a9a9a;
+}
+
+.currently_researching{
+    -fx-background-color: #ef8383;
 }

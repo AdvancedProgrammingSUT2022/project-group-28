@@ -2,9 +2,39 @@
 
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <ScrollPane prefHeight="900.0" prefWidth="1600.0" stylesheets="@../css/technology_tree_page.css" xmlns="http://javafx.com/javafx/8.0.331" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.TechnologyTreePage">
    <content>
-      <AnchorPane fx:id="anchorPane" prefHeight="880.0" prefWidth="5300.0" />
+      <AnchorPane fx:id="anchorPane" prefHeight="880.0" prefWidth="5300.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f6f7f7" height="255.0" layoutX="45.0" layoutY="597.0" stroke="#e79f42" strokeType="INSIDE" strokeWidth="5.0" width="210.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#9a9a9a" height="47.0" layoutX="66.0" layoutY="617.0" stroke="BLACK" strokeType="INSIDE" width="168.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#73d050" height="47.0" layoutX="66.0" layoutY="672.0" stroke="BLACK" strokeType="INSIDE" width="168.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ef8383" height="47.0" layoutX="66.0" layoutY="729.0" stroke="BLACK" strokeType="INSIDE" width="168.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#daa332" height="47.0" layoutX="66.0" layoutY="784.0" stroke="BLACK" strokeType="INSIDE" width="168.0" />
+            <Text layoutX="84.0" layoutY="646.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Not Yet Available">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="16.0" />
+               </font>
+            </Text>
+            <Text layoutX="114.0" layoutY="701.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Available">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="16.0" />
+               </font>
+            </Text>
+            <Text layoutX="73.0" layoutY="758.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Currently Researching">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="102.0" layoutY="813.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Researched">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="16.0" />
+               </font>
+            </Text>
+         </children></AnchorPane>
    </content>
 </ScrollPane>
