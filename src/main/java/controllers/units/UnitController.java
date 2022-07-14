@@ -12,10 +12,12 @@ import models.tiles.enums.TerrainFeature;
 import models.units.Civilian;
 import models.units.Melee;
 import models.units.Military;
+import models.units.Settler;
 import models.units.Siege;
 import models.units.Unit;
 import models.units.Worker;
 import models.units.enums.UnitState;
+import views.components.UnitInfo.UnitAction;
 import views.enums.UnitMessage;
 import views.notifications.CivilizationNotification;
 import views.notifications.GameNotification;
@@ -123,7 +125,6 @@ public class UnitController extends GameController {
             unit.setMovePoint(unit.getUnitTemplate().getMovementPoint());
         }
     }
-
 
     private static boolean isFullTile(Unit unit, Tile targetTile) {
         if (unit instanceof Military && targetTile.getMilitary() != null) return true;
@@ -251,7 +252,6 @@ public class UnitController extends GameController {
         unit.setMoveTarget(null);
         unit.setUnitState(UnitState.FREE);
     }
-
 
     private static void moveToTile(Unit unit, Tile targetTile, MapPair[][] checkMap) {
         Tile startTile = unit.getTile();
@@ -420,6 +420,7 @@ public class UnitController extends GameController {
         }
         if (unit.getHealth() == 10) unit.setUnitState(UnitState.FREE);
     }
+    
     public static ArrayList<Tile> getUnitScopeOfVision(Game game, Unit unit) {
         ArrayList<Tile> scopeOfVision = new ArrayList<>();
         Tile unitTile = unit.getTile();
@@ -494,6 +495,34 @@ public class UnitController extends GameController {
         }
                                             
         return true;
+    }
+
+    public static ArrayList<UnitAction> getPossibleActions(Unit unit){
+        ArrayList<UnitAction> possibleActions = new ArrayList<>();
+        if (unit instanceof Settler && SettlerController.checkTileToFoundCity((Settler)unit) == UnitMessage.SUCCESS) 
+            possibleActions.add(UnitAction.FOUND_CITY);
+        if (unit instanceof Military && unit.getUnitState() != UnitState.FORTIFYING) 
+            possibleActions.add(UnitAction.FORTIFY);
+        if (unit instanceof Siege && unit.getUnitState() != UnitState.PREPARED) 
+            possibleActions.add(UnitAction.PREPARE);
+        if (unit.getUnitState() != UnitState.SLEPT)
+            possibleActions.add(UnitAction.SLEEP);
+        if (unit.getUnitState() == UnitState.ALERT || unit.getUnitState() == UnitState.SLEPT)
+            possibleActions.add(UnitAction.WAKE);
+        if (unit.getUnitState() != UnitState.ALERT)
+            possibleActions.add(UnitAction.ALERT);
+        if (unit.getUnitState() != UnitState.HEALING && unit.getHealth() < 10)
+            possibleActions.add(UnitAction.HEAL);
+        if (unit instanceof Military &&
+            unit.getMovePoint() > 0 &&
+            unit.getTile().getImprovement() != null &&
+            unit.getTile().getCivilization() != unit.getCivilization())
+            possibleActions.add(UnitAction.PILLAGE);
+        if (unit.getUnitState() != UnitState.FREE)
+            possibleActions.add(UnitAction.FREE);
+        possibleActions.add(UnitAction.INFO);
+        possibleActions.add(UnitAction.DELETE);
+        return possibleActions;
     }
 }
 

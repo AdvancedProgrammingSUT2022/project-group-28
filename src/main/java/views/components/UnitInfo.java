@@ -1,9 +1,13 @@
 package views.components;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import controllers.GameController;
-import javafx.geometry.Insets;
+import controllers.units.UnitController;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -15,9 +19,98 @@ import models.units.Unit;
 import views.App;
 
 public class UnitInfo extends Group {
+    private static final HashMap<UnitAction, Image> icons = new HashMap<>();
+    static{
+        for (UnitAction unitAction : UnitAction.values()) {
+            Image icon = new Image(App.class.getResource("../assets/image/unit_action/" + unitAction.getFilename() + ".png").toExternalForm());
+            icons.put(unitAction, icon);
+        }
+    }
     public enum UnitAction {
-        ;
-        public void callMediator(Unit unit) {}
+        FOUND_CITY("Found_City"){
+            @Override
+            public void callMediator(Unit unit){
+                System.out.println("Found City");
+            }
+        },
+        FORTIFY("Fortify"){
+            @Override
+            public void callMediator(Unit unit){
+                System.out.println("Fortify");
+            }
+        },
+        PREPARE("Prepare"){
+            @Override
+            public void callMediator(Unit unit){
+                System.out.println("Prepare");
+            }
+        },
+        BUILD("Build"){
+            @Override
+            public void callMediator(Unit unit){
+                System.out.println("Build");
+            }
+        },
+        SLEEP("Sleep"){
+            @Override
+            public void callMediator(Unit unit){
+                System.out.println("Sleep");
+            }
+        },
+        WAKE("Wake"){
+            @Override
+            public void callMediator(Unit unit){
+                System.out.println("Wake");
+            }
+        },
+        ALERT("Alert"){
+            @Override
+            public void callMediator(Unit unit){
+                System.out.println("Alert");
+            }
+        },
+        HEAL("Heal"){
+            @Override
+            public void callMediator(Unit unit){
+                System.out.println("Heal");
+            }
+        },
+        PILLAGE("Pillage"){
+            @Override
+            public void callMediator(Unit unit){
+                System.out.println("Pillage");
+            }
+        },
+        INFO("Delete"){
+            @Override
+            public void callMediator(Unit unit){
+                System.out.println("Info");
+            }
+        },
+        DELETE("Delete"){
+            @Override
+            public void callMediator(Unit unit){
+                System.out.println("Delete");
+            }
+        },
+        FREE("Free"){
+            @Override
+            public void callMediator(Unit unit){
+                System.out.println("Free");
+            }
+        };
+
+        private String fileName;
+
+        private UnitAction(String fileName){
+            this.fileName = fileName;
+        }
+
+        public abstract void callMediator(Unit unit);
+
+        public String getFilename(){
+            return fileName;
+        }
     }
 
     private Circle icon;
@@ -26,7 +119,7 @@ public class UnitInfo extends Group {
     private Text movePoint;
     private HBox actions;
     public UnitInfo() {
-        this.background = new Rectangle(350, 130);
+        this.background = new Rectangle(350, 150);
         this.background.setLayoutY(70);
         this.background.setFill(Color.TRANSPARENT);
         this.getChildren().add(this.background);
@@ -50,6 +143,9 @@ public class UnitInfo extends Group {
         this.getChildren().add(info);
 
         this.actions = new HBox();
+        actions.setLayoutX(40);
+        actions.setLayoutY(150);
+        actions.setAlignment(Pos.CENTER);
         this.getChildren().add(this.actions);
 
         this.icon = new Circle(50);
@@ -72,7 +168,19 @@ public class UnitInfo extends Group {
 
             this.movePoint.setText(String.valueOf(unit.getMovePoint()));
 
-            // TODO: add possible actions
+            ArrayList<UnitAction> availableActions = UnitController.getPossibleActions(unit);
+            this.actions.getChildren().clear();
+            for (UnitAction unitAction : availableActions) {
+                Image icon = icons.get(unitAction);
+                Circle actionIcon = new Circle(20);
+                Tooltip tooltip = new Tooltip(unitAction.name());
+                Tooltip.install(actionIcon, tooltip);
+                actionIcon.setFill(new ImagePattern(icon));
+                actionIcon.setOnMouseClicked(e -> {
+                    unitAction.callMediator(unit);
+                });
+                this.actions.getChildren().add(actionIcon);
+            }
         } else {
             this.background.setFill(Color.TRANSPARENT);
 
