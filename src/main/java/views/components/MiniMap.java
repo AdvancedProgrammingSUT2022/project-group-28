@@ -1,6 +1,7 @@
 package views.components;
 
 import controllers.CivilizationController;
+import controllers.GameController;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -16,7 +17,7 @@ import views.GamePage;
 public class MiniMap extends Group {
     private final int RADIUS = 1;
 
-    private final Civilization civilization;
+    private Civilization civilization;
     private Shape cameraFocus;
     private Group map;
     public MiniMap(Civilization civilization) {
@@ -40,10 +41,10 @@ public class MiniMap extends Group {
     public void updateMap() {
         map.getChildren().clear();
         CivilizationController.updateDiscoveredTiles();
+        this.civilization = GameController.getGame().getCurrentPlayer();
         for (Tile tile : civilization.getDiscoveredTiles().keySet()) {
             Polygon polygon = new Polygon();
             setPolygonPoints(polygon);
-
 
             // TODO: add color to enum
             switch (tile.getTerrain()) {

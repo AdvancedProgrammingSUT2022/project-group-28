@@ -54,6 +54,7 @@ public class GameMediator {
         CityController.freeCitizen(i, j);
 
         GamePage.getInstance().createMap(true);
+        HUDController.getInstance().getMiniMap().updateMap();
     }
 
     public void tryAssignCitizen(int i, int j) {
@@ -65,6 +66,7 @@ public class GameMediator {
         }
 
         GamePage.getInstance().createMap(true);
+        HUDController.getInstance().getMiniMap().updateMap();
     }
 
     public void openBuyUnitMenu(Node node) {
@@ -88,6 +90,7 @@ public class GameMediator {
         // TODO: update hud
 
         GamePage.getInstance().createMap(true);
+        HUDController.getInstance().getMiniMap().updateMap();
     }
 
     public void tryBuyTile(City city, Tile tile) {
@@ -101,6 +104,7 @@ public class GameMediator {
         // TODO: update hud
 
         GamePage.getInstance().createMap(true);
+        HUDController.getInstance().getMiniMap().updateMap();
     }
 
     public void openConstructionMenu(City city) {
@@ -124,18 +128,24 @@ public class GameMediator {
         CityController.startConstructing(city, constructable);
 
         GamePage.getInstance().createMap(true);
+        HUDController.getInstance().getMiniMap().updateMap();
     }
 
     public void moveUnit(Unit unit, Tile destination){
         int i = destination.getCoordinates()[0];
         int j = destination.getCoordinates()[1];
         UnitController.moveUnitToTarget(i, j);
+        GamePage.getInstance().createMap(false);
+        HUDController.getInstance().getMiniMap().updateMap();
     }
 
     public void attack(Unit unit, Tile destination){
         int i = destination.getCoordinates()[0];
         int j = destination.getCoordinates()[1];
         CombatController.unitAttack(i, j, GameMenu.getInstance());
+        GamePage.getInstance().createMap(true);
+        HUDController.getInstance().getMiniMap().updateMap();
+
     }
 
     public void nextTurn() {
@@ -170,5 +180,6 @@ public class GameMediator {
 
         }
         GamePage.getInstance().createMap(true);
+        HUDController.getInstance().getMiniMap().updateMap();
     }
 }
