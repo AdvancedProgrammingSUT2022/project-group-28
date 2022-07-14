@@ -3,7 +3,9 @@ package views.components;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import controllers.CombatController;
 import controllers.GameController;
+import controllers.units.SettlerController;
 import controllers.units.UnitController;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -17,6 +19,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import models.units.Unit;
 import views.App;
+import views.GameMenu;
 
 public class UnitInfo extends Group {
     private static final HashMap<UnitAction, Image> icons = new HashMap<>();
@@ -30,19 +33,19 @@ public class UnitInfo extends Group {
         FOUND_CITY("Found_City"){
             @Override
             public void callMediator(Unit unit){
-                System.out.println("Found City");
+                SettlerController.foundCity();
             }
         },
         FORTIFY("Fortify"){
             @Override
             public void callMediator(Unit unit){
-                System.out.println("Fortify");
+                UnitController.fortifyUnit(unit);
             }
         },
         PREPARE("Prepare"){
             @Override
             public void callMediator(Unit unit){
-                System.out.println("Prepare");
+                UnitController.prepareUnit();
             }
         },
         BUILD("Build"){
@@ -54,49 +57,49 @@ public class UnitInfo extends Group {
         SLEEP("Sleep"){
             @Override
             public void callMediator(Unit unit){
-                System.out.println("Sleep");
+                UnitController.sleepUnit(unit);
             }
         },
         WAKE("Wake"){
             @Override
             public void callMediator(Unit unit){
-                System.out.println("Wake");
+                UnitController.wakeUnit(unit);
             }
         },
         ALERT("Alert"){
             @Override
             public void callMediator(Unit unit){
-                System.out.println("Alert");
+                UnitController.alertUnit(unit);
             }
         },
         HEAL("Heal"){
             @Override
             public void callMediator(Unit unit){
-                System.out.println("Heal");
+                UnitController.healUnit(unit);
             }
         },
         PILLAGE("Pillage"){
             @Override
             public void callMediator(Unit unit){
-                System.out.println("Pillage");
+                CombatController.pillageTile(unit);
             }
         },
         INFO("Delete"){
             @Override
             public void callMediator(Unit unit){
-                System.out.println("Info");
+                GameMenu.getInstance().showUnitInfo();
             }
         },
         DELETE("Delete"){
             @Override
             public void callMediator(Unit unit){
-                System.out.println("Delete");
+                UnitController.deleteUnit();
             }
         },
         FREE("Free"){
             @Override
             public void callMediator(Unit unit){
-                System.out.println("Free");
+                UnitController.freeUnit();
             }
         };
 

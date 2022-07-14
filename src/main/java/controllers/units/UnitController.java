@@ -524,6 +524,19 @@ public class UnitController extends GameController {
         possibleActions.add(UnitAction.DELETE);
         return possibleActions;
     }
+
+    public static void deleteUnit(){
+        Unit unit = GameController.getGame().getSelectedUnit();
+        Civilization current = GameController.getGame().getCurrentPlayer();
+        current.setGold(current.getGold() + unit.getUnitTemplate().getCost()/10);
+        unit.destroy();
+    }
+
+    public static void freeUnit(){
+        Unit unit = GameController.getGame().getSelectedUnit();
+        unit.setUnitState(UnitState.FREE);
+        unit.setMoveTarget(null);
+    }
 }
 
 class MapPair {

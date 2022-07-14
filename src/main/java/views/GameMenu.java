@@ -1287,7 +1287,7 @@ public class GameMenu extends Menu {
         }
     }
 
-    private void showUnitInfo() {
+    public void showUnitInfo() {
         Unit unit = GameController.getGame().getSelectedUnit();
         if (unit == null) {
             System.out.println("no selected unit");
@@ -1660,11 +1660,8 @@ public class GameMenu extends Menu {
             System.out.println("no selected unit");
             return;
         }
-        Civilization current = GameController.getGame().getCurrentPlayer();
-        current.setGold(current.getGold() + unit.getUnitTemplate().getCost()/10);
-        unit.destroy();
+        UnitController.deleteUnit();
         System.out.println("unit deleted");
-
     }
 
     private void freeUnit(){
@@ -1673,9 +1670,8 @@ public class GameMenu extends Menu {
             System.out.println("no selected unit");
             return;
         }
-        unit.setUnitState(UnitState.FREE);
-        unit.setMoveTarget(null);
-        System.out.println("unit deleted");
+        UnitController.freeUnit();
+        System.out.println("unit freed");
 
     }
 }
