@@ -16,6 +16,8 @@ public class Civilization {
     private User user;
     private CivilizationNames civilizationNames;
 
+    private ArrayList<Civilization> inWars = new ArrayList<>();
+
     private City currentCapital;
 
     private ArrayList<City> cities = new ArrayList<>();
