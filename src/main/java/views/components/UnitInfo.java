@@ -20,6 +20,7 @@ import javafx.scene.text.Text;
 import models.units.Unit;
 import views.App;
 import views.GameMenu;
+import views.GamePage;
 
 public class UnitInfo extends Group {
     private static final HashMap<UnitAction, Image> icons = new HashMap<>();
@@ -181,6 +182,7 @@ public class UnitInfo extends Group {
                 actionIcon.setFill(new ImagePattern(icon));
                 actionIcon.setOnMouseClicked(e -> {
                     unitAction.callMediator(unit);
+                    GamePage.getInstance().createMap(true);
                 });
                 this.actions.getChildren().add(actionIcon);
             }
