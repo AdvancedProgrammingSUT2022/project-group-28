@@ -28,15 +28,23 @@ public class HUDController {
     private UnitInfo unitInfo;
 
     public void createHUD(Group HUD) {
+
         createNextTurnButton(HUD);
         createMessageBoxContainer(HUD);
         createMiniMap(HUD);
         createUnitInfo(HUD);
         createTechnologyPanelButton(HUD);
+        this.addMessage("hit", MessageBox.Type.INFO, "shit", "fuck");
     }
 
-    public void addMessage(String message) {
-        this.messageBoxContainer.getChildren().add(0, new MessageBox(message));
+    public void addMessage(String message, MessageBox.Type type) {
+        this.messageBoxContainer.getChildren().add(0, new MessageBox(message, type));
+    }
+
+    public MessageBox addMessage(String message, MessageBox.Type type, String firstChoice, String secondChoice) {
+        MessageBox messageBox = new MessageBox(message, type, firstChoice, secondChoice);
+        this.messageBoxContainer.getChildren().add(messageBox);
+        return messageBox;
     }
 
     private void createNextTurnButton(Group HUD) {

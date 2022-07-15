@@ -17,6 +17,7 @@ import models.civilization.City;
 import models.tiles.Tile;
 import models.units.Unit;
 import models.units.enums.UnitTemplate;
+import views.components.MessageBox;
 import views.enums.CityMessage;
 import views.notifications.CivilizationNotification;
 import views.notifications.GameNotification;
@@ -61,7 +62,7 @@ public class GameMediator {
             // TODO: notify server
         } else {
             // TODO: change message type
-            HUDController.getInstance().addMessage("There is no free citizen in city");
+            HUDController.getInstance().addMessage("There is no free citizen in city", MessageBox.Type.ALERT);
         }
 
         GamePage.getInstance().updateGamePage();
@@ -95,7 +96,7 @@ public class GameMediator {
             // TODO: notify server
         } else {
             // TODO: change message type
-            HUDController.getInstance().addMessage("You don not have enough gold");
+            HUDController.getInstance().addMessage("You don not have enough gold", MessageBox.Type.ALERT);
         }
 
         GamePage.getInstance().updateGamePage();
@@ -145,7 +146,7 @@ public class GameMediator {
         NotificationTemplate notification = gameNotification.getNotificationTemplate();
         // TODO: change add message template
         if (notification == CivilizationNotification.FREE_UNIT) {
-            HUDController.getInstance().addMessage("You have free unit");
+            HUDController.getInstance().addMessage("You have free unit", MessageBox.Type.ALERT);
             int freeUnitI = Integer.parseInt(gameNotification.getData().get(0));
             int freeUnitJ = Integer.parseInt(gameNotification.getData().get(1));
             GamePage.getInstance().setBaseI(freeUnitI);
@@ -153,7 +154,7 @@ public class GameMediator {
             GamePage.getInstance().setOffsetI(0);
             GamePage.getInstance().setOffsetJ(0);
         } else if (notification == CivilizationNotification.NO_CONSTRUCTION) {
-            HUDController.getInstance().addMessage("The city has no construction");
+            HUDController.getInstance().addMessage("The city has no construction", MessageBox.Type.ALERT);
             CityController.selectCityByName(gameNotification.getData().get(0), false);
             City city = GameController.getGame().getSelectedCity();
             int cityI = city.getTile().getCoordinates()[0];
