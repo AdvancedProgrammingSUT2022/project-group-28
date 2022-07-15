@@ -216,4 +216,15 @@ public class CombatController {
         return UnitMessage.SUCCESS;
     }
 
+    public static boolean isCityAttackPossible(Tile tile){
+        if (GameController.getGame().getSelectedCity() == null) return false;
+        City city = GameController.getGame().getSelectedCity();
+        if (TileController.getDistance(city.getTile(), tile) > 2) return false;
+        if (tile.getMilitary() == null && tile.getCivilian() == null) return false;
+        if(tile.getMilitary() != null && tile.getMilitary().getCivilization() == city.getCivilization()) return false;
+        if(tile.getCivilian() != null && tile.getCivilian().getCivilization() == city.getCivilization()) return false;
+        if(city.isAttacked()) return false;
+        return true;
+    }
+
 }

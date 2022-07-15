@@ -1,6 +1,7 @@
 package views.components;
 
 import controllers.CityController;
+import controllers.CombatController;
 import controllers.GameController;
 import controllers.units.UnitController;
 import javafx.event.EventHandler;
@@ -246,6 +247,20 @@ public class Hex extends Group {
             }
         }
 
+        if (mapState == GamePage.MapState.CITY_ATTACK && city != null) {
+            if (CombatController.isCityAttackPossible(tile)) {
+                this.shadow = createShadow(Color.color(.60, .0, .0, .5));
+                this.getChildren().add(this.shadow);
+                this.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        GameMediator.getInstance().cityAttack(Hex.this.tile);
+                        GamePage.getInstance().updateGamePage();
+                    }
+                });
+            }
+        }
+
         if (mapState == GamePage.MapState.UNIT_SELECTED && unit != null) {
             if (UnitController.isTileAccessible(this.tile,unit)) {
 
@@ -255,8 +270,7 @@ public class Hex extends Group {
                     @Override
                     public void handle(MouseEvent event) {
                         GameMediator.getInstance().moveUnit(unit, Hex.this.tile);
-                        GamePage.getInstance().createMap(true);
-                        HUDController.getInstance().getUnitInfo().update();
+                        GamePage.getInstance().updateGamePage();
                     }
                 });
             }
@@ -269,8 +283,7 @@ public class Hex extends Group {
                     @Override
                     public void handle(MouseEvent event) {
                         GameMediator.getInstance().attack(unit, Hex.this.tile);
-                        GamePage.getInstance().createMap(true);
-                        HUDController.getInstance().getUnitInfo().update();
+                        GamePage.getInstance().updateGamePage();
                     }
                 });
             }

@@ -22,7 +22,8 @@ public class GamePage extends PageController{
         NORMAL,
         ASSIGN_CITIZEN,
         BUY_TILE,
-        UNIT_SELECTED;
+        UNIT_SELECTED,
+        CITY_ATTACK;
         //TODO: complete
     }
 

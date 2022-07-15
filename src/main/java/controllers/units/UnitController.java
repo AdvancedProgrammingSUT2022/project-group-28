@@ -471,17 +471,19 @@ public class UnitController extends GameController {
             tile.getCivilian() != null && unit instanceof Civilian) {
                 return false;
         }
-        if (unit.getCivilization().getDiscoveredTiles().containsKey(tile) && unit.getCivilization().getDiscoveredTiles().get(tile) == game.getTurnNumber())
-            return false;
-        return true;
+        for (Tile discoveredTile : unit.getCivilization().getDiscoveredTiles().keySet()) {
+            if (discoveredTile.getCoordinates()[0] == tile.getCoordinates()[0] &&
+                discoveredTile.getCoordinates()[1] == tile.getCoordinates()[1] &&
+                unit.getCivilization().getDiscoveredTiles().get(discoveredTile) == game.getTurnNumber()) return true;
+        }
+
+        return false;
     }
 
     public static boolean isTileAttackable(Tile tile, Unit unit) {
         if (unit instanceof Civilian) return false;
         if (unit instanceof Siege && ((Siege)unit).getUnitState() != UnitState.PREPARED) return false;
         if (tile.getMilitary() == null && tile.getCivilian() == null && tile.getCity() == null) return false;
-        if (unit.getCivilization().getDiscoveredTiles().containsKey(tile) && unit.getCivilization().getDiscoveredTiles().get(tile) == game.getTurnNumber())
-            return false;
         if (tile.getMilitary() != null && tile.getMilitary().getCivilization().equals(unit.getCivilization())) return false;
         if (tile.getCivilian() != null && tile.getCivilian().getCivilization().equals(unit.getCivilization())) return false;
         if (tile.getCity() != null && tile.getCity().getCivilization().equals(unit.getCivilization())) return false;
@@ -493,8 +495,13 @@ public class UnitController extends GameController {
             int strength = CombatController.getCombatStrength(unit, true);
             if (tile.getCity().getHitPoint()-strength <= 0) return false;
         }
-                                            
-        return true;
+        
+        for(Tile discoveredTile : unit.getCivilization().getDiscoveredTiles().keySet()) {
+            if (discoveredTile.getCoordinates()[0] == tile.getCoordinates()[0] &&
+                discoveredTile.getCoordinates()[1] == tile.getCoordinates()[1] &&
+                unit.getCivilization().getDiscoveredTiles().get(discoveredTile) == game.getTurnNumber()) return true;
+        }
+        return false;
     }
 
     public static ArrayList<UnitAction> getPossibleActions(Unit unit){

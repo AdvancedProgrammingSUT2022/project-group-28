@@ -39,6 +39,13 @@ public class CityPage extends PageController {
     }
 
     @FXML
+    private void attack() {
+        GamePage.getInstance().setMapState(GamePage.MapState.CITY_ATTACK);
+        this.back();
+        GamePage.getInstance().createMap(true);
+    }
+
+    @FXML
     private void assignCitizen() {
         GamePage.getInstance().setMapState(GamePage.MapState.ASSIGN_CITIZEN);
         this.back();

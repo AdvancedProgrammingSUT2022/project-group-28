@@ -141,6 +141,14 @@ public class GameMediator {
         GamePage.getInstance().updateGamePage();
     }
 
+    public void cityAttack(Tile destination){
+        int i = destination.getCoordinates()[0];
+        int j = destination.getCoordinates()[1];
+        CombatController.cityAttack(i, j);
+
+        GamePage.getInstance().updateGamePage();
+    }
+
     public void nextTurn() {
         GameNotification gameNotification = GameMenuController.nextTurn();
         NotificationTemplate notification = gameNotification.getNotificationTemplate();
