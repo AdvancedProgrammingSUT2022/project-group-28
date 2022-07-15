@@ -182,4 +182,17 @@ public class GameMediator {
         GamePage.getInstance().createMap(true);
         HUDController.getInstance().getMiniMap().updateMap();
     }
+
+    public void openTechnologyMenu() {
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+//        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initOwner(GamePage.getInstance().getGameContent().getParent().getScene().getWindow());
+        Scene scene;
+        scene = new Scene(App.loadFXML("technologyTreePage"));
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+        scene.getRoot().requestFocus();
+    }
 }

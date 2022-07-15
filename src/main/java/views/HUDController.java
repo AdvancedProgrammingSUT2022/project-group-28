@@ -32,6 +32,7 @@ public class HUDController {
         createMessageBoxContainer(HUD);
         createMiniMap(HUD);
         createUnitInfo(HUD);
+        createTechnologyPanelButton(HUD);
     }
 
     public void addMessage(String message) {
@@ -85,6 +86,20 @@ public class HUDController {
         unitInfo.setLayoutX(50);
         unitInfo.setLayoutY(650);
         HUD.getChildren().add(unitInfo);
+    }
+
+    private void createTechnologyPanelButton(Group HUD) {
+        Button technologyPanel = new Button("Technology Panel");
+        technologyPanel.getStyleClass().add("technology_panel");
+        technologyPanel.setLayoutX(50);
+        technologyPanel.setLayoutY(200);
+        technologyPanel.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                GameMediator.getInstance().openTechnologyMenu();
+            }
+        });
+        HUD.getChildren().add(technologyPanel);
     }
 
     public UnitInfo getUnitInfo() {

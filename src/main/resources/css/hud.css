@@ -3,6 +3,12 @@
     -fx-background-radius: 10 10 10 10;
 }
 
+.technology_panel {
+    -fx-background-color: #2192c2ff;
+    -fx-background-radius: 10 10 10 10;
+}
+
+
 .message_box_warning {
     -fx-padding: 10 30 10 30;
     -fx-border-width: 3;
