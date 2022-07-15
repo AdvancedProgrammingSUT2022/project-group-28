@@ -68,9 +68,9 @@ public class CityBanner extends HBox {
         population.getStyleClass().add("population");
         growthBox.getChildren().add(population);
 
-
-        // TODO: set this value
-        ProgressBar growth = new ProgressBar(0.4);
+        int growthLimit = city.getPopulation() * (city.getPopulation() + 1) / 2 + 12;
+        double growthProgress = (double) city.getGrowthBucket() / growthLimit;
+        ProgressBar growth = new ProgressBar(growthProgress);
         growth.getStyleClass().add("growth_bar");
         growth.setMaxWidth(50);
         growth.setRotate(-90);
@@ -104,8 +104,7 @@ public class CityBanner extends HBox {
         productionBox.setAlignment(Pos.CENTER);
 
         if (city.getConstruction() != null) {
-            // TODO: set this value
-            double progress = (double) city.getProductionStore() / city.getConstruction().getConstructionTemplate().getCost();
+            double progress = (double) city.getConstruction().getSpentProduction() / city.getConstruction().getConstructionTemplate().getCost();
             ProgressBar productionProgress = new ProgressBar(progress);
             productionProgress.getStyleClass().add("production_bar");
             productionProgress.setMaxWidth(50);

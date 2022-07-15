@@ -1,6 +1,7 @@
 package views.components;
 
 import javafx.scene.Group;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -25,14 +26,22 @@ public class UnitIcon extends Group {
         this.unit = unit;
 
         Circle background = new Circle(25);
-        // TODO: set background the civ color
-        background.setFill(Color.color(0,0, 0, 0.5));
+
+        background.setFill(this.unit.getCivilization().getCivilizationNames().getColor());
         this.getChildren().add(background);
 
         Circle icon = new Circle(25);
         icon.setFill(icons.get(this.unit.getUnitTemplate()));
 
         this.getChildren().add(icon);
+
+        double hpValue = (double) unit.getHealth() / 10;
+        ProgressBar hpBar = new ProgressBar(hpValue);
+        hpBar.getStyleClass().add("hp_bar");
+        hpBar.setMaxWidth(50);
+        hpBar.setRotate(-90);
+
+        this.getChildren().add(hpBar);
     }
 
     public Unit getUnit() {

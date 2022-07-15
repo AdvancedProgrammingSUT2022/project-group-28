@@ -56,6 +56,21 @@
         -fx-padding: 5;
 }
 
+.hp_bar {
+    -fx-accent: #d11b0a;
+}
+
+.hp_bar > .track {
+      -fx-text-box-border: #8a1004;
+      -fx-control-inner-background: #d65f54;
+}
+
+.hp_bar > .bar {
+        -fx-background-insets: 1 1 2 1;
+        -fx-padding: 5;
+}
+
+
 .working_citizen {
     -fx-fill: #0b993daa;
 }
