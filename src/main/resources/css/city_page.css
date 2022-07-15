@@ -24,3 +24,8 @@
 .back_button:hover {
     -fx-background-color: #06445edd;
 }
+
+
+.normal_text {
+    -fx-font-size: 24;
+}

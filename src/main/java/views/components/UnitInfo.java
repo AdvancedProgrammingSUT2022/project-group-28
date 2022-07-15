@@ -20,6 +20,7 @@ import javafx.scene.text.Text;
 import models.units.Unit;
 import views.App;
 import views.GameMenu;
+import views.GamePage;
 
 public class UnitInfo extends Group {
     private static final HashMap<UnitAction, Image> icons = new HashMap<>();
@@ -34,72 +35,84 @@ public class UnitInfo extends Group {
             @Override
             public void callMediator(Unit unit){
                 SettlerController.foundCity();
+                GamePage.getInstance().updateGamePage();
             }
         },
         FORTIFY("Fortify"){
             @Override
             public void callMediator(Unit unit){
                 UnitController.fortifyUnit(unit);
+                GamePage.getInstance().updateGamePage();
             }
         },
         PREPARE("Prepare"){
             @Override
             public void callMediator(Unit unit){
                 UnitController.prepareUnit();
+                GamePage.getInstance().updateGamePage();
             }
         },
         BUILD("Build"){
             @Override
             public void callMediator(Unit unit){
                 System.out.println("Build");
+                GamePage.getInstance().updateGamePage();
             }
         },
         SLEEP("Sleep"){
             @Override
             public void callMediator(Unit unit){
                 UnitController.sleepUnit(unit);
+                GamePage.getInstance().updateGamePage();
             }
         },
         WAKE("Wake"){
             @Override
             public void callMediator(Unit unit){
                 UnitController.wakeUnit(unit);
+                GamePage.getInstance().updateGamePage();
             }
         },
         ALERT("Alert"){
             @Override
             public void callMediator(Unit unit){
                 UnitController.alertUnit(unit);
+                GamePage.getInstance().updateGamePage();
             }
         },
         HEAL("Heal"){
             @Override
             public void callMediator(Unit unit){
                 UnitController.healUnit(unit);
+                GamePage.getInstance().updateGamePage();
             }
         },
         PILLAGE("Pillage"){
             @Override
             public void callMediator(Unit unit){
                 CombatController.pillageTile(unit);
+                GamePage.getInstance().updateGamePage();
             }
         },
         INFO("Delete"){
             @Override
             public void callMediator(Unit unit){
                 GameMenu.getInstance().showUnitInfo();
+                GamePage.getInstance().updateGamePage();
             }
         },
         DELETE("Delete"){
             @Override
             public void callMediator(Unit unit){
                 UnitController.deleteUnit();
+                GamePage.getInstance().updateGamePage();
             }
         },
         FREE("Free"){
             @Override
             public void callMediator(Unit unit){
                 UnitController.freeUnit();
+                GamePage.getInstance().updateGamePage();
             }
         };
 
@@ -192,6 +205,8 @@ public class UnitInfo extends Group {
             this.name.setText("");
 
             this.movePoint.setText("");
+
+            this.actions.getChildren().clear();
         }
     }
 }

@@ -53,8 +53,7 @@ public class GameMediator {
         // certainly it is successful
         CityController.freeCitizen(i, j);
 
-        GamePage.getInstance().createMap(true);
-        HUDController.getInstance().getMiniMap().updateMap();
+        GamePage.getInstance().updateGamePage();
     }
 
     public void tryAssignCitizen(int i, int j) {
@@ -65,8 +64,7 @@ public class GameMediator {
             HUDController.getInstance().addMessage("There is no free citizen in city");
         }
 
-        GamePage.getInstance().createMap(true);
-        HUDController.getInstance().getMiniMap().updateMap();
+        GamePage.getInstance().updateGamePage();
     }
 
     public void openBuyUnitMenu(Node node) {
@@ -89,8 +87,7 @@ public class GameMediator {
 
         // TODO: update hud
 
-        GamePage.getInstance().createMap(true);
-        HUDController.getInstance().getMiniMap().updateMap();
+        GamePage.getInstance().updateGamePage();
     }
 
     public void tryBuyTile(City city, Tile tile) {
@@ -101,10 +98,7 @@ public class GameMediator {
             HUDController.getInstance().addMessage("You don not have enough gold");
         }
 
-        // TODO: update hud
-
-        GamePage.getInstance().createMap(true);
-        HUDController.getInstance().getMiniMap().updateMap();
+        GamePage.getInstance().updateGamePage();
     }
 
     public void openConstructionMenu(City city) {
@@ -127,25 +121,23 @@ public class GameMediator {
         // TODO: notify server
         CityController.startConstructing(city, constructable);
 
-        GamePage.getInstance().createMap(true);
-        HUDController.getInstance().getMiniMap().updateMap();
+        GamePage.getInstance().updateGamePage();
     }
 
     public void moveUnit(Unit unit, Tile destination){
         int i = destination.getCoordinates()[0];
         int j = destination.getCoordinates()[1];
         UnitController.moveUnitToTarget(i, j);
-        GamePage.getInstance().createMap(false);
-        HUDController.getInstance().getMiniMap().updateMap();
+
+        GamePage.getInstance().updateGamePage();
     }
 
     public void attack(Unit unit, Tile destination){
         int i = destination.getCoordinates()[0];
         int j = destination.getCoordinates()[1];
         CombatController.unitAttack(i, j, GameMenu.getInstance());
-        GamePage.getInstance().createMap(true);
-        HUDController.getInstance().getMiniMap().updateMap();
 
+        GamePage.getInstance().updateGamePage();
     }
 
     public void nextTurn() {
@@ -177,10 +169,9 @@ public class GameMediator {
             // TODO: notify server
             // TODO: handle start new turn
             GameMenuController.startNewTurn();
-
         }
-        GamePage.getInstance().createMap(true);
-        HUDController.getInstance().getMiniMap().updateMap();
+
+        GamePage.getInstance().updateGamePage();
     }
 
     public void openTechnologyMenu() {
