@@ -84,6 +84,15 @@ public class ProfilePage extends PageController{
     }
 
     public void changeNickname(){
-
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initOwner(picture.getScene().getWindow());
+        Scene scene;
+        scene = new Scene(App.loadFXML("changeNickname"), 788, 260);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+        scene.getRoot().requestFocus();
     }
 }

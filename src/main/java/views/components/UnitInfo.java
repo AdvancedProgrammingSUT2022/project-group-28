@@ -194,6 +194,7 @@ public class UnitInfo extends Group {
                 actionIcon.setFill(new ImagePattern(icon));
                 actionIcon.setOnMouseClicked(e -> {
                     unitAction.callMediator(unit);
+                    GamePage.getInstance().createMap(true);
                 });
                 this.actions.getChildren().add(actionIcon);
             }
