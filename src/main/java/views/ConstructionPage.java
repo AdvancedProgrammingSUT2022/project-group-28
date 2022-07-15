@@ -83,7 +83,7 @@ public class ConstructionPage extends PageController {
                 button.getStyleClass().add("valid_construction_button");
                 break;
             case REQUIRED_RESOURCE:
-                button.setText("Resource required");
+                button.setText("Required " + unitTemplate.getRequiredResource().getName());
                 button.setDisable(true);
                 button.getStyleClass().add("invalid_construction_button");
                 break;
