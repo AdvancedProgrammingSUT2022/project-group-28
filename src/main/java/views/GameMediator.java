@@ -186,7 +186,7 @@ public class GameMediator {
         GamePage.getInstance().updateGamePage();
     }
 
-    public void openTechnologyMenu() {
+    public void openTechnologyTree() {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
 //        stage.initStyle(StageStyle.TRANSPARENT);

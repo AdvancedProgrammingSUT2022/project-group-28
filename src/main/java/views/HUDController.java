@@ -1,13 +1,18 @@
 package views;
 
 import controllers.GameController;
+import controllers.TechnologyController;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import views.components.MessageBox;
 import views.components.MiniMap;
 import views.components.UnitInfo;
@@ -33,7 +38,8 @@ public class HUDController {
         createMessageBoxContainer(HUD);
         createMiniMap(HUD);
         createUnitInfo(HUD);
-        createTechnologyPanelButton(HUD);
+        createCurrentTechnologyPanel(HUD);
+        createTechnologyTreeButton(HUD);
         this.addMessage("hit", MessageBox.Type.INFO, "shit", "fuck");
     }
 
@@ -96,15 +102,41 @@ public class HUDController {
         HUD.getChildren().add(unitInfo);
     }
 
-    private void createTechnologyPanelButton(Group HUD) {
-        Button technologyPanel = new Button("Technology Panel");
-        technologyPanel.getStyleClass().add("technology_panel");
+    private void createCurrentTechnologyPanel(Group HUD) {
+        HBox currentTechnologyPanel = new HBox(25);
+        currentTechnologyPanel.setAlignment(Pos.CENTER_LEFT);
+        currentTechnologyPanel.setPrefWidth(400);
+        Circle currentTechnologyPicture = new Circle(40);
+        String imageFileName = "";
+        String address = "";
+        if(TechnologyController.getGame().getCurrentPlayer().getCurrentStudyTechnology() != null){
+            imageFileName = TechnologyController.getGame().getCurrentPlayer().getCurrentStudyTechnology().getTechnologyTemplate().getFileName();
+            address = App.class.getResource("../assets/image/technology/" + imageFileName + ".png").toExternalForm();
+        }
+        else {
+            address = App.class.getResource("../assets/image/technology/unknown.png").toExternalForm();
+        }
+        ImagePattern picture = new ImagePattern(new Image(address));
+        currentTechnologyPicture.setFill(picture);
+
+        currentTechnologyPanel.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                GameMediator.getInstance().openTechnologyTree();
+            }
+        });
+        currentTechnologyPanel.getChildren().add(currentTechnologyPicture);
+        HUD.getChildren().add(currentTechnologyPanel);
+    }
+    private void createTechnologyTreeButton(Group HUD) {
+        Button technologyPanel = new Button("open Technology tree");
+        technologyPanel.getStyleClass().add("technology_tree_button");
         technologyPanel.setLayoutX(50);
         technologyPanel.setLayoutY(200);
         technologyPanel.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                GameMediator.getInstance().openTechnologyMenu();
+                GameMediator.getInstance().openTechnologyTree();
             }
         });
         HUD.getChildren().add(technologyPanel);
