@@ -527,6 +527,8 @@ public class UnitController extends GameController {
             possibleActions.add(UnitAction.PILLAGE);
         if (unit.getUnitState() != UnitState.FREE)
             possibleActions.add(UnitAction.FREE);
+        if (WorkerController.checkImprovementIsPossibleToBuild() == UnitMessage.SUCCESS)
+            possibleActions.add(UnitAction.BUILD);
         possibleActions.add(UnitAction.INFO);
         possibleActions.add(UnitAction.DELETE);
         return possibleActions;

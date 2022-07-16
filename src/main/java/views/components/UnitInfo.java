@@ -19,6 +19,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import models.units.Unit;
 import views.App;
+import views.GameMediator;
 import views.GameMenu;
 import views.GamePage;
 
@@ -55,7 +56,7 @@ public class UnitInfo extends Group {
         BUILD("Build"){
             @Override
             public void callMediator(Unit unit){
-                System.out.println("Build");
+                GameMediator.getInstance().openBuildMenu();
                 GamePage.getInstance().updateGamePage();
             }
         },

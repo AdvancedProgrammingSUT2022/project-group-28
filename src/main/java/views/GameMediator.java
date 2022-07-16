@@ -6,6 +6,7 @@ import controllers.CombatController;
 import controllers.GameController;
 import controllers.GameMenuController;
 import controllers.units.UnitController;
+import controllers.units.WorkerController;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
@@ -15,7 +16,9 @@ import javafx.stage.StageStyle;
 import models.Constructable;
 import models.civilization.City;
 import models.tiles.Tile;
+import models.tiles.enums.ImprovementTemplate;
 import models.units.Unit;
+import models.units.Worker;
 import models.units.enums.UnitTemplate;
 import views.components.MessageBox;
 import views.enums.CityMessage;
@@ -194,5 +197,22 @@ public class GameMediator {
         stage.setScene(scene);
         stage.show();
         scene.getRoot().requestFocus();
+    }
+
+    public void openBuildMenu(){
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initOwner(GamePage.getInstance().getGameContent().getParent().getScene().getWindow());
+        Scene scene;
+        scene = new Scene(App.loadFXML("buildPage"));
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+        scene.getRoot().requestFocus();
+    }
+
+    public void build(ImprovementTemplate improvementTemplate){
+        WorkerController.startImprovement((Worker) GameController.getGame().getSelectedUnit(), improvementTemplate);
     }
 }
