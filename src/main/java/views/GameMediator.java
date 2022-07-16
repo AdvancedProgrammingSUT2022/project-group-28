@@ -199,6 +199,10 @@ public class GameMediator {
         scene.getRoot().requestFocus();
     }
 
+    public void openTechnologyMenu(){
+
+    }
+
     public void openBuildMenu(){
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);

@@ -133,13 +133,10 @@ public class HUDController {
         ImagePattern picture = new ImagePattern(new Image(address));
         currentTechnologyPicture.setFill(picture);
 
-
-
-
         currentTechnologyPanel.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                GameMediator.getInstance().openTechnologyTree();
+                GameMediator.getInstance().openTechnologyMenu();
             }
         });
         currentTechnologyPanel.getChildren().addAll(currentTechnologyPicture , currentTechnologyName);
