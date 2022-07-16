@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
@@ -13,7 +15,11 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f6f7f7" height="255.0" layoutX="45.0" layoutY="597.0" stroke="#e79f42" strokeType="INSIDE" strokeWidth="5.0" width="210.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#9a9a9a" height="47.0" layoutX="66.0" layoutY="617.0" stroke="BLACK" strokeType="INSIDE" width="168.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#73d050" height="47.0" layoutX="66.0" layoutY="672.0" stroke="BLACK" strokeType="INSIDE" width="168.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ef8383" height="47.0" layoutX="66.0" layoutY="729.0" stroke="BLACK" strokeType="INSIDE" width="168.0" />
+            <ImageView fitHeight="52.0" fitWidth="185.0" layoutX="67.0" layoutY="726.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/image/technology_background.gif" />
+               </image>
+            </ImageView>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#daa332" height="47.0" layoutX="66.0" layoutY="784.0" stroke="BLACK" strokeType="INSIDE" width="168.0" />
             <Text layoutX="84.0" layoutY="646.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Not Yet Available">
                <font>
@@ -25,7 +31,7 @@
                   <Font name="Arial Rounded MT Bold" size="16.0" />
                </font>
             </Text>
-            <Text layoutX="73.0" layoutY="758.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Currently Researching">
+            <Text fill="WHITE" layoutX="73.0" layoutY="757.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Currently Researching">
                <font>
                   <Font name="Arial Rounded MT Bold" size="14.0" />
                </font>

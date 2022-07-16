@@ -2,6 +2,10 @@
     -fx-background-radius: 10;
 }
 
+.technology_name{
+    -fx-font-size: 17;
+}
+
 .available_node{
     -fx-background-color: #73d050;
 }
@@ -16,4 +20,8 @@
 
 .currently_researching{
     -fx-background-color: #ef8383;
+    -fx-background-image: url("../assets/image/technology_background.gif");
+}
+.current_technology_name{
+    -fx-fill: white;
 }

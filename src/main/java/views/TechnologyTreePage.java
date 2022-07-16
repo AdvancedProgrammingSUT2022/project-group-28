@@ -1,9 +1,12 @@
 package views;
 
 import controllers.TechnologyController;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.ImagePattern;
@@ -37,23 +40,25 @@ public class TechnologyTreePage {
             node.setPrefWidth(250);
             node.setLayoutX(technologyTemplate.getX());
             node.setLayoutY(technologyTemplate.getY());
-            checkColorOfNode(node , technologyTemplate);
             node.getStyleClass().add("node");
             Circle picture = new Circle(35);
             picture.setFill(technologies.get(technologyTemplate));
             Text technologyName = new Text(technologyTemplate.getName());
+            technologyName.getStyleClass().add("technology_name");
+            checkColorOfNode(node ,technologyName, technologyTemplate);
             node.getChildren().addAll(picture , technologyName);
             anchorPane.getChildren().add(node);
         }
 
     }
 
-    private void checkColorOfNode(HBox node, TechnologyTemplate technologyTemplate) {
+    private void checkColorOfNode(HBox node,Text text, TechnologyTemplate technologyTemplate) {
         ArrayList<TechnologyTemplate> userFullTechnologyTemplates = TechnologyController.extractFullProgressTechnology();
         ArrayList<TechnologyTemplate> possibleTechnologyTemplates = TechnologyController.PossibleTechnology();
         Technology currentTechnology = TechnologyController.getGame().getCurrentPlayer().getCurrentStudyTechnology();
         if(currentTechnology != null && TechnologyController.getGame().getCurrentPlayer().getCurrentStudyTechnology().getTechnologyTemplate().equals(technologyTemplate)){
             node.getStyleClass().add("currently_researching");
+            text.getStyleClass().add("current_technology_name");
         }
         else if(userFullTechnologyTemplates.contains(technologyTemplate)){
             node.getStyleClass().add("researched_node");
