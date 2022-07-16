@@ -3,11 +3,20 @@
     -fx-background-radius: 10 10 10 10;
 }
 
+
+.current_technology_panel{
+    -fx-background-color: #2192c2ff;
+    -fx-background-radius: 10;
+}
+
+.current_technology_name{
+    -fx-font-size: 20;
+}
+
 .technology_tree_button {
     -fx-background-color: #2192c2ff;
     -fx-background-radius: 10 10 10 10;
 }
-
 
 .message_box_warning {
     -fx-padding: 10 30 10 30;
