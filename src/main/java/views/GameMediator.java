@@ -200,7 +200,19 @@ public class GameMediator {
     }
 
     public void openTechnologyPage(){
-
+        // TODO: notify server
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initOwner(GamePage.getInstance().getGameContent().getParent().getScene().getWindow());
+        stage.setX(170);
+        stage.setY(200);
+        Scene scene;
+        scene = new Scene(App.loadFXML("technologyPage"), 388, 688);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+        scene.getRoot().requestFocus();
     }
 
     public void openBuildMenu(){
