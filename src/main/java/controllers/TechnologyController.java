@@ -133,7 +133,7 @@ public class TechnologyController extends GameController {
 
 
     // TODO: change coefficient
-    private static int addEachTurnScienceBalance(Civilization civilization){
+    public static int addEachTurnScienceBalance(Civilization civilization){
         if (civilization.getGold() < 0) return (int)((calculateThePopulation() + 3) * 0.7);
         return calculateThePopulation()+3;      //+3 is constant
     }

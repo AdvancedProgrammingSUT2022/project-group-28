@@ -66,6 +66,18 @@ public class Civilization {
         discoveredTiles.put(tile, value);
     }
 
+    public Technology getTechnologyByTechnologyTemplate(TechnologyTemplate technologyTemplate){
+        if(studiedTechnologies.size() == 0){
+            return null;
+        }
+        for (Technology technology: studiedTechnologies) {
+            if(technology.getTechnologyTemplate().equals(technologyTemplate)){
+                return technology;
+            }
+        }
+        return null;
+    }
+
 
     public User getUser() {
         return user;

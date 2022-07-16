@@ -41,11 +41,14 @@ public class TechnologyTreePage {
             node.setLayoutX(technologyTemplate.getX());
             node.setLayoutY(technologyTemplate.getY());
             node.getStyleClass().add("node");
+
             Circle picture = new Circle(35);
             picture.setFill(technologies.get(technologyTemplate));
+
             Text technologyName = new Text(technologyTemplate.getName());
             technologyName.getStyleClass().add("technology_name");
-            Text remainingTurns = new Text();
+
+
             checkColorOfNode(node ,technologyName, technologyTemplate);
             node.getChildren().addAll(picture , technologyName);
             anchorPane.getChildren().add(node);
@@ -57,7 +60,7 @@ public class TechnologyTreePage {
         ArrayList<TechnologyTemplate> userFullTechnologyTemplates = TechnologyController.extractFullProgressTechnology();
         ArrayList<TechnologyTemplate> possibleTechnologyTemplates = TechnologyController.PossibleTechnology();
         Technology currentTechnology = TechnologyController.getGame().getCurrentPlayer().getCurrentStudyTechnology();
-        if(currentTechnology != null && TechnologyController.getGame().getCurrentPlayer().getCurrentStudyTechnology().getTechnologyTemplate().equals(technologyTemplate)){
+        if(currentTechnology != null && currentTechnology.getTechnologyTemplate().equals(technologyTemplate)){
             node.getStyleClass().add("currently_researching");
             text.getStyleClass().add("current_technology_name");
         }
