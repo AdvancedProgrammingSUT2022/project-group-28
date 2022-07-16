@@ -8,7 +8,9 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="views.TechnologyMenu"
-            prefHeight="400.0" prefWidth="600.0">
+            fx:controller="views.TechnologyPage"
+            prefHeight="400.0" prefWidth="600.0"
+            stylesheets="@../css/construction_page.css"
+            styleClass="background">
 
 </AnchorPane>

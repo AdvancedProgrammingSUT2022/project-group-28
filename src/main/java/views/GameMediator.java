@@ -199,7 +199,7 @@ public class GameMediator {
         scene.getRoot().requestFocus();
     }
 
-    public void openTechnologyMenu(){
+    public void openTechnologyPage(){
 
     }
 

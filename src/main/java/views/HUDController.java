@@ -6,7 +6,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -136,7 +135,7 @@ public class HUDController {
         currentTechnologyPanel.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                GameMediator.getInstance().openTechnologyMenu();
+                GameMediator.getInstance().openTechnologyPage();
             }
         });
         currentTechnologyPanel.getChildren().addAll(currentTechnologyPicture , currentTechnologyName);
