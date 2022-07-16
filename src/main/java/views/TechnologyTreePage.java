@@ -11,6 +11,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import models.Game;
 import models.civilization.Civilization;
+import models.civilization.Technology;
 import models.civilization.enums.TechnologyTemplate;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class TechnologyTreePage {
             node.setPrefWidth(250);
             node.setLayoutX(technologyTemplate.getX());
             node.setLayoutY(technologyTemplate.getY());
-            //checkColorOfNode(node , technologyTemplate);
+            checkColorOfNode(node , technologyTemplate);
             node.getStyleClass().add("node");
             Circle picture = new Circle(35);
             picture.setFill(technologies.get(technologyTemplate));
@@ -50,7 +51,8 @@ public class TechnologyTreePage {
     private void checkColorOfNode(HBox node, TechnologyTemplate technologyTemplate) {
         ArrayList<TechnologyTemplate> userFullTechnologyTemplates = TechnologyController.extractFullProgressTechnology();
         ArrayList<TechnologyTemplate> possibleTechnologyTemplates = TechnologyController.PossibleTechnology();
-        if(TechnologyController.getGame().getCurrentPlayer().getCurrentStudyTechnology().getTechnologyTemplate().equals(technologyTemplate)){
+        Technology currentTechnology = TechnologyController.getGame().getCurrentPlayer().getCurrentStudyTechnology();
+        if(currentTechnology != null && TechnologyController.getGame().getCurrentPlayer().getCurrentStudyTechnology().getTechnologyTemplate().equals(technologyTemplate)){
             node.getStyleClass().add("currently_researching");
         }
         else if(userFullTechnologyTemplates.contains(technologyTemplate)){
