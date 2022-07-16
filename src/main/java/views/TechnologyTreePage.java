@@ -45,6 +45,7 @@ public class TechnologyTreePage {
             picture.setFill(technologies.get(technologyTemplate));
             Text technologyName = new Text(technologyTemplate.getName());
             technologyName.getStyleClass().add("technology_name");
+            Text remainingTurns = new Text();
             checkColorOfNode(node ,technologyName, technologyTemplate);
             node.getChildren().addAll(picture , technologyName);
             anchorPane.getChildren().add(node);
