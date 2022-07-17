@@ -39,8 +39,10 @@ public class TechnologyPage extends PageController{
     public HBox createTechnologyItem(TechnologyTemplate technologyTemplate){
         HBox technologyItem = new HBox(15);
         technologyItem.setAlignment(Pos.CENTER_LEFT);
+        technologyItem.getStyleClass().add("technology_item");
+        technologyItem.prefWidth(500);
 
-        Circle icon = new Circle(30);
+        Circle icon = new Circle(35);
         String address = App.class.getResource("../assets/image/technology/" + technologyTemplate.getFileName() + ".png").toExternalForm();
         icon.setFill(new ImagePattern(new Image(address)));
         technologyItem.getChildren().add(icon);
@@ -53,11 +55,11 @@ public class TechnologyPage extends PageController{
         Civilization userCivilization = TechnologyController.getGame().getCurrentPlayer();
         Technology technology = userCivilization.getTechnologyByTechnologyTemplate(technologyTemplate);
         if(technology == null){
-            turns.setText((int) Math.ceil((double)(technologyTemplate.getCost()) / TechnologyController.addEachTurnScienceBalance(userCivilization)) + " turns\n");
+            turns.setText((int) Math.ceil((double)(technologyTemplate.getCost()) / TechnologyController.addEachTurnScienceBalance(userCivilization)) + " turns");
 
         }
         else{
-            turns.setText((int) Math.ceil((double)(technologyTemplate.getCost()-technology.getProgress()) / TechnologyController.addEachTurnScienceBalance(userCivilization)) + " turns\n");
+            turns.setText((int) Math.ceil((double)(technologyTemplate.getCost()-technology.getProgress()) / TechnologyController.addEachTurnScienceBalance(userCivilization)) + " turns");
         }
         turns.getStyleClass().add("normal_text");
         technologyItem.getChildren().add(turns);

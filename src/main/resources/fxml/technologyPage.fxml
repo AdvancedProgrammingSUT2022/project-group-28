@@ -14,9 +14,9 @@
             styleClass="background">
 
     <center>
-        <VBox alignment="CENTER">
+        <VBox styleClass="technology_vbox1" spacing="20" alignment="TOP_CENTER">
             <ScrollPane styleClass="technologies" >
-                <VBox alignment="CENTER" spacing="10" fx:id="technologiesContainer">
+                <VBox styleClass="technology_vbox2" alignment="CENTER"  spacing="20" fx:id="technologiesContainer">
 
                 </VBox>
             </ScrollPane>
