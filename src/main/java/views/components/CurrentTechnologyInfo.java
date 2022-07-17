@@ -24,7 +24,7 @@ public class CurrentTechnologyInfo extends Group {
     private Text currentTechnologyName;
     private ProgressIndicator currentTechnologyProgress;
     public CurrentTechnologyInfo(){
-        currentTechnologyPanel = new HBox(25);
+        currentTechnologyPanel = new HBox(14);
         currentTechnologyPanel.getStyleClass().add("current_technology_panel");
         currentTechnologyPanel.setAlignment(Pos.CENTER_LEFT);
         currentTechnologyPanel.setPrefWidth(350);
