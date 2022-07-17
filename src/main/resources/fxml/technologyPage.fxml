@@ -15,6 +15,7 @@
 
     <center>
         <VBox styleClass="technology_vbox1" spacing="20" alignment="TOP_CENTER">
+            <Button styleClass="technology_tree_button" fx:id="technologyTreePage" text="open Technology tree" onMouseClicked="#goThechnologyTreePage"/>
             <ScrollPane styleClass="technologies" >
                 <VBox styleClass="technology_vbox2" alignment="CENTER"  spacing="20" fx:id="technologiesContainer">
 

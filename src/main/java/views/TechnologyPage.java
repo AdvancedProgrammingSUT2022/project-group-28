@@ -1,6 +1,7 @@
 package views;
 
 import controllers.TechnologyController;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -18,6 +19,8 @@ import models.civilization.enums.TechnologyTemplate;
 import java.util.ArrayList;
 
 public class TechnologyPage extends PageController{
+    @FXML
+    private Button technologyTreePage;
     @FXML
     private Button backButton;
     @FXML
@@ -59,11 +62,16 @@ public class TechnologyPage extends PageController{
         }
 
         Text name = new Text(technologyTemplate.getName() + "  |  " + turns);
-        //name.getStyleClass().add("normal_text");
         TechnologyTreePage.checkColorOfNode(technologyItem  , name , technologyTemplate);
 
 
         technologyItem.getChildren().add(name);
+        technologyItem.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                GameMediator.getInstance().startStudyTechnology(technologyTemplate);
+            }
+        });
         return technologyItem;
 
     }
@@ -77,5 +85,9 @@ public class TechnologyPage extends PageController{
     private void back() {
         this.onExit();
         this.backButton.getParent().getScene().getWindow().hide();
+    }
+
+    public void goThechnologyTreePage(MouseEvent mouseEvent) {
+        GameMediator.getInstance().openTechnologyTree();
     }
 }

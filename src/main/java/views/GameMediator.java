@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.Constructable;
 import models.civilization.City;
+import models.civilization.enums.TechnologyTemplate;
 import models.tiles.Tile;
 import models.tiles.enums.ImprovementTemplate;
 import models.units.Unit;
@@ -213,6 +214,10 @@ public class GameMediator {
         stage.setScene(scene);
         stage.show();
         scene.getRoot().requestFocus();
+    }
+
+    public void startStudyTechnology(TechnologyTemplate technologyTemplate){
+
     }
 
     public void openBuildMenu(){

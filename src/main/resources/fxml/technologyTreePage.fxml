@@ -17,7 +17,7 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#73d050" height="47.0" layoutX="66.0" layoutY="672.0" stroke="BLACK" strokeType="INSIDE" width="168.0" />
             <ImageView fitHeight="52.0" fitWidth="185.0" layoutX="67.0" layoutY="726.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../assets/image/technology_background.gif" />
+                  <Image url="@../assets/image/technology_background1.gif" />
                </image>
             </ImageView>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#daa332" height="47.0" layoutX="66.0" layoutY="784.0" stroke="BLACK" strokeType="INSIDE" width="168.0" />

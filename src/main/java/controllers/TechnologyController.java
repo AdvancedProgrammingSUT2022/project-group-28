@@ -83,21 +83,24 @@ public class TechnologyController extends GameController {
         if(number <= 0 || number > possibleTechnologyTemplates.size()){
             return CivilizationMessage.OUT_OF_RANGE;
         }
-        getNewTechnology(number);
+        getNewTechnology(changeNumberToTechnologyTemplate(number));
         return CivilizationMessage.SUCCESS;
     }
 
 
-    private static void getNewTechnology(int number){
-        ArrayList<TechnologyTemplate> possibleTechnologyTemplates = PossibleTechnology();
-        int index = number - 1;
-        if (getTechnology(possibleTechnologyTemplates.get(index)) == null){
-            Technology technology = new Technology(possibleTechnologyTemplates.get(index) , game.getCurrentPlayer().getScienceBalance());
+    private static void getNewTechnology(TechnologyTemplate technologyTemplate){
+        if (getTechnology(technologyTemplate) == null){
+            Technology technology = new Technology(technologyTemplate , game.getCurrentPlayer().getScienceBalance());
             game.getCurrentPlayer().addTechnology(technology);
 
         }
-        game.getCurrentPlayer().setCurrentStudyTechnology(getTechnology(possibleTechnologyTemplates.get(index)));
+        game.getCurrentPlayer().setCurrentStudyTechnology(getTechnology(technologyTemplate));
+    }
 
+    private static TechnologyTemplate changeNumberToTechnologyTemplate(int number){
+        ArrayList<TechnologyTemplate> possibleTechnologyTemplates = PossibleTechnology();
+        int index = number - 1;
+        return possibleTechnologyTemplates.get(index);
     }
 
     private static Technology getTechnology(TechnologyTemplate technologyTemplate){

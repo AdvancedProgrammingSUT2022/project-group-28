@@ -41,7 +41,6 @@ public class HUDController {
         createMiniMap(HUD);
         createUnitInfo(HUD);
         createCurrentTechnologyPanel(HUD);
-        createTechnologyTreeButton(HUD);
         this.addMessage("hit", MessageBox.Type.INFO, "shit", "fuck");
     }
 
@@ -140,19 +139,6 @@ public class HUDController {
         });
         currentTechnologyPanel.getChildren().addAll(currentTechnologyPicture , currentTechnologyName);
         HUD.getChildren().add(currentTechnologyPanel);
-    }
-    private void createTechnologyTreeButton(Group HUD) {
-        Button technologyPanel = new Button("open Technology tree");
-        technologyPanel.getStyleClass().add("technology_tree_button");
-        technologyPanel.setLayoutX(50);
-        technologyPanel.setLayoutY(200);
-        technologyPanel.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                GameMediator.getInstance().openTechnologyTree();
-            }
-        });
-        HUD.getChildren().add(technologyPanel);
     }
 
     public UnitInfo getUnitInfo() {
