@@ -25,7 +25,6 @@ import models.units.Ranged;
 import models.units.Settler;
 import models.units.Unit;
 import models.units.Worker;
-import models.units.enums.UnitState;
 import models.units.enums.UnitTemplate;
 import views.enums.*;
 import views.notifications.CivilizationNotification;
