@@ -194,7 +194,9 @@ public class GamePage extends PageController{
     public void updateGamePage() {
         this.createMap(true);
         HUDController.getInstance().getUnitInfo().update();
+        HUDController.getInstance().getCurrentTechnologyInfo().updateData();
         HUDController.getInstance().getMiniMap().updateMap();
+
     }
 
     public static GamePage getInstance() {
