@@ -1,10 +1,6 @@
 package views;
 
-import controllers.CityController;
-import controllers.CivilizationController;
-import controllers.CombatController;
-import controllers.GameController;
-import controllers.GameMenuController;
+import controllers.*;
 import controllers.units.UnitController;
 import controllers.units.WorkerController;
 import javafx.scene.Node;
@@ -217,7 +213,7 @@ public class GameMediator {
     }
 
     public void startStudyTechnology(TechnologyTemplate technologyTemplate){
-
+        TechnologyController.getNewTechnology(technologyTemplate);
     }
 
     public void openBuildMenu(){
