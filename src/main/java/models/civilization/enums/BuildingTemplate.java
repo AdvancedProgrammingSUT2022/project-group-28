@@ -3,7 +3,6 @@ package models.civilization.enums;
 import controllers.CivilizationController;
 import controllers.TechnologyController;
 import models.Constructable;
-import models.civilization.BuildingInterface;
 import models.civilization.City;
 import models.tiles.Tile;
 import models.tiles.enums.ResourceTemplate;
