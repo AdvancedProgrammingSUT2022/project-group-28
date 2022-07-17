@@ -20,7 +20,7 @@
 
 .currently_researching{
     -fx-background-color: #ef8383;
-    -fx-background-image: url("../assets/image/technology_background.gif");
+    -fx-background-image: url("../assets/image/technology_background1.gif");
 }
 .current_technology_name{
     -fx-fill: white;

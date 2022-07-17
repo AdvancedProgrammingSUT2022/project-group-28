@@ -56,7 +56,7 @@ public class TechnologyTreePage {
 
     }
 
-    private void checkColorOfNode(HBox node,Text text, TechnologyTemplate technologyTemplate) {
+    public static void checkColorOfNode(HBox node,Text text, TechnologyTemplate technologyTemplate) {
         ArrayList<TechnologyTemplate> userFullTechnologyTemplates = TechnologyController.extractFullProgressTechnology();
         ArrayList<TechnologyTemplate> possibleTechnologyTemplates = TechnologyController.PossibleTechnology();
         Technology currentTechnology = TechnologyController.getGame().getCurrentPlayer().getCurrentStudyTechnology();

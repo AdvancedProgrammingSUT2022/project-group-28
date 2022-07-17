@@ -47,23 +47,23 @@ public class TechnologyPage extends PageController{
         icon.setFill(new ImagePattern(new Image(address)));
         technologyItem.getChildren().add(icon);
 
-        Text name = new Text(technologyTemplate.getName());
-        name.getStyleClass().add("normal_text");
-        technologyItem.getChildren().add(name);
-
-        Text turns = new Text();
+        String turns = "";
         Civilization userCivilization = TechnologyController.getGame().getCurrentPlayer();
         Technology technology = userCivilization.getTechnologyByTechnologyTemplate(technologyTemplate);
         if(technology == null){
-            turns.setText((int) Math.ceil((double)(technologyTemplate.getCost()) / TechnologyController.addEachTurnScienceBalance(userCivilization)) + " turns");
+            turns = ((int) Math.ceil((double)(technologyTemplate.getCost()) / TechnologyController.addEachTurnScienceBalance(userCivilization)) + " turns");
 
         }
         else{
-            turns.setText((int) Math.ceil((double)(technologyTemplate.getCost()-technology.getProgress()) / TechnologyController.addEachTurnScienceBalance(userCivilization)) + " turns");
+            turns = ((int) Math.ceil((double)(technologyTemplate.getCost()-technology.getProgress()) / TechnologyController.addEachTurnScienceBalance(userCivilization)) + " turns");
         }
-        turns.getStyleClass().add("normal_text");
-        technologyItem.getChildren().add(turns);
 
+        Text name = new Text(technologyTemplate.getName() + "  |  " + turns);
+        //name.getStyleClass().add("normal_text");
+        TechnologyTreePage.checkColorOfNode(technologyItem  , name , technologyTemplate);
+
+
+        technologyItem.getChildren().add(name);
         return technologyItem;
 
     }

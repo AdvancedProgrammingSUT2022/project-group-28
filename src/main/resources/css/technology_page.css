@@ -12,9 +12,33 @@
 }
 
 .technology_item{
-    -fx-background-color: #92b7a3;
     -fx-background-radius: 20;
     -fx-pref-width: 344;
+}
+
+.normal_text{
+    -fx-font-size: 15;
+
+}
+
+.available_node{
+    -fx-background-color: #73d050;
+}
+
+.researched_node{
+    -fx-background-color: #daa332;
+}
+
+.not_available_node{
+    -fx-background-color: #9a9a9a;
+}
+
+.currently_researching{
+    -fx-background-color: #ef8383;
+    -fx-background-image: url("../assets/image/technology_background2.gif");
+}
+.current_technology_name{
+    -fx-fill: white;
 }
 
 .back_button{
