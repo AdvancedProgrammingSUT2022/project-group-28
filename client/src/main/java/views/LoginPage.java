@@ -8,7 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import models.ClientRequest;
 import models.ServerResponse;
-import views.enums.Message;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,7 +40,6 @@ public class LoginPage extends PageController {
             // TODO: change loggedIn user policy
             RegisterMenuController.setLoggedInUser(username.getText());
             App.setRoot("mainPage");
-            Menu.setCurrentMenu(MainMenu.getInstance());
         } else {
             String textOfError = "username or password is incorrect.";
             error.setStyle("-fx-text-fill: #ea540a");
