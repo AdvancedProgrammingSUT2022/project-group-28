@@ -14,7 +14,7 @@ public class MainPage extends PageController{
 
     @FXML
     private void loadGame() {
-        Game game = GsonHandler.importGame();
+        Game game = GsonHandler.importGame("gameInformation");
         if (game == null) {
             // TODO: add message
             System.out.println("No game to load");

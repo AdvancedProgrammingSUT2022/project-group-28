@@ -21,6 +21,7 @@ public class GameMenuController extends GameController {
 
     public static void startNewGame(ArrayList<User> players, int seed) {
          setGame(new Game(players, seed));
+         CivilizationController.updateDiscoveredTiles();
     }
 
     public static GameNotification nextTurn() {
