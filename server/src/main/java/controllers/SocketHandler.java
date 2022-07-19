@@ -72,10 +72,12 @@ public class SocketHandler extends Thread {
         ArrayList<String> toSend = new ArrayList<>();
         if (message == Message.SUCCESS) {
             String token = UUID.randomUUID().toString();
-            toSend.add(token);
             User user = User.getUserByUsername(data.get(0));
             NetworkController.getInstance().getLoggedInUsers().put(token, user);
-            System.out.println("hi " + user.getUsername());
+
+            toSend.add(token);
+            toSend.add(user.toJson());
+
             return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
         } else {
             return new ServerResponse(ServerResponse.Response.LOGIN_ERROR, toSend);
