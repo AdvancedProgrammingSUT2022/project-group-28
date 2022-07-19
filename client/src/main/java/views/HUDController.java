@@ -1,24 +1,21 @@
 package views;
 
 import controllers.GameController;
-import controllers.TechnologyController;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;
-import models.civilization.Technology;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import views.components.CurrentTechnologyInfo;
 import views.components.MessageBox;
 import views.components.MiniMap;
 import views.components.UnitInfo;
+import views.components.console.ConsoleView;
 
 public class HUDController {
     private static HUDController instance;
@@ -30,6 +27,7 @@ public class HUDController {
     }
 
     private Button nextTurnButton;
+    private Button consoleButton;
     private VBox messageBoxContainer;
     private ScrollPane messageScrollPane;
     private MiniMap miniMap;
@@ -40,6 +38,7 @@ public class HUDController {
     public void createHUD(Group HUD) {
 
         createNextTurnButton(HUD);
+        createConsoleButton(HUD);
         createMessageBoxContainer(HUD);
         createMiniMap(HUD);
         createUnitInfo(HUD);
@@ -73,6 +72,36 @@ public class HUDController {
             }
         });
 
+    }
+
+    private void createConsoleButton(Group HUD) {
+        consoleButton = new Button("Console");
+        HUD.getChildren().add(consoleButton);
+        consoleButton.setLayoutX(50);
+        consoleButton.setLayoutY(120);
+        consoleButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.initOwner(nextTurnButton.getScene().getWindow());
+                final ConsoleView console = new ConsoleView();
+                final Scene scene = new Scene(console);
+                scene.getStylesheets().add(App.class.getResource("../css/console.css").toExternalForm());
+                stage.setTitle("Console");
+                stage.setScene(scene);
+                stage.setResizable(false);
+                stage.show();
+
+                System.setOut(console.getOut());
+                System.setIn(console.getIn());
+
+                final Thread thread = new Thread(() -> {
+                    GameMenu.getInstance().run();
+                });
+                thread.start();
+            }
+        });
     }
 
     private void createMessageBoxContainer(Group HUD) {

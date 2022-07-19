@@ -1,0 +1,11 @@
+.console .content {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
+.console .text-area {
+    -fx-text-fill: lightgray;
+    -fx-font-family: monospace;
+    -fx-font-size:14;
+    -fx-border-color: black;
+}

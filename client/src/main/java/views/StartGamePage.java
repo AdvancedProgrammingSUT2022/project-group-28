@@ -150,7 +150,6 @@ public class StartGamePage extends PageController {
         GameMenuController.startNewGame(getPlayers(), 100);
         this.onExit();
         App.setRoot("gamePage");
-        Menu.setCurrentMenu(GameMenu.getInstance());
     }
 
     private ArrayList<User> getPlayers() {
