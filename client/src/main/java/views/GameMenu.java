@@ -31,7 +31,7 @@ import views.notifications.CivilizationNotification;
 import views.notifications.GameNotification;
 
 public class GameMenu extends Menu {
-    private static GameMenu instance = new GameMenu();
+    private static GameMenu instance = null;
     private final int BOARD_WIDTH=113;
     private final int BOARD_HEIGHT=28;
 
@@ -131,10 +131,13 @@ public class GameMenu extends Menu {
         } else {
             System.out.println("invalid command");
         }
-        return true;
+        return false;
     }
 
     public static GameMenu getInstance() {
+        if (instance == null) {
+            instance = new GameMenu();
+        }
         return instance;
     }
 
