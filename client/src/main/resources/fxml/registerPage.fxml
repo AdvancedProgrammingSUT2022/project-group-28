@@ -17,7 +17,7 @@
          <children>
             <ImageView fitHeight="114.0" fitWidth="407.0" layoutX="166.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../assets/image/civilization logo.png" />
+                  <Image url="@../assets/image/civilization_logo.png" />
                </image>
             </ImageView>
             <Label layoutX="187.0" layoutY="192.0" text="Username:" textFill="#912d0c">
