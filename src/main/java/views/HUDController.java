@@ -44,7 +44,6 @@ public class HUDController {
         createMiniMap(HUD);
         createUnitInfo(HUD);
         createCurrentTechnologyPanel(HUD);
-        this.addMessage("hit", MessageBox.Type.INFO, "shit", "fuck");
     }
 
     public void addMessage(String message, MessageBox.Type type) {

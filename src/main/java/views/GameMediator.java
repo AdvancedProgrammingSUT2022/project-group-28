@@ -105,7 +105,7 @@ public class GameMediator {
     public void openConstructionMenu(City city) {
         // TODO: notify server
         GameController.getGame().setSelectedCity(city);
-
+        
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.TRANSPARENT);
