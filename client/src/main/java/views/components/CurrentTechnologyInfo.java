@@ -17,6 +17,8 @@ import models.civilization.enums.TechnologyTemplate;
 import views.App;
 import views.GameMediator;
 
+import java.util.ArrayList;
+
 public class CurrentTechnologyInfo extends Group {
 
     private HBox currentTechnologyPanel;
@@ -60,14 +62,25 @@ public class CurrentTechnologyInfo extends Group {
 
         String imageFileName = "";
         Technology currentStudyTechnology = TechnologyController.getGame().getCurrentPlayer().getCurrentStudyTechnology();
+        ArrayList<Technology> userTechnologies = TechnologyController.getGame().getCurrentPlayer().getStudiedTechnologies();
         if(currentStudyTechnology == null){
-            imageFileName = "agriculture";
-            currentTechnologyName.setText("Agriculture");
-            currentTechnologyProgress.setProgress(1);
+            if(TechnologyController.getGame().getCurrentPlayer().getStudiedTechnologies().size() <= 1){
+                imageFileName = "agriculture";
+                currentTechnologyName.setText("Agriculture");
+                currentTechnologyProgress.setVisible(true);
+                currentTechnologyProgress.setProgress(1);
+            }
+            else{
+                imageFileName = "unknown";
+                currentTechnologyName.setText("Unknown");
+                currentTechnologyProgress.setVisible(false);
+            }
+
         }
         else{
             imageFileName = currentStudyTechnology.getTechnologyTemplate().getFileName();
             currentTechnologyName.setText(currentStudyTechnology.getTechnologyTemplate().getName());
+            currentTechnologyProgress.setVisible(true);
             currentTechnologyProgress.setProgress(setProgressNumber(currentStudyTechnology.getTechnologyTemplate()));
         }
 
