@@ -16,10 +16,7 @@ public enum BuildingTemplate implements Constructable {
     BARRACKS("Barracks", "barracks", 80, 1, 0, 1, TechnologyTemplate.BRONZE_WORKING),
     GRANARY("Granary", "granary", 100, 1, 0,  1, TechnologyTemplate.POTTERY),
     LIBRARY("Library","library", 80, 1, 2, 1, TechnologyTemplate.WRITING),
-    MONUMENT("Monument", "monument", 60, 1, 0, 1, null) {
-        @Override
-        public boolean isAvailableToBuild(City city) { return true; }
-    },
+    MONUMENT("Monument", "monument", 60, 1, 0, 1, null),
     WALLS("Walls", "walls", 100, 1, 0, 1, TechnologyTemplate.MASONRY),
     WATER_MILL("Water mill", "water_mill", 120, 2, 0, 1, TechnologyTemplate.THE_WHEEL) {
         @Override
@@ -212,7 +209,6 @@ public enum BuildingTemplate implements Constructable {
         }
     };
 
-
     // TODO: change due every building
     @Override
     public CityMessage checkPossibilityOfConstruction(City city) {
@@ -238,7 +234,8 @@ public enum BuildingTemplate implements Constructable {
 
     public boolean isAvailableToBuild(City city) {
         ArrayList<TechnologyTemplate> studiedTechnologies = TechnologyController.extractFullProgressTechnology();
-        if (!studiedTechnologies.contains(this.requiredTechnology)) return false;
+        if (!studiedTechnologies.contains(this.requiredTechnology) && this.requiredTechnology != null) return false;
+        if (city.getBuildings().contains(this)) return false;
         return true;
     }
 

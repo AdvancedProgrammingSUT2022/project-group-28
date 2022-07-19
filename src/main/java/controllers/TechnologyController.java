@@ -88,7 +88,7 @@ public class TechnologyController extends GameController {
     }
 
 
-    private static void getNewTechnology(TechnologyTemplate technologyTemplate){
+    public static void getNewTechnology(TechnologyTemplate technologyTemplate){
         if (getTechnology(technologyTemplate) == null){
             Technology technology = new Technology(technologyTemplate , game.getCurrentPlayer().getScienceBalance());
             game.getCurrentPlayer().addTechnology(technology);

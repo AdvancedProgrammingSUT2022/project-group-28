@@ -69,12 +69,18 @@ public class TechnologyPage extends PageController{
         technologyItem.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                technologiesContainer.getChildren().clear();
                 GameMediator.getInstance().startStudyTechnology(technologyTemplate);
+                GamePage.getInstance().updateGamePage();
+                initialize();
+
             }
         });
         return technologyItem;
 
     }
+
+
 
 
 

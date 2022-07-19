@@ -15,6 +15,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import models.civilization.Technology;
+import views.components.CurrentTechnologyInfo;
 import views.components.MessageBox;
 import views.components.MiniMap;
 import views.components.UnitInfo;
@@ -34,6 +35,8 @@ public class HUDController {
     private MiniMap miniMap;
     private UnitInfo unitInfo;
 
+    private CurrentTechnologyInfo currentTechnologyInfo;
+
     public void createHUD(Group HUD) {
 
         createNextTurnButton(HUD);
@@ -41,7 +44,6 @@ public class HUDController {
         createMiniMap(HUD);
         createUnitInfo(HUD);
         createCurrentTechnologyPanel(HUD);
-        this.addMessage("hit", MessageBox.Type.INFO, "shit", "fuck");
     }
 
     public void addMessage(String message, MessageBox.Type type) {
@@ -104,41 +106,8 @@ public class HUDController {
     }
 
     private void createCurrentTechnologyPanel(Group HUD) {
-        HBox currentTechnologyPanel = new HBox(25);
-        currentTechnologyPanel.getStyleClass().add("current_technology_panel");
-        currentTechnologyPanel.setAlignment(Pos.CENTER_LEFT);
-        currentTechnologyPanel.setPrefWidth(350);
-        currentTechnologyPanel.setLayoutX(30);
-        currentTechnologyPanel.setLayoutY(20);
-        //ProgressIndicator currentTechnologyProgress = new ProgressIndicator();
-        Circle currentTechnologyPicture = new Circle(50);
-        Text currentTechnologyName = new Text() ;
-        currentTechnologyName.getStyleClass().add("current_technology_name");
-
-        String imageFileName = "";
-        String address = "";
-        Technology currentStudyTechnology = TechnologyController.getGame().getCurrentPlayer().getCurrentStudyTechnology();
-        if(currentStudyTechnology != null){
-            imageFileName = TechnologyController.getGame().getCurrentPlayer().getCurrentStudyTechnology().getTechnologyTemplate().getFileName();
-            address = App.class.getResource("../assets/image/technology/" + imageFileName + ".png").toExternalForm();
-            //currentTechnologyProgress.setProgress((double)currentStudyTechnology.getProgress() / currentStudyTechnology.getTechnologyTemplate().getCost());
-            currentTechnologyName.setText(currentStudyTechnology.getTechnologyTemplate().getName());
-        }
-        else {
-            address = App.class.getResource("../assets/image/technology/agriculture.png").toExternalForm();
-            currentTechnologyName.setText("Agriculture");
-        }
-        ImagePattern picture = new ImagePattern(new Image(address));
-        currentTechnologyPicture.setFill(picture);
-
-        currentTechnologyPanel.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                GameMediator.getInstance().openTechnologyPage();
-            }
-        });
-        currentTechnologyPanel.getChildren().addAll(currentTechnologyPicture , currentTechnologyName);
-        HUD.getChildren().add(currentTechnologyPanel);
+        currentTechnologyInfo = new CurrentTechnologyInfo();
+        HUD.getChildren().add(currentTechnologyInfo);
     }
 
     public UnitInfo getUnitInfo() {
@@ -146,4 +115,8 @@ public class HUDController {
     }
 
     public MiniMap getMiniMap() { return miniMap; }
+
+    public CurrentTechnologyInfo getCurrentTechnologyInfo() {
+        return currentTechnologyInfo;
+    }
 }

@@ -396,6 +396,8 @@ public class CityController extends GameController {
     private static void constructConstruction(City city) {
         if (city.getConstruction() != null) {
             int productionBalance = getCityProductionBalance(city);
+            // for balancing the game
+            productionBalance *= 7;
             if (productionBalance < 0) return;
             Construction construction = city.getConstruction();
             Constructable constructionTemplate = city.getConstruction().getConstructionTemplate();

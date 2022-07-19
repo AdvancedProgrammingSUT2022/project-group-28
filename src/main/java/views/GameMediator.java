@@ -1,10 +1,6 @@
 package views;
 
-import controllers.CityController;
-import controllers.CivilizationController;
-import controllers.CombatController;
-import controllers.GameController;
-import controllers.GameMenuController;
+import controllers.*;
 import controllers.units.UnitController;
 import controllers.units.WorkerController;
 import javafx.scene.Node;
@@ -109,7 +105,7 @@ public class GameMediator {
     public void openConstructionMenu(City city) {
         // TODO: notify server
         GameController.getGame().setSelectedCity(city);
-
+        
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.TRANSPARENT);
@@ -176,14 +172,14 @@ public class GameMediator {
             GamePage.getInstance().setOffsetI(0);
             GamePage.getInstance().setOffsetJ(0);
         } else if (notification == CivilizationNotification.NO_TECHNOLOGY) {
-            System.out.println("tech required");
+            HUDController.getInstance().addMessage("You have to study a technology", MessageBox.Type.ALERT);
         } else {
             System.out.println("done");
             // TODO: notify server
-            // TODO: handle start new turn
             GameMenuController.startNewTurn();
         }
 
+        // TODO: handle start new turn
         GamePage.getInstance().updateGamePage();
     }
 
@@ -217,7 +213,7 @@ public class GameMediator {
     }
 
     public void startStudyTechnology(TechnologyTemplate technologyTemplate){
-
+        TechnologyController.getNewTechnology(technologyTemplate);
     }
 
     public void openBuildMenu(){
