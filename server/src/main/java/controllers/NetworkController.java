@@ -29,4 +29,6 @@ public class NetworkController {
            new SocketHandler(socket).start();
        }
     }
+
+    public HashMap<String, User> getLoggedInUsers() { return loggedInUsers; }
 }

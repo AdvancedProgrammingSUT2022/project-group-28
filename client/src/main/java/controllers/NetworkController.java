@@ -20,6 +20,8 @@ public class NetworkController {
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
 
+    private String userToken = null;
+
     public void connect(String IPAddress, int port) throws IOException {
         this.socket = new Socket(IPAddress, port);
         this.dataInputStream = new DataInputStream(this.socket.getInputStream());
@@ -36,4 +38,8 @@ public class NetworkController {
         }
         return null;
     }
+
+    public String getUserToken() { return userToken; }
+
+    public void setUserToken(String userToken) { this.userToken = userToken; }
 }

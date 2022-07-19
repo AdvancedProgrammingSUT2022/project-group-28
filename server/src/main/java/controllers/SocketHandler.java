@@ -2,6 +2,7 @@ package controllers;
 
 import models.ClientRequest;
 import models.ServerResponse;
+import models.User;
 import views.enums.Message;
 
 import java.io.DataInputStream;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class SocketHandler extends Thread {
     private final Socket socket;
@@ -43,6 +45,8 @@ public class SocketHandler extends Thread {
         switch (clientRequest.getRequest()) {
             case REGISTER:
                 return handleRegister(data);
+            case LOGIN:
+                return handleLogin(data);
             default:
                 return null;
         }
@@ -60,6 +64,21 @@ public class SocketHandler extends Thread {
                 return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
             default:
                 return null;
+        }
+    }
+
+    private ServerResponse handleLogin(ArrayList<String> data) {
+        Message message = RegisterMenuController.checkUserLoginData(data.get(0), data.get(1));
+        ArrayList<String> toSend = new ArrayList<>();
+        if (message == Message.SUCCESS) {
+            String token = UUID.randomUUID().toString();
+            toSend.add(token);
+            User user = User.getUserByUsername(data.get(0));
+            NetworkController.getInstance().getLoggedInUsers().put(token, user);
+            System.out.println("hi " + user.getUsername());
+            return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+        } else {
+            return new ServerResponse(ServerResponse.Response.LOGIN_ERROR, toSend);
         }
     }
 }

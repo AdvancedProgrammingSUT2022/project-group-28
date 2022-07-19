@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class ServerResponse {
     public enum Response {
+        LOGIN_ERROR,
         NICKNAME_EXISTS,
         USERNAME_EXISTS,
         SUCCESS
