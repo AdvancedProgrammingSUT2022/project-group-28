@@ -1,5 +1,6 @@
 package models;
 
+import com.google.gson.Gson;
 import controllers.GsonHandler;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
@@ -78,6 +79,10 @@ public class User {
 
     public static ArrayList<User> getAllUsers() {
         return allUsers;
+    }
+
+    public String toJson() {
+        return new Gson().toJson(this);
     }
 
     public static void setAllUsers(ArrayList<User> allUsers) {

@@ -1,5 +1,6 @@
 package models;
 
+import com.google.gson.Gson;
 import controllers.GsonHandler;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
@@ -7,6 +8,7 @@ import views.App;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -21,7 +23,9 @@ public class User {
     private int score;
     private int profilePicNumber;
 
-    
+    private LocalDate lastOnline = null;
+    private LocalDate lastWin = null;
+
     static {
         GsonHandler.importDataOfUser();
         if (allUsers.size() == 0){
@@ -66,6 +70,7 @@ public class User {
         return null;
     }
 
+    public static User fromJson(String json) { return new Gson().fromJson(json, User.class); }
     public static ArrayList<User> getAllUsers() {
         return allUsers;
     }

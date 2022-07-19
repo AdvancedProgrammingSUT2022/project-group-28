@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import models.ClientRequest;
 import models.ServerResponse;
+import models.User;
 import views.enums.Message;
 
 import java.io.IOException;
@@ -38,8 +39,9 @@ public class LoginPage extends PageController {
         if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS) {
             NetworkController.getInstance().setUserToken(serverResponse.getData().get(0));
             // TODO: add update socket
-            // TODO: change loggedIn user policy
-            RegisterMenuController.setLoggedInUser(username.getText());
+
+            App.setCurrentUser(User.fromJson(serverResponse.getData().get(1)));
+
             App.setRoot("mainPage");
             Menu.setCurrentMenu(MainMenu.getInstance());
         } else {
