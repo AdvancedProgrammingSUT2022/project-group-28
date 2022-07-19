@@ -172,14 +172,14 @@ public class GameMediator {
             GamePage.getInstance().setOffsetI(0);
             GamePage.getInstance().setOffsetJ(0);
         } else if (notification == CivilizationNotification.NO_TECHNOLOGY) {
-            System.out.println("tech required");
+            HUDController.getInstance().addMessage("You have to study a technology", MessageBox.Type.ALERT);
         } else {
             System.out.println("done");
             // TODO: notify server
-            // TODO: handle start new turn
             GameMenuController.startNewTurn();
         }
 
+        // TODO: handle start new turn
         GamePage.getInstance().updateGamePage();
     }
 
