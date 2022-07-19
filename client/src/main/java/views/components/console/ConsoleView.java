@@ -2,6 +2,7 @@ package views.components.console;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
@@ -13,61 +14,73 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
-
 /**
  * @author Yuhi Ishikura
  */
 public class ConsoleView extends BorderPane {
 
-  private final PrintStream out;
-  private final TextArea textArea;
-  private final InputStream in;
+	private final PrintStream out;
+	private final TextArea textArea;
+	private final InputStream in;
 
-  public ConsoleView() {
-    this(Charset.defaultCharset());
-  }
+	private static Scene instance = null;
 
-  public ConsoleView(Charset charset) {
-    getStyleClass().add("console");
-    this.textArea = new TextArea();
-    this.textArea.setWrapText(true);
-    setCenter(this.textArea);
+	private ConsoleView() {
+		this(Charset.defaultCharset());
+	}
 
-    final TextInputControlStream stream = new TextInputControlStream(this.textArea, Charset.defaultCharset());
-    try {
-      this.out = new PrintStream(stream.getOut(), true, charset.name());
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException(e);
-    }
-    this.in = stream.getIn();
+	
+	private ConsoleView(Charset charset) {
+		getStyleClass().add("console");
+		this.textArea = new TextArea();
+		this.textArea.setWrapText(true);
+		setCenter(this.textArea);
+		
+		final TextInputControlStream stream = new TextInputControlStream(this.textArea, Charset.defaultCharset());
+		try {
+			this.out = new PrintStream(stream.getOut(), true, charset.name());
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
+		this.in = stream.getIn();
+		
+		final ContextMenu menu = new ContextMenu();
+		menu.getItems().add(createItem("Clear console", e -> {
+			try {
+				stream.clear();
+				this.textArea.clear();
+			} catch (IOException e1) {
+				throw new RuntimeException(e1);
+			}
+		}));
+		this.textArea.setContextMenu(menu);
+		
+		setPrefWidth(600);
+		setPrefHeight(400);
+	}
+	
+	public static Scene getInstance() {
+		if (instance == null) {
+			ConsoleView consoleView = new ConsoleView();
+			System.setOut(consoleView.getOut());
+            System.setIn(consoleView.getIn());
+			instance = new Scene(consoleView);
+		}
+		return instance;
+	}
 
-    final ContextMenu menu = new ContextMenu();
-    menu.getItems().add(createItem("Clear console", e -> {
-      try {
-        stream.clear();
-        this.textArea.clear();
-      } catch (IOException e1) {
-        throw new RuntimeException(e1);
-      }
-    }));
-    this.textArea.setContextMenu(menu);
+	private MenuItem createItem(String name, EventHandler<ActionEvent> a) {
+		final MenuItem menuItem = new MenuItem(name);
+		menuItem.setOnAction(a);
+		return menuItem;
+	}
 
-    setPrefWidth(600);
-    setPrefHeight(400);
-  }
+	public PrintStream getOut() {
+		return out;
+	}
 
-  private MenuItem createItem(String name, EventHandler<ActionEvent> a) {
-    final MenuItem menuItem = new MenuItem(name);
-    menuItem.setOnAction(a);
-    return menuItem;
-  }
-
-  public PrintStream getOut() {
-    return out;
-  }
-
-  public InputStream getIn() {
-    return in;
-  }
+	public InputStream getIn() {
+		return in;
+	}
 
 }

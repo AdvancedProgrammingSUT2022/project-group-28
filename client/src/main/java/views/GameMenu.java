@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.*;
@@ -30,13 +31,13 @@ import views.enums.*;
 import views.notifications.CivilizationNotification;
 import views.notifications.GameNotification;
 
-public class GameMenu extends Menu {
+public class GameMenu{
     private static GameMenu instance = null;
+    private Scanner scanner;
     private final int BOARD_WIDTH=113;
     private final int BOARD_HEIGHT=28;
 
-    @Override
-    protected boolean checkCommand(String command){
+    public void checkCommand(String command){
         if (command.startsWith("select unit combat")) {
             selectCombatUnit(command);
         } else if (command.startsWith("select unit noncombat")) {
@@ -125,18 +126,16 @@ public class GameMenu extends Menu {
             freeUnit();
         } else if (command.startsWith("menu show-current")) {
             System.out.println("this is game menu");
-        } else if(command.equals("menu exit")){
-            Menu.setCurrentMenu(MainMenu.getInstance());
-            return true;            
         } else {
             System.out.println("invalid command");
         }
-        return false;
     }
 
     public static GameMenu getInstance() {
         if (instance == null) {
             instance = new GameMenu();
+            instance.scanner = new Scanner(System.in); 
+            
         }
         return instance;
     }

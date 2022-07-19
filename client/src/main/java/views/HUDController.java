@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import views.components.CurrentTechnologyInfo;
 import views.components.MessageBox;
 import views.components.MiniMap;
-import views.components.UnitInfo;
+import views.components.UnitInfo; 
 import views.components.console.ConsoleView;
 
 public class HUDController {
@@ -85,21 +85,12 @@ public class HUDController {
                 Stage stage = new Stage();
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.initOwner(nextTurnButton.getScene().getWindow());
-                final ConsoleView console = new ConsoleView();
-                final Scene scene = new Scene(console);
+                Scene scene =  ConsoleView.getInstance();
                 scene.getStylesheets().add(App.class.getResource("../css/console.css").toExternalForm());
                 stage.setTitle("Console");
                 stage.setScene(scene);
                 stage.setResizable(false);
-                stage.show();
-
-                System.setOut(console.getOut());
-                System.setIn(console.getIn());
-
-                final Thread thread = new Thread(() -> {
-                    GameMenu.getInstance().run();
-                });
-                thread.start();
+                stage.show();     
             }
         });
     }

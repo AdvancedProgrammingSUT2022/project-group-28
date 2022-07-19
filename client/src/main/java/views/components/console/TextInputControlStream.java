@@ -4,6 +4,8 @@ import javafx.application.Platform;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import views.GameMenu;
+import views.GamePage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -16,219 +18,229 @@ import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 
-
 /**
  * @author Yuhi Ishikura
  */
 class TextInputControlStream {
 
-  private final TextInputControlInputStream in;
-  private final TextInputControlOutputStream out;
-  private final Charset charset;
+    private final TextInputControlInputStream in;
+    private final TextInputControlOutputStream out;
+    private final Charset charset;
 
-  TextInputControlStream(final TextInputControl textInputControl, Charset charset) {
-    this.charset = charset;
-    this.in = new TextInputControlInputStream(textInputControl);
-    this.out = new TextInputControlOutputStream(textInputControl);
+    TextInputControlStream(final TextInputControl textInputControl, Charset charset) {
+        this.charset = charset;
+        this.in = new TextInputControlInputStream(textInputControl);
+        this.out = new TextInputControlOutputStream(textInputControl);
 
-    textInputControl.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
-      if (e.getCode() == KeyCode.ENTER) {
-        getIn().enterKeyPressed();
-        return;
-      }
+        textInputControl.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                getIn().enterKeyPressed();
+                return;
+            }
 
-      if (textInputControl.getCaretPosition() <= getIn().getLastLineBreakIndex()) {
-        e.consume();
-      }
-    });
-    textInputControl.addEventFilter(KeyEvent.KEY_TYPED, e -> {
-      if (textInputControl.getCaretPosition() < getIn().getLastLineBreakIndex()) {
-        e.consume();
-      }
-    });
-  }
-
-  void clear() throws IOException {
-    this.in.clear();
-    this.out.clear();
-  }
-
-  TextInputControlInputStream getIn() {
-    return this.in;
-  }
-
-  TextInputControlOutputStream getOut() {
-    return this.out;
-  }
-
-  void startProgramInput() {
-    // do nothing
-  }
-
-  void endProgramInput() {
-    getIn().moveLineStartToEnd();
-  }
-
-  Charset getCharset() {
-    return this.charset;
-  }
-
-  /**
-   * @author Yuhi Ishikura
-   */
-  class TextInputControlInputStream extends InputStream {
-
-    private final TextInputControl textInputControl;
-    private final PipedInputStream outputTextSource;
-    private final PipedOutputStream inputTextTarget;
-    private int lastLineBreakIndex = 0;
-
-    public TextInputControlInputStream(TextInputControl textInputControl) {
-      this.textInputControl = textInputControl;
-      this.inputTextTarget = new PipedOutputStream();
-      try {
-        this.outputTextSource = new PipedInputStream(this.inputTextTarget);
-      } catch (IOException e1) {
-        throw new RuntimeException(e1);
-      }
-    }
-
-    int getLastLineBreakIndex() {
-      return this.lastLineBreakIndex;
-    }
-
-    void moveLineStartToEnd() {
-      this.lastLineBreakIndex = this.textInputControl.getLength();
-    }
-
-    void enterKeyPressed() {
-      synchronized (this) {
-        try {
-          this.textInputControl.positionCaret(this.textInputControl.getLength());
-
-          final String lastLine = getLastLine();
-
-          final ByteBuffer buf = getCharset().encode(lastLine + "\r\n"); //$NON-NLS-1$
-          this.inputTextTarget.write(buf.array(), 0, buf.remaining());
-          this.inputTextTarget.flush();
-          this.lastLineBreakIndex = this.textInputControl.getLength() + 1;
-        } catch (IOException e) {
-          if ("Read end dead".equals(e.getMessage())) {
-            return;
-          }
-          throw new RuntimeException(e);
-        }
-      }
-    }
-
-    private String getLastLine() {
-      synchronized (this) {
-        return this.textInputControl.getText(this.lastLineBreakIndex, this.textInputControl.getLength());
-      }
-    }
-
-    @Override
-    public int available() throws IOException {
-      return this.outputTextSource.available();
-    }
-
-    @Override
-    public int read() throws IOException {
-      try {
-        return this.outputTextSource.read();
-      } catch (IOException ex) {
-        return -1;
-      }
-    }
-
-    @Override
-    public int read(final byte[] b, final int off, final int len) throws IOException {
-      try {
-        return this.outputTextSource.read(b, off, len);
-      } catch (IOException ex) {
-        return -1;
-      }
-    }
-
-    @Override
-    public int read(final byte[] b) throws IOException {
-      try {
-        return this.outputTextSource.read(b);
-      } catch (IOException ex) {
-        return -1;
-      }
-    }
-
-    @Override
-    public void close() throws IOException {
-      super.close();
+            if (textInputControl.getCaretPosition() <= getIn().getLastLineBreakIndex()) {
+                e.consume();
+            }
+        });
+        textInputControl.addEventFilter(KeyEvent.KEY_TYPED, e -> {
+            if (textInputControl.getCaretPosition() < getIn().getLastLineBreakIndex()) {
+                e.consume();
+            }
+        });
     }
 
     void clear() throws IOException {
-      this.inputTextTarget.flush();
-      this.lastLineBreakIndex = 0;
-    }
-  }
-
-  final class TextInputControlOutputStream extends OutputStream {
-
-    private final TextInputControl textInputControl;
-    private final CharsetDecoder decoder;
-    private ByteArrayOutputStream buf;
-
-    TextInputControlOutputStream(TextInputControl textInputControl) {
-      this.textInputControl = textInputControl;
-      this.decoder = getCharset().newDecoder();
+        this.in.clear();
+        this.out.clear();
     }
 
-    @Override
-    public synchronized void write(int b) throws IOException {
-      synchronized (this) {
-        if (this.buf == null) {
-          this.buf = new ByteArrayOutputStream();
+    TextInputControlInputStream getIn() {
+        return this.in;
+    }
+
+    TextInputControlOutputStream getOut() {
+        return this.out;
+    }
+
+    void startProgramInput() {
+        // do nothing
+    }
+
+    void endProgramInput() {
+        getIn().moveLineStartToEnd();
+    }
+
+    Charset getCharset() {
+        return this.charset;
+    }
+
+    /**
+     * @author Yuhi Ishikura
+     */
+    class TextInputControlInputStream extends InputStream {
+
+        private final TextInputControl textInputControl;
+        private final PipedInputStream outputTextSource;
+        private final PipedOutputStream inputTextTarget;
+        private int lastLineBreakIndex = 0;
+
+        public TextInputControlInputStream(TextInputControl textInputControl) {
+            this.textInputControl = textInputControl;
+            this.inputTextTarget = new PipedOutputStream();
+            try {
+                this.outputTextSource = new PipedInputStream(this.inputTextTarget);
+            } catch (IOException e1) {
+                throw new RuntimeException(e1);
+            }
         }
-        this.buf.write(b);
-      }
-    }
 
-    @Override
-    public void flush() throws IOException {
-      Platform.runLater(() -> {
-        try {
-          flushImpl();
-        } catch (IOException e) {
-          throw new RuntimeException(e);
+        int getLastLineBreakIndex() {
+            return this.lastLineBreakIndex;
         }
-      });
-    }
 
-    private void flushImpl() throws IOException {
-      synchronized (this) {
-        if (this.buf == null) {
-          return;
+        void moveLineStartToEnd() {
+            this.lastLineBreakIndex = this.textInputControl.getLength();
         }
-        startProgramInput();
-        final ByteBuffer byteBuffer = ByteBuffer.wrap(this.buf.toByteArray());
-        final CharBuffer charBuffer = this.decoder.decode(byteBuffer);
-        try {
-          this.textInputControl.appendText(charBuffer.toString());
-          this.textInputControl.positionCaret(this.textInputControl.getLength());
-        } finally {
-          this.buf = null;
-          endProgramInput();
+
+        void enterKeyPressed() {
+            synchronized (this) {
+                try {
+                    this.textInputControl.positionCaret(this.textInputControl.getLength());
+
+                    final String lastLine = getLastLine();
+
+                    final ByteBuffer buf = getCharset().encode(lastLine + "\r\n"); //$NON-NLS-1$
+                    this.inputTextTarget.write(buf.array(), 0, buf.remaining());
+                    this.inputTextTarget.flush();
+                    Thread thread = new Thread(() ->{
+                        GameMenu.getInstance().checkCommand(lastLine);
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                GamePage.getInstance().updateGamePage();
+                            }
+                        });
+
+                    });
+                    thread.start();
+                    this.lastLineBreakIndex = this.textInputControl.getLength() + 1;
+                } catch (IOException e) {
+                    if ("Read end dead".equals(e.getMessage())) {
+                        return;
+                    }
+                    throw new RuntimeException(e);
+                }
+            }
         }
-      }
+
+        private String getLastLine() {
+            synchronized (this) {
+                return this.textInputControl.getText(this.lastLineBreakIndex, this.textInputControl.getLength());
+            }
+        }
+
+        @Override
+        public int available() throws IOException {
+            return this.outputTextSource.available();
+        }
+
+        @Override
+        public int read() throws IOException {
+            try {
+                return this.outputTextSource.read();
+            } catch (IOException ex) {
+                return -1;
+            }
+        }
+
+        @Override
+        public int read(final byte[] b, final int off, final int len) throws IOException {
+            try {
+                return this.outputTextSource.read(b, off, len);
+            } catch (IOException ex) {
+                return -1;
+            }
+        }
+
+        @Override
+        public int read(final byte[] b) throws IOException {
+            try {
+                return this.outputTextSource.read(b);
+            } catch (IOException ex) {
+                return -1;
+            }
+        }
+
+        @Override
+        public void close() throws IOException {
+            super.close();
+        }
+
+        void clear() throws IOException {
+            this.inputTextTarget.flush();
+            this.lastLineBreakIndex = 0;
+        }
     }
 
-    @Override
-    public void close() throws IOException {
-      flush();
-    }
+    final class TextInputControlOutputStream extends OutputStream {
 
-    void clear() throws IOException {
-      this.buf = null;
-    }
+        private final TextInputControl textInputControl;
+        private final CharsetDecoder decoder;
+        private ByteArrayOutputStream buf;
 
-  }
+        TextInputControlOutputStream(TextInputControl textInputControl) {
+            this.textInputControl = textInputControl;
+            this.decoder = getCharset().newDecoder();
+        }
+
+        @Override
+        public synchronized void write(int b) throws IOException {
+            synchronized (this) {
+                if (this.buf == null) {
+                    this.buf = new ByteArrayOutputStream();
+                }
+                this.buf.write(b);
+            }
+        }
+
+        @Override
+        public void flush() throws IOException {
+            Platform.runLater(() -> {
+                try {
+                    flushImpl();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
+
+        private void flushImpl() throws IOException {
+            synchronized (this) {
+                if (this.buf == null) {
+                    return;
+                }
+                startProgramInput();
+                final ByteBuffer byteBuffer = ByteBuffer.wrap(this.buf.toByteArray());
+                final CharBuffer charBuffer = this.decoder.decode(byteBuffer);
+                try {
+                    this.textInputControl.appendText(charBuffer.toString());
+                    this.textInputControl.positionCaret(this.textInputControl.getLength());
+                } finally {
+                    this.buf = null;
+                    endProgramInput();
+                }
+            }
+        }
+
+        @Override
+        public void close() throws IOException {
+            flush();
+        }
+
+        void clear() throws IOException {
+            this.buf = null;
+        }
+
+    }
 
 }
