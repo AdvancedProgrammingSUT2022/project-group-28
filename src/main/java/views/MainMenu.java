@@ -94,7 +94,7 @@ public class MainMenu extends Menu {
     }
 
     private boolean loadGame() {
-        Game game = GsonHandler.importGame();
+        Game game = GsonHandler.importGame("gameInformation");
         if(game == null){
             System.out.println("No game to load");
             return false;

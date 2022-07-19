@@ -16,7 +16,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Scanner;
+import java.util.zip.DeflaterOutputStream;
+import java.util.zip.InflaterInputStream;
 public class GsonHandler {
     public static void importDataOfUser(){
         try {
@@ -46,27 +48,31 @@ public class GsonHandler {
         }
     }
 
-    public static boolean saveGame(Game game){ 
+    public static boolean saveGame(Game game,String filename){ 
         try {
-            FileWriter fileWriter;
-            if (Files.exists(Paths.get("data/gameInformation.xml")))
-                fileWriter = new FileWriter("data/gameInformation.xml",false);
+            DeflaterOutputStream deflaterOutputStream;
+            if (Files.exists(Paths.get("data/save/" + filename + ".civ")))
+                deflaterOutputStream = new DeflaterOutputStream (Files.newOutputStream(Paths.get("data/save/" + filename + ".civ")));
             else{
-                new File("data").mkdir();
-                fileWriter = new FileWriter("data/gameInformation.xml",false);
+                new File("data/save").mkdir();
+                deflaterOutputStream = new DeflaterOutputStream (Files.newOutputStream(Paths.get("data/save/" + filename + ".civ")));
             }
             XStream xStream = new XStream();
-            fileWriter.write(xStream.toXML(game));
-            fileWriter.close();
+            deflaterOutputStream.write(xStream.toXML(game).getBytes());
+            deflaterOutputStream.close();
             return true;
         } catch (IOException e) {
             return false;
         }
     }
 
-    public static Game importGame(){
+    public static Game importGame(String filename){
         try {
-            String xml = new String(Files.readAllBytes(Paths.get("data/gameInformation.xml")));
+            InflaterInputStream inputStream = new InflaterInputStream(Files.newInputStream(Paths.get("data/save/" + filename + ".civ")));
+            Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
+            String xml = scanner.hasNext() ? scanner.next() : "";
+            inputStream.close();
+            scanner.close();
             XStream xStream = new XStream();
             xStream.addPermission(AnyTypePermission.ANY);
             if(xml.length() != 0){
