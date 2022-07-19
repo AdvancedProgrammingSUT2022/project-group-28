@@ -1,13 +1,17 @@
 package views;
 
+import controllers.NetworkController;
 import controllers.RegisterMenuController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import models.ClientRequest;
+import models.ServerResponse;
 import views.enums.Message;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class RegisterPage extends PageController {
 
@@ -22,12 +26,19 @@ public class RegisterPage extends PageController {
 
 
     @FXML
-    private void checkDataOfUser(){
-        Message message = RegisterMenuController.checkUserRegisterData(username.getText() , password.getText() , nickname.getText());
+    private void checkDataOfUser() {
+        ArrayList<String> data = new ArrayList<>();
+        data.add(username.getText());
+        data.add(password.getText());
+        data.add(nickname.getText());
+
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.REGISTER, data);
+
+        ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
+
         String textOfError = "";
-        if(username.getText().length() != 0 && password.getText().length() != 0 && nickname.getText().length() != 0)
-        {
-            switch (message) {
+        if(username.getText().length() != 0 && password.getText().length() != 0 && nickname.getText().length() != 0) {
+            switch (serverResponse.getResponse()) {
                 case SUCCESS:
                     textOfError = "user created successfully!";
                     error.setStyle("-fx-text-fill: green");
