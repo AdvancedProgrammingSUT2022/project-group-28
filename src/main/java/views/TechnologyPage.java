@@ -1,6 +1,8 @@
 package views;
 
 import controllers.TechnologyController;
+import javafx.animation.Animation;
+import javafx.animation.PauseTransition;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -12,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import models.civilization.Civilization;
 import models.civilization.Technology;
 import models.civilization.enums.TechnologyTemplate;
@@ -66,6 +69,18 @@ public class TechnologyPage extends PageController{
 
 
         technologyItem.getChildren().add(name);
+
+        Animation delay = new PauseTransition(Duration.seconds(5));
+        delay.setOnFinished(e -> {
+            System.out.println("woowowoowow");
+        });
+        technologyItem.addEventHandler(MouseEvent.MOUSE_ENTERED , e -> delay.playFromStart());
+
+        technologyItem.addEventHandler(MouseEvent.MOUSE_EXITED , e -> {
+            delay.stop();
+        });
+
+
         technologyItem.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -79,12 +94,6 @@ public class TechnologyPage extends PageController{
         return technologyItem;
 
     }
-
-
-
-
-
-
 
 
     @FXML
