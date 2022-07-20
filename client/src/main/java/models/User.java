@@ -1,6 +1,8 @@
 package models;
 
 import com.google.gson.Gson;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 import controllers.GsonHandler;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
@@ -25,6 +27,8 @@ public class User {
 
     private LocalDate lastOnline = null;
     private LocalDate lastWin = null;
+
+    private ArrayList<User> friends = new ArrayList<>();
 
     static {
         GsonHandler.importDataOfUser();
@@ -70,7 +74,14 @@ public class User {
         return null;
     }
 
-    public static User fromJson(String json) { return new Gson().fromJson(json, User.class); }
+    public static User fromXML(String xml) {
+        XStream xStream = new XStream();
+        xStream.addPermission(AnyTypePermission.ANY);
+        return (User) xStream.fromXML(xml);
+    }
+
+    public String toXML() { return new XStream().toXML(this); }
+
     public static ArrayList<User> getAllUsers() {
         return allUsers;
     }
@@ -121,6 +132,15 @@ public class User {
     
     public void setProfilePicNumber(int profilePicNumber) {
         this.profilePicNumber = profilePicNumber;
+    }
+
+    public LocalDate getLastOnline() { return lastOnline; }
+
+    public LocalDate getLastWin() { return lastWin; }
+
+    public ArrayList<User> getFriends() {
+        if (friends == null) friends = new ArrayList<>();
+        return friends;
     }
 
     public Image getAvatar(){

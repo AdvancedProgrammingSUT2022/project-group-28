@@ -12,29 +12,41 @@
             fx:controller="views.LobbyPage"
             prefHeight="900.0" prefWidth="1600.0"
             stylesheets="@../css/lobby_page.css"
-            styleClass="background">
+            styleClass="ui_page_root">
     <left>
-        <VBox styleClass="left_container" alignment="CENTER" spacing="20" prefWidth="600">
+        <VBox styleClass="left_container" alignment="CENTER" spacing="20" prefWidth="500">
+            <VBox fx:id="friendsContainer" alignment="CENTER" spacing="20">
+
+            </VBox>
+            <VBox alignment="CENTER" spacing="30">
+                <TextField fx:id="friendNickname" styleClass="player_username" promptText="friend"/>
+                <Label fx:id="friendMessage" styleClass="alert" managed="false"/>
+                <Button styleClass="add_button" onMouseClicked="#sendFriendshipRequest" text="Send Friendship request"/>
+            </VBox>
+        </VBox>
+    </left>
+    <center>
+        <VBox styleClass="center_container" alignment="CENTER" spacing="20" prefWidth="500">
             <VBox fx:id="playersContainer" alignment="CENTER" spacing="20">
 
             </VBox>
             <VBox alignment="CENTER" spacing="30">
-                <TextField fx:id="playerUsername" styleClass="player_username" promptText="nextPlayer"/>
-                <Label fx:id="message" styleClass="alert" managed="false"/>
-                <Button  styleClass="add_user_button" text="Add player"/>
+                <TextField fx:id="playerNickname" styleClass="player_username" promptText="nextPlayer"/>
+                <Label fx:id="playerMessage" styleClass="alert" managed="false"/>
+                <Button  styleClass="add_button" text="Send game request"/>
             </VBox>
         </VBox>
-    </left>
+    </center>
 
-    <center>
+    <right>
         <VBox alignment="CENTER" spacing="30">
             <VBox alignment="CENTER">
                 <Button fx:id="startGameButton" disable="true" styleClass="start_game_button" text="Start Game"/>
             </VBox>
-            <Rectangle styleClass="line" width="350" height="5"/>
+            <Rectangle styleClass="line" width="200" height="5"/>
             <VBox alignment="CENTER">
                 <Button styleClass="back_button" onMouseClicked="#back" text="Back"/>
             </VBox>
         </VBox>
-    </center>
+    </right>
 </BorderPane>

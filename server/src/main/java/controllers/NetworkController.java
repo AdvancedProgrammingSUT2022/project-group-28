@@ -1,5 +1,6 @@
 package controllers;
 
+import models.ServerUpdate;
 import models.User;
 
 import java.io.IOException;
@@ -30,5 +31,10 @@ public class NetworkController {
        }
     }
 
+    public void sendUserUpdate(User user, ServerUpdate serverUpdate) throws IOException {
+        user.getUpdateOutputStream().writeUTF(serverUpdate.toJson());
+    }
+
     public HashMap<String, User> getLoggedInUsers() { return loggedInUsers; }
+
 }

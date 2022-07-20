@@ -42,7 +42,7 @@ public class LoginPage extends PageController {
                 e.printStackTrace();
             }
 
-            App.setCurrentUser(User.fromJson(serverResponse.getData().get(1)));
+            App.setCurrentUser(User.fromXML(serverResponse.getData().get(1)));
 
             App.setRoot("mainPage");
         } else {

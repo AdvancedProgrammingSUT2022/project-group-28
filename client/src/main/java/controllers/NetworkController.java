@@ -34,9 +34,10 @@ public class NetworkController {
         this.dataOutputStream = new DataOutputStream(this.socket.getOutputStream());
     }
 
-    public ServerResponse sendRequest(ClientRequest clientRequest) {
+    public synchronized ServerResponse sendRequest(ClientRequest clientRequest) {
         try {
             this.dataOutputStream.writeUTF(clientRequest.toJson());
+            this.dataOutputStream.flush();
             String response = this.dataInputStream.readUTF();
             return ServerResponse.fromJson(response);
         } catch (IOException e) {

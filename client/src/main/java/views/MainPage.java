@@ -43,6 +43,8 @@ public class MainPage extends PageController{
 
     @FXML
     private void logout() {
+        // TODO: server logout
+
         App.setCurrentUser(null);
         App.setRoot("loginPage");
     }
