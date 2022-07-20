@@ -11,10 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import views.components.CurrentTechnologyInfo;
-import views.components.MessageBox;
-import views.components.MiniMap;
-import views.components.UnitInfo; 
+import views.components.*;
 import views.components.console.ConsoleView;
 
 public class HUDController {
