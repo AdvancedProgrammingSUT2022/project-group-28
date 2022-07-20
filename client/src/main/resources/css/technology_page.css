@@ -51,7 +51,26 @@
 
 
 .technology_info{
-    -fx-background-color: #d59a9a;
+    -fx-background-color: rgba(54, 54, 54, 0.9);
+    -fx-background-radius: 20;
+    -fx-pref-width: 215;
+    -fx-pref-height: 180;
+    -fx-padding: 10;
+}
+
+.name_of_technology{
+    -fx-font-size: 18;
+    -fx-fill: #ffffff;
+}
+
+.cost_of_technology{
+    -fx-font-size: 18;
+    -fx-fill: #ade4f5;
+}
+
+.lead_to_of_technology{
+    -fx-font-size: 18;
+    -fx-fill: #85e8cc;
 }
 .back_button{
     -fx-padding: 10 30 10 30;
