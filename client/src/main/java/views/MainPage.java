@@ -4,7 +4,10 @@ import controllers.GameMenuController;
 import controllers.GsonHandler;
 import controllers.NetworkController;
 import javafx.fxml.FXML;
+import models.ClientRequest;
 import models.Game;
+
+import java.util.ArrayList;
 
 public class MainPage extends PageController{
     @FXML
@@ -43,7 +46,11 @@ public class MainPage extends PageController{
 
     @FXML
     private void logout() {
-        // TODO: server logout
+        ArrayList<String> data = new ArrayList<>();
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.LOGOUT, data,
+                                    NetworkController.getInstance().getUserToken());
+
+        NetworkController.getInstance().sendRequest(clientRequest);
 
         App.setCurrentUser(null);
         App.setRoot("loginPage");

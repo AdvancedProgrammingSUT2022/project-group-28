@@ -58,6 +58,8 @@ public class SocketHandler extends Thread {
                 return handleFriendship(clientRequest);
             case ACCEPT_FRIENDSHIP:
                 return handleAcceptFriendship(clientRequest);
+            case LOGOUT:
+                return handleLogout(clientRequest);
             default:
                 return null;
         }
@@ -179,6 +181,18 @@ public class SocketHandler extends Thread {
         }
 
         user.acceptFriendship(friend);
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleLogout(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        NetworkController.getInstance().getLoggedInUsers().remove(clientRequest.getToken());
         return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
     }
 }

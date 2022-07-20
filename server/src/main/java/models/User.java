@@ -90,6 +90,7 @@ public class User {
     public synchronized void acceptFriendship(User friend) {
         this.getFriends().add(friend);
         friend.getFriends().add(this);
+        GsonHandler.exportDataOfUser(User.getAllUsers());
     }
 
 

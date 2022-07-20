@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class ClientRequest {
     public enum Request {
+        LOGOUT,
         ACCEPT_FRIENDSHIP,
         REQUEST_FRIENDSHIP,
         GET_USER_INFO,
