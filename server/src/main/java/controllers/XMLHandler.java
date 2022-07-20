@@ -3,6 +3,7 @@ package controllers;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 import models.User;
 
 import java.io.File;
@@ -20,6 +21,7 @@ public class XMLHandler {
             String xml = new String(Files.readAllBytes(Paths.get("data/userInformation.xml")));
             if(xml.length() != 0){
                 XStream xStream = new XStream();
+                xStream.addPermission(AnyTypePermission.ANY);
                 allUsers = (ArrayList<User>) xStream.fromXML(xml);
                 User.setAllUsers(allUsers);
             }
