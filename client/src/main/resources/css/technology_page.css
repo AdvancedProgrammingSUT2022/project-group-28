@@ -49,6 +49,10 @@
     -fx-fill: white;
 }
 
+
+.technology_info{
+    -fx-background-color: #d59a9a;
+}
 .back_button{
     -fx-padding: 10 30 10 30;
     -fx-border-radius: 30;
