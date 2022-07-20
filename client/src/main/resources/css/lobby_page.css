@@ -1,0 +1,68 @@
+.ui_page_root {
+    -fx-background-image: url("../assets/image/background/ui_background.png");
+}
+
+.left_container {
+    -fx-padding: 0 0 0 50;
+}
+
+
+.player_username {
+    -fx-background-color: transparent;
+    -fx-border-color: #2b0870;
+    -fx-border-width: 0 0 4 0;
+    -fx-font-size: 45;
+    -fx-text-fill: #2b0870;
+}
+
+.alert {
+    -fx-font-size: 30;
+    -fx-text-fill: #a12c23;
+}
+
+.player_box {
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #06555caa;
+    -fx-font-size: 40;
+}
+
+.add_user_button {
+    -fx-padding: 10 30 10 30;
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #065c46aa;
+    -fx-font-size: 40;
+}
+
+.add_user_button:hover {
+    -fx-background-color: #065c46cc;
+}
+
+.start_game_button {
+    -fx-padding: 10 30 10 30;
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #065c46aa;
+    -fx-font-size: 40;
+}
+
+.start_game_button:hover {
+    -fx-background-color: #065c46cc;
+}
+
+.line {
+    -fx-fill: #2b0870;
+}
+
+.back_button {
+    -fx-padding: 10 30 10 30;
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #06445eaa;
+    -fx-font-size: 40;
+}
+
+.back_button:hover {
+    -fx-background-color: #06445ecc;
+}

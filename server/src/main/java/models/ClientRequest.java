@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class ClientRequest {
     public enum Request {
+        START_LISTEN,
         LOGIN,
         REGISTER
     }

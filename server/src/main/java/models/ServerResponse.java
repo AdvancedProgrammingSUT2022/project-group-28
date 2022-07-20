@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 public class ServerResponse {
     public enum Response {
+        IS_LISTENING,
+        INVALID_TOKEN,
         LOGIN_ERROR,
         NICKNAME_EXISTS,
         USERNAME_EXISTS,

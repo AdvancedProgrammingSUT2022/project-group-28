@@ -2,6 +2,7 @@ package views;
 
 import controllers.GameMenuController;
 import controllers.GsonHandler;
+import controllers.NetworkController;
 import javafx.fxml.FXML;
 import models.Game;
 
@@ -10,6 +11,12 @@ public class MainPage extends PageController{
     private void newGame() {
         this.onExit();
         App.setRoot("startGamePage");
+    }
+
+    @FXML
+    private void lobby() {
+        NetworkController.getInstance().setOnline(true);
+        App.setRoot("lobbyPage");
     }
 
     @FXML

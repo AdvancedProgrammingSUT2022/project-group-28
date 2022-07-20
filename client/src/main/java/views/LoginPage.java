@@ -35,7 +35,12 @@ public class LoginPage extends PageController {
 
         if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS) {
             NetworkController.getInstance().setUserToken(serverResponse.getData().get(0));
-            // TODO: add update socket
+
+            try {
+                NetworkController.getInstance().startUpdateListener("localhost", 8000);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             App.setCurrentUser(User.fromJson(serverResponse.getData().get(1)));
 

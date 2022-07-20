@@ -31,30 +31,35 @@ public class SocketHandler extends Thread {
                 ClientRequest clientRequest = ClientRequest.fromJson(this.dataInputStream.readUTF());
                 ServerResponse serverResponse = handleRequest(clientRequest);
                 this.dataOutputStream.writeUTF(serverResponse.toJson());
+
+                if (clientRequest.getRequest() == ClientRequest.Request.START_LISTEN) break;
             } catch (SocketException e) {
                 break;
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
     }
 
     private ServerResponse handleRequest(ClientRequest clientRequest) {
         ArrayList<String> data = clientRequest.getData();
         switch (clientRequest.getRequest()) {
             case REGISTER:
-                return handleRegister(data);
+                return handleRegister(clientRequest);
             case LOGIN:
-                return handleLogin(data);
+                return handleLogin(clientRequest);
+            case START_LISTEN:
+                return handleStartListen(clientRequest);
             default:
                 return null;
         }
     }
 
-    private ServerResponse handleRegister(ArrayList<String> data) {
-        Message message = RegisterMenuController.checkUserRegisterData(data.get(0), data.get(1), data.get(2));
+    private ServerResponse handleRegister(ClientRequest clientRequest) {
+        ArrayList<String> data = clientRequest.getData();
         ArrayList<String> toSend = new ArrayList<>();
+
+        Message message = RegisterMenuController.checkUserRegisterData(data.get(0), data.get(1), data.get(2));
         switch (message) {
             case USERNAME_EXISTS:
                 return new ServerResponse(ServerResponse.Response.USERNAME_EXISTS, toSend);
@@ -67,9 +72,11 @@ public class SocketHandler extends Thread {
         }
     }
 
-    private ServerResponse handleLogin(ArrayList<String> data) {
-        Message message = RegisterMenuController.checkUserLoginData(data.get(0), data.get(1));
+    private ServerResponse handleLogin(ClientRequest clientRequest) {
+        ArrayList<String> data = clientRequest.getData();
         ArrayList<String> toSend = new ArrayList<>();
+
+        Message message = RegisterMenuController.checkUserLoginData(data.get(0), data.get(1));
         if (message == Message.SUCCESS) {
             String token = UUID.randomUUID().toString();
             User user = User.getUserByUsername(data.get(0));
@@ -82,5 +89,24 @@ public class SocketHandler extends Thread {
         } else {
             return new ServerResponse(ServerResponse.Response.LOGIN_ERROR, toSend);
         }
+    }
+
+    private ServerResponse handleStartListen(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        if (user.getUpdateSocket() != null) {
+            return new ServerResponse(ServerResponse.Response.IS_LISTENING, toSend);
+        }
+
+        user.setUpdateSocket(this.socket);
+        user.setUpdateInputStream(this.dataInputStream);
+        user.setUpdateOutputStream(this.dataOutputStream);
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
     }
 }
