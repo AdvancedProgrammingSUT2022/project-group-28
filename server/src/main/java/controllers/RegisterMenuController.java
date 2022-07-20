@@ -27,6 +27,6 @@ public class RegisterMenuController {
     public static void addUser(String username, String password, String nickname) {
         User user = new User(username, nickname, password);
         User.getAllUsers().add(user);
-        GsonHandler.exportDataOfUser(User.getAllUsers());
+        XMLHandler.exportDataOfUser(User.getAllUsers());
     }
 }

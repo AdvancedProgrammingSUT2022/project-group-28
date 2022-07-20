@@ -1,5 +1,5 @@
-import controllers.GsonHandler;
 import controllers.NetworkController;
+import controllers.XMLHandler;
 
 import java.io.IOException;
 
@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            GsonHandler.importDataOfUser();
+            XMLHandler.importDataOfUser();
             NetworkController.getInstance().initializeServer(SERVER_PORT);
             NetworkController.getInstance().listenForClients();
 

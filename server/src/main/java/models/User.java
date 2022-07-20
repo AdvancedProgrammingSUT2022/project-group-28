@@ -1,9 +1,8 @@
 package models;
 
-import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
-import controllers.GsonHandler;
+import controllers.XMLHandler;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import views.App;
@@ -38,7 +37,7 @@ public class User {
     private transient DataOutputStream updateOutputStream;
 
     static {
-        GsonHandler.importDataOfUser();
+        XMLHandler.importDataOfUser();
         if (allUsers.size() == 0){
             lastId = -1;
         }
@@ -90,7 +89,7 @@ public class User {
     public synchronized void acceptFriendship(User friend) {
         this.getFriends().add(friend);
         friend.getFriends().add(this);
-        GsonHandler.exportDataOfUser(User.getAllUsers());
+        XMLHandler.exportDataOfUser(User.getAllUsers());
     }
 
 
