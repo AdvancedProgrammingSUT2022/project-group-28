@@ -212,6 +212,25 @@ public class GameMediator {
         scene.getRoot().requestFocus();
     }
 
+    public String leadToMaker(TechnologyTemplate technologyTemplate){
+        String out = "";
+        for (TechnologyTemplate technology: TechnologyTemplate.values()) {
+             if(technology.getRequiredTechnologies().contains(technologyTemplate)){
+                 if(out.length() == 0){
+                     out += technology.getName() + "\n";
+                 }
+                 else {
+                     out += "                     " + technology.getName() + "\n";
+                 }
+
+             }
+        }
+        if(out.length() == 0){
+            out = "nothing :)";
+        }
+        return out;
+    }
+
     public void startStudyTechnology(TechnologyTemplate technologyTemplate){
         TechnologyController.getNewTechnology(technologyTemplate);
     }
