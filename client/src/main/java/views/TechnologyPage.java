@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
@@ -18,10 +19,13 @@ import javafx.util.Duration;
 import models.civilization.Civilization;
 import models.civilization.Technology;
 import models.civilization.enums.TechnologyTemplate;
+import views.components.TechnologyInfo;
 
 import java.util.ArrayList;
 
 public class TechnologyPage extends PageController{
+    @FXML
+    private BorderPane borderPane;
     @FXML
     private Button technologyTreePage;
     @FXML
@@ -29,18 +33,18 @@ public class TechnologyPage extends PageController{
     @FXML
     private VBox technologiesContainer;
 
+    private TechnologyInfo technologyInfo;
+
 
     public void initialize(){
+        technologyInfo = new TechnologyInfo();
+
         ArrayList<TechnologyTemplate> possibleTechnologyTemplates = TechnologyController.PossibleTechnology();
         Technology currentTechnology = TechnologyController.getGame().getCurrentPlayer().getCurrentStudyTechnology();
         ArrayList<Technology> userTechnologies = TechnologyController.getGame().getCurrentPlayer().getStudiedTechnologies();
         for (TechnologyTemplate technologyTemplate: possibleTechnologyTemplates) {
             technologiesContainer.getChildren().add(createTechnologyItem(technologyTemplate));
         }
-        //if(currentTechnology != null && currentTechnology.getTechnologyTemplate().equals(technologyTemplate)){
-        //    node.getStyleClass().add("currently_researching");
-        //    text.getStyleClass().add("current_technology_name");
-        //}
     }
     public HBox createTechnologyItem(TechnologyTemplate technologyTemplate){
         HBox technologyItem = new HBox(15);
@@ -67,19 +71,33 @@ public class TechnologyPage extends PageController{
         Text name = new Text(technologyTemplate.getName() + "  |  " + turns);
         TechnologyTreePage.checkColorOfNode(technologyItem  , name , technologyTemplate);
 
-
         technologyItem.getChildren().add(name);
 
-        Animation delay = new PauseTransition(Duration.seconds(5));
-        delay.setOnFinished(e -> {
-            System.out.println("woowowoowow");
+        technologyItem.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                technologyInfo.update(technologyTemplate);
+                technologyInfo.setLayoutX(115);
+                technologyInfo.setLayoutY(event.getSceneY());
+                borderPane.getChildren().add(technologyInfo);
+            }
         });
-        technologyItem.addEventHandler(MouseEvent.MOUSE_ENTERED , e -> delay.playFromStart());
-
-        technologyItem.addEventHandler(MouseEvent.MOUSE_EXITED , e -> {
-            delay.stop();
+        technologyItem.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                borderPane.getChildren().remove(technologyInfo);
+            }
         });
 
+        //Animation delay = new PauseTransition(Duration.seconds(5));
+        //delay.setOnFinished(e -> {
+        //    System.out.println("woowowoowow");
+        //});
+        //technologyItem.addEventHandler(MouseEvent.MOUSE_ENTERED , e -> delay.playFromStart());
+//
+        //technologyItem.addEventHandler(MouseEvent.MOUSE_EXITED , e -> {
+        //    delay.stop();
+        //});
 
         technologyItem.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
