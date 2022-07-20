@@ -1,15 +1,22 @@
 package views;
 
-import controllers.GameMenuController;
-import controllers.GsonHandler;
+import controllers.GameController;
 import controllers.NetworkController;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import models.ClientRequest;
-import models.Game;
 
 import java.util.ArrayList;
 
 public class MainPage extends PageController{
+
+    @FXML
+    private Pane pane;
+
     @FXML
     private void newGame() {
         this.onExit();
@@ -24,15 +31,24 @@ public class MainPage extends PageController{
 
     @FXML
     private void loadGame() {
-        Game game = GsonHandler.importGame("gameInformation");
-        if (game == null) {
-            // TODO: add message
-            System.out.println("No game to load");
-            return;
-        }
-        this.onExit();
-        GameMenuController.setGame(game);
-        App.setRoot("gamePage");
+        
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initOwner(pane.getScene().getWindow());
+        Scene scene = new Scene(App.loadFXML("loadPage"));
+        stage.setScene(scene);
+
+        stage.setOnHidden(value -> {
+            if (GameController.getGame() != null) {
+                this.onExit();
+                App.setRoot("gamePage");
+            }
+        });
+
+        stage.show();  
+
+        
     }
 
     @FXML

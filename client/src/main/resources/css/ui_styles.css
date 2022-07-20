@@ -88,6 +88,14 @@
     -fx-font-size: 40;
 }
 
+.user_ranking_info {
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #06555caa;
+    -fx-font-size: 40;
+    -fx-margin: 10 10 10 10;
+}
+
 .login_text_field {
     -fx-background-color: transparent;
     -fx-border-color: #0a2438;
