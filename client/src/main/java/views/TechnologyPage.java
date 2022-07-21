@@ -50,7 +50,6 @@ public class TechnologyPage extends PageController{
         HBox technologyItem = new HBox(15);
         technologyItem.setAlignment(Pos.CENTER_LEFT);
         technologyItem.getStyleClass().add("technology_item");
-        technologyItem.prefWidth(500);
 
         Circle icon = new Circle(35);
         String address = App.class.getResource("../assets/image/technology/" + technologyTemplate.getFileName() + ".png").toExternalForm();
