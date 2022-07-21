@@ -4,6 +4,8 @@ import controllers.CityController;
 import controllers.CombatController;
 import controllers.GameController;
 import controllers.units.UnitController;
+import javafx.animation.Animation;
+import javafx.animation.PauseTransition;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -16,6 +18,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import models.civilization.City;
 import models.civilization.Civilization;
 import models.tiles.TerrainOrTerrainFeature;
@@ -36,6 +39,7 @@ public class Hex extends Group {
     private static final HashMap<ResourceTemplate, ImagePattern> resourceImages = new HashMap<>();
     private static final Image fog = new Image(App.class.getResource("../assets/image/terrain/fog.png").toExternalForm());
 
+    private TileInfo tileInfo = new TileInfo();
     static {
         for (Terrain terrain : Terrain.values()) {
             Image image = new Image(App.class.getResource("../assets/image/terrain/" + terrain.getFilename() + ".png").toExternalForm());
@@ -117,6 +121,23 @@ public class Hex extends Group {
                 if (Hex.this.getChildren().contains(Hex.this.hoverBorder))
                     Hex.this.getChildren().remove(Hex.this.hoverBorder);
             }
+        });
+
+        //shows tile information when you hover on tile
+        Animation delay = new PauseTransition(Duration.seconds(2));
+        delay.setOnFinished(e -> {
+            tileInfo.update(this);
+            GamePage.getInstance().createTileInfo(tileInfo);
+        });
+        this.addEventHandler(MouseEvent.MOUSE_ENTERED , e -> {
+            tileInfo.setLayoutX(e.getSceneX());
+            tileInfo.setLayoutY(e.getSceneY());
+            delay.playFromStart();
+        });
+
+        this.addEventHandler(MouseEvent.MOUSE_EXITED , e -> {
+            GamePage.getInstance().deleteTileInfo(tileInfo);
+            delay.stop();
         });
 
         this.banner = new Text(tile.getCoordinates()[0] + "," + tile.getCoordinates()[1]);
@@ -405,5 +426,9 @@ public class Hex extends Group {
 
     public void setMilitary(UnitIcon military) {
         this.military = military;
+    }
+
+    public Tile getTile() {
+        return tile;
     }
 }
