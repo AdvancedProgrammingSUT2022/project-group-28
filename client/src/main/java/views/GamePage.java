@@ -45,7 +45,7 @@ public class GamePage extends PageController{
 
     private int offsetI=0, offsetJ=0;
 
-    private int baseI = 30, baseJ = 30;
+    private int baseI, baseJ;
 
 
     @FXML
@@ -53,6 +53,8 @@ public class GamePage extends PageController{
         instance = this;
 
         HUDController.getInstance().createHUD(HUD);
+        baseI = GameController.getGame().getCurrentPlayer().getUnits().get(0).getTile().getCoordinates()[0];
+        baseJ = GameController.getGame().getCurrentPlayer().getUnits().get(0).getTile().getCoordinates()[1];
         createMap(true);
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -121,7 +123,7 @@ public class GamePage extends PageController{
     }
 
     public double getHexX(int tileI,int tileJ){ 
-        return tileJ * 259.8076 + tileI * 129.9038 - baseJ * 360 + offsetI; 
+        return tileJ * 259.8076 + tileI * 129.9038 - baseJ * 240 - baseI * 120 + offsetI; 
     }
 
     public double getHexY(int tileI,int tileJ){
