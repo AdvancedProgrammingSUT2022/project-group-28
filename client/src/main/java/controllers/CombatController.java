@@ -8,6 +8,7 @@ import models.tiles.enums.ImprovementTemplate;
 import models.units.*;
 import models.units.enums.UnitState;
 import views.GameMenu;
+import views.GamePage;
 import views.enums.CombatMessage;
 import views.enums.UnitMessage;
 
@@ -33,6 +34,19 @@ public class CombatController {
             return rangedAttack((Ranged)unit, tile);
         }
         return CombatMessage.SUCCESS;
+    }
+
+    public static void unitAttack(int i,int j){
+        Game game = GameController.getGame();
+        Unit unit = game.getSelectedUnit();
+        Tile tile = game.getMap()[i][j];
+        if(unit instanceof Melee){
+            meleeAttack(unit, tile);
+        }else if( unit instanceof Siege){ 
+            siegeAttack((Siege)unit, tile);
+        }else if( unit instanceof Ranged){
+            rangedAttack((Ranged)unit, tile);
+        }
     }
 
     private static CombatMessage meleeAttack(Unit unit, Tile tile,GameMenu menu) {
@@ -73,6 +87,38 @@ public class CombatController {
             return CombatMessage.NO_COMBATABLE;
         }
         return CombatMessage.SUCCESS;
+    }
+
+    private static void meleeAttack(Unit unit, Tile tile) {
+        int strength = getCombatStrength(unit, false);
+        if (tile.getCity()!=null){
+            City city = tile.getCity();
+            city.setHitPoint(city.getHitPoint()-strength);
+            unit.setMovePoint(0);
+            if(city.getHitPoint()>0){
+                unit.setHealth(unit.getHealth()-city.getCombatStrength());
+            }else{
+                unit.getTile().setMilitary(null);
+                unit.setTile(city.getTile());
+                unit.getTile().setMilitary((Military)unit);
+                if(city.getFOUNDER()==unit.getCivilization() || !GamePage.getInstance().destroyOrAttachCity()){
+                    attachCity(unit, city);
+                }else{
+                    city.destroy();
+                }
+            }
+        }else if(tile.getMilitary()!=null || tile.getCivilian()!=null){
+            Unit target = tile.getMilitary()!=null?tile.getMilitary():tile.getCivilian();
+            target.setHealth(target.getHealth()-strength);
+            unit.setMovePoint(0);
+            if(target.getHealth()>0){
+                unit.setHealth(unit.getHealth()- getCombatStrength(target,false));
+            }else{
+                unit.getTile().setMilitary(null);
+                unit.setTile(target.getTile());
+                unit.getTile().setMilitary((Military)unit);
+            }
+        }
     }
 
     private static void attachCity(Unit unit, City city) {

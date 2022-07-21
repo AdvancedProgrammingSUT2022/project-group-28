@@ -136,7 +136,7 @@ public class GameMediator {
     public void attack(Unit unit, Tile destination){
         int i = destination.getCoordinates()[0];
         int j = destination.getCoordinates()[1];
-        CombatController.unitAttack(i, j, GameMenu.getInstance());
+        CombatController.unitAttack(i, j);
 
         GamePage.getInstance().updateGamePage();
     }
@@ -203,7 +203,7 @@ public class GameMediator {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initOwner(GamePage.getInstance().getGameContent().getParent().getScene().getWindow());
         stage.setX(170);
-        stage.setY(200);
+        stage.setY(215);
         Scene scene;
         scene = new Scene(App.loadFXML("technologyPage"), 388, 688);
         scene.setFill(Color.TRANSPARENT);

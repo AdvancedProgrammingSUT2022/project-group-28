@@ -1,16 +1,22 @@
 package views;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 import controllers.CivilizationController;
 import controllers.GameController;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.StageStyle;
 import models.Game;
 import models.tiles.Tile;
 import views.components.Hex;
@@ -196,7 +202,27 @@ public class GamePage extends PageController{
         HUDController.getInstance().getUnitInfo().update();
         HUDController.getInstance().getCurrentTechnologyInfo().updateData();
         HUDController.getInstance().getMiniMap().updateMap();
+        HUDController.getInstance().getInfoBar().update();
 
+    }
+
+    public boolean destroyOrAttachCity(){
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Destroy or Attach City");
+        String s = "city is conquered. do you want to destroy it or attach it?";
+        alert.setContentText(s);
+        alert.setHeaderText(null);
+        alert.setGraphic(null);
+        alert.initStyle(StageStyle.TRANSPARENT);
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Destroy");
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("Attach");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        
+        if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
+            return true;
+        }
+        return false;
     }
 
     public static GamePage getInstance() {
