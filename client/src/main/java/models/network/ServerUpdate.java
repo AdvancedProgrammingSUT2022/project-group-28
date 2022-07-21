@@ -1,4 +1,4 @@
-package models;
+package models.network;
 
 import com.google.gson.Gson;
 

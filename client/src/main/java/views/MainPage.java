@@ -8,7 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import models.ClientRequest;
+import models.network.ClientRequest;
 
 import java.util.ArrayList;
 

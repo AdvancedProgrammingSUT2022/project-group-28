@@ -1,9 +1,6 @@
 package controllers;
 
-import models.ClientRequest;
-import models.ServerResponse;
-import models.ServerUpdate;
-import models.User;
+import models.*;
 import views.enums.Message;
 
 import java.io.DataInputStream;
@@ -58,6 +55,8 @@ public class SocketHandler extends Thread {
                 return handleFriendship(clientRequest);
             case ACCEPT_FRIENDSHIP:
                 return handleAcceptFriendship(clientRequest);
+            case REJECT_FRIENDSHIP:
+                return handleRejectFriendship(clientRequest);
             case LOGOUT:
                 return handleLogout(clientRequest);
             default:
@@ -145,20 +144,26 @@ public class SocketHandler extends Thread {
             return new ServerResponse(ServerResponse.Response.INVALID_NICKNAME, toSend);
         }
 
+        if (user.equals(friend)) {
+            return new ServerResponse(ServerResponse.Response.OWN_FRIENDSHIP, toSend);
+        }
+
         if (user.getFriends().contains(friend)) {
             return new ServerResponse(ServerResponse.Response.ALREADY_FRIEND, toSend);
         }
 
+
         for (String token : NetworkController.getInstance().getLoggedInUsers().keySet()) {
             if (NetworkController.getInstance().getLoggedInUsers().get(token).equals(friend)) {
-                ArrayList<String> updateData = new ArrayList<>();
-                updateData.add(user.getNickname());
-                ServerUpdate serverUpdate = new ServerUpdate(ServerUpdate.Update.FRIENDSHIP_REQUEST, updateData);
-                try {
-                    NetworkController.getInstance().sendUserUpdate(friend, serverUpdate);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (user.getWaitingFriendshipRequest(friend) != null) {
+                    return new ServerResponse(ServerResponse.Response.FRIENDSHIP_REQUEST_WAITING, toSend);
                 }
+
+                FriendshipRequest friendshipRequest = new FriendshipRequest(user, friend);
+                user.getFriendshipRequests().add(friendshipRequest);
+                friend.getFriendshipRequests().add(friendshipRequest);
+                // TODO: add needed
+                XMLHandler.exportDataOfUser(User.getAllUsers());
 
                 return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
             }
@@ -167,7 +172,7 @@ public class SocketHandler extends Thread {
         return new ServerResponse(ServerResponse.Response.IS_OFFLINE, toSend);
     }
 
-    private ServerResponse handleAcceptFriendship(ClientRequest clientRequest) {
+    public ServerResponse handleAcceptFriendship(ClientRequest clientRequest) {
         ArrayList<String> toSend = new ArrayList<>();
 
         User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
@@ -180,9 +185,41 @@ public class SocketHandler extends Thread {
             return new ServerResponse(ServerResponse.Response.INVALID_NICKNAME, toSend);
         }
 
-        user.acceptFriendship(friend);
+        FriendshipRequest friendshipRequest = user.getWaitingFriendshipRequest(friend);
+        if (friendshipRequest == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_FRIENDSHIP, toSend);
+        }
+
+        friendshipRequest.accept();
+        XMLHandler.exportDataOfUser(User.getAllUsers());
+
         return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
     }
+
+    public ServerResponse handleRejectFriendship(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        User friend = User.getUserByNickname(clientRequest.getData().get(0));
+        if (friend == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_NICKNAME, toSend);
+        }
+
+        FriendshipRequest friendshipRequest = user.getWaitingFriendshipRequest(friend);
+        if (friendshipRequest == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_FRIENDSHIP, toSend);
+        }
+
+        friendshipRequest.reject();
+        XMLHandler.exportDataOfUser(User.getAllUsers());
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
 
     private ServerResponse handleLogout(ClientRequest clientRequest) {
         ArrayList<String> toSend = new ArrayList<>();

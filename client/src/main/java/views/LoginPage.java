@@ -6,8 +6,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import models.ClientRequest;
-import models.ServerResponse;
+import models.network.ClientRequest;
+import models.network.ServerResponse;
 import models.User;
 
 import java.io.IOException;

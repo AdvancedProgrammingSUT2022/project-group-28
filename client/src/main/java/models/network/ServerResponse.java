@@ -1,4 +1,4 @@
-package models;
+package models.network;
 
 import com.google.gson.Gson;
 
@@ -8,6 +8,9 @@ public class ServerResponse {
     public enum Response {
         INVALID_NICKNAME,
         ALREADY_FRIEND,
+        INVALID_FRIENDSHIP,
+        OWN_FRIENDSHIP,
+        FRIENDSHIP_REQUEST_WAITING,
         IS_OFFLINE,
         IS_LISTENING,
         INVALID_TOKEN,

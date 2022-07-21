@@ -1,7 +1,7 @@
 package controllers;
 
 import javafx.application.Platform;
-import models.ServerUpdate;
+import models.network.ServerUpdate;
 import views.FriendshipRequestPage;
 import views.GameMediator;
 

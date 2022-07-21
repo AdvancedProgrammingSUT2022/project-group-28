@@ -1,39 +1,59 @@
 package views;
 
 import java.io.File;
+import java.util.ArrayList;
 
+import controllers.NetworkController;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.User;
+import models.network.ClientRequest;
+import models.FriendshipRequest;
+import models.network.ServerResponse;
 
 public class ProfilePage extends PageController{
+    private Thread pageUpdater;
+
     @FXML
     private ImageView picture,right,left;
-
-    private User currentUser;
+    @FXML
+    private VBox friendshipRequestsContainer;
 
     private int imagePointer;
 
     public void initialize(){
-        currentUser = App.getCurrentUser();
+        User currentUser = App.getCurrentUser();
         picture.setImage(currentUser.getAvatar());
         this.imagePointer = currentUser.getProfilePicNumber();
         if(imagePointer==7) left.setVisible(false);
         else if(imagePointer==1) right.setVisible(false);
+
+        createFriendshipRequestsList();
+        createPageUpdater();
     }
 
     public void back(){
+        pageUpdater.interrupt();
         App.setRoot("mainPage");
     }
 
     public void chooseAvatar(){
+        User currentUser = App.getCurrentUser();
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open avatar picture");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*jpg"));
@@ -47,6 +67,8 @@ public class ProfilePage extends PageController{
     }
 
     public void leftPic(){
+        User currentUser = App.getCurrentUser();
+
         if(imagePointer == -1) imagePointer = 1;
         if (imagePointer==7)return;
         else {
@@ -59,6 +81,8 @@ public class ProfilePage extends PageController{
     }
 
     public void rightPic(){
+        User currentUser = App.getCurrentUser();
+
         if(imagePointer < 1) imagePointer = 1;
         if (imagePointer==1)return;
         else {
@@ -94,5 +118,89 @@ public class ProfilePage extends PageController{
         stage.setScene(scene);
         stage.show();
         scene.getRoot().requestFocus();
+    }
+
+    private void createFriendshipRequestsList() {
+        String token = NetworkController.getInstance().getUserToken();
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.GET_USER_INFO,
+                new ArrayList<>(), token);
+
+        ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
+        if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS) {
+            App.setCurrentUser(User.fromXML(serverResponse.getData().get(0)));
+        }
+
+        User currentUser = App.getCurrentUser();
+        friendshipRequestsContainer.getChildren().clear();
+
+        for (FriendshipRequest friendshipRequest : currentUser.getFriendshipRequests()) {
+            HBox hBox = new HBox();
+
+            Text text = new Text(friendshipRequest.getSender().getNickname() + " requests " +
+                                 friendshipRequest.getReceiver().getNickname());
+            hBox.getChildren().add(text);
+
+            Text state = new Text(friendshipRequest.getState().toString());
+            hBox.getChildren().add(state);
+
+            if (friendshipRequest.getState() == FriendshipRequest.State.WAITING &&
+                friendshipRequest.getSender().getId() != currentUser.getId()) {
+                Button accept = new Button("Accept");
+                accept.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        ArrayList<String> data = new ArrayList<>();
+                        data.add(friendshipRequest.getReceiver().getNickname());
+                        ClientRequest clientRequest1 = new ClientRequest(ClientRequest.Request.ACCEPT_FRIENDSHIP,
+                                                            data, NetworkController.getInstance().getUserToken());
+                        ServerResponse serverResponse1 = NetworkController.getInstance().sendRequest(clientRequest1);
+
+                        if (serverResponse1.getResponse() == ServerResponse.Response.SUCCESS) {
+                            createFriendshipRequestsList();
+                        }
+                    }
+                });
+                hBox.getChildren().add(accept);
+
+                Button reject = new Button("Reject");
+                reject.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        ArrayList<String> data = new ArrayList<>();
+                        data.add(friendshipRequest.getReceiver().getNickname());
+                        ClientRequest clientRequest1 = new ClientRequest(ClientRequest.Request.REJECT_FRIENDSHIP,
+                                data, NetworkController.getInstance().getUserToken());
+                        ServerResponse serverResponse1 = NetworkController.getInstance().sendRequest(clientRequest1);
+                        if (serverResponse1.getResponse() == ServerResponse.Response.SUCCESS) {
+                            createFriendshipRequestsList();
+                        }
+                    }
+                });
+                hBox.getChildren().add(reject);
+            }
+            friendshipRequestsContainer.getChildren().add(hBox);
+        }
+    }
+
+    private void createPageUpdater() {
+        pageUpdater = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                createFriendshipRequestsList();
+                            }
+                        });
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        pageUpdater.start();
     }
 }

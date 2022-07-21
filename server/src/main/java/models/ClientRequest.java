@@ -8,6 +8,7 @@ public class ClientRequest {
     public enum Request {
         LOGOUT,
         ACCEPT_FRIENDSHIP,
+        REJECT_FRIENDSHIP,
         REQUEST_FRIENDSHIP,
         GET_USER_INFO,
         START_LISTEN,
