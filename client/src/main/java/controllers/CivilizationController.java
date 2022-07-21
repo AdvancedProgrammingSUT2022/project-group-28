@@ -233,6 +233,7 @@ public class CivilizationController extends GameController {
             default:
                 break;
         }
+        civilization.setGold(civilization.getGold()-unitTemplate.getCost());
     }
 
     public static boolean isTileVisible(Tile tile, Civilization civilization) {
