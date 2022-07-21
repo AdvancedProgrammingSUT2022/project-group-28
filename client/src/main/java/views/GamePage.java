@@ -20,6 +20,7 @@ import javafx.stage.StageStyle;
 import models.Game;
 import models.tiles.Tile;
 import views.components.Hex;
+import views.components.TileInfo;
 
 public class GamePage extends PageController{
     private static GamePage instance;
@@ -38,6 +39,8 @@ public class GamePage extends PageController{
     @FXML
     private Group HUD;
 
+    private TileInfo tileInfo;
+
     private MapState mapState = MapState.NORMAL;
 
     private boolean rightKey = false, leftKey = false, topKey = false, bottomKey = false;
@@ -51,6 +54,8 @@ public class GamePage extends PageController{
     @FXML
     private void initialize() {
         instance = this;
+
+        tileInfo = new TileInfo();
 
         HUDController.getInstance().createHUD(HUD);
         baseI = GameController.getGame().getCurrentPlayer().getUnits().get(0).getTile().getCoordinates()[0];
@@ -121,6 +126,16 @@ public class GamePage extends PageController{
         Hex hex = new Hex(hexX, hexY,tileI,tileJ);
         this.gameContent.getChildren().add(hex);
     }
+
+    public void createTileInfo(TileInfo tileInfo){
+        gameContent.getChildren().add(tileInfo);
+    }
+
+    public void deleteTileInfo(TileInfo tileInfo){
+        gameContent.getChildren().remove(tileInfo);
+    }
+
+
 
     public double getHexX(int tileI,int tileJ){ 
         return tileJ * 259.8076 + tileI * 129.9038 - baseJ * 240 - baseI * 120 + offsetI; 
