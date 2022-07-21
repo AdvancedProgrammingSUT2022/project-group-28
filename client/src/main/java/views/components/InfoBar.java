@@ -23,6 +23,7 @@ public class InfoBar extends Group {
     private Text gold;
     private Circle happinessIcon;
     private Text happiness;
+    private Text turn;
     private Civilization civilization;
 
 
@@ -59,7 +60,12 @@ public class InfoBar extends Group {
         happiness = new Text(Integer.toString(civilization.getHappiness()));
         happiness.getStyleClass().add("happiness_text");
 
+        turn = new Text("Turn : 0");
+        turn.getStyleClass().add("turn_number");
+
         data.getChildren().addAll(scienceIcon,science,goldIcon,gold,happinessIcon,happiness);
+
+        otherData.getChildren().addAll(turn);
         infoBar.setLeft(data);
         infoBar.setRight(otherData);
         this.getChildren().add(infoBar);
@@ -70,5 +76,6 @@ public class InfoBar extends Group {
         science.setText("+" + civilization.getScienceBalance());
         gold.setText(civilization.getGold() + " ( +" + civilization.getGoldBalance() + " )");
         happiness.setText(Integer.toString(civilization.getHappiness()));
+        turn.setText("Turn : " + GameController.getGame().getTurnNumber());
     }
 }
