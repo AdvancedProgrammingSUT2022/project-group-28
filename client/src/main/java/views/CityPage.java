@@ -12,7 +12,7 @@ public class CityPage extends PageController {
     @FXML
     private VBox cityInfo;
     @FXML
-    private Button backButton;
+    private Button backButton,attackButton,assignButton,buyTileButton,buyUnitButton;
 
     @FXML
     private void initialize() {
@@ -36,6 +36,13 @@ public class CityPage extends PageController {
         cityInfo.getChildren().add(hitPoint);
         cityInfo.getChildren().add(foodBalance);
         cityInfo.getChildren().add(productionBalance);
+
+        if (!GameController.getGame().getCurrentPlayer().equals(city.getCivilization())){
+            attackButton.setDisable(true);
+            assignButton.setDisable(true);
+            buyTileButton.setDisable(true);
+            buyUnitButton.setDisable(true);
+        }
     }
 
     @FXML

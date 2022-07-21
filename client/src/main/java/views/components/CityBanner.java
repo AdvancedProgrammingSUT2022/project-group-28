@@ -5,7 +5,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.ImagePattern;
@@ -19,6 +18,8 @@ import views.App;
 import views.GameMediator;
 
 import java.util.HashMap;
+
+import controllers.GameController;
 
 public class CityBanner extends HBox {
     private static ImagePattern star = new ImagePattern(new Image(App.class.getResource("../assets/image/star.png").toExternalForm()));
@@ -36,7 +37,6 @@ public class CityBanner extends HBox {
     }
 
 
-    private static ImageView sdf = new ImageView(new Image(App.class.getResource("../assets/image/icon.png").toExternalForm()));
     // a banner includes: - name
     //                    - capital start
     //                    - civilization color
@@ -103,12 +103,15 @@ public class CityBanner extends HBox {
 
             Constructable constructable = city.getConstruction().getConstructionTemplate();
             Circle production = new Circle(30);
-            production.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    GameMediator.getInstance().openConstructionMenu(CityBanner.this.city);
-                }
-            });
+            if (GameController.getGame().getCurrentPlayer().equals(city.getCivilization())) {
+                production.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        GameMediator.getInstance().openConstructionMenu(CityBanner.this.city);
+                    }
+                });
+            }
+            
             production.setFill(constructions.get(constructable));
             productionBox.getChildren().add(production);
         } else {

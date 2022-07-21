@@ -18,10 +18,10 @@
 
             </VBox>
             <VBox alignment="CENTER" spacing="20">
-                <Button styleClass="normal_button" onMouseClicked="#attack" text="Attack"/>
-                <Button styleClass="normal_button" onMouseClicked="#assignCitizen" text="Assign citizen"/>
-                <Button styleClass="normal_button" onMouseClicked="#buyTile" text="Buy tile"/>
-                <Button styleClass="normal_button" onMouseClicked="#buyUnit" text="Buy unit"/>
+                <Button styleClass="normal_button" onMouseClicked="#attack" text="Attack" fx:id="attackButton"/>
+                <Button styleClass="normal_button" onMouseClicked="#assignCitizen" text="Assign citizen" fx:id="assignButton"/>
+                <Button styleClass="normal_button" onMouseClicked="#buyTile" text="Buy tile" fx:id="buyTileButton"/>
+                <Button styleClass="normal_button" onMouseClicked="#buyUnit" text="Buy unit" fx:id="buyUnitButton"/>
                 <Button styleClass="back_button" fx:id="backButton" onMouseClicked="#back" text="Back"/>
             </VBox>
         </VBox>
