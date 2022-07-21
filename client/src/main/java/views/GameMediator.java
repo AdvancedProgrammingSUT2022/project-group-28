@@ -136,7 +136,7 @@ public class GameMediator {
     public void attack(Unit unit, Tile destination){
         int i = destination.getCoordinates()[0];
         int j = destination.getCoordinates()[1];
-        CombatController.unitAttack(i, j, GameMenu.getInstance());
+        CombatController.unitAttack(i, j);
 
         GamePage.getInstance().updateGamePage();
     }
