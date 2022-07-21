@@ -9,7 +9,8 @@
             fx:controller="views.MainPage"
             prefHeight="900.0" prefWidth="1600.0"
             stylesheets="@../css/main_page.css"
-            styleClass="ui_page_root">
+            styleClass="ui_page_root"
+            fx:id="pane">
     <center>
         <VBox alignment="CENTER" spacing="30">
             <VBox alignment="CENTER" spacing="20">

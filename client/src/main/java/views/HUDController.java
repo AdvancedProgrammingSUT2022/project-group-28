@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import views.components.*;
 import views.components.console.ConsoleView;
 
@@ -25,6 +26,7 @@ public class HUDController {
 
     private Button nextTurnButton;
     private Button consoleButton;
+    private Button saveButton;
     private VBox messageBoxContainer;
     private ScrollPane messageScrollPane;
     private MiniMap miniMap;
@@ -40,6 +42,7 @@ public class HUDController {
         createMiniMap(HUD);
         createUnitInfo(HUD);
         createCurrentTechnologyPanel(HUD);
+        createSaveButton(HUD);
     }
 
     public void addMessage(String message, MessageBox.Type type) {
@@ -75,7 +78,7 @@ public class HUDController {
         consoleButton = new Button("Console");
         HUD.getChildren().add(consoleButton);
         consoleButton.setLayoutX(50);
-        consoleButton.setLayoutY(120);
+        consoleButton.setLayoutY(140);
         consoleButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -125,6 +128,23 @@ public class HUDController {
     private void createCurrentTechnologyPanel(Group HUD) {
         currentTechnologyInfo = new CurrentTechnologyInfo();
         HUD.getChildren().add(currentTechnologyInfo);
+    }
+
+    private void createSaveButton(Group HUD) {
+        saveButton = new Button("Save");
+        saveButton.setLayoutX(50);
+        saveButton.setLayoutY(170);
+        HUD.getChildren().add(saveButton);
+
+        saveButton.setOnMouseClicked(value -> {
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.initOwner(nextTurnButton.getScene().getWindow());
+            Scene scene =  new Scene(App.loadFXML("savePage"));
+            stage.setScene(scene);
+            stage.show();    
+        });
     }
 
     public UnitInfo getUnitInfo() {
