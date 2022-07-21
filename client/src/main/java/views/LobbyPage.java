@@ -119,6 +119,7 @@ public class LobbyPage extends PageController{
                         Thread.sleep(10000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
+                        break;
                     }
                 }
             }

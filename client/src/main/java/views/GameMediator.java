@@ -203,7 +203,7 @@ public class GameMediator {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initOwner(GamePage.getInstance().getGameContent().getParent().getScene().getWindow());
         stage.setX(170);
-        stage.setY(200);
+        stage.setY(215);
         Scene scene;
         scene = new Scene(App.loadFXML("technologyPage"), 388, 688);
         scene.setFill(Color.TRANSPARENT);

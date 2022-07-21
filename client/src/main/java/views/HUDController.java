@@ -30,6 +30,7 @@ public class HUDController {
     private VBox messageBoxContainer;
     private ScrollPane messageScrollPane;
     private MiniMap miniMap;
+    private InfoBar infoBar;
     private UnitInfo unitInfo;
 
     private CurrentTechnologyInfo currentTechnologyInfo;
@@ -40,6 +41,7 @@ public class HUDController {
         createConsoleButton(HUD);
         createMessageBoxContainer(HUD);
         createMiniMap(HUD);
+        createInfoBar(HUD);
         createUnitInfo(HUD);
         createCurrentTechnologyPanel(HUD);
         createSaveButton(HUD);
@@ -118,6 +120,13 @@ public class HUDController {
         HUD.getChildren().add(miniMap);
     }
 
+    private void createInfoBar(Group HUD){
+        infoBar = new InfoBar();
+        infoBar.setLayoutX(0);
+        infoBar.setLayoutY(0);
+        HUD.getChildren().add(infoBar);
+    }
+
     private void createUnitInfo(Group HUD) {
         unitInfo = new UnitInfo();
         unitInfo.setLayoutX(50);
@@ -155,5 +164,9 @@ public class HUDController {
 
     public CurrentTechnologyInfo getCurrentTechnologyInfo() {
         return currentTechnologyInfo;
+    }
+
+    public InfoBar getInfoBar() {
+        return infoBar;
     }
 }

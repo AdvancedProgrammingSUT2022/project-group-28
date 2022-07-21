@@ -31,7 +31,7 @@ public class CurrentTechnologyInfo extends Group {
         currentTechnologyPanel.setAlignment(Pos.CENTER_LEFT);
         currentTechnologyPanel.setPrefWidth(350);
         currentTechnologyPanel.setLayoutX(30);
-        currentTechnologyPanel.setLayoutY(20);
+        currentTechnologyPanel.setLayoutY(35);
         currentTechnologyProgress = new ProgressIndicator();
         currentTechnologyProgress.setProgress(1);
         currentTechnologyProgress.getStyleClass().add("current_technology_progress");
