@@ -98,3 +98,24 @@
 .tile_cost {
     -fx-font-size: 24;
 }
+
+.tile_info{
+    -fx-background-color: rgba(54, 54, 54, 0.9);
+    -fx-background-radius: 20;
+    -fx-pref-width: 215;
+    -fx-pref-height: 160;
+    -fx-padding: 10;
+}
+
+.resource_name{
+    -fx-font-size: 19;
+    -fx-fill: #ffffff;
+}
+.terrain_name{
+    -fx-font-size: 19;
+    -fx-fill: #78e0a9;
+}
+.output_text{
+    -fx-font-size: 20;
+    -fx-fill: #d2f2ff;
+}
