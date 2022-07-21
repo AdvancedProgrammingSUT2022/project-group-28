@@ -2,10 +2,12 @@ package controllers;
 
 import models.ServerUpdate;
 import models.User;
+import models.WaitingGame;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class NetworkController {
@@ -19,6 +21,7 @@ public class NetworkController {
     private ServerSocket serverSocket;
 
     private HashMap<String, User> loggedInUsers = new HashMap<>();
+    private ArrayList<WaitingGame> waitingGames = new ArrayList<>();
 
     public void initializeServer(int port) throws IOException {
         this.serverSocket = new ServerSocket(port);
@@ -37,4 +40,5 @@ public class NetworkController {
 
     public HashMap<String, User> getLoggedInUsers() { return loggedInUsers; }
 
+    public ArrayList<WaitingGame> getWaitingGames() { return waitingGames; }
 }

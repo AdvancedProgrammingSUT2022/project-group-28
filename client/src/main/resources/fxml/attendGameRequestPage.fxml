@@ -9,15 +9,13 @@
 <?import javafx.scene.text.Text?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="views.FriendshipRequestPage"
+            fx:controller="views.AttendGameRequestPage"
             prefHeight="400.0" prefWidth="600.0">
     <center>
-        <VBox>
+        <VBox alignment="CENTER">
             <Text fx:id="message" text=""/>
-            <HBox spacing="20">
-                <Button onMouseClicked="#accept" text="Accept"/>
-                <Button onMouseClicked="#reject" text="reject"/>
-            </HBox>
+            <Button onMouseClicked="#accept" text="Accept"/>
+            <Button onMouseClicked="#reject" text="Reject"/>
         </VBox>
     </center>
 </BorderPane>

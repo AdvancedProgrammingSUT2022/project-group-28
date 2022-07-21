@@ -252,13 +252,13 @@ public class GameMediator {
         WorkerController.startImprovement((Worker) GameController.getGame().getSelectedUnit(), improvementTemplate);
     }
 
-    public void openFriendshipRequestMenu() {
+    public void openAttendGameRequestPage() {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initOwner(App.currentScene.getWindow());
         Scene scene;
-        scene = new Scene(App.loadFXML("friendshipRequestPage"));
+        scene = new Scene(App.loadFXML("attendGameRequestPage"));
         scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
         stage.show();

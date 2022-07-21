@@ -1,8 +1,10 @@
 package controllers;
 
 import javafx.application.Platform;
+import models.User;
 import models.network.ServerUpdate;
-import views.FriendshipRequestPage;
+import views.AttendGameRequestPage;
+
 import views.GameMediator;
 
 import java.io.DataInputStream;
@@ -31,21 +33,21 @@ public class UpdateHandler extends Thread {
 
     private void handleUpdates(ServerUpdate serverUpdate) {
         switch (serverUpdate.getUpdate()) {
-            case FRIENDSHIP_REQUEST:
-                handleFriendshipRequest(serverUpdate);
+            case ATTEND_GAME_REQUEST:
+                handleAttendGameRequest(serverUpdate);
                 break;
             default:
                 break;
         }
     }
 
-    private void handleFriendshipRequest(ServerUpdate serverUpdate) {
-        FriendshipRequestPage.setRequesterNickname(serverUpdate.getData().get(0));
+    private void handleAttendGameRequest(ServerUpdate serverUpdate) {
+        AttendGameRequestPage.setSender(User.fromXML(serverUpdate.getData().get(0)));
 
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                GameMediator.getInstance().openFriendshipRequestMenu();
+                GameMediator.getInstance().openAttendGameRequestPage();
             }
         });
     }

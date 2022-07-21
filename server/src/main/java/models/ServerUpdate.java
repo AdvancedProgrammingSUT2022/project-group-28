@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class ServerUpdate {
     public enum Update {
-        FRIENDSHIP_REQUEST
+        ATTEND_GAME_REQUEST
     }
 
     private Update update;

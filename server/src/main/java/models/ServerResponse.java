@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 public class ServerResponse {
     public enum Response {
+        NOT_ADMIN,
+        NOT_FRIEND,
+        INVALID_WAITING_GAME,
         INVALID_NICKNAME,
         ALREADY_FRIEND,
         INVALID_FRIENDSHIP,

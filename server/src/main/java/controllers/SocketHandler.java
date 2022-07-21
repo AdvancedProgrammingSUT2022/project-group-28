@@ -57,6 +57,20 @@ public class SocketHandler extends Thread {
                 return handleAcceptFriendship(clientRequest);
             case REJECT_FRIENDSHIP:
                 return handleRejectFriendship(clientRequest);
+            case GET_WAITING_GAMES:
+                return handleGetWaitingGames(clientRequest);
+            case CREATE_GAME:
+                return handleCreateGame(clientRequest);
+            case CANCEL_GAME:
+                return handleCancelGame(clientRequest);
+            case ATTEND_GAME:
+                return handleAttendGame(clientRequest);
+            case ACCEPT_ATTEND_GAME:
+                return handleAcceptAttendGame(clientRequest);
+            case REJECT_ATTEND_GAME:
+                return handleRejectAttendGame(clientRequest);
+            case LEAVE_GAME:
+                return handleLeaveGame(clientRequest);
             case LOGOUT:
                 return handleLogout(clientRequest);
             default:
@@ -230,6 +244,142 @@ public class SocketHandler extends Thread {
         }
 
         NetworkController.getInstance().getLoggedInUsers().remove(clientRequest.getToken());
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleGetWaitingGames(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+        toSend.add(WaitingGame.waitingGamesToXML(WaitingGame.getWaitingGames()));
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleCreateGame(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        WaitingGame waitingGame = new WaitingGame(user);
+        WaitingGame.getWaitingGames().add(waitingGame);
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleCancelGame(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        if (!WaitingGame.isAdmin(user)) {
+            return new ServerResponse(ServerResponse.Response.NOT_ADMIN, toSend);
+        }
+
+        WaitingGame.cancelGame(user);
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleAttendGame(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        WaitingGame waitingGame = WaitingGame.fromXML(clientRequest.getData().get(0));
+        WaitingGame realWaitingGame = WaitingGame.getWaitingGameByAdminId(waitingGame.getAdmin().getId());
+        if (realWaitingGame == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_WAITING_GAME, toSend);
+        }
+
+        System.out.println(realWaitingGame.getAdmin().getNickname());
+        for (User friend : realWaitingGame.getAdmin().getFriends()) {
+            System.out.println(friend);
+        }
+        System.out.println("+++++++++");
+        System.out.println(user);
+
+        if (!realWaitingGame.getAdmin().getFriends().contains(user)) {
+            return new ServerResponse(ServerResponse.Response.NOT_FRIEND, toSend);
+        }
+
+        realWaitingGame.getWaitingForAccept().add(user);
+
+        ArrayList<String> updateData = new ArrayList<>();
+        updateData.add(user.toXML());
+        ServerUpdate serverUpdate = new ServerUpdate(ServerUpdate.Update.ATTEND_GAME_REQUEST, updateData);
+
+        try {
+            realWaitingGame.getAdmin().getUpdateOutputStream().writeUTF(serverUpdate.toJson());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleAcceptAttendGame(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User admin = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (admin == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        WaitingGame waitingGame = WaitingGame.getWaitingGameByAdminId(admin.getId());
+        if (waitingGame == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_WAITING_GAME, toSend);
+        }
+
+        User user = User.getUserByUsername(User.fromXML(clientRequest.getData().get(0)).getUsername());
+        if (!waitingGame.getWaitingForAccept().contains(user)) {
+            return new ServerResponse(ServerResponse.Response.INVALID_WAITING_GAME, toSend);
+        }
+
+        waitingGame.getWaitingForAccept().remove(user);
+        waitingGame.getOtherPlayers().add(user);
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleRejectAttendGame(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User admin = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (admin == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        WaitingGame waitingGame = WaitingGame.getWaitingGameByAdminId(admin.getId());
+        if (waitingGame == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_WAITING_GAME, toSend);
+        }
+
+        User user = User.getUserByUsername(User.fromXML(clientRequest.getData().get(0)).getUsername());
+        if (!waitingGame.getWaitingForAccept().contains(user)) {
+            return new ServerResponse(ServerResponse.Response.INVALID_WAITING_GAME, toSend);
+        }
+
+        waitingGame.getWaitingForAccept().remove(user);
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleLeaveGame(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        WaitingGame.leaveWaitingGame(user);
         return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
     }
 }

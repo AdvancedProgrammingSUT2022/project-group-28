@@ -27,25 +27,28 @@
     </left>
     <center>
         <VBox styleClass="center_container" alignment="CENTER" spacing="20" prefWidth="500">
-            <VBox fx:id="playersContainer" alignment="CENTER" spacing="20">
+            <VBox fx:id="gamesContainer" alignment="CENTER" spacing="20">
 
             </VBox>
             <VBox alignment="CENTER" spacing="30">
                 <TextField fx:id="playerNickname" styleClass="player_username" promptText="nextPlayer"/>
                 <Label fx:id="playerMessage" styleClass="alert" managed="false"/>
-                <Button  styleClass="add_button" text="Send game request"/>
+                <Button fx:id="sendInviteButton" disable="true" styleClass="add_button" text="Send game request"/>
             </VBox>
         </VBox>
     </center>
 
     <right>
         <VBox alignment="CENTER" spacing="30">
-            <VBox alignment="CENTER">
+            <VBox alignment="CENTER" spacing="10">
+                <Button fx:id="createGameButton" styleClass="add_button" onMouseClicked="#createGame" text="Create game"/>
                 <Button fx:id="startGameButton" disable="true" styleClass="start_game_button" text="Start Game"/>
+                <Button fx:id="cancelGameButton" disable="true" styleClass="add_button" onMouseClicked="#cancelGame" text="Cancel Game"/>
+                <Button fx:id="leaveGameButton" disable="true" styleClass="add_button" onMouseClicked="#leaveGame" text="Leave Game"/>
             </VBox>
             <Rectangle styleClass="line" width="200" height="5"/>
             <VBox alignment="CENTER">
-                <Button styleClass="back_button" onMouseClicked="#back" text="Back"/>
+                <Button fx:id="backButton" styleClass="back_button" onMouseClicked="#back" text="Back"/>
             </VBox>
         </VBox>
     </right>

@@ -16,8 +16,8 @@ public class FriendshipRequest {
     }
 
     public synchronized void accept() {
-        if (!sender.getFriends().contains(receiver)) { receiver.getFriends().add(sender); }
-        if (!receiver.getFriends().contains(sender)) { sender.getFriends().add(receiver); }
+        if (!sender.getFriends().contains(receiver)) { sender.getFriends().add(receiver); }
+        if (!receiver.getFriends().contains(sender)) { receiver.getFriends().add(sender); }
         state = State.ACCEPTED;
     }
 

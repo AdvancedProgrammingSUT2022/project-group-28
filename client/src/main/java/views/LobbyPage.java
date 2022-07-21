@@ -2,11 +2,16 @@ package views;
 
 import controllers.NetworkController;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import models.WaitingGame;
 import models.network.ClientRequest;
 import models.network.ServerResponse;
 import models.User;
@@ -14,10 +19,12 @@ import models.User;
 import java.util.ArrayList;
 
 public class LobbyPage extends PageController{
+    private static LobbyPage instance;
+
     private Thread pageUpdater;
 
     @FXML
-    private VBox playersContainer;
+    private VBox gamesContainer;
     @FXML
     private TextField playerNickname;
     @FXML
@@ -31,9 +38,25 @@ public class LobbyPage extends PageController{
     private Label friendMessage;
 
     @FXML
+    private Button leaveGameButton;
+    @FXML
+    private Button cancelGameButton;
+    @FXML
+    private Button sendInviteButton;
+    @FXML
+    private Button createGameButton;
+    @FXML
+    private Button startGameButton;
+    @FXML
+    private Button backButton;
+
+    @FXML
     private void initialize() {
+        instance = this;
+
         User user = App.getCurrentUser();
         createFriendsList(user);
+        createWaitingGamesList();
         createUpdater();
     }
 
@@ -80,6 +103,55 @@ public class LobbyPage extends PageController{
         }
     }
 
+    @FXML
+    private void createGame() {
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.CREATE_GAME, new ArrayList<>(),
+                                    NetworkController.getInstance().getUserToken());
+        ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
+
+        if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS) {
+            backButton.setDisable(true);
+            createGameButton.setDisable(true);
+            sendInviteButton.setDisable(false);
+            cancelGameButton.setDisable(false);
+
+            // TODO: handle start game button
+
+            createWaitingGamesList();
+        }
+    }
+
+    @FXML
+    private void cancelGame() {
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.CANCEL_GAME, new ArrayList<>(),
+                                    NetworkController.getInstance().getUserToken());
+        ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
+
+        if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS) {
+            sendInviteButton.setDisable(true);
+            cancelGameButton.setDisable(true);
+            backButton.setDisable(false);
+            createGameButton.setDisable(false);
+
+            createWaitingGamesList();
+        }
+    }
+
+    @FXML
+    private void leaveGame() {
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.LEAVE_GAME, new ArrayList<>(),
+                                    NetworkController.getInstance().getUserToken());
+        ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
+
+        if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS) {
+            sendInviteButton.setDisable(true);
+            leaveGameButton.setDisable(true);
+            backButton.setDisable(false);
+            createGameButton.setDisable(false);
+
+            createWaitingGamesList();
+        }
+    }
 
     @FXML
     private void back() {
@@ -89,10 +161,83 @@ public class LobbyPage extends PageController{
         App.setRoot("mainPage");
     }
 
+    private void attendGame(WaitingGame waitingGame) {
+        ArrayList<String> data = new ArrayList<>();
+        data.add(waitingGame.toXML());
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.ATTEND_GAME, data,
+                                    NetworkController.getInstance().getUserToken());
+        ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
+
+        if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS) {
+            backButton.setDisable(true);
+            createGameButton.setDisable(true);
+            leaveGameButton.setDisable(false);
+
+            createWaitingGamesList();
+        } else if (serverResponse.getResponse() == ServerResponse.Response.NOT_FRIEND) {
+            playerMessage.setText("Game admin is not your friend");
+            playerMessage.setManaged(true);
+        }
+    }
+
     private void createFriendsList(User user) {
-        LobbyPage.this.friendsContainer.getChildren().clear();
+        String token = NetworkController.getInstance().getUserToken();
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.GET_USER_INFO,
+                new ArrayList<>(), token);
+
+        ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
+        if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS) {
+            App.setCurrentUser(User.fromXML(serverResponse.getData().get(0)));
+        }
+
+        this.friendsContainer.getChildren().clear();
         for (User friend : user.getFriends()) {
-            LobbyPage.this.friendsContainer.getChildren().add(new Text(friend.getNickname()));
+            this.friendsContainer.getChildren().add(new Text(friend.getNickname()));
+        }
+    }
+
+    public void createWaitingGamesList() {
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.GET_WAITING_GAMES, new ArrayList<>());
+        ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
+        ArrayList<WaitingGame> waitingGames = WaitingGame.waitingGamesFromXML(serverResponse.getData().get(0));
+
+        User user = App.getCurrentUser();
+
+        this.gamesContainer.getChildren().clear();
+        for (WaitingGame waitingGame : waitingGames) {
+            VBox vBox = new VBox();
+
+            Text description = new Text("Admin: " + waitingGame.getAdmin().getNickname());
+            vBox.getChildren().add(description);
+
+            Text size = new Text("Players: " + (waitingGame.getOtherPlayers().size() + 1));
+            vBox.getChildren().add(size);
+
+            if (!WaitingGame.isAdmin(user, waitingGames)) {
+                if (waitingGame.isOtherPlayer(user)) {
+                    Button button = new Button("Leave");
+                    button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            leaveGame();
+                        }
+                    });
+                    vBox.getChildren().add(button);
+                } else if (!WaitingGame.isInAnyGame(user, waitingGames)) {
+                    Button button = new Button("Attend");
+                    button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            attendGame(waitingGame);
+                        }
+                    });
+                    vBox.getChildren().add(button);
+                } else if (waitingGame.isWaitingForAccept(user)){
+                    Text text = new Text("Waiting for accept");
+                    vBox.getChildren().add(text);
+                }
+            }
+            this.gamesContainer.getChildren().add(vBox);
         }
     }
 
@@ -101,21 +246,15 @@ public class LobbyPage extends PageController{
             @Override
             public void run() {
                 while (true) {
-                    String token = NetworkController.getInstance().getUserToken();
-                    ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.GET_USER_INFO,
-                            new ArrayList<>(), token);
-
-                    ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
-                    if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS) {
-                        App.setCurrentUser(User.fromXML(serverResponse.getData().get(0)));
+                    try {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
                                 createFriendsList(App.getCurrentUser());
+                                createWaitingGamesList();
                             }
                         });
-                    }
-                    try {
+
                         Thread.sleep(10000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -127,4 +266,6 @@ public class LobbyPage extends PageController{
 
         this.pageUpdater.start();
     }
+
+    public static LobbyPage getInstance() { return instance; }
 }

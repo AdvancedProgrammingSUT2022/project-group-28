@@ -7,10 +7,17 @@ import java.util.ArrayList;
 public class ClientRequest {
     public enum Request {
         LOGOUT,
+        CREATE_GAME,
+        CANCEL_GAME,
+        ATTEND_GAME,
+        LEAVE_GAME,
+        ACCEPT_ATTEND_GAME,
+        REJECT_ATTEND_GAME,
         ACCEPT_FRIENDSHIP,
         REJECT_FRIENDSHIP,
         REQUEST_FRIENDSHIP,
         GET_USER_INFO,
+        GET_WAITING_GAMES,
         START_LISTEN,
         LOGIN,
         REGISTER
