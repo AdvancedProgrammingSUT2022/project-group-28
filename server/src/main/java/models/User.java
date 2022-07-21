@@ -31,6 +31,7 @@ public class User {
     private LocalDate lastWin = null;
 
     private ArrayList<User> friends = new ArrayList<>();
+    private ArrayList<FriendshipRequest> friendshipRequests = new ArrayList<>();
 
     private transient Socket updateSocket;
     private transient DataInputStream updateInputStream;
@@ -92,6 +93,16 @@ public class User {
         XMLHandler.exportDataOfUser(User.getAllUsers());
     }
 
+    public FriendshipRequest getWaitingFriendshipRequest(User friend) {
+        for (FriendshipRequest friendshipRequest : friendshipRequests) {
+            if ((friendshipRequest.getSender().equals(friend) || friendshipRequest.getReceiver().equals(friend)) &&
+                friendshipRequest.getState() == FriendshipRequest.State.WAITING) {
+                return friendshipRequest;
+            }
+        }
+        return null;
+    }
+
 
     public String toXML() { return new XStream().toXML(this); }
 
@@ -146,6 +157,11 @@ public class User {
     public ArrayList<User> getFriends() {
         if (friends == null) friends = new ArrayList<>();
         return friends;
+    }
+
+    public ArrayList<FriendshipRequest> getFriendshipRequests() {
+        if (friendshipRequests == null) friendshipRequests = new ArrayList<>();
+        return friendshipRequests;
     }
 
     public Socket getUpdateSocket() { return updateSocket; }

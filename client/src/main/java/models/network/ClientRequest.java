@@ -1,4 +1,4 @@
-package models;
+package models.network;
 
 import com.google.gson.Gson;
 
@@ -8,6 +8,7 @@ public class ClientRequest {
     public enum Request {
         LOGOUT,
         ACCEPT_FRIENDSHIP,
+        REJECT_FRIENDSHIP,
         REQUEST_FRIENDSHIP,
         GET_USER_INFO,
         START_LISTEN,

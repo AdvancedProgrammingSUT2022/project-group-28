@@ -5,8 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import models.ClientRequest;
-import models.ServerResponse;
+import models.network.ClientRequest;
+import models.network.ServerResponse;
 
 import java.io.IOException;
 import java.util.ArrayList;

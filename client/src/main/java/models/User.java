@@ -1,6 +1,5 @@
 package models;
 
-import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 import controllers.GsonHandler;
@@ -29,6 +28,7 @@ public class User {
     private LocalDate lastWin = null;
 
     private ArrayList<User> friends = new ArrayList<>();
+    private ArrayList<FriendshipRequest> friendshipRequests = new ArrayList<>();
 
     static {
         GsonHandler.importDataOfUser();
@@ -141,6 +141,11 @@ public class User {
     public ArrayList<User> getFriends() {
         if (friends == null) friends = new ArrayList<>();
         return friends;
+    }
+
+    public ArrayList<FriendshipRequest> getFriendshipRequests() {
+        if (friendshipRequests == null) friendshipRequests = new ArrayList<>();
+        return friendshipRequests;
     }
 
     public Image getAvatar(){

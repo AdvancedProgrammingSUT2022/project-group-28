@@ -2,19 +2,15 @@ package views;
 
 import controllers.NetworkController;
 import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import models.ClientRequest;
-import models.ServerResponse;
+import models.network.ClientRequest;
+import models.network.ServerResponse;
 import models.User;
-import sun.nio.ch.Net;
 
-import java.io.IOException;
-import java.net.SocketException;
 import java.util.ArrayList;
 
 public class LobbyPage extends PageController{
@@ -65,6 +61,14 @@ public class LobbyPage extends PageController{
                 break;
             case IS_OFFLINE:
                 this.friendMessage.setText(friendNickname + " is offline");
+                this.friendMessage.setManaged(true);
+                break;
+            case OWN_FRIENDSHIP:
+                this.friendMessage.setText("You can not send request to yourself");
+                this.friendMessage.setManaged(true);
+                break;
+            case FRIENDSHIP_REQUEST_WAITING:
+                this.friendMessage.setText("You have been sent request to this user");
                 this.friendMessage.setManaged(true);
                 break;
             case SUCCESS:

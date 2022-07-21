@@ -1,7 +1,8 @@
 package controllers;
 
-import models.ClientRequest;
-import models.ServerResponse;
+import models.User;
+import models.network.ClientRequest;
+import models.network.ServerResponse;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -25,6 +26,7 @@ public class NetworkController {
     private DataInputStream updateInputStream;
     private DataOutputStream updateOutputStream;
 
+    private User currentUser = null;
     private String userToken = null;
     private boolean online = false;
 
@@ -61,11 +63,16 @@ public class NetworkController {
         }
     }
 
+    public User getCurrentUser() { return currentUser; }
+
     public String getUserToken() { return userToken; }
 
     public boolean isOnline() { return online; }
 
+    public void setCurrentUser(User user) { this.currentUser = user; }
+
     public void setUserToken(String userToken) { this.userToken = userToken; }
 
     public void setOnline(boolean online) { this.online = online; }
+
 }

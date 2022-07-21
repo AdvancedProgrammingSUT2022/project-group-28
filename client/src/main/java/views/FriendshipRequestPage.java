@@ -2,10 +2,9 @@ package views;
 
 import controllers.NetworkController;
 import javafx.fxml.FXML;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import models.ClientRequest;
-import models.ServerResponse;
+import models.network.ClientRequest;
+import models.network.ServerResponse;
 
 import java.util.ArrayList;
 
