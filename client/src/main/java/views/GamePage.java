@@ -202,6 +202,7 @@ public class GamePage extends PageController{
         HUDController.getInstance().getUnitInfo().update();
         HUDController.getInstance().getCurrentTechnologyInfo().updateData();
         HUDController.getInstance().getMiniMap().updateMap();
+        HUDController.getInstance().getInfoBar().update();
 
     }
 
