@@ -71,6 +71,10 @@ public class SocketHandler extends Thread {
                 return handleRejectAttendGame(clientRequest);
             case LEAVE_GAME:
                 return handleLeaveGame(clientRequest);
+            case START_GAME:
+                return handleStartGame(clientRequest);
+            case SET_INITIAL_GAME:
+                return handleSetInitialGame(clientRequest);
             case LOGOUT:
                 return handleLogout(clientRequest);
             default:
@@ -298,13 +302,6 @@ public class SocketHandler extends Thread {
             return new ServerResponse(ServerResponse.Response.INVALID_WAITING_GAME, toSend);
         }
 
-        System.out.println(realWaitingGame.getAdmin().getNickname());
-        for (User friend : realWaitingGame.getAdmin().getFriends()) {
-            System.out.println(friend);
-        }
-        System.out.println("+++++++++");
-        System.out.println(user);
-
         if (!realWaitingGame.getAdmin().getFriends().contains(user)) {
             return new ServerResponse(ServerResponse.Response.NOT_FRIEND, toSend);
         }
@@ -380,6 +377,62 @@ public class SocketHandler extends Thread {
         }
 
         WaitingGame.leaveWaitingGame(user);
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleStartGame(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User admin = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (admin == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        WaitingGame waitingGame = WaitingGame.getWaitingGameByAdminId(admin.getId());
+        if (waitingGame == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_WAITING_GAME, toSend);
+        }
+
+        OnlineGame onlineGame = new OnlineGame(admin, (ArrayList<User>) waitingGame.getOtherPlayers().clone());
+        OnlineGame.getOnlineGames().add(onlineGame);
+
+        toSend.add(onlineGame.toXML());
+
+        WaitingGame.getWaitingGames().remove(waitingGame);
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleSetInitialGame(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User admin = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (admin == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+        System.out.println("admin was valid");
+
+        OnlineGame onlineGame = OnlineGame.getOnlineGameByUserID(admin.getId());
+        if (onlineGame == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_ONLINE_GAME, toSend);
+        }
+
+        System.out.println("game was valid");
+
+        ArrayList<String> updateData = new ArrayList<>();
+        String gameXML = clientRequest.getData().get(0);
+        updateData.add(gameXML);
+
+        for (User player : onlineGame.getOtherPlayers()) {
+            try {
+                ServerUpdate serverUpdate = new ServerUpdate(ServerUpdate.Update.SET_INITIAL_GAME, updateData);
+                player.getUpdateOutputStream().writeUTF(serverUpdate.toJson());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("response sent");
         return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
     }
 }

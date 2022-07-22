@@ -1,8 +1,10 @@
 package controllers;
 
 import javafx.application.Platform;
+import models.Game;
 import models.User;
 import models.network.ServerUpdate;
+import views.App;
 import views.AttendGameRequestPage;
 
 import views.GameMediator;
@@ -36,6 +38,8 @@ public class UpdateHandler extends Thread {
             case ATTEND_GAME_REQUEST:
                 handleAttendGameRequest(serverUpdate);
                 break;
+            case SET_INITIAL_GAME:
+                handleSetInitialGame(serverUpdate);
             default:
                 break;
         }
@@ -50,5 +54,12 @@ public class UpdateHandler extends Thread {
                 GameMediator.getInstance().openAttendGameRequestPage();
             }
         });
+    }
+
+    private void handleSetInitialGame(ServerUpdate serverUpdate) {
+        Game game = Game.fromXML(serverUpdate.getData().get(0));
+        GameMenuController.setGame(game);
+
+        App.setRoot("gamePage");
     }
 }

@@ -3,6 +3,8 @@ package models;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 import models.civilization.City;
 import models.civilization.Civilization;
 import models.civilization.enums.CivilizationNames;
@@ -121,9 +123,21 @@ public class Game {
         if (rivers.contains(Direction.UP_RIGHT) && i - 1 >= 0 && j + 1 < MAP_WIDTH)
         map[i - 1][j + 1].getRivers().add(Direction.DOWN_LEFT);
     }
-    
-    
-    
+
+    public static Game fromXML(String xml) {
+        XStream xStream = new XStream();
+        xStream.addPermission(AnyTypePermission.ANY);
+        return (Game) xStream.fromXML(xml);
+    }
+
+    public String toXML() {
+        XStream xStream = new XStream();
+        xStream.addPermission(AnyTypePermission.ANY);
+        return xStream.toXML(this);
+    }
+
+
+
     public Tile[][] getMap() { return map; }
     
     public ArrayList<Civilization> getCivilizations() { return civilizations; }

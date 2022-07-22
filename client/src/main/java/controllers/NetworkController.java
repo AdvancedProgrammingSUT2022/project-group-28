@@ -38,7 +38,7 @@ public class NetworkController {
 
     public synchronized ServerResponse sendRequest(ClientRequest clientRequest) {
         try {
-            this.dataOutputStream.writeUTF(clientRequest.toJson());
+            this.dataOutputStream.  writeUTF(clientRequest.toJson());
             this.dataOutputStream.flush();
             String response = this.dataInputStream.readUTF();
             return ServerResponse.fromJson(response);
