@@ -79,6 +79,8 @@ public class SocketHandler extends Thread {
                 return handleSetInitialGame(clientRequest);
             case GET_ALL_USERS:
                 return handleGetAllUsers(clientRequest);
+            case UPDATE_USER:
+                return handleUpdateUser(clientRequest);
             case LOGOUT:
                 return handleLogout(clientRequest);
             default:
@@ -448,6 +450,20 @@ public class SocketHandler extends Thread {
         ArrayList<String> toSend = new ArrayList<>();
 
         toSend.add(User.usersToXML(User.getAllUsers()));
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleUpdateUser(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        User updatedUser = User.fromXML(clientRequest.getData().get(0));
+        user.update(updatedUser);
 
         return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
     }

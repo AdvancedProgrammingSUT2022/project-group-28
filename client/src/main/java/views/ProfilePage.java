@@ -76,6 +76,13 @@ public class ProfilePage extends PageController{
             if(imagePointer==7) left.setVisible(false);
             picture.setImage(new Image(App.resource.resolve("assets/image/profilePictures/" + imagePointer + ".png").toString()));
             currentUser.setProfilePicNumber(imagePointer);
+
+            ArrayList<String> data = new ArrayList<>();
+            data.add(App.getCurrentUser().toXML());
+            ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.UPDATE_USER, data,
+                    NetworkController.getInstance().getUserToken());
+            NetworkController.getInstance().sendRequest(clientRequest);
+
             right.setVisible(true);
         }
     }
@@ -90,11 +97,20 @@ public class ProfilePage extends PageController{
             if(imagePointer==1) right.setVisible(false);
             picture.setImage(new Image(App.resource.resolve("assets/image/profilePictures/" + imagePointer + ".png").toString()));
             currentUser.setProfilePicNumber(imagePointer);
+
+            ArrayList<String> data = new ArrayList<>();
+            data.add(App.getCurrentUser().toXML());
+            ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.UPDATE_USER, data,
+                                        NetworkController.getInstance().getUserToken());
+            NetworkController.getInstance().sendRequest(clientRequest);
+
             left.setVisible(true);
         }
     }
 
     public void changePassword(){
+        // TODO: handle server
+
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.TRANSPARENT);
@@ -108,6 +124,7 @@ public class ProfilePage extends PageController{
     }
 
     public void changeNickname(){
+        // TODO: handle server
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.TRANSPARENT);

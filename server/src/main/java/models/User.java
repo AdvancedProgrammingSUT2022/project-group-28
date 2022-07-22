@@ -58,6 +58,18 @@ public class User {
         this.score = 0;
         this.profilePicNumber = 0;
         this.lastOnline = LocalDate.now();
+        this.lastWin = null;
+    }
+
+    public void update(User user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.nickname = user.getNickname();
+        this.password = user.getPassword();
+        this.score = user.getScore();
+        this.profilePicNumber = user.getProfilePicNumber();
+        this.lastOnline = user.getLastOnline();
+        this.lastWin = user.getLastWin();
     }
 
     public static User getUserByUsername(String username) {
