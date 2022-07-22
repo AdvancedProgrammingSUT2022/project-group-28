@@ -420,14 +420,11 @@ public class SocketHandler extends Thread {
         if (admin == null) {
             return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
         }
-        System.out.println("admin was valid");
 
         OnlineGame onlineGame = OnlineGame.getOnlineGameByUserID(admin.getId());
         if (onlineGame == null) {
             return new ServerResponse(ServerResponse.Response.INVALID_ONLINE_GAME, toSend);
         }
-
-        System.out.println("game was valid");
 
         ArrayList<String> updateData = new ArrayList<>();
         String gameXML = clientRequest.getData().get(0);
@@ -442,7 +439,6 @@ public class SocketHandler extends Thread {
             }
         }
 
-        System.out.println("response sent");
         return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
     }
 

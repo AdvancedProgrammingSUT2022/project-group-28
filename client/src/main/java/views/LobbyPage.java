@@ -179,11 +179,6 @@ public class LobbyPage extends PageController{
             ArrayList<String> data = new ArrayList<>();
             data.add(game.encode());
 
-            Deflater sdf = new Deflater();
-            sdf.deflate(game.encode().getBytes());
-
-
-
             ClientRequest clientRequest1 = new ClientRequest(ClientRequest.Request.SET_INITIAL_GAME, data,
                                          NetworkController.getInstance().getUserToken());
 
