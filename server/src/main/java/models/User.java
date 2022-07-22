@@ -30,6 +30,8 @@ public class User {
     private LocalDate lastOnline = null;
     private LocalDate lastWin = null;
 
+    private boolean online;
+
     private ArrayList<User> friends = new ArrayList<>();
     private ArrayList<FriendshipRequest> friendshipRequests = new ArrayList<>();
 
@@ -55,6 +57,7 @@ public class User {
         this.password = password;
         this.score = 0;
         this.profilePicNumber = 0;
+        this.lastOnline = LocalDate.now();
     }
 
     public static User getUserByUsername(String username) {
@@ -79,6 +82,18 @@ public class User {
             }
         }
         return null;
+    }
+
+    public static ArrayList<User> usersFromXML(String xml) {
+        XStream xStream = new XStream();
+        xStream.addPermission(AnyTypePermission.ANY);
+        return (ArrayList<User>) xStream.fromXML(xml);
+    }
+
+    public static String usersToXML(ArrayList<User> users) {
+        XStream xStream = new XStream();
+        xStream.addPermission(AnyTypePermission.ANY);
+        return xStream.toXML(users);
     }
 
     public static User fromXML(String xml) {
@@ -154,6 +169,8 @@ public class User {
 
     public LocalDate getLastWin() { return lastWin; }
 
+    public boolean isOnline() { return online; }
+
     public ArrayList<User> getFriends() {
         if (friends == null) friends = new ArrayList<>();
         return friends;
@@ -179,6 +196,8 @@ public class User {
     public void setLastOnline(LocalDate lastOnline) { this.lastOnline = lastOnline; }
 
     public void setLastWin(LocalDate lastWin) { this.lastWin = lastWin; }
+
+    public void setOnline(boolean online) { this.online = online; }
 
     public void setUpdateSocket(Socket updateSocket) { this.updateSocket = updateSocket; }
 

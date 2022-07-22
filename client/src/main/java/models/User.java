@@ -27,6 +27,8 @@ public class User {
     private LocalDate lastOnline = null;
     private LocalDate lastWin = null;
 
+    private boolean online;
+
     private ArrayList<User> friends = new ArrayList<>();
     private ArrayList<FriendshipRequest> friendshipRequests = new ArrayList<>();
 
@@ -78,6 +80,18 @@ public class User {
         XStream xStream = new XStream();
         xStream.addPermission(AnyTypePermission.ANY);
         return (User) xStream.fromXML(xml);
+    }
+
+    public static ArrayList<User> usersFromXML(String xml) {
+        XStream xStream = new XStream();
+        xStream.addPermission(AnyTypePermission.ANY);
+        return (ArrayList<User>) xStream.fromXML(xml);
+    }
+
+    public static String usersToXML(ArrayList<User> users) {
+        XStream xStream = new XStream();
+        xStream.addPermission(AnyTypePermission.ANY);
+        return xStream.toXML(users);
     }
 
     public String toXML() { return new XStream().toXML(this); }
@@ -137,6 +151,8 @@ public class User {
     public LocalDate getLastOnline() { return lastOnline; }
 
     public LocalDate getLastWin() { return lastWin; }
+
+    public boolean isOnline() { return online; }
 
     public ArrayList<User> getFriends() {
         if (friends == null) friends = new ArrayList<>();

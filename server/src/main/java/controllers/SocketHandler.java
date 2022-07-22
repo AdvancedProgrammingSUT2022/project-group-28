@@ -1,5 +1,6 @@
 package controllers;
 
+import com.thoughtworks.xstream.XStream;
 import models.*;
 import views.enums.Message;
 
@@ -8,6 +9,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -75,6 +77,8 @@ public class SocketHandler extends Thread {
                 return handleStartGame(clientRequest);
             case SET_INITIAL_GAME:
                 return handleSetInitialGame(clientRequest);
+            case GET_ALL_USERS:
+                return handleGetAllUsers(clientRequest);
             case LOGOUT:
                 return handleLogout(clientRequest);
             default:
@@ -107,6 +111,7 @@ public class SocketHandler extends Thread {
         if (message == Message.SUCCESS) {
             String token = UUID.randomUUID().toString();
             User user = User.getUserByUsername(data.get(0));
+            user.setOnline(true);
             NetworkController.getInstance().getLoggedInUsers().put(token, user);
 
             toSend.add(token);
@@ -246,6 +251,9 @@ public class SocketHandler extends Thread {
         if (user == null) {
             return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
         }
+
+        user.setLastOnline(LocalDate.now());
+        user.setOnline(false);
 
         NetworkController.getInstance().getLoggedInUsers().remove(clientRequest.getToken());
         return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
@@ -433,6 +441,14 @@ public class SocketHandler extends Thread {
         }
 
         System.out.println("response sent");
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleGetAllUsers(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        toSend.add(User.usersToXML(User.getAllUsers()));
+
         return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
     }
 }
