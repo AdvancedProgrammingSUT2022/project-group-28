@@ -42,7 +42,7 @@
         <VBox alignment="CENTER" spacing="30">
             <VBox alignment="CENTER" spacing="10">
                 <Button fx:id="createGameButton" styleClass="add_button" onMouseClicked="#createGame" text="Create game"/>
-                <Button fx:id="startGameButton" disable="true" styleClass="start_game_button" text="Start Game"/>
+                <Button fx:id="startGameButton" disable="true" styleClass="start_game_button" onMouseClicked="#startGame" text="Start Game"/>
                 <Button fx:id="cancelGameButton" disable="true" styleClass="add_button" onMouseClicked="#cancelGame" text="Cancel Game"/>
                 <Button fx:id="leaveGameButton" disable="true" styleClass="add_button" onMouseClicked="#leaveGame" text="Leave Game"/>
             </VBox>

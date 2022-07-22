@@ -1,5 +1,7 @@
 package views;
 
+import controllers.GameController;
+import controllers.GameMenuController;
 import controllers.NetworkController;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -11,12 +13,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import models.Game;
+import models.OnlineGame;
 import models.WaitingGame;
 import models.network.ClientRequest;
 import models.network.ServerResponse;
 import models.User;
 
 import java.util.ArrayList;
+import java.util.zip.Deflater;
 
 public class LobbyPage extends PageController{
     private static LobbyPage instance;
@@ -114,7 +119,7 @@ public class LobbyPage extends PageController{
             createGameButton.setDisable(true);
             sendInviteButton.setDisable(false);
             cancelGameButton.setDisable(false);
-
+            startGameButton.setDisable(false);
             // TODO: handle start game button
 
             createWaitingGamesList();
@@ -130,6 +135,7 @@ public class LobbyPage extends PageController{
         if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS) {
             sendInviteButton.setDisable(true);
             cancelGameButton.setDisable(true);
+            startGameButton.setDisable(true);
             backButton.setDisable(false);
             createGameButton.setDisable(false);
 
@@ -150,6 +156,42 @@ public class LobbyPage extends PageController{
             createGameButton.setDisable(false);
 
             createWaitingGamesList();
+        }
+    }
+
+    @FXML
+    private void startGame() {
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.START_GAME, new ArrayList<>(),
+                NetworkController.getInstance().getUserToken());
+        ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
+
+        if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS) {
+            OnlineGame onlineGame = OnlineGame.fromXML(serverResponse.getData().get(0));
+
+            ArrayList<User> players = (ArrayList<User>) onlineGame.getOtherPlayers().clone();
+            players.add(onlineGame.getAdmin());
+
+            // TODO: set random seed
+
+            Game game = new Game(players, 1000);
+            GameMenuController.setGame(game);
+
+            ArrayList<String> data = new ArrayList<>();
+            data.add(game.toXML());
+
+            Deflater sdf = new Deflater();
+            sdf.deflate(game.toXML().getBytes());
+
+
+
+            ClientRequest clientRequest1 = new ClientRequest(ClientRequest.Request.SET_INITIAL_GAME, data,
+                                         NetworkController.getInstance().getUserToken());
+
+            ServerResponse serverResponse1 = NetworkController.getInstance().sendRequest(clientRequest1);
+
+            if (serverResponse1.getResponse() == ServerResponse.Response.SUCCESS) {
+                App.setRoot("gamePage");
+            }
         }
     }
 

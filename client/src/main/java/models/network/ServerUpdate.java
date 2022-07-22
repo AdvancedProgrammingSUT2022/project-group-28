@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class ServerUpdate {
     public enum Update {
+        SET_INITIAL_GAME,
         ATTEND_GAME_REQUEST
     }
 
