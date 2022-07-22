@@ -15,13 +15,15 @@ import models.tiles.Tile;
 import views.GamePage;
 
 public class MiniMap extends Group {
-    private final int RADIUS = 1;
+    private final double RADIUS;
 
     private Civilization civilization;
     private Shape cameraFocus;
     private Group map;
     public MiniMap(Civilization civilization) {
         this.civilization = civilization;
+
+        this.RADIUS = calculateRadius();
 
         Rectangle background = createBackground();
         this.getChildren().add(background);
@@ -46,7 +48,6 @@ public class MiniMap extends Group {
             Polygon polygon = new Polygon();
             setPolygonPoints(polygon);
 
-            // TODO: add color to enum
             switch (tile.getTerrain()) {
                 case DESERT:
                     polygon.setFill(Color.YELLOW);
@@ -79,8 +80,8 @@ public class MiniMap extends Group {
             int tileI = tile.getCoordinates()[0];
             int tileJ = tile.getCoordinates()[1];
 
-            polygon.setLayoutX(tileJ * 2 + tileI * 1.5 + 18);
-            polygon.setLayoutY(tileI * 2 + 9);
+            polygon.setLayoutY(tileI * 3 * MiniMap.this.RADIUS / 4);
+            polygon.setLayoutX(tileJ * Math.sqrt(3) * MiniMap.this.RADIUS / 2 + polygon.getLayoutY()/Math.sqrt(3));
             map.getChildren().add(polygon);
         }
     }
@@ -103,6 +104,10 @@ public class MiniMap extends Group {
         return blackBackground;
     }
 
+    private double calculateRadius() {
+        return 800 / (3 * GameController.getGame().MAP_HEIGHT + 1);
+    }
+
     private Rectangle createClickArea() {
         Rectangle clickArea = new Rectangle(350, 200);
         clickArea.setFill(Color.TRANSPARENT);
@@ -110,10 +115,8 @@ public class MiniMap extends Group {
         clickArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                int tileI = Math.max((int)(event.getY() / 1.5004) - 15, -2);
-                int tileJ = Math.max((int)(event.getX() / 2.6734) - 15, -2);
-                tileI = Math.min(tileI, 105);
-                tileJ = Math.min(tileJ, 105);
+                int tileI = (int)((event.getY()) * 2 / (3 * (MiniMap.this.RADIUS/2))) -1;
+                int tileJ = (int)((event.getX()- (int)(event.getY()/Math.sqrt(3))) / (Math.sqrt(3) * (MiniMap.this.RADIUS/2))) -1 ;
                 GamePage.getInstance().setBaseI(tileI);
                 GamePage.getInstance().setBaseJ(tileJ);
                 GamePage.getInstance().setOffsetI(0);
@@ -141,8 +144,8 @@ public class MiniMap extends Group {
                 int offsetJ = GamePage.getInstance().getOffsetJ();
 
 
-                cameraFocus.setLayoutX(baseJ * 2.6734 - offsetI * 0.006797);
-                cameraFocus.setLayoutY(baseI * 1.5004 - offsetJ * 0.00682);
+                cameraFocus.setLayoutY(baseI * 3 * MiniMap.this.RADIUS / 4  - offsetJ * 0.00682 - 22.5);
+                cameraFocus.setLayoutX(baseJ * Math.sqrt(3) * MiniMap.this.RADIUS / 2 + cameraFocus.getLayoutY()/Math.sqrt(3) - offsetI * 0.006797 - 40);
 
             }
         };
