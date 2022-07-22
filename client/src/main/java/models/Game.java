@@ -22,8 +22,8 @@ import controllers.TileController;
 import controllers.units.SettlerController;
 
 public class Game {
-    public final int MAP_WIDTH = 100;
-    public final int MAP_HEIGHT = 100;
+    public final int MAP_WIDTH = 50;
+    public final int MAP_HEIGHT = 50;
 
     private Tile[][] map;
     private ArrayList<Civilization> civilizations;
