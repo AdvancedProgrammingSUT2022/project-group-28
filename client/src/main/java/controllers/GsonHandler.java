@@ -17,8 +17,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.zip.DeflaterOutputStream;
-import java.util.zip.InflaterInputStream;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 public class GsonHandler {
     public static void importDataOfUser(){
         try {
@@ -50,16 +50,17 @@ public class GsonHandler {
 
     public static boolean saveGame(Game game,String filename){ 
         try {
-            DeflaterOutputStream deflaterOutputStream;
+            GZIPOutputStream gzipOutputStream;
             if (Files.exists(Paths.get("data/save/" + filename + ".civ")))
-                deflaterOutputStream = new DeflaterOutputStream (Files.newOutputStream(Paths.get("data/save/" + filename + ".civ")));
+                gzipOutputStream = new GZIPOutputStream (Files.newOutputStream(Paths.get("data/save/" + filename + ".civ")));
             else{
                 new File("data/save").mkdir();
-                deflaterOutputStream = new DeflaterOutputStream (Files.newOutputStream(Paths.get("data/save/" + filename + ".civ")));
+                gzipOutputStream = new GZIPOutputStream (Files.newOutputStream(Paths.get("data/save/" + filename + ".civ")));
             }
             XStream xStream = new XStream();
-            deflaterOutputStream.write(xStream.toXML(game).getBytes());
-            deflaterOutputStream.close();
+            String xml = xStream.toXML(game).replaceAll(">[\\s\\n]+<", "><");
+            gzipOutputStream.write(xml.getBytes());
+            gzipOutputStream.close();
             return true;
         } catch (IOException e) {
             return false;
@@ -68,7 +69,7 @@ public class GsonHandler {
 
     public static Game importGame(String filename){
         try {
-            InflaterInputStream inputStream = new InflaterInputStream(Files.newInputStream(Paths.get("data/save/" + filename + ".civ")));
+            GZIPInputStream inputStream = new GZIPInputStream(Files.newInputStream(Paths.get("data/save/" + filename + ".civ")));
             Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
             String xml = scanner.hasNext() ? scanner.next() : "";
             inputStream.close();

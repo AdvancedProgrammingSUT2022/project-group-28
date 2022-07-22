@@ -177,10 +177,10 @@ public class LobbyPage extends PageController{
             GameMenuController.setGame(game);
 
             ArrayList<String> data = new ArrayList<>();
-            data.add(game.toXML());
+            data.add(game.encode());
 
             Deflater sdf = new Deflater();
-            sdf.deflate(game.toXML().getBytes());
+            sdf.deflate(game.encode().getBytes());
 
 
 

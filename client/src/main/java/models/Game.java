@@ -1,7 +1,13 @@
 package models;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Random;
+import java.util.Scanner;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
@@ -124,16 +130,37 @@ public class Game {
         map[i - 1][j + 1].getRivers().add(Direction.DOWN_LEFT);
     }
 
-    public static Game fromXML(String xml) {
-        XStream xStream = new XStream();
-        xStream.addPermission(AnyTypePermission.ANY);
-        return (Game) xStream.fromXML(xml);
+    public static Game decode(String coded) {
+        try{
+            byte[] bytes = Base64.getDecoder().decode(coded);
+            GZIPInputStream gis = new GZIPInputStream(new ByteArrayInputStream(bytes));
+            Scanner scanner = new Scanner(gis, "UTF-8");
+            String xml = "";
+            xml = scanner.useDelimiter("\\A").next();
+            scanner.close();
+            XStream xStream = new XStream();
+            xStream.addPermission(AnyTypePermission.ANY);
+            return (Game) xStream.fromXML(xml);
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public String toXML() {
-        XStream xStream = new XStream();
-        xStream.addPermission(AnyTypePermission.ANY);
-        return xStream.toXML(this);
+    public String encode() {
+        try{
+            XStream xStream = new XStream();
+            xStream.addPermission(AnyTypePermission.ANY);
+            String xml = xStream.toXML(this).replaceAll(">[\\s\\n]+<", "><");
+            ByteArrayOutputStream obj=new ByteArrayOutputStream();
+            GZIPOutputStream gzip = new GZIPOutputStream(obj);
+            gzip.write(xml.getBytes("UTF-8"));
+            gzip.close();
+            return new String(Base64.getEncoder().encode(obj.toByteArray()));
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
