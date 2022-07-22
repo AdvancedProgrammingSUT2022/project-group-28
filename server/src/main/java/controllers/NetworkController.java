@@ -27,7 +27,7 @@ public class NetworkController {
         this.serverSocket = new ServerSocket(port);
     }
 
-    public void listenForClients() throws IOException {
+        public void listenForClients() throws IOException {
        while (true) {
            Socket socket = serverSocket.accept();
            new SocketHandler(socket).start();
