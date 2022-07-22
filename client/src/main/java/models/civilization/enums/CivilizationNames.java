@@ -6,10 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public enum CivilizationNames {
-    AMERICA("America", Color.color(.03, .19, .38, 1), "USA" ,"MIT", new ArrayList<>(Arrays.asList("MBA", "OCW"))),
     IRAN("Iran", Color.color(0, .58, .22, 1) ,"IRN", "SUT", new ArrayList<String>(Arrays.asList("IUT", "AUT"))),
+    AMERICA("America", Color.color(.03, .19, .38, 1), "USA" ,"MIT", new ArrayList<>(Arrays.asList("MBA", "OCW"))),
     INDIA("India", Color.color(1, .56, .1, 1), "IND" ,"IIT", new ArrayList<>(Arrays.asList("IISc", "IITD"))),
-    BRITAIN("Britain", Color.color(0, .12, .41, 1) ,"UK", "SUT", new ArrayList<String>(Arrays.asList("IUT", "AUT"))),
     RUSSIA("Russia", Color.color(0, .44, .8, 1), "RUS" ,"MIT", new ArrayList<>(Arrays.asList("MBA", "OCW"))),
     CHINA("China", Color.color(.78, .06, .18, 1) ,"CHN", "SUT", new ArrayList<String>(Arrays.asList("IUT", "AUT")));
 
