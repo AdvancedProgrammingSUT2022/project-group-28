@@ -10,6 +10,7 @@ import models.tiles.Resource;
 import models.tiles.Tile;
 import models.tiles.enums.*;
 import models.units.Unit;
+import controllers.TileController;
 import controllers.units.SettlerController;
 
 public class Game {
@@ -25,29 +26,43 @@ public class Game {
     private Unit selectedUnit = null;
     private City selectedCity = null;
 
+    private int numberOfPlayers;
+
+    
     public Game(ArrayList<User> users, int seed) {
         Random random = new Random(seed);
-
+        
         this.map = generateRandomMap(random);
-
+        
+        this.numberOfPlayers = users.size();
+        
         this.civilizations = new ArrayList<>();
         for (int i = 0; i < users.size(); i++) {
-            if (i == 0) {
-                Civilization civilization = new Civilization(users.get(i), CivilizationNames.IRAN);
-                SettlerController.createSettler(civilization, this.map[30][30]);
-                this.civilizations.add(civilization);
-            } else if (i == 1) {
-                Civilization civilization = new Civilization(users.get(i), CivilizationNames.AMERICA);
-                SettlerController.createSettler(civilization, this.map[20][20]);
-                this.civilizations.add(civilization);
+            Civilization civilization = new Civilization(users.get(i), CivilizationNames.values()[i]);
+            while(true){
+                int[] thisCoordinates = new int[]{random.nextInt(MAP_WIDTH), random.nextInt(MAP_HEIGHT)};
+                boolean isValid = true;
+                Tile tile = this.map[thisCoordinates[0]][thisCoordinates[1]];
+                for(Civilization c : this.civilizations){
+                    if(TileController.getDistance(c.getUnits().get(0).getTile(),tile ) < 10){
+                        isValid = false;
+                        break;
+                    }
+                }
+                if (isValid){
+                    SettlerController.createSettler(civilization, tile);
+                    this.civilizations.add(civilization);
+                    break;
+                }
             }
+            
         }
-
+        
         this.currentPlayer = this.civilizations.get(0);
         this.turnNumber = 1;
     }
-
-
+    
+    
     private Tile[][] generateRandomMap(Random random) {
         Tile[][] map = new Tile[MAP_HEIGHT][MAP_WIDTH];
         for (int i = 0; i < MAP_HEIGHT; i++) {
@@ -59,7 +74,7 @@ public class Game {
                 map[i][j] = new Tile(i, j, terrain, terrainFeature, resource, rivers);
                 addAdjacentRivers(i, j, map, rivers);
                 if(i<2 || j<2 || i>=MAP_HEIGHT || j>=MAP_WIDTH) 
-                    map[i][j] = new Tile(i, j, Terrain.OCEAN,null,null,new ArrayList<>());
+                map[i][j] = new Tile(i, j, Terrain.OCEAN,null,null,new ArrayList<>());
             }
         }
         return map;
@@ -72,7 +87,7 @@ public class Game {
         if (random.nextInt(30) == 0) result.add(Direction.RIGHT);
         return result;
     }
-
+    
     private TerrainFeature getPossibleTerrainFeature(Random random, Terrain terrain, ArrayList<Direction> rivers) {
         TerrainFeature terrainFeature = TerrainFeature.generateRandomTerrainFeature(random);
         if (terrainFeature == TerrainFeature.FOOD_PLAIN && rivers.size() == 0) return null;
@@ -81,14 +96,14 @@ public class Game {
                                                           terrain != Terrain.MOUNTAIN || 
                                                           terrain != Terrain.OCEAN || 
                                                           terrain != Terrain.SNOW )) return null;
-        else if (terrain == Terrain.OCEAN) return null;
-        return terrainFeature;
+                                                          else if (terrain == Terrain.OCEAN) return null;
+                                                          return terrainFeature;
     }
-
+    
     private Resource getPossibleResource(Random random, Terrain terrain, TerrainFeature terrainFeature) {
         ResourceTemplate resourceTemplate = ResourceTemplate.generateRandomResourceTemplate(random);
         if (!resourceTemplate.getPossiblePlaces().contains(terrain) &&
-            !resourceTemplate.getPossiblePlaces().contains(terrainFeature)) return null;
+        !resourceTemplate.getPossiblePlaces().contains(terrainFeature)) return null;
         else {
             int count;
             if (resourceTemplate.getType().equals(ResourceType.STRATEGIC)) {
@@ -97,43 +112,47 @@ public class Game {
             return new Resource(resourceTemplate, count);
         }
     }
-
+    
     private void addAdjacentRivers(int i , int j, Tile[][] map, ArrayList<Direction> rivers) {
         if (rivers.contains(Direction.UP) && i - 1 >= 0)
-            map[i - 1][j].getRivers().add(Direction.DOWN);
+        map[i - 1][j].getRivers().add(Direction.DOWN);
         if (rivers.contains(Direction.RIGHT) && j + 1 < MAP_WIDTH)
-            map[i][j + 1].getRivers().add(Direction.LEFT);
+        map[i][j + 1].getRivers().add(Direction.LEFT);
         if (rivers.contains(Direction.UP_RIGHT) && i - 1 >= 0 && j + 1 < MAP_WIDTH)
-            map[i - 1][j + 1].getRivers().add(Direction.DOWN_LEFT);
+        map[i - 1][j + 1].getRivers().add(Direction.DOWN_LEFT);
     }
-
-
-
+    
+    
+    
     public Tile[][] getMap() { return map; }
-
+    
     public ArrayList<Civilization> getCivilizations() { return civilizations; }
-
+    
     public Civilization getCurrentPlayer() { return currentPlayer; }
-
+    
     public int getTurnNumber() { return turnNumber; }
-
+    
     public void setCurrentPlayer(Civilization currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
-
+    
     public void setTurnNumber(int turnNumber) {
         this.turnNumber = turnNumber;
     }
-
+    
     public Unit getSelectedUnit() {
         return selectedUnit;
     }
-
+    
     public City getSelectedCity() { return selectedCity; }
-
+    
     public void setSelectedUnit(Unit selectedUnit) {
         this.selectedUnit = selectedUnit;
     }
-
+    
     public void setSelectedCity(City selectedCity) { this.selectedCity = selectedCity; }
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
 }
