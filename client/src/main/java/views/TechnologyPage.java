@@ -88,16 +88,6 @@ public class TechnologyPage extends PageController{
             }
         });
 
-        //Animation delay = new PauseTransition(Duration.seconds(5));
-        //delay.setOnFinished(e -> {
-        //    System.out.println("woowowoowow");
-        //});
-        //technologyItem.addEventHandler(MouseEvent.MOUSE_ENTERED , e -> delay.playFromStart());
-//
-        //technologyItem.addEventHandler(MouseEvent.MOUSE_EXITED , e -> {
-        //    delay.stop();
-        //});
-
         technologyItem.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
