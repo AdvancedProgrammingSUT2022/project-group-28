@@ -57,9 +57,13 @@ public class UpdateHandler extends Thread {
     }
 
     private void handleSetInitialGame(ServerUpdate serverUpdate) {
-        Game game = Game.fromXML(serverUpdate.getData().get(0));
+        Game game = Game.decode(serverUpdate.getData().get(0));
         GameMenuController.setGame(game);
-
-        App.setRoot("gamePage");
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                App.setRoot("gamePage");
+            }
+        });
     }
 }

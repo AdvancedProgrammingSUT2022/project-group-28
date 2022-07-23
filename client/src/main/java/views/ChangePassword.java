@@ -1,9 +1,13 @@
 package views;
 
+import controllers.NetworkController;
 import controllers.ProfileMenuController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import models.network.ClientRequest;
+
+import java.util.ArrayList;
 
 public class ChangePassword {
     @FXML 

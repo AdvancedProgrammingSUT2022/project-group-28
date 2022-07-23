@@ -33,6 +33,21 @@
     -fx-padding: 5;
 }
 
+.project_bar {
+    -fx-accent: #1670de;
+}
+
+.project_bar > .track {
+      -fx-text-box-border: #072e5e;
+      -fx-control-inner-background: #a5c7f0;
+}
+
+.project_bar > .bar {
+    -fx-background-insets: 1 1 2 1;
+    -fx-padding: 5;
+}
+
+
 .city_name {
     -fx-background-color: #757575aa;
     -fx-font-size: 20;

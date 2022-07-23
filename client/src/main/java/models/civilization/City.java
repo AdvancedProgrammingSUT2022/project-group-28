@@ -20,7 +20,7 @@ public class City{
     private int citizens = 0;
     private int population = 1;
 
-    private int strength;
+    private int strength = 0;
     private int hitPoint;
 
     private int foodBalance;
@@ -156,6 +156,8 @@ public class City{
         this.construction = construction; 
     }
 
+    public void setStrength(int strength) { this.strength = strength; }
+
     public void increasePopulation(int value) { 
         population += value; 
     }
@@ -196,7 +198,7 @@ public class City{
         if(tile.getMilitary()!=null)
             strength += CombatController.getCombatStrength(tile.getMilitary(), false);
         if(tile.getTerrain() == Terrain.HILL) strength = (int) Math.floor(1.2*strength);
-        return strength;
+        return strength + this.strength;
     }
 
     public void setCivilization(Civilization civilization) {

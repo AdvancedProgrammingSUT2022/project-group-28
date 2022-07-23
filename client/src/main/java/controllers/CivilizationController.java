@@ -8,6 +8,7 @@ import java.util.Map;
 import controllers.units.UnitController;
 import models.civilization.City;
 import models.civilization.Civilization;
+import models.civilization.enums.BuildingTemplate;
 import models.tiles.Tile;
 import models.tiles.enums.*;
 import models.units.Civilian;
@@ -165,7 +166,11 @@ public class CivilizationController extends GameController {
         int rawPopulation = 0;
         for (City city : civilization.getCities()) {
             rawPopulation += city.getPopulation();
+            for (BuildingTemplate building : city.getBuildings()) {
+                happiness += building.continuousEffect(city).getHappiness();
+            }
         }
+
         happiness -= rawPopulation * 0.2;
         happiness -= civilization.getCities().size() * 0.1;
         happiness -= civilization.getAttachedCities() * 0.5;

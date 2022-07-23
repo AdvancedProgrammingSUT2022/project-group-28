@@ -177,12 +177,7 @@ public class LobbyPage extends PageController{
             GameMenuController.setGame(game);
 
             ArrayList<String> data = new ArrayList<>();
-            data.add(game.toXML());
-
-            Deflater sdf = new Deflater();
-            sdf.deflate(game.toXML().getBytes());
-
-
+            data.add(game.encode());
 
             ClientRequest clientRequest1 = new ClientRequest(ClientRequest.Request.SET_INITIAL_GAME, data,
                                          NetworkController.getInstance().getUserToken());

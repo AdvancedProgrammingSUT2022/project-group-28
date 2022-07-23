@@ -379,9 +379,9 @@ public class GameMenu{
             else if(command2.equals("a")) 
                 tileJValue=Math.max(tileJValue - 1, 0);
             else if(command2.equals("s")) 
-                tileIValue=Math.min(tileIValue + 1, 100);
+                tileIValue=Math.min(tileIValue + 1, GameController.getGame().MAP_WIDTH);
             else if(command2.equals("d"))
-                tileJValue=Math.min(tileJValue + 1, 100);
+                tileJValue=Math.min(tileJValue + 1, GameController.getGame().MAP_HEIGHT);
             else {
                 System.out.println("invalid command");
                 continue;

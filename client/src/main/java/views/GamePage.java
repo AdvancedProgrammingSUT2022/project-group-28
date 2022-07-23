@@ -76,8 +76,8 @@ public class GamePage extends PageController{
         this.gameContent.getChildren().clear();
         HashMap<Tile,Integer> discoveredTiles = game.getCurrentPlayer().getDiscoveredTiles();
         if (fogOfWar){
-            for (int i = 0; i < 100 ; i++) {
-                for (int j = 0; j < 100 ; j++) {
+            for (int i = 0; i < game.MAP_WIDTH ; i++) {
+                for (int j = 0; j < game.MAP_HEIGHT ; j++) {
                     boolean found = false;
                     for (Tile tile : discoveredTiles.keySet()) {
                         if (tile.getCoordinates()[0] == i && tile.getCoordinates()[1] == j) {
@@ -93,8 +93,8 @@ public class GamePage extends PageController{
             }
         }else{
             int turnNumber = game.getTurnNumber();
-            for (int i = 0; i < 100 ; i++) {
-                for (int j = 0; j < 100 ; j++) {
+            for (int i = 0; i < game.MAP_WIDTH ; i++) {
+                for (int j = 0; j < game.MAP_HEIGHT ; j++) {
                     Tile tile = GameController.getGame().getMap()[i][j];
                     createHex(tile, turnNumber);
                 }

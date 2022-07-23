@@ -1,5 +1,6 @@
 package controllers;
 
+import com.thoughtworks.xstream.XStream;
 import models.*;
 import views.enums.Message;
 
@@ -8,6 +9,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -75,6 +77,10 @@ public class SocketHandler extends Thread {
                 return handleStartGame(clientRequest);
             case SET_INITIAL_GAME:
                 return handleSetInitialGame(clientRequest);
+            case GET_ALL_USERS:
+                return handleGetAllUsers(clientRequest);
+            case UPDATE_USER:
+                return handleUpdateUser(clientRequest);
             case LOGOUT:
                 return handleLogout(clientRequest);
             default:
@@ -107,6 +113,7 @@ public class SocketHandler extends Thread {
         if (message == Message.SUCCESS) {
             String token = UUID.randomUUID().toString();
             User user = User.getUserByUsername(data.get(0));
+            user.setOnline(true);
             NetworkController.getInstance().getLoggedInUsers().put(token, user);
 
             toSend.add(token);
@@ -246,6 +253,9 @@ public class SocketHandler extends Thread {
         if (user == null) {
             return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
         }
+
+        user.setLastOnline(LocalDate.now());
+        user.setOnline(false);
 
         NetworkController.getInstance().getLoggedInUsers().remove(clientRequest.getToken());
         return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
@@ -410,14 +420,11 @@ public class SocketHandler extends Thread {
         if (admin == null) {
             return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
         }
-        System.out.println("admin was valid");
 
         OnlineGame onlineGame = OnlineGame.getOnlineGameByUserID(admin.getId());
         if (onlineGame == null) {
             return new ServerResponse(ServerResponse.Response.INVALID_ONLINE_GAME, toSend);
         }
-
-        System.out.println("game was valid");
 
         ArrayList<String> updateData = new ArrayList<>();
         String gameXML = clientRequest.getData().get(0);
@@ -432,7 +439,28 @@ public class SocketHandler extends Thread {
             }
         }
 
-        System.out.println("response sent");
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleGetAllUsers(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        toSend.add(User.usersToXML(User.getAllUsers()));
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleUpdateUser(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        User updatedUser = User.fromXML(clientRequest.getData().get(0));
+        user.update(updatedUser);
+
         return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
     }
 }
