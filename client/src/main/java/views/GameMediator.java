@@ -212,6 +212,22 @@ public class GameMediator {
         scene.getRoot().requestFocus();
     }
 
+    public void openUnitsPanel(){
+        // TODO: notify server
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initOwner(GamePage.getInstance().getGameContent().getParent().getScene().getWindow());
+        stage.setX(170);
+        stage.setY(215);
+        Scene scene;
+        scene = new Scene(App.loadFXML("unitsPanel"), 500, 500);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+        scene.getRoot().requestFocus();
+    }
+
     public String leadToMaker(TechnologyTemplate technologyTemplate){
         String out = "";
         for (TechnologyTemplate technology: TechnologyTemplate.values()) {
