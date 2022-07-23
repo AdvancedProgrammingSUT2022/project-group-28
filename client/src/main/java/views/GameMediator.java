@@ -228,6 +228,38 @@ public class GameMediator {
         scene.getRoot().requestFocus();
     }
 
+    public void openCitiesPanel(){
+        // TODO: notify server
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initOwner(GamePage.getInstance().getGameContent().getParent().getScene().getWindow());
+        stage.setX(700);
+        stage.setY(150);
+        Scene scene;
+        scene = new Scene(App.loadFXML("citiesPanel"), 510, 500);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+        scene.getRoot().requestFocus();
+    }
+
+    public void openDemographicPanel(){
+        // TODO: notify server
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initOwner(GamePage.getInstance().getGameContent().getParent().getScene().getWindow());
+        stage.setX(700);
+        stage.setY(150);
+        Scene scene;
+        scene = new Scene(App.loadFXML("citiesPanel"), 585, 500); /// adssfsd dfsjhflsdjdfh
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+        scene.getRoot().requestFocus();
+    }
+
     public String leadToMaker(TechnologyTemplate technologyTemplate){
         String out = "";
         for (TechnologyTemplate technology: TechnologyTemplate.values()) {
