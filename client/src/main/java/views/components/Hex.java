@@ -8,6 +8,7 @@ import javafx.animation.Animation;
 import javafx.animation.PauseTransition;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -36,6 +37,7 @@ import java.util.HashMap;
 public class Hex extends Group {
     private static final HashMap<TerrainOrTerrainFeature, ImagePattern> terrainImages = new HashMap<>();
     private static final HashMap<ImprovementTemplate, Image> improvementImages = new HashMap<>();
+    private static final HashMap<ImprovementTemplate, Image> projectImages= new HashMap<>();
     private static final HashMap<ResourceTemplate, ImagePattern> resourceImages = new HashMap<>();
     private static final Image fog = new Image(App.class.getResource("../assets/image/terrain/fog.png").toExternalForm());
 
@@ -52,8 +54,13 @@ public class Hex extends Group {
 
         for (ImprovementTemplate improvementTemplate : ImprovementTemplate.values()) {
             if (improvementTemplate.getFilename() != null) {
-                Image image = new Image(App.class.getResource("../assets/image/improvement/" + improvementTemplate.getFilename() + ".png").toExternalForm());
-                improvementImages.put(improvementTemplate, image);
+                Image improvement = new Image(App.class.getResource("../assets/image/improvement/" + improvementTemplate.getFilename() + ".png").toExternalForm());
+                improvementImages.put(improvementTemplate, improvement);
+            }
+
+            if (improvementTemplate.getIconName() != null) {
+                Image project = new Image(App.class.getResource("../assets/image/project/" + improvementTemplate.getIconName() + ".png").toExternalForm());
+                projectImages.put(improvementTemplate, project);
             }
         }
 
@@ -194,6 +201,22 @@ public class Hex extends Group {
             this.getChildren().add(this.military);
         }
 
+        if (this.tile.getProject() != null) {
+            Image image = projectImages.get(this.tile.getProject().getImprovement());
+            Circle project = new Circle(30);
+            project.setFill(new ImagePattern(image));
+            project.setLayoutY(35);
+            this.getChildren().add(project);
+
+            double progress = (double)  this.tile.getProject().getSpentTurns() / this.tile.getProject().getImprovement().getTurnCost();
+            ProgressBar progressBar = new ProgressBar(progress);
+            progressBar.setLayoutX(8);
+            progressBar.setLayoutY(25);
+            progressBar.getStyleClass().add("project_bar");
+            progressBar.setMaxWidth(50);
+            progressBar.setRotate(-90);
+            this.getChildren().add(progressBar);
+        }
 
         if (this.tile.getImprovement() != null) {
             Image image = improvementImages.get(this.tile.getImprovement());
@@ -202,7 +225,6 @@ public class Hex extends Group {
             improvement.setLayoutY(35);
             this.getChildren().add(improvement);
         }
-        // TODO: add project icon
 
         if (this.tile.getResource() != null) {
             Circle resource = new Circle(35);
