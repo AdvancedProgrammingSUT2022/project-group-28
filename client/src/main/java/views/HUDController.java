@@ -139,10 +139,6 @@ public class HUDController {
         HUD.getChildren().add(currentTechnologyInfo);
     }
 
-    private void createUnitPanelButton(Group HUD){
-        
-    }
-
     private void createSaveButton(Group HUD) {
         saveButton = new Button("Save");
         saveButton.setLayoutX(50);

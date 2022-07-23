@@ -49,6 +49,16 @@
     -fx-fill: white;
 }
 
+.panel_button {
+    -fx-background-color: linear-gradient(to right, #1A6DFF 0%, #C822FF 100%);
+    -fx-text-fill: white;
+}
+
+.panel_button:hover{
+    -fx-background-color: linear-gradient(to left, #16751b 0%, #c07f13 100%);
+}
+
+
 .turn_number{
     -fx-fill: white;
 }
