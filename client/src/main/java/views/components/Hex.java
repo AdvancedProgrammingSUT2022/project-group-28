@@ -105,6 +105,23 @@ public class Hex extends Group {
             this.getChildren().add(this.border);
         }
 
+        //shows tile information when you hover on tile
+        Animation delay = new PauseTransition(Duration.seconds(2));
+        delay.setOnFinished(e -> {
+            tileInfo.update(this);
+            GamePage.getInstance().createTileInfo(tileInfo);
+        });
+        //this.addEventHandler(MouseEvent.MOUSE_ENTERED , e -> {
+        //    tileInfo.setLayoutX(e.getSceneX());
+        //    tileInfo.setLayoutY(e.getSceneY());
+        //    delay.playFromStart();
+        //});
+//
+        //this.addEventHandler(MouseEvent.MOUSE_EXITED , e -> {
+        //    GamePage.getInstance().deleteTileInfo(tileInfo);
+        //    delay.stop();
+        //});
+
 
         // TODO: reform these hover borders
         this.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -112,33 +129,23 @@ public class Hex extends Group {
             public void handle(MouseEvent event) {
                 Hex.this.hoverBorder = createBorder(8);
                 Hex.this.getChildren().add(Hex.this.hoverBorder);
+                tileInfo.setLayoutX(event.getSceneX());
+                tileInfo.setLayoutY(event.getSceneY());
+                delay.playFromStart();
             }
         });
 
         this.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if (Hex.this.getChildren().contains(Hex.this.hoverBorder))
+                if (Hex.this.getChildren().contains(Hex.this.hoverBorder)){
                     Hex.this.getChildren().remove(Hex.this.hoverBorder);
+                    GamePage.getInstance().deleteTileInfo(tileInfo);
+                    delay.stop();
+                }
             }
         });
 
-        //shows tile information when you hover on tile
-        Animation delay = new PauseTransition(Duration.seconds(2));
-        delay.setOnFinished(e -> {
-            tileInfo.update(this);
-            GamePage.getInstance().createTileInfo(tileInfo);
-        });
-        this.addEventHandler(MouseEvent.MOUSE_ENTERED , e -> {
-            tileInfo.setLayoutX(e.getSceneX());
-            tileInfo.setLayoutY(e.getSceneY());
-            delay.playFromStart();
-        });
-
-        this.addEventHandler(MouseEvent.MOUSE_EXITED , e -> {
-            GamePage.getInstance().deleteTileInfo(tileInfo);
-            delay.stop();
-        });
 
         this.banner = new Text(tile.getCoordinates()[0] + "," + tile.getCoordinates()[1]);
         this.getChildren().add(this.banner);

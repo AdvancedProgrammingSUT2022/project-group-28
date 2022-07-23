@@ -128,11 +128,13 @@ public class GamePage extends PageController{
     }
 
     public void createTileInfo(TileInfo tileInfo){
-        gameContent.getChildren().add(tileInfo);
+        this.gameContent.getChildren().add(tileInfo);
     }
 
     public void deleteTileInfo(TileInfo tileInfo){
-        gameContent.getChildren().remove(tileInfo);
+        if(GamePage.this.gameContent.getChildren().contains(tileInfo)){
+            GamePage.this.gameContent.getChildren().remove(tileInfo);
+        }
     }
 
 
