@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="views.CitiesPanelPage"
+            prefHeight="400.0" prefWidth="600.0"
+            stylesheets="@../css/cities_panel_page.css"
+            styleClass="background">
+
+    <center>
+        <VBox styleClass="cities_panel_vbox1" spacing="20" alignment="TOP_CENTER">
+            <ScrollPane styleClass="cities_panel" >
+                <VBox styleClass="cities_panel_vbox2" alignment="CENTER"  spacing="20" fx:id="citiesPanelContainer">
+
+                </VBox>
+            </ScrollPane>
+            <Button styleClass="back_button" fx:id="backButton" text="Back" onMouseClicked="#back"/>
+        </VBox>
+    </center>
+
+</BorderPane>
