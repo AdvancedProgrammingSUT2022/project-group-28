@@ -220,6 +220,11 @@ public class CityController extends GameController {
 
             if (tile.getImprovement() != null) producedFood += tile.getImprovement().getFood();
         }
+
+        for (BuildingTemplate building : city.getBuildings()) {
+            producedFood += building.continuousEffect(city).getFood();
+        }
+
         if(city.getCivilization().getHappiness()<0 && (producedFood - consumedFood) > 0) return 0;
         return producedFood - consumedFood;
     }
@@ -242,6 +247,10 @@ public class CityController extends GameController {
                     productionsBalance += resourceTemplate.getProduction();
             }
             if (tile.getImprovement() != null) productionsBalance += tile.getImprovement().getProduction();
+        }
+
+        for (BuildingTemplate building : city.getBuildings()) {
+            productionsBalance += building.continuousEffect(city).getProduction();
         }
 
         productionsBalance += city.getCitizens();
@@ -268,6 +277,11 @@ public class CityController extends GameController {
 
             if (tile.getImprovement() != null) earnedGold += tile.getImprovement().getGold();
         }
+
+        for (BuildingTemplate building : city.getBuildings()) {
+            earnedGold += building.continuousEffect(city).getGold();
+        }
+
         return earnedGold - spentGold;
     }
 
@@ -382,6 +396,7 @@ public class CityController extends GameController {
             } else if (constructionTemplate instanceof BuildingTemplate) {
                 BuildingTemplate buildingTemplate = (BuildingTemplate) constructionTemplate;
                 city.getBuildings().add(buildingTemplate);
+                buildingTemplate.instantEffect(city);
             }
 
             ArrayList<String> data = new ArrayList<>(Arrays.asList(constructionTemplate.getName(), city.getNAME()));

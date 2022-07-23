@@ -137,8 +137,16 @@ public class TechnologyController extends GameController {
 
     // TODO: change coefficient
     public static int addEachTurnScienceBalance(Civilization civilization){
-        if (civilization.getGold() < 0) return (int)((calculateThePopulation() + 3) * 0.7);
-        return calculateThePopulation()+3;      //+3 is constant
+        int citiesEffect = 0;
+        for (City city : civilization.getCities()) {
+            for (BuildingTemplate building : city.getBuildings()) {
+                citiesEffect += building.continuousEffect(city).getScience();
+            }
+        }
+
+
+        if (civilization.getGold() < 0) return (int)((calculateThePopulation() + citiesEffect + 3) * 0.7);
+        return calculateThePopulation() + citiesEffect + 3;      //+3 is constant
     }
     
     private static int calculateThePopulation(){
