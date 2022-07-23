@@ -25,3 +25,14 @@
 .current_technology_name{
     -fx-fill: white;
 }
+
+.back_button{
+    -fx-padding: 10 30 10 30;
+    -fx-border-radius: 30;
+    -fx-background-radius: 40;
+    -fx-background-color: #92b7a3;
+    -fx-font-size: 25;
+}
+.back_button:hover{
+    -fx-background-color: #3c5749;
+}

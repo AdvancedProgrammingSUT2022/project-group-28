@@ -186,7 +186,7 @@ public class GameMediator {
     public void openTechnologyTree() {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
-//        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initStyle(StageStyle.TRANSPARENT);
         stage.initOwner(GamePage.getInstance().getGameContent().getParent().getScene().getWindow());
         Scene scene;
         scene = new Scene(App.loadFXML("technologyTreePage"));
@@ -218,10 +218,10 @@ public class GameMediator {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initOwner(GamePage.getInstance().getGameContent().getParent().getScene().getWindow());
-        stage.setX(170);
-        stage.setY(215);
+        stage.setX(700);
+        stage.setY(150);
         Scene scene;
-        scene = new Scene(App.loadFXML("unitsPanel"), 500, 500);
+        scene = new Scene(App.loadFXML("unitsPanel"), 585, 500);
         scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
         stage.show();
@@ -238,7 +238,6 @@ public class GameMediator {
                  else {
                      out += "                     " + technology.getName() + "\n";
                  }
-
              }
         }
         if(out.length() == 0){

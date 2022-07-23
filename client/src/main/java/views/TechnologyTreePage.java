@@ -3,7 +3,9 @@ package views;
 import controllers.TechnologyController;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.ImagePattern;
@@ -15,7 +17,9 @@ import models.civilization.enums.TechnologyTemplate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class TechnologyTreePage {
+public class TechnologyTreePage extends PageController{
+    @FXML
+    private Button backButton;
     @FXML
     private AnchorPane anchorPane;
     public static final HashMap<TechnologyTemplate, ImagePattern> technologies = new HashMap<>();
@@ -70,4 +74,9 @@ public class TechnologyTreePage {
         }
     }
 
+    @FXML
+    private void back(MouseEvent mouseEvent) {
+        this.onExit();
+        this.backButton.getParent().getScene().getWindow().hide();
+    }
 }

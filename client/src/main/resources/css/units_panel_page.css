@@ -1,0 +1,35 @@
+.background{
+    -fx-background-color: #4c7060ff;
+}
+
+.units_panel_vbox1{
+    -fx-padding: 15;
+}
+
+.units_panel_vbox2{
+    -fx-background-color: rgb(255, 255, 0, 0.1);
+    -fx-padding: 30 5 30 5;
+}
+
+.unit_item{
+    -fx-background-color: #b49b31;
+    -fx-background-radius: 20;
+    -fx-pref-width: 344;
+}
+
+.unit_name{
+    -fx-fill: #070752;
+    -fx-font-size: 16;
+}
+
+.unit_state{
+    -fx-fill: red;
+}
+
+.back_button{
+    -fx-padding: 10 30 10 30;
+    -fx-border-radius: 30;
+    -fx-background-radius: 40;
+    -fx-background-color: #92b7a3;
+    -fx-font-size: 25;
+}
