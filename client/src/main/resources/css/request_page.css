@@ -1,0 +1,18 @@
+.background {
+    -fx-background-color: #4c7060ff;
+}
+
+.normal_button {
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #065c46aa;
+    -fx-font-size: 30;
+}
+
+.normal_button:hover {
+    -fx-background-color: #065c46dd;
+}
+
+.normal_text {
+    -fx-font-size: 24;
+}

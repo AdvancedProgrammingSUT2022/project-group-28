@@ -110,3 +110,31 @@
     -fx-border-width: 0 0 4 0;
     -fx-text-fill: #560101;
 }
+
+.normal_text {
+    -fx-font-size: 24;
+}
+
+.friendship_info {
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #06555caa;
+    -fx-font-size: 24;
+    -fx-margin: 10 10 10 10;
+}
+
+.normal_button {
+    -fx-padding: 10 30 10 30;
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #065c46aa;
+    -fx-font-size: 24;
+}
+
+.normal_button:hover {
+    -fx-padding: 10 30 10 30;
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #065c46ff;
+    -fx-font-size: 24;
+}

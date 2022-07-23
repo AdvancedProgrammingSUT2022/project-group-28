@@ -6,12 +6,15 @@ import controllers.NetworkController;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import models.Game;
 import models.OnlineGame;
@@ -85,10 +88,6 @@ public class LobbyPage extends PageController{
                 break;
             case ALREADY_FRIEND:
                 this.friendMessage.setText(friendNickname + " is already your friend");
-                this.friendMessage.setManaged(true);
-                break;
-            case IS_OFFLINE:
-                this.friendMessage.setText(friendNickname + " is offline");
                 this.friendMessage.setManaged(true);
                 break;
             case OWN_FRIENDSHIP:
@@ -229,7 +228,19 @@ public class LobbyPage extends PageController{
 
         this.friendsContainer.getChildren().clear();
         for (User friend : user.getFriends()) {
-            this.friendsContainer.getChildren().add(new Text(friend.getNickname()));
+            HBox hBox = new HBox(10);
+            hBox.getStyleClass().add("user_info");
+            hBox.setAlignment(Pos.CENTER);
+
+            Circle avatar = new Circle(35);
+            avatar.setFill(new ImagePattern(friend.getAvatar()));
+            hBox.getChildren().add(avatar);
+
+            Text nickname = new Text(friend.getNickname());
+            nickname.getStyleClass().add("normal_text");
+            hBox.getChildren().add(nickname);
+
+            this.friendsContainer.getChildren().add(hBox);
         }
     }
 

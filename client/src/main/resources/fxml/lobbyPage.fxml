@@ -27,9 +27,11 @@
     </left>
     <center>
         <VBox styleClass="center_container" alignment="CENTER" spacing="20" prefWidth="500">
-            <VBox fx:id="gamesContainer" alignment="CENTER" spacing="20">
+            <ScrollPane>
+                <VBox fx:id="gamesContainer" alignment="CENTER" spacing="20">
 
-            </VBox>
+                </VBox>
+            </ScrollPane>
             <VBox alignment="CENTER" spacing="30">
                 <TextField fx:id="playerNickname" styleClass="player_username" promptText="nextPlayer"/>
                 <Label fx:id="playerMessage" styleClass="alert" managed="false"/>

@@ -177,24 +177,17 @@ public class SocketHandler extends Thread {
             return new ServerResponse(ServerResponse.Response.ALREADY_FRIEND, toSend);
         }
 
-
-        for (String token : NetworkController.getInstance().getLoggedInUsers().keySet()) {
-            if (NetworkController.getInstance().getLoggedInUsers().get(token).equals(friend)) {
-                if (user.getWaitingFriendshipRequest(friend) != null) {
-                    return new ServerResponse(ServerResponse.Response.FRIENDSHIP_REQUEST_WAITING, toSend);
-                }
-
-                FriendshipRequest friendshipRequest = new FriendshipRequest(user, friend);
-                user.getFriendshipRequests().add(friendshipRequest);
-                friend.getFriendshipRequests().add(friendshipRequest);
-                // TODO: add needed
-                XMLHandler.exportDataOfUser(User.getAllUsers());
-
-                return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
-            }
+        if (user.getWaitingFriendshipRequest(friend) != null) {
+            return new ServerResponse(ServerResponse.Response.FRIENDSHIP_REQUEST_WAITING, toSend);
         }
 
-        return new ServerResponse(ServerResponse.Response.IS_OFFLINE, toSend);
+        FriendshipRequest friendshipRequest = new FriendshipRequest(user, friend);
+        user.getFriendshipRequests().add(friendshipRequest);
+        friend.getFriendshipRequests().add(friendshipRequest);
+
+        XMLHandler.exportDataOfUser(User.getAllUsers());
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
     }
 
     public ServerResponse handleAcceptFriendship(ClientRequest clientRequest) {
@@ -460,6 +453,8 @@ public class SocketHandler extends Thread {
 
         User updatedUser = User.fromXML(clientRequest.getData().get(0));
         user.update(updatedUser);
+
+        XMLHandler.exportDataOfUser(User.getAllUsers());
 
         return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
     }

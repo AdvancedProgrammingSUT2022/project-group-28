@@ -7,6 +7,7 @@ import controllers.NetworkController;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -151,18 +152,24 @@ public class ProfilePage extends PageController{
         friendshipRequestsContainer.getChildren().clear();
 
         for (FriendshipRequest friendshipRequest : currentUser.getFriendshipRequests()) {
-            HBox hBox = new HBox();
+            VBox vBox = new VBox(10);
+            vBox.setPrefWidth(450);
+            vBox.setAlignment(Pos.CENTER);
+            vBox.getStyleClass().add("friendship_info");
 
             Text text = new Text(friendshipRequest.getSender().getNickname() + " requests " +
                                  friendshipRequest.getReceiver().getNickname());
-            hBox.getChildren().add(text);
+            text.getStyleClass().add("normal_text");
+            vBox.getChildren().add(text);
 
-            Text state = new Text(friendshipRequest.getState().toString());
-            hBox.getChildren().add(state);
+            Text state = new Text("State: " + friendshipRequest.getState().toString());
+            state.getStyleClass().add("normal_text");
+            vBox.getChildren().add(state);
 
             if (friendshipRequest.getState() == FriendshipRequest.State.WAITING &&
                 friendshipRequest.getSender().getId() != currentUser.getId()) {
                 Button accept = new Button("Accept");
+                accept.getStyleClass().add("normal_button");
                 accept.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
@@ -177,9 +184,10 @@ public class ProfilePage extends PageController{
                         }
                     }
                 });
-                hBox.getChildren().add(accept);
+                vBox.getChildren().add(accept);
 
                 Button reject = new Button("Reject");
+                reject.getStyleClass().add("normal_button");
                 reject.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
@@ -193,9 +201,9 @@ public class ProfilePage extends PageController{
                         }
                     }
                 });
-                hBox.getChildren().add(reject);
+                vBox.getChildren().add(reject);
             }
-            friendshipRequestsContainer.getChildren().add(hBox);
+            friendshipRequestsContainer.getChildren().add(vBox);
         }
     }
 
