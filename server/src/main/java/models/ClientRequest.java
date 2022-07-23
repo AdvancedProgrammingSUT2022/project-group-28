@@ -9,6 +9,7 @@ public class ClientRequest {
         LOGOUT,
         CHANGE_AVATAR,
         CHANGE_NICKNAME,
+        CHANGE_PASSWORD,
         GET_ALL_USERS,
         SET_INITIAL_GAME,
         START_GAME,

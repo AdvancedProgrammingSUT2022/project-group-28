@@ -83,6 +83,8 @@ public class SocketHandler extends Thread {
                 return handleChangeAvatar(clientRequest);
             case CHANGE_NICKNAME:
                 return handleChangeNickname(clientRequest);
+            case CHANGE_PASSWORD:
+                return handleChangePassword(clientRequest);
             case LOGOUT:
                 return handleLogout(clientRequest);
             default:
@@ -472,6 +474,27 @@ public class SocketHandler extends Thread {
         String nickname = clientRequest.getData().get(0);
         if (ProfileMenuController.changeNickname(user, nickname) == Message.CHANGE_NICKNAME_ERROR) {
             return new ServerResponse(ServerResponse.Response.INVALID_NICKNAME, toSend);
+        }
+
+        XMLHandler.exportDataOfUser(User.getAllUsers());
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleChangePassword(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        Message message = ProfileMenuController.changePassword(user, clientRequest.getData().get(0),
+                                                               clientRequest.getData().get(1));
+        if (message == Message.INCORRECT_PASSWORD) {
+            return new ServerResponse(ServerResponse.Response.INCORRECT_PASSWORD, toSend);
+        } else if (message == Message.REPETITIOUS_PASSWORD) {
+            return new ServerResponse(ServerResponse.Response.REPETITIOUS_PASSWORD, toSend);
         }
 
         XMLHandler.exportDataOfUser(User.getAllUsers());

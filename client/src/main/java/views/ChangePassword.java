@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import models.network.ClientRequest;
+import models.network.ServerResponse;
 
 import java.util.ArrayList;
 
@@ -22,8 +23,17 @@ public class ChangePassword {
             errorLabel.setText("Passwords do not match");
         }
         else{
+            ArrayList<String> data = new ArrayList<>();
+            data.add(current.getText());
+            data.add(newPassword.getText());
+
+            ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.CHANGE_PASSWORD, data,
+                                          NetworkController.getInstance().getUserToken());
+
+            ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
+
             String textOfError;
-            switch(ProfileMenuController.changePassword(current.getText(), newPassword.getText())){
+            switch(serverResponse.getResponse()){
                 case SUCCESS:
                     textOfError = "Password changed successfully.";
                     errorLabel.setStyle("-fx-text-fill: #ea540a");
