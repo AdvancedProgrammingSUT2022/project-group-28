@@ -5,14 +5,12 @@ import views.App;
 import views.enums.Message;
 
 public class ProfileMenuController {
-
-    public static Message changeNickname(String nickname) {
-//        User user = App.getCurrentUser();
-//        User tempUser = User.getUserByNickname(nickname);
-//        if (tempUser != null) {
-//            return Message.CHANGE_NICKNAME_ERROR;
-//        }
-//        user.setNickname(nickname);
+    public static Message changeNickname(User user, String nickname) {
+        User tempUser = User.getUserByNickname(nickname);
+        if (tempUser != null) {
+            return Message.CHANGE_NICKNAME_ERROR;
+        }
+        user.setNickname(nickname);
         return Message.SUCCESS;
     }
 

@@ -79,8 +79,8 @@ public class ProfilePage extends PageController{
             currentUser.setProfilePicNumber(imagePointer);
 
             ArrayList<String> data = new ArrayList<>();
-            data.add(App.getCurrentUser().toXML());
-            ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.UPDATE_USER, data,
+            data.add(String.valueOf(imagePointer));
+            ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.CHANGE_AVATAR , data,
                     NetworkController.getInstance().getUserToken());
             NetworkController.getInstance().sendRequest(clientRequest);
 
@@ -100,8 +100,8 @@ public class ProfilePage extends PageController{
             currentUser.setProfilePicNumber(imagePointer);
 
             ArrayList<String> data = new ArrayList<>();
-            data.add(App.getCurrentUser().toXML());
-            ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.UPDATE_USER, data,
+            data.add(String.valueOf(imagePointer));
+            ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.CHANGE_AVATAR, data,
                                         NetworkController.getInstance().getUserToken());
             NetworkController.getInstance().sendRequest(clientRequest);
 
