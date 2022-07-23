@@ -51,7 +51,7 @@ public class InfoBar extends Group {
         goldIcon = new Circle(10);
         goldIcon.setFill(new ImagePattern(new Image(App.class.getResource("../assets/image/gold_icon.png").toExternalForm())));
 
-        gold = new Text(civilization.getGold() + " ( +" + civilization.getGoldBalance() + " )");
+        gold = new Text(civilization.getGold() + " ( " + makeSign() + civilization.getGoldBalance() + " )");
         gold.getStyleClass().add("gold_text");
 
         happinessIcon = new Circle(10);
@@ -74,8 +74,15 @@ public class InfoBar extends Group {
 
     public void update(){
         science.setText("+" + civilization.getScienceBalance());
-        gold.setText(civilization.getGold() + " ( +" + civilization.getGoldBalance() + " )");
+        gold.setText(civilization.getGold() + " ( " + makeSign() + civilization.getGoldBalance() + " )");
         happiness.setText(Integer.toString(civilization.getHappiness()));
         turn.setText("Turn : " + GameController.getGame().getTurnNumber());
+    }
+
+    private String makeSign(){
+        if(civilization.getGoldBalance() > 0){
+            return "+";
+        }
+       return "";
     }
 }
