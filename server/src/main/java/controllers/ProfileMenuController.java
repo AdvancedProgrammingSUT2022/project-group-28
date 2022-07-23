@@ -5,7 +5,7 @@ import views.App;
 import views.enums.Message;
 
 public class ProfileMenuController {
-    public static Message changeNickname(User user, String nickname) {
+    public static synchronized Message changeNickname(User user, String nickname) {
         User tempUser = User.getUserByNickname(nickname);
         if (tempUser != null) {
             return Message.CHANGE_NICKNAME_ERROR;
@@ -14,7 +14,7 @@ public class ProfileMenuController {
         return Message.SUCCESS;
     }
 
-    public static Message changePassword(User user, String currentPassword, String newPassword) {
+    public static synchronized Message changePassword(User user, String currentPassword, String newPassword) {
         if (!checkPassword(user, currentPassword)) {
             return Message.INCORRECT_PASSWORD;
         } else if (currentPassword.equals(newPassword)) {

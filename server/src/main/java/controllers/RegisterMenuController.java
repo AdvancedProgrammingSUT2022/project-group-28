@@ -5,7 +5,7 @@ import views.App;
 import views.enums.Message;
 
 public class RegisterMenuController {
-    public static Message checkUserRegisterData(String username, String password, String nickname) {
+    public static synchronized Message checkUserRegisterData(String username, String password, String nickname) {
         if (User.getUserByUsername(username) != null) {
             return Message.USERNAME_EXISTS;
         } else if (User.getUserByNickname(nickname) != null) {
@@ -16,7 +16,7 @@ public class RegisterMenuController {
 
     }
 
-    public static Message checkUserLoginData(String username, String password) {
+    public static synchronized Message checkUserLoginData(String username, String password) {
         User user = User.getUserByUsername(username);
         if (user == null || !user.getPassword().equals(password)) {
             return Message.LOGIN_ERROR;
