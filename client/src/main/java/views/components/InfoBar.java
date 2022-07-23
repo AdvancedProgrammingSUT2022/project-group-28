@@ -1,10 +1,12 @@
 package views.components;
 
 import controllers.GameController;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.ImagePattern;
@@ -12,6 +14,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import models.civilization.Civilization;
 import views.App;
+import views.GameMediator;
 
 
 public class InfoBar extends Group {
@@ -70,6 +73,12 @@ public class InfoBar extends Group {
         unitsPanel = new Circle(15);
         unitsPanel.setFill(new ImagePattern(new Image(App.class.getResource("../assets/image/units_panel_icon.png").toExternalForm())));
         unitsPanelButton = new Button("units panel");
+        unitsPanelButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                GameMediator.getInstance().openUnitsPanel();
+            }
+        });
         unitsPanelButton.getStyleClass().add("panel_button");
 
         citiesPanel = new Circle(15);
