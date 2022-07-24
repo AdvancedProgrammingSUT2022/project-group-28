@@ -51,6 +51,8 @@ public class Game {
                 int[] thisCoordinates = new int[]{random.nextInt(MAP_WIDTH), random.nextInt(MAP_HEIGHT)};
                 boolean isValid = true;
                 Tile tile = this.map[thisCoordinates[0]][thisCoordinates[1]];
+                if (!tile.getTerrain().isAccessible() ||
+                    (tile.getTerrainFeature()!= null && !tile.getTerrainFeature().isAccessible())) continue;
                 for(Civilization c : this.civilizations){
                     if(TileController.getDistance(c.getUnits().get(0).getTile(),tile ) < 10){
                         isValid = false;
