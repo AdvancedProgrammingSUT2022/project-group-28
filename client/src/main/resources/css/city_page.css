@@ -13,6 +13,11 @@
     -fx-background-color: #065c46dd;
 }
 
+.city_name{
+    -fx-fill: #070752;
+    -fx-font-size: 16;
+}
+
 .back_button {
     -fx-padding: 10 30 10 30;
     -fx-border-radius: 40 40 40 40;

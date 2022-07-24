@@ -84,11 +84,23 @@ public class InfoBar extends Group {
         citiesPanel = new Circle(15);
         citiesPanel.setFill(new ImagePattern(new Image(App.class.getResource("../assets/image/cities_panel_icon.png").toExternalForm())));
         citiesPanelButton = new Button("cities panel");
+        citiesPanelButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                GameMediator.getInstance().openCitiesPanel();
+            }
+        });
         citiesPanelButton.getStyleClass().add("panel_button");
 
         demographicPanel = new Circle(15);
         demographicPanel.setFill(new ImagePattern(new Image(App.class.getResource("../assets/image/demographic_panel_icon.png").toExternalForm())));
         demographicPanelButton = new Button("demographic panel");
+        demographicPanelButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                GameMediator.getInstance().openDemographicPanel();
+            }
+        });
         demographicPanelButton.getStyleClass().add("panel_button");
 
         turn = new Text("Turn : 0");
