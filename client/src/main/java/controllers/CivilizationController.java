@@ -261,6 +261,7 @@ public class CivilizationController extends GameController {
         //TODO: remove lost civilization units?
         ArrayList<Civilization> civilizations = game.getCivilizations();
 
+        ArrayList<Civilization> lostCivilizations = new ArrayList<>();
         for (Civilization civilization : civilizations) {
             if (civilization.getCities().size() == 0) {
                 boolean hasSettler = false;
@@ -271,9 +272,12 @@ public class CivilizationController extends GameController {
                     }
                 }
                 if (!hasSettler) {
-                    game.getCivilizations().remove(civilization);
+                    lostCivilizations.add(civilization);
                 }
             }
+        }
+        for (Civilization civilization : lostCivilizations) {
+            civilizations.remove(civilization);
         }
     }
 }
