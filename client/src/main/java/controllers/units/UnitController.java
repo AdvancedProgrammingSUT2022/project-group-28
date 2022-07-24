@@ -510,7 +510,7 @@ public class UnitController extends GameController {
             possibleActions.add(UnitAction.FOUND_CITY);
         if (unit instanceof Military && unit.getUnitState() != UnitState.FORTIFYING) 
             possibleActions.add(UnitAction.FORTIFY);
-        if (unit instanceof Siege && unit.getUnitState() != UnitState.PREPARED) 
+        if (unit instanceof Siege && unit.getUnitState() != UnitState.PREPARED && unit.getMovePoint()>0) 
             possibleActions.add(UnitAction.PREPARE);
         if (unit.getUnitState() != UnitState.SLEPT)
             possibleActions.add(UnitAction.SLEEP);
