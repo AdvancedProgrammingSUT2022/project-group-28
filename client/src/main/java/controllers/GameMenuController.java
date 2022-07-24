@@ -26,6 +26,7 @@ public class GameMenuController extends GameController {
 
     public static GameNotification nextTurn() {
         // TODO: redirect errors to map
+        CivilizationController.removeLostCivilizations();
         GameNotification checkResult = CivilizationController.checkNextTurnIsPossible();
         if (checkResult.getNotificationTemplate() != CivilizationNotification.SUCCESS) return checkResult;
 
@@ -66,6 +67,24 @@ public class GameMenuController extends GameController {
         }
         // TODO: check ........
 
+    }
+
+    public static Civilization isGameEnded(){
+        Game game = GameController.getGame();
+        ArrayList<Civilization> civilizations = game.getCivilizations();
+        if (civilizations.size() == 1) return civilizations.get(0);
+        ArrayList<Civilization> hasOwnCapital = new ArrayList<>();
+        for (Civilization civilization : civilizations) {
+            for(City city : civilization.getCities()){
+                if (civilization.getCivilizationNames().getCapital().equals(city.getNAME())){
+                    hasOwnCapital.add(civilization);
+                    break;
+                }
+            }
+        }
+        if (hasOwnCapital.size() == 1) return hasOwnCapital.get(0);
+        // TODO: check year condition
+        return null;
     }
 
 
