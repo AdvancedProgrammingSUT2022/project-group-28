@@ -4,8 +4,6 @@ import javafx.application.Platform;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import views.GameMenu;
-import views.GamePage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -112,21 +110,10 @@ class TextInputControlStream {
                     final ByteBuffer buf = getCharset().encode(lastLine + "\r\n"); //$NON-NLS-1$
                     this.inputTextTarget.write(buf.array(), 0, buf.remaining());
                     this.inputTextTarget.flush();
-                    Thread thread = new Thread(() ->{
-                        GameMenu.getInstance().checkCommand(lastLine);
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                GamePage.getInstance().updateGamePage();
-                            }
-                        });
-
-                    });
-                    thread.start();
                     this.lastLineBreakIndex = this.textInputControl.getLength() + 1;
                 } catch (IOException e) {
                     if ("Read end dead".equals(e.getMessage())) {
-                        return;
+                        //return;
                     }
                     throw new RuntimeException(e);
                 }

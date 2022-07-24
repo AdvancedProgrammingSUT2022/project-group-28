@@ -13,6 +13,7 @@ import controllers.*;
 import controllers.units.SettlerController;
 import controllers.units.UnitController;
 import controllers.units.WorkerController;
+import javafx.application.Platform;
 import models.Constructable;
 import models.Game;
 import models.civilization.City;
@@ -36,6 +37,19 @@ public class GameMenu{
     private Scanner scanner;
     private final int BOARD_WIDTH=113;
     private final int BOARD_HEIGHT=28;
+
+    public void run(){
+        while(true){
+            String input = scanner.nextLine();
+            checkCommand(input);
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    GamePage.getInstance().updateGamePage();
+                }
+            });
+        }
+    }
 
     public void checkCommand(String command){
         if (command.startsWith("select unit combat")) {
