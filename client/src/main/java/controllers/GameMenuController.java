@@ -75,6 +75,8 @@ public class GameMenuController extends GameController {
         if (civilizations.size() == 1) return civilizations.get(0);
         ArrayList<Civilization> hasOwnCapital = new ArrayList<>();
         for (Civilization civilization : civilizations) {
+            // TODO: correct this logic
+            if (civilization.getCities().size() == 0) hasOwnCapital.add(civilization);
             for(City city : civilization.getCities()){
                 if (civilization.getCivilizationNames().getCapital().equals(city.getNAME())){
                     hasOwnCapital.add(civilization);
