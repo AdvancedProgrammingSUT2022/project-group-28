@@ -32,6 +32,8 @@ public class User {
     private ArrayList<User> friends = new ArrayList<>();
     private ArrayList<FriendshipRequest> friendshipRequests = new ArrayList<>();
 
+    private ArrayList<Chat> chats = new ArrayList<>();
+
     static {
         GsonHandler.importDataOfUser();
         if (allUsers.size() == 0){
@@ -162,6 +164,11 @@ public class User {
     public ArrayList<FriendshipRequest> getFriendshipRequests() {
         if (friendshipRequests == null) friendshipRequests = new ArrayList<>();
         return friendshipRequests;
+    }
+
+    public ArrayList<Chat> getChats() {
+        if (chats == null) chats = new ArrayList<>();
+        return chats;
     }
 
     public Image getAvatar(){

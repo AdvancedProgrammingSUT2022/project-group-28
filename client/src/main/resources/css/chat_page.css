@@ -1,0 +1,72 @@
+.background {
+    -fx-background-image: url("../assets/image/background/ui_background.png");
+}
+
+.chats_box {
+    -fx-background-color: #ffffff;
+}
+
+.chat_info {
+    -fx-background-color: #ffffff;
+    -fx-font-size: 24;
+    -fx-padding: 20 20 20 20;
+}
+
+.chat_info:hover {
+    -fx-background-color: #06555c99;
+}
+
+.back_button {
+    -fx-padding: 10 30 10 30;
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #06445eaa;
+    -fx-font-size: 24;
+}
+
+.normal_text {
+    -fx-font-size: 24;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #065c46ff;
+    -fx-background-radius: 5em;
+}
+
+.message_box {
+    -fx-font-size: 24;
+}
+
+.send_button {
+    -fx-background-image: url("../assets/image/send.png");
+    -fx-font-size: 24;
+}
+
+.chat_message {
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #06555caa;
+    -fx-font-size: 24;
+    -fx-margin: 10 10 10 10;
+}

@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import controllers.GsonHandler;
+import controllers.NetworkController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +17,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import models.User;
+import models.network.ClientRequest;
+import models.network.ServerResponse;
 
 public class App extends Application{
     // TODO: private
@@ -64,6 +68,17 @@ public class App extends Application{
             e.printStackTrace();
         }
         launch();
+    }
+
+    public static void updateUserInfo() {
+        String token = NetworkController.getInstance().getUserToken();
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.GET_USER_INFO,
+                new ArrayList<>(), token);
+
+        ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
+        if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS) {
+            App.setCurrentUser(User.fromXML(serverResponse.getData().get(0)));
+        }
     }
 
     public static User getCurrentUser() {

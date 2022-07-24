@@ -34,6 +34,7 @@ public class User {
 
     private ArrayList<User> friends = new ArrayList<>();
     private ArrayList<FriendshipRequest> friendshipRequests = new ArrayList<>();
+    private ArrayList<Chat> chats = new ArrayList<>();
 
     private transient Socket updateSocket;
     private transient DataInputStream updateInputStream;
@@ -59,17 +60,6 @@ public class User {
         this.profilePicNumber = 0;
         this.lastOnline = LocalDate.now();
         this.lastWin = null;
-    }
-
-    public void update(User user) {
-        this.id = user.getId();
-        this.username = user.getUsername();
-        this.nickname = user.getNickname();
-        this.password = user.getPassword();
-        this.score = user.getScore();
-        this.profilePicNumber = user.getProfilePicNumber();
-        this.lastOnline = user.getLastOnline();
-        this.lastWin = user.getLastWin();
     }
 
     public static User getUserByUsername(String username) {
@@ -130,6 +120,12 @@ public class User {
         return null;
     }
 
+    public Chat getChatByFriendID(int id) {
+        for (Chat chat : this.chats) {
+            if (chat.getUser1().getId() == id || chat.getUser2().getId() == id) return chat;
+        }
+        return null;
+    }
 
     public String toXML() { return new XStream().toXML(this); }
 
@@ -186,6 +182,11 @@ public class User {
     public ArrayList<User> getFriends() {
         if (friends == null) friends = new ArrayList<>();
         return friends;
+    }
+
+    public ArrayList<Chat> getChats() {
+        if (chats == null) chats = new ArrayList<>();
+        return chats;
     }
 
     public ArrayList<FriendshipRequest> getFriendshipRequests() {

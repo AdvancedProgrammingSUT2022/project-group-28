@@ -61,6 +61,9 @@ public class MainPage extends PageController{
     }
 
     @FXML
+    private void chat() { App.setRoot("chatPage"); }
+
+    @FXML
     private void logout() {
         ArrayList<String> data = new ArrayList<>();
         ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.LOGOUT, data,

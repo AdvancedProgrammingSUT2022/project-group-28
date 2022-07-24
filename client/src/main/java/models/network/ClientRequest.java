@@ -7,6 +7,10 @@ import java.util.ArrayList;
 public class ClientRequest {
     public enum Request {
         LOGOUT,
+        GET_CHAT_INFO,
+        SEND_MESSAGE,
+        EDIT_MESSAGE,
+        REMOVE_MESSAGE,
         CHANGE_AVATAR,
         CHANGE_NICKNAME,
         CHANGE_PASSWORD,

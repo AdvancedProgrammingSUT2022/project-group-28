@@ -85,6 +85,14 @@ public class SocketHandler extends Thread {
                 return handleChangeNickname(clientRequest);
             case CHANGE_PASSWORD:
                 return handleChangePassword(clientRequest);
+            case GET_CHAT_INFO:
+                return handleGetChatInfo(clientRequest);
+            case SEND_MESSAGE:
+                return handleSendMessage(clientRequest);
+            case EDIT_MESSAGE:
+                return handleEditMessage(clientRequest);
+            case REMOVE_MESSAGE:
+                return handleRemoveMessage(clientRequest);
             case LOGOUT:
                 return handleLogout(clientRequest);
             default:
@@ -496,6 +504,88 @@ public class SocketHandler extends Thread {
         } else if (message == Message.REPETITIOUS_PASSWORD) {
             return new ServerResponse(ServerResponse.Response.REPETITIOUS_PASSWORD, toSend);
         }
+
+        XMLHandler.exportDataOfUser(User.getAllUsers());
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleGetChatInfo(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        Chat chat = user.getChatByFriendID(Integer.parseInt(clientRequest.getData().get(0)));
+        if (chat == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_CHAT, toSend);
+        }
+
+        toSend.add(chat.toXML());
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleSendMessage(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        Chat chat = user.getChatByFriendID(Integer.parseInt(clientRequest.getData().get(0)));
+        if (chat == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_CHAT, toSend);
+        }
+
+        ChatMessage chatMessage = new ChatMessage(user, clientRequest.getData().get(1));
+        chat.addChatMessage(chatMessage);
+
+        XMLHandler.exportDataOfUser(User.getAllUsers());
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleEditMessage(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        Chat chat = user.getChatByFriendID(Integer.parseInt(clientRequest.getData().get(0)));
+        if (chat == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_CHAT, toSend);
+        }
+
+        int messageIndex = Integer.parseInt(clientRequest.getData().get(1));
+        String newMessage = clientRequest.getData().get(2);
+        chat.getChatMessages().get(messageIndex).edit(newMessage);
+
+        XMLHandler.exportDataOfUser(User.getAllUsers());
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleRemoveMessage(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        Chat chat = user.getChatByFriendID(Integer.parseInt(clientRequest.getData().get(0)));
+        if (chat == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_CHAT, toSend);
+        }
+
+        int messageIndex = Integer.parseInt(clientRequest.getData().get(1));
+        chat.getChatMessages().remove(messageIndex);
 
         XMLHandler.exportDataOfUser(User.getAllUsers());
 

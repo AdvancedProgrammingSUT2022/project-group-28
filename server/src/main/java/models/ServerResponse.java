@@ -8,6 +8,7 @@ public class ServerResponse {
     public enum Response {
         NOT_ADMIN,
         NOT_FRIEND,
+        INVALID_CHAT,
         INCORRECT_PASSWORD,
         REPETITIOUS_PASSWORD,
         INVALID_ONLINE_GAME,

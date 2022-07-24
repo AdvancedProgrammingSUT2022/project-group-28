@@ -139,14 +139,7 @@ public class ProfilePage extends PageController{
     }
 
     private void createFriendshipRequestsList() {
-        String token = NetworkController.getInstance().getUserToken();
-        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.GET_USER_INFO,
-                new ArrayList<>(), token);
-
-        ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
-        if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS) {
-            App.setCurrentUser(User.fromXML(serverResponse.getData().get(0)));
-        }
+        App.updateUserInfo();
 
         User currentUser = App.getCurrentUser();
         friendshipRequestsContainer.getChildren().clear();

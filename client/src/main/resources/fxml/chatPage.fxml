@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="views.ChatPage"
+            prefHeight="900.0" prefWidth="1600.0"
+            stylesheets="@../css/chat_page.css"
+            styleClass="background">
+    <center>
+        <HBox alignment="CENTER">
+            <VBox styleClass="chat_box" alignment="CENTER" prefWidth="400" spacing="20">
+                <ScrollPane prefHeight="800" hbarPolicy="NEVER">
+                    <VBox alignment="TOP_CENTER" fx:id="availableChats">
+
+                    </VBox>
+                </ScrollPane>
+                <Button styleClass="back_button" onMouseClicked="#back" text="back"/>
+            </VBox>
+            <VBox prefWidth="1200">
+                <ScrollPane prefHeight="780">
+                    <VBox fx:id="chatContent" spacing="10">
+                    </VBox>
+                </ScrollPane>
+                <VBox prefHeight="100">
+                    <HBox alignment="CENTER_LEFT" spacing="30">
+                        <TextField fx:id="messageField" styleClass="message_box" prefHeight="119" prefWidth="1000"/>
+                        <Rectangle width="100" height="100" fx:id="sendButton" onMouseClicked="#sendMessage"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </HBox>
+    </center>
+</BorderPane>

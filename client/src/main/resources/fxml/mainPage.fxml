@@ -19,7 +19,7 @@
                 <Button styleClass="general_button" onMouseClicked="#loadGame" text="Load Game"/>
                 <Button styleClass="general_button" onMouseClicked="#profile" text="Profile"/>
                 <Button styleClass="general_button" onMouseClicked="#scoreboard" text="Scoreboard"/>
-                <Button styleClass="general_button" text="Setting"/>
+                <Button styleClass="general_button" onMouseClicked="#chat" text="Chat"/>
             </VBox>
             <Rectangle styleClass="line" width="350" height="7"/>
             <VBox alignment="CENTER">
