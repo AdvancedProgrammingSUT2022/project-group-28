@@ -471,6 +471,9 @@ public class UnitController extends GameController {
             tile.getCivilian() != null && unit instanceof Civilian) {
                 return false;
         }
+        if(tile.getCity() != null && !tile.getCity().getCivilization().equals(unit.getCivilization())){
+            return false;
+        }
         for (Tile discoveredTile : unit.getCivilization().getDiscoveredTiles().keySet()) {
             if (discoveredTile.getCoordinates()[0] == tile.getCoordinates()[0] &&
                 discoveredTile.getCoordinates()[1] == tile.getCoordinates()[1] &&
