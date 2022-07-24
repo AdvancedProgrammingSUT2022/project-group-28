@@ -117,6 +117,7 @@ public class InfoBar extends Group {
 
 
     public void update(){
+        civilization = GameController.getGame().getCurrentPlayer();
         science.setText("+" + civilization.getScienceBalance());
         gold.setText(civilization.getGold() + " ( " + makeSign() + civilization.getGoldBalance() + " )");
         happiness.setText(Integer.toString(civilization.getHappiness()));
