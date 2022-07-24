@@ -174,7 +174,7 @@ public class GameMediator {
         } else if (notification == CivilizationNotification.NO_TECHNOLOGY) {
             HUDController.getInstance().addMessage("You have to study a technology", MessageBox.Type.ALERT);
         }  else if (notification == CivilizationNotification.GAME_ENDED) {
-            HUDController.getInstance().addMessage(notification.toString(), MessageBox.Type.ALERT);
+            HUDController.getInstance().addMessage(gameNotification.toString(), MessageBox.Type.ALERT);
         } else {
             // TODO: notify server
             GameMenuController.startNewTurn();
