@@ -7,7 +7,8 @@ import java.util.ArrayList;
 public class ServerUpdate {
     public enum Update {
         SET_INITIAL_GAME,
-        ATTEND_GAME_REQUEST
+        ATTEND_GAME_REQUEST,
+        INVITE_GAME_REQUEST
     }
 
     private Update update;

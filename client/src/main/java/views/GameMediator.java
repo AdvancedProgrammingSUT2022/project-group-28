@@ -312,4 +312,17 @@ public class GameMediator {
         stage.show();
         scene.getRoot().requestFocus();
     }
+
+    public void openInviteGameRequestPage() {
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initOwner(App.currentScene.getWindow());
+        Scene scene;
+        scene = new Scene(App.loadFXML("inviteGameRequestPage"));
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+        scene.getRoot().requestFocus();
+    }
 }

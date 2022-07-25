@@ -190,6 +190,44 @@ public class LobbyPage extends PageController{
     }
 
     @FXML
+    private void sendInvitation() {
+        String nickname = playerNickname.getText();
+
+        if (nickname.length() == 0) {
+            playerMessage.setText("Please enter a nickname");
+            playerMessage.setManaged(true);
+        }
+
+        ArrayList<String> data = new ArrayList<>();
+        data.add(nickname);
+
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.INVITE_GAME, data,
+                                    NetworkController.getInstance().getUserToken());
+
+        ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
+        switch (serverResponse.getResponse()) {
+            case INVALID_NICKNAME:
+                playerMessage.setText(nickname + " does not exists");
+                playerMessage.setManaged(true);
+                break;
+            case NOT_FRIEND:
+                playerMessage.setText(nickname + " is not your friend");
+                playerMessage.setManaged(true);
+                break;
+            case IS_OFFLINE:
+                playerMessage.setText(nickname + " is offline");
+                playerMessage.setManaged(true);
+                break;
+            case SUCCESS:
+                playerMessage.setText("Invitation sent");
+                playerMessage.setManaged(true);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @FXML
     private void back() {
         this.onExit();
         NetworkController.getInstance().setOnline(false);
@@ -310,7 +348,7 @@ public class LobbyPage extends PageController{
                             }
                         });
 
-                        Thread.sleep(10000);
+                        Thread.sleep(3000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                         break;
@@ -323,4 +361,16 @@ public class LobbyPage extends PageController{
     }
 
     public static LobbyPage getInstance() { return instance; }
+
+    public Button getLeaveGameButton() { return leaveGameButton; }
+
+    public Button getCancelGameButton() { return cancelGameButton; }
+
+    public Button getSendInviteButton() { return sendInviteButton; }
+
+    public Button getCreateGameButton() { return createGameButton; }
+
+    public Button getStartGameButton() { return startGameButton; }
+
+    public Button getBackButton() { return backButton; }
 }

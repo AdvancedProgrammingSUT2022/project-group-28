@@ -71,6 +71,10 @@ public class SocketHandler extends Thread {
                 return handleAcceptAttendGame(clientRequest);
             case REJECT_ATTEND_GAME:
                 return handleRejectAttendGame(clientRequest);
+            case INVITE_GAME:
+                return handleInviteGame(clientRequest);
+            case ACCEPT_INVITE_GAME:
+                return handleAcceptInviteGame(clientRequest);
             case LEAVE_GAME:
                 return handleLeaveGame(clientRequest);
             case START_GAME:
@@ -379,6 +383,60 @@ public class SocketHandler extends Thread {
         }
 
         waitingGame.getWaitingForAccept().remove(user);
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleInviteGame(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User admin = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (admin == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        User user = User.getUserByNickname(clientRequest.getData().get(0));
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_NICKNAME, toSend);
+        }
+
+        if (!admin.getFriends().contains(user)) {
+            return new ServerResponse(ServerResponse.Response.NOT_FRIEND, toSend);
+        }
+
+        for (String token : NetworkController.getInstance().getLoggedInUsers().keySet()) {
+            User onlineUser = NetworkController.getInstance().getLoggedInUsers().get(token);
+            if (onlineUser.equals(user)) {
+                // TODO: handle in game users
+                ArrayList<String> updateData = new ArrayList<>();
+                updateData.add(admin.toXML());
+
+                ServerUpdate serverUpdate = new ServerUpdate(ServerUpdate.Update.INVITE_GAME_REQUEST, updateData);
+
+                try {
+                    user.getUpdateOutputStream().writeUTF(serverUpdate.toJson());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+            }
+        }
+
+        return new ServerResponse(ServerResponse.Response.IS_OFFLINE, toSend);
+    }
+
+    private ServerResponse handleAcceptInviteGame(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        User admin = User.fromXML(clientRequest.getData().get(0));
+        WaitingGame waitingGame = WaitingGame.getWaitingGameByAdminId(admin.getId());
+        waitingGame.getOtherPlayers().add(user);
 
         return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
     }

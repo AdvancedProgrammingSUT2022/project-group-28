@@ -37,7 +37,7 @@
             <VBox alignment="CENTER" spacing="30">
                 <TextField fx:id="playerNickname" styleClass="player_username" promptText="nextPlayer"/>
                 <Label fx:id="playerMessage" styleClass="alert" managed="false"/>
-                <Button fx:id="sendInviteButton" disable="true" styleClass="add_button" text="Send game request"/>
+                <Button fx:id="sendInviteButton" disable="true" styleClass="add_button" onMouseClicked="#sendInvitation" text="Send invite"/>
             </VBox>
         </VBox>
     </center>
