@@ -43,7 +43,7 @@ public enum UnitTemplate implements Constructable {
     CANON("Canon", "cannon", 250, 10, 26, 2, 2, 4, null, TechnologyTemplate.CHEMISTRY,UnitType.SIEGE),
     CAVALRY("Cavalry", "cavalry", 260, 25, 0, 0, 3, 4, ResourceTemplate.HORSE, TechnologyTemplate.MILITARY_SCIENCE,UnitType.MELEE),
     Lancer("Lancer", "lancer", 220, 22, 0, 0, 4, 4, ResourceTemplate.HORSE, TechnologyTemplate.METALLURGY,UnitType.MELEE),
-    MUSKETMAN("Musketman", "musketman", 120, 16, 0, 0, 2, 4, null, TechnologyTemplate.GUNPOWDER,UnitType.RANGED),
+    MUSKETMAN("Musketman", "musketman", 120, 16, 0, 0, 2, 4, null, TechnologyTemplate.GUNPOWDER,UnitType.MELEE),
     RIFLEMAN("Rifleman", "rifleman", 200, 25, 0, 0, 2, 4, null, TechnologyTemplate.RIFLING,UnitType.RANGED),
     
     ANTI_TANK("Anti-Tank Gun", "antitank_gun", 300, 32, 0, 0, 2, 5, null, TechnologyTemplate.REPLACEABLE_PARTS,UnitType.MELEE),

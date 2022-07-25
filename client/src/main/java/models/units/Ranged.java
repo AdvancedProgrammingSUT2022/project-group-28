@@ -11,7 +11,7 @@ public class Ranged extends Military {
     }
 
     public int getRangedCombatStrength(){
-        return unitTemplate.getRangedCombatStrength() - (int) (((10-health)/10) * unitTemplate.getRangedCombatStrength());
+        return unitTemplate.getRangedCombatStrength() - (int) (((10-health)/10f) * unitTemplate.getRangedCombatStrength());
     }
     
 }

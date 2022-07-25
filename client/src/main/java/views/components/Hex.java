@@ -11,6 +11,7 @@ import javafx.scene.Group;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -304,6 +305,9 @@ public class Hex extends Group {
                 this.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
+                        if(!event.getButton().equals(MouseButton.PRIMARY))
+                            return;
+                        
                         GameMediator.getInstance().cityAttack(Hex.this.tile);
                         GamePage.getInstance().updateGamePage();
                     }
@@ -319,6 +323,9 @@ public class Hex extends Group {
                 this.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
+                        if(!event.getButton().equals(MouseButton.PRIMARY))
+                            return;
+
                         GameMediator.getInstance().moveUnit(unit, Hex.this.tile);
                         GamePage.getInstance().updateGamePage();
                     }
@@ -332,6 +339,9 @@ public class Hex extends Group {
                 this.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
+                        if(!event.getButton().equals(MouseButton.PRIMARY))
+                            return;
+
                         GameMediator.getInstance().attack(unit, Hex.this.tile);
                         GamePage.getInstance().updateGamePage();
                     }
