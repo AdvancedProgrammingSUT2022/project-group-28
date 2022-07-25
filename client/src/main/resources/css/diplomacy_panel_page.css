@@ -1,0 +1,63 @@
+.background{
+    -fx-background-color: #4c7060ff;
+}
+
+.diplomacy_panel_vbox1{
+    -fx-padding: 15;
+}
+
+.diplomacy_panel_vbox2{
+    -fx-background-color: rgb(255, 255, 0, 0.1);
+    -fx-padding: 30 5 30 5;
+}
+
+.diplomacyItem{
+    -fx-background-color: #b49b31;
+    -fx-background-radius: 20;
+    -fx-pref-width: 695;
+}
+
+.civilization_name{
+    -fx-fill: #0a04be;
+    -fx-font-size: 17;
+}
+
+.capital_name{
+    -fx-fill: #d02b2b;
+    -fx-font-size: 16;
+}
+
+.trade_button{
+    -fx-padding: 5 15 5 15;
+    -fx-border-radius: 20;
+    -fx-background-radius: 30;
+    -fx-font-size: 18;
+    -fx-text-fill: #4d0522;
+    -fx-background-color: #af7c7c;
+}
+.trade_button:hover{
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #811313;
+}
+
+.send_message_button{
+    -fx-padding: 5 15 5 15;
+    -fx-border-radius: 20;
+    -fx-background-radius: 30;
+    -fx-font-size: 18;
+    -fx-text-fill: #05164d;
+    -fx-background-color: #b4faeb;
+}
+
+.send_message_button:hover{
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #07196b;
+}
+
+.back_button{
+    -fx-padding: 10 30 10 30;
+    -fx-border-radius: 30;
+    -fx-background-radius: 40;
+    -fx-background-color: #92b7a3;
+    -fx-font-size: 25;
+}
