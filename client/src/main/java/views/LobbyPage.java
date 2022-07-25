@@ -253,17 +253,22 @@ public class LobbyPage extends PageController{
 
         this.gamesContainer.getChildren().clear();
         for (WaitingGame waitingGame : waitingGames) {
-            VBox vBox = new VBox();
+            VBox vBox = new VBox(10);
+            vBox.setAlignment(Pos.CENTER);
+            vBox.getStyleClass().add("game_box");
 
             Text description = new Text("Admin: " + waitingGame.getAdmin().getNickname());
+            description.getStyleClass().add("normal_text");
             vBox.getChildren().add(description);
 
             Text size = new Text("Players: " + (waitingGame.getOtherPlayers().size() + 1));
+            size.getStyleClass().add("normal_text");
             vBox.getChildren().add(size);
 
             if (!WaitingGame.isAdmin(user, waitingGames)) {
                 if (waitingGame.isOtherPlayer(user)) {
                     Button button = new Button("Leave");
+                    button.getStyleClass().add("game_button");
                     button.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent event) {
@@ -273,6 +278,7 @@ public class LobbyPage extends PageController{
                     vBox.getChildren().add(button);
                 } else if (!WaitingGame.isInAnyGame(user, waitingGames)) {
                     Button button = new Button("Attend");
+                    button.getStyleClass().add("game_button");
                     button.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent event) {
@@ -282,6 +288,7 @@ public class LobbyPage extends PageController{
                     vBox.getChildren().add(button);
                 } else if (waitingGame.isWaitingForAccept(user)){
                     Text text = new Text("Waiting for accept");
+                    text.getStyleClass().add("normal_text");
                     vBox.getChildren().add(text);
                 }
             }

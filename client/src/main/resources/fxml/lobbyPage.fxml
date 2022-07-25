@@ -15,9 +15,11 @@
             styleClass="ui_page_root">
     <left>
         <VBox styleClass="left_container" alignment="CENTER" spacing="20" prefWidth="500">
-            <VBox fx:id="friendsContainer" alignment="CENTER" spacing="20">
+            <ScrollPane maxWidth="600">
+                <VBox fx:id="friendsContainer" alignment="CENTER" spacing="20" prefWidth="450">
 
-            </VBox>
+                </VBox>
+            </ScrollPane>
             <VBox alignment="CENTER" spacing="30">
                 <TextField fx:id="friendNickname" styleClass="player_username" promptText="friend"/>
                 <Label fx:id="friendMessage" styleClass="alert" managed="false"/>
@@ -27,8 +29,8 @@
     </left>
     <center>
         <VBox styleClass="center_container" alignment="CENTER" spacing="20" prefWidth="500">
-            <ScrollPane>
-                <VBox fx:id="gamesContainer" alignment="CENTER" spacing="20">
+            <ScrollPane maxHeight="600">
+                <VBox fx:id="gamesContainer" alignment="CENTER" spacing="20" prefWidth="450">
 
                 </VBox>
             </ScrollPane>
