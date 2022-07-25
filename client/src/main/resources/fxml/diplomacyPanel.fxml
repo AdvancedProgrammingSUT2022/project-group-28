@@ -6,6 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.text.Text?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="views.DiplomacyPanelPage"
@@ -14,12 +15,14 @@
             styleClass="background">
 
     <center>
-        <VBox styleClass="diplomacy_panel_vbox1" spacing="20" alignment="TOP_CENTER">
+        <VBox styleClass="diplomacy_panel_vbox1" spacing="20" alignment="TOP_CENTER" fx:id="diplomacyPanelWindow">
             <ScrollPane styleClass="diplomacy_panel" >
                 <VBox styleClass="diplomacy_panel_vbox2" alignment="CENTER"  spacing="20" fx:id="diplomacyPanelContainer">
 
                 </VBox>
             </ScrollPane>
+            <Text fx:id="message_box_text" styleClass="message_box" text="Message Box"/>
+            <TextField fx:id="messageField" styleClass="diplomacy_text_field" prefHeight="60" prefWidth="500"/>
             <Button styleClass="back_button" fx:id="backButton" text="Back" onMouseClicked="#back"/>
         </VBox>
     </center>

@@ -270,7 +270,7 @@ public class GameMediator {
         stage.setX(610);
         stage.setY(150);
         Scene scene;
-        scene = new Scene(App.loadFXML("diplomacyPanel"), 740, 500);
+        scene = new Scene(App.loadFXML("diplomacyPanel"), 740, 570);
         scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
         stage.show();

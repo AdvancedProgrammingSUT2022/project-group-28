@@ -4,6 +4,7 @@ import controllers.GameController;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -16,6 +17,10 @@ import java.util.ArrayList;
 
 public class DiplomacyPanelPage extends PageController {
     @FXML
+    private VBox diplomacyPanelWindow;
+    @FXML
+    private TextField messageField;
+    @FXML
     private VBox diplomacyPanelContainer;
     @FXML
     private Button backButton;
@@ -26,9 +31,7 @@ public class DiplomacyPanelPage extends PageController {
             if (!civilization.equals(GameController.getGame().getCurrentPlayer())) {
                 diplomacyPanelContainer.getChildren().add(createDiplomacyItem(civilization));
             }
-
         }
-
     }
 
     private HBox createDiplomacyItem(Civilization civilization) {
