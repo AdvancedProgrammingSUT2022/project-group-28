@@ -54,6 +54,21 @@
     -fx-background-color: #07196b;
 }
 
+.message_box{
+    -fx-fill: #75dec0;
+    -fx-font-size: 20;
+}
+
+.diplomacy_text_field{
+    -fx-pref-width: 500;
+    -fx-pref-height: 70;
+    -fx-font-size: 17;
+    -fx-background-color: #92b7a3;
+    -fx-border-color: #022617;
+    -fx-border-width: 5;
+    -fx-text-fill: #022617;
+}
+
 .back_button{
     -fx-padding: 10 30 10 30;
     -fx-border-radius: 30;
