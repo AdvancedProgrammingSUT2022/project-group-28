@@ -254,7 +254,23 @@ public class GameMediator {
         stage.setX(700);
         stage.setY(150);
         Scene scene;
-        scene = new Scene(App.loadFXML("demographicPanel"), 585, 500); /// adssfsd dfsjhflsdjdfh
+        scene = new Scene(App.loadFXML("demographicPanel"), 585, 500);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+        scene.getRoot().requestFocus();
+    }
+
+    public void openDiplomacyPanel(){
+        // TODO: notify server
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initOwner(GamePage.getInstance().getGameContent().getParent().getScene().getWindow());
+        stage.setX(610);
+        stage.setY(150);
+        Scene scene;
+        scene = new Scene(App.loadFXML("diplomacyPanel"), 740, 500);
         scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
         stage.show();

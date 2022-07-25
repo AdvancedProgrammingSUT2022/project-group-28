@@ -16,7 +16,6 @@ import models.civilization.Civilization;
 
 import java.util.ArrayList;
 
-import static javafx.scene.paint.Color.rgb;
 
 public class DemographicPanelPage extends PageController {
     @FXML
@@ -32,7 +31,7 @@ public class DemographicPanelPage extends PageController {
     }
 
     public HBox createDemographicItem(Civilization civilization){
-        HBox demographicItem = new HBox(25);
+        HBox demographicItem = new HBox(20);
         demographicItem.setAlignment(Pos.CENTER_LEFT);
         demographicItem.getStyleClass().add("demographicItem");
 
