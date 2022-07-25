@@ -238,7 +238,7 @@ public class GameMediator {
         stage.setX(700);
         stage.setY(150);
         Scene scene;
-        scene = new Scene(App.loadFXML("citiesPanel"), 510, 500);
+        scene = new Scene(App.loadFXML("citiesPanel"), 530, 500);
         scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
         stage.show();
@@ -254,7 +254,7 @@ public class GameMediator {
         stage.setX(700);
         stage.setY(150);
         Scene scene;
-        scene = new Scene(App.loadFXML("citiesPanel"), 585, 500); /// adssfsd dfsjhflsdjdfh
+        scene = new Scene(App.loadFXML("demographicPanel"), 585, 500); /// adssfsd dfsjhflsdjdfh
         scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
         stage.show();
