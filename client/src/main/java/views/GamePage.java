@@ -58,6 +58,8 @@ public class GamePage extends PageController{
         tileInfo = new TileInfo();
 
         HUDController.getInstance().createHUD(HUD);
+
+        // TODO: change base
         baseI = GameController.getGame().getCurrentPlayer().getUnits().get(0).getTile().getCoordinates()[0];
         baseJ = GameController.getGame().getCurrentPlayer().getUnits().get(0).getTile().getCoordinates()[1];
         createMap(true);
@@ -68,13 +70,16 @@ public class GamePage extends PageController{
             }
         };
         timer.start();
+
+        this.updateGamePage();
     }
 
     public void createMap(boolean fogOfWar) {
         Game game = GameController.getGame();
         CivilizationController.updateDiscoveredTiles();
         this.gameContent.getChildren().clear();
-        HashMap<Tile,Integer> discoveredTiles = game.getCurrentPlayer().getDiscoveredTiles();
+
+        HashMap<Tile,Integer> discoveredTiles = App.getCurrentUserCivilization().getDiscoveredTiles();
         if (fogOfWar){
             for (int i = 0; i < game.MAP_WIDTH ; i++) {
                 for (int j = 0; j < game.MAP_HEIGHT ; j++) {
@@ -220,6 +225,7 @@ public class GamePage extends PageController{
         this.createMap(true);
         HUDController.getInstance().getUnitInfo().update();
         HUDController.getInstance().getCurrentTechnologyInfo().updateData();
+        HUDController.getInstance().updateNextTurnButton();
         HUDController.getInstance().getMiniMap().updateMap();
         HUDController.getInstance().getInfoBar().update();
 

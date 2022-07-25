@@ -12,6 +12,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import models.civilization.Civilization;
 import models.tiles.Tile;
+import views.App;
 import views.GamePage;
 
 public class MiniMap extends Group {
@@ -20,8 +21,8 @@ public class MiniMap extends Group {
     private Civilization civilization;
     private Shape cameraFocus;
     private Group map;
-    public MiniMap(Civilization civilization) {
-        this.civilization = civilization;
+    public MiniMap() {
+        this.civilization = App.getCurrentUserCivilization();
 
         this.RADIUS = calculateRadius();
 
@@ -43,7 +44,7 @@ public class MiniMap extends Group {
     public void updateMap() {
         map.getChildren().clear();
         CivilizationController.updateDiscoveredTiles();
-        this.civilization = GameController.getGame().getCurrentPlayer();
+        this.civilization = App.getCurrentUserCivilization();
         for (Tile tile : civilization.getDiscoveredTiles().keySet()) {
             Polygon polygon = new Polygon();
             setPolygonPoints(polygon);

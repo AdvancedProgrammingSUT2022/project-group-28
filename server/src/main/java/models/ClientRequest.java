@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class ClientRequest {
     public enum Request {
         LOGOUT,
+        UPDATE_GAME,
         GET_CHAT_INFO,
         SEND_MESSAGE,
         EDIT_MESSAGE,

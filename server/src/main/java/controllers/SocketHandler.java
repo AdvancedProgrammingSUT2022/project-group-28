@@ -75,6 +75,8 @@ public class SocketHandler extends Thread {
                 return handleLeaveGame(clientRequest);
             case START_GAME:
                 return handleStartGame(clientRequest);
+            case UPDATE_GAME:
+                return handleUpdateGame(clientRequest);
             case SET_INITIAL_GAME:
                 return handleSetInitialGame(clientRequest);
             case GET_ALL_USERS:
@@ -439,6 +441,42 @@ public class SocketHandler extends Thread {
             try {
                 ServerUpdate serverUpdate = new ServerUpdate(ServerUpdate.Update.SET_INITIAL_GAME, updateData);
                 player.getUpdateOutputStream().writeUTF(serverUpdate.toJson());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleUpdateGame(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        OnlineGame onlineGame = OnlineGame.getOnlineGameByUserID(user.getId());
+        if (onlineGame == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_ONLINE_GAME, toSend);
+        }
+
+        ArrayList<String> updateData = new ArrayList<>();
+        String gameXML = clientRequest.getData().get(0);
+        updateData.add(gameXML);
+
+        ServerUpdate serverUpdate = new ServerUpdate(ServerUpdate.Update.UPDATE_GAME, updateData);
+        String updateJson = serverUpdate.toJson();
+        try {
+            onlineGame.getAdmin().getUpdateOutputStream().writeUTF(updateJson);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (User player : onlineGame.getOtherPlayers()) {
+            try {
+                player.getUpdateOutputStream().writeUTF(updateJson);
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -83,7 +83,9 @@ public class CityBanner extends HBox {
         cityName.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                GameMediator.getInstance().openCityMenu(CityBanner.this.city);
+                if (GameController.getGame().getCurrentPlayer().equals(CityBanner.this.city.getCivilization())) {
+                    GameMediator.getInstance().openCityMenu(CityBanner.this.city);
+                }
             }
         });
         nameBox.getChildren().add(cityName);
@@ -107,7 +109,9 @@ public class CityBanner extends HBox {
                 production.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        GameMediator.getInstance().openConstructionMenu(CityBanner.this.city);
+                        if (GameController.getGame().getCurrentPlayer().equals(CityBanner.this.city.getCivilization())) {
+                            GameMediator.getInstance().openConstructionMenu(CityBanner.this.city);
+                        }
                     }
                 });
             }
@@ -125,7 +129,9 @@ public class CityBanner extends HBox {
             production.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    GameMediator.getInstance().openConstructionMenu(CityBanner.this.city);
+                    if (GameController.getGame().getCurrentPlayer().equals(CityBanner.this.city.getCivilization())) {
+                        GameMediator.getInstance().openConstructionMenu(CityBanner.this.city);
+                    }
                 }
             });
             production.setFill(unknown);

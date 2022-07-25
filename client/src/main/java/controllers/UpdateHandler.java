@@ -8,6 +8,7 @@ import views.App;
 import views.AttendGameRequestPage;
 
 import views.GameMediator;
+import views.GamePage;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -40,6 +41,8 @@ public class UpdateHandler extends Thread {
                 break;
             case SET_INITIAL_GAME:
                 handleSetInitialGame(serverUpdate);
+            case UPDATE_GAME:
+                handleUpdateGame(serverUpdate);
             default:
                 break;
         }
@@ -64,6 +67,16 @@ public class UpdateHandler extends Thread {
             public void run() {
                 App.setRoot("gamePage");
             }
+        });
+    }
+
+    private void handleUpdateGame(ServerUpdate serverUpdate) {
+        Game game = Game.decode(serverUpdate.getData().get(0));
+        GameMenuController.setGame(game);
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() { GamePage.getInstance().updateGamePage();}
         });
     }
 }

@@ -21,7 +21,7 @@ public class CitiesPanelPage extends PageController {
     private VBox citiesPanelContainer;
 
     public void initialize(){
-        Civilization civilization = GameController.getGame().getCurrentPlayer();
+        Civilization civilization = App.getCurrentUserCivilization();
         if(civilization.getCities().size() != 0){
             citiesPanelContainer.getChildren().add(createCityItem(civilization.getCurrentCapital()));
 

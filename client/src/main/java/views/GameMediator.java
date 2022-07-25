@@ -12,6 +12,7 @@ import javafx.stage.StageStyle;
 import models.Constructable;
 import models.civilization.City;
 import models.civilization.enums.TechnologyTemplate;
+import models.network.ClientRequest;
 import models.tiles.Tile;
 import models.tiles.enums.ImprovementTemplate;
 import models.units.Unit;
@@ -22,6 +23,8 @@ import views.enums.CityMessage;
 import views.notifications.CivilizationNotification;
 import views.notifications.GameNotification;
 import views.notifications.NotificationTemplate;
+
+import java.util.ArrayList;
 
 public class GameMediator {
     private static GameMediator instance;
@@ -177,6 +180,14 @@ public class GameMediator {
             System.out.println("done");
             // TODO: notify server
             GameMenuController.startNewTurn();
+
+            ArrayList<String> data = new ArrayList<>();
+            data.add(GameController.getGame().encode());
+
+            ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.UPDATE_GAME, data,
+                                        NetworkController.getInstance().getUserToken());
+
+            NetworkController.getInstance().sendRequest(clientRequest);
         }
 
         // TODO: handle start new turn
@@ -253,7 +264,7 @@ public class GameMediator {
         stage.setX(700);
         stage.setY(150);
         Scene scene;
-        scene = new Scene(App.loadFXML("citiesPanel"), 585, 500); /// adssfsd dfsjhflsdjdfh
+        scene = new Scene(App.loadFXML("citiesPanel"), 585, 500); // TODO: add this
         scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
         stage.show();
