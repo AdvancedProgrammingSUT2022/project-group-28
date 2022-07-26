@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="views.MessageHistoryPage"
+            prefHeight="400.0" prefWidth="600.0"
+            stylesheets="@../css/message_history_page.css"
+            styleClass="background">
+    <center>
+        <VBox alignment="TOP_CENTER" spacing="20">
+            <ScrollPane maxHeight="600">
+                <VBox fx:id="messageContainer" alignment="CENTER" spacing="10">
+
+                </VBox>
+            </ScrollPane>
+            <Button styleClass="back_button" onMouseClicked="#back" text="back"/>
+        </VBox>
+    </center>
+</BorderPane>

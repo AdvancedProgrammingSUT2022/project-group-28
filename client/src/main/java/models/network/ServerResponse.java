@@ -17,6 +17,7 @@ public class ServerResponse {
         INVALID_FRIENDSHIP,
         OWN_FRIENDSHIP,
         FRIENDSHIP_REQUEST_WAITING,
+        NOT_IN_GAME,
         IS_OFFLINE,
         IS_LISTENING,
         INVALID_TOKEN,

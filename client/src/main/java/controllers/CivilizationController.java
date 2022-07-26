@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -38,7 +39,10 @@ public class CivilizationController extends GameController {
         if (civilization.getCities().size() != 0 && civilization.getCurrentStudyTechnology() == null){
             return new GameNotification(CivilizationNotification.NO_TECHNOLOGY, new ArrayList<>(), 0);
         }
-
+        Civilization winner = GameMenuController.isGameEnded();
+        if (winner !=null){
+            return new GameNotification(CivilizationNotification.GAME_ENDED, new ArrayList<>(Arrays.asList(winner.getCivilizationNames().getName())), 0);
+        }
         return new GameNotification(CivilizationNotification.SUCCESS, new ArrayList<>(), 0);
     }
 
@@ -251,5 +255,29 @@ public class CivilizationController extends GameController {
             }
         }
         return false;
+    }
+
+    public static void removeLostCivilizations(){
+        //TODO: remove lost civilization units?
+        ArrayList<Civilization> civilizations = game.getCivilizations();
+
+        ArrayList<Civilization> lostCivilizations = new ArrayList<>();
+        for (Civilization civilization : civilizations) {
+            if (civilization.getCities().size() == 0) {
+                boolean hasSettler = false;
+                for (Unit unit : civilization.getUnits()) {
+                    if (unit instanceof Settler) {
+                        hasSettler = true;
+                        break;
+                    }
+                }
+                if (!hasSettler) {
+                    lostCivilizations.add(civilization);
+                }
+            }
+        }
+        for (Civilization civilization : lostCivilizations) {
+            civilizations.remove(civilization);
+        }
     }
 }

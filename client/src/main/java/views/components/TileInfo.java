@@ -10,11 +10,25 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import models.tiles.Resource;
+import models.tiles.enums.ResourceTemplate;
 import models.tiles.enums.Terrain;
 import models.tiles.enums.TerrainFeature;
 import views.App;
 
+import java.util.HashMap;
+
 public class TileInfo extends Group {
+    private static ImagePattern foodPattern = new ImagePattern(new Image(App.class.getResource("../assets/image/food_icon.png").toExternalForm()));
+    private static ImagePattern productionPattern = new ImagePattern(new Image(App.class.getResource("../assets/image/production_icon.png").toExternalForm()));
+    private static ImagePattern goldPattern = new ImagePattern(new Image(App.class.getResource("../assets/image/gold_icon.png").toExternalForm()));
+    private static final HashMap<ResourceTemplate, ImagePattern> resourceImages = new HashMap<>();
+
+    static {
+        for (ResourceTemplate resourceTemplate : ResourceTemplate.values()) {
+            Image image = new Image(App.class.getResource("../assets/image/resource/" + resourceTemplate.getFilename() + ".png").toExternalForm());
+            resourceImages.put(resourceTemplate, new ImagePattern(image));
+        }
+    }
 
     private VBox tileInfo;
     private HBox resource;
@@ -51,17 +65,17 @@ public class TileInfo extends Group {
         output.setAlignment(Pos.CENTER_LEFT);
 
         foodIcon = new Circle(10);
-        foodIcon.setFill(new ImagePattern(new Image(App.class.getResource("../assets/image/food_icon.png").toExternalForm())));
+        foodIcon.setFill(foodPattern);
         food = new Text();
         food.getStyleClass().add("output_text");
 
         productionIcon = new Circle(10);
-        productionIcon.setFill(new ImagePattern(new Image(App.class.getResource("../assets/image/production_icon.png").toExternalForm())));
+        productionIcon.setFill(productionPattern);
         production = new Text();
         production.getStyleClass().add("output_text");
 
         goldIcon = new Circle(10);
-        goldIcon.setFill(new ImagePattern(new Image(App.class.getResource("../assets/image/gold_icon.png").toExternalForm())));
+        goldIcon.setFill(goldPattern);
         gold = new Text();
         gold.getStyleClass().add("output_text");
 
@@ -77,8 +91,7 @@ public class TileInfo extends Group {
         if(resource1 != null){
             tileInfo.getChildren().clear();
             tileInfo.getChildren().addAll(resource , terrain , output);
-            String address = "../assets/image/resource/" + resource1.getResourceTemplate().getFilename() + ".png";
-            resourceIcon.setFill(new ImagePattern(new Image(App.class.getResource((address)).toExternalForm())));
+            resourceIcon.setFill(resourceImages.get(resource1.getResourceTemplate()));
             resourceName.setText(resource1.getResourceTemplate().getName());
         }
         else{

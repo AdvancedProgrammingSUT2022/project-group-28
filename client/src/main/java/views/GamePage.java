@@ -190,7 +190,9 @@ public class GamePage extends PageController{
     private void mouseClicked(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseButton.SECONDARY) {
             this.mapState = MapState.NORMAL;
-            this.createMap(true);
+            GameController.getGame().setSelectedCity(null);
+            GameController.getGame().setSelectedUnit(null);
+            updateGamePage();
         }
     }
 

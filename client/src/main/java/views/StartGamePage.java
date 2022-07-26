@@ -148,6 +148,7 @@ public class StartGamePage extends PageController {
     @FXML
     private void startGame() {
         GameMenuController.startNewGame(getPlayers(), 100);
+
         this.onExit();
         App.setRoot("gamePage");
     }
@@ -155,7 +156,10 @@ public class StartGamePage extends PageController {
     private ArrayList<User> getPlayers() {
         ArrayList<User> players = new ArrayList<>();
         for (Node child : this.playersContainer.getChildren()) {
-            players.add(User.getUserByUsername(child.getId()));
+            if (User.getUserByUsername(child.getId()) == null) {
+                players.add(App.getCurrentUser());
+            } else players.add(User.getUserByUsername(child.getId()));
+
         }
         return players;
     }

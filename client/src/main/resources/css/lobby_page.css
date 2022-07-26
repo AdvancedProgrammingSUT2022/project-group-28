@@ -39,7 +39,7 @@
     -fx-font-size: 40;
 }
 
-.add_user_button:hover {
+.add_button:hover {
     -fx-background-color: #065c46cc;
 }
 
@@ -77,6 +77,26 @@
     -fx-background-color: #06555caa;
     -fx-font-size: 24;
     -fx-margin: 10 10 10 10;
+}
+
+.game_box {
+    -fx-border-radius: 20 20 20 20;
+    -fx-background-radius: 20 20 20 20;
+    -fx-background-color: #06555caa;
+    -fx-font-size: 24;
+    -fx-margin: 10 10 10 10;
+}
+
+.game_button {
+    -fx-padding: 10 30 10 30;
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #065c46aa;
+    -fx-font-size: 24;
+}
+
+.game_button:hover {
+    -fx-background-color: #065c46cc;
 }
 
 .normal_text {

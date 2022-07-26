@@ -7,6 +7,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
+import views.GameMenu;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,6 +66,11 @@ public class ConsoleView extends BorderPane {
 			System.setOut(consoleView.getOut());
             System.setIn(consoleView.getIn());
 			instance = new Scene(consoleView);
+			Thread thread = new Thread(() -> {
+				GameMenu.getInstance().run();
+			});
+			thread.setDaemon(true);
+			thread.start();
 		}
 		return instance;
 	}
