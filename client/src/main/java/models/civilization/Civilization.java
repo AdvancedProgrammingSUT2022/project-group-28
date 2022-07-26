@@ -1,5 +1,6 @@
 package models.civilization;
 
+import models.Trade;
 import models.User;
 import models.civilization.enums.TechnologyTemplate;
 import models.civilization.enums.CivilizationNames;
@@ -17,6 +18,8 @@ public class Civilization {
     private CivilizationNames civilizationNames;
 
     private ArrayList<Civilization> inWars = new ArrayList<>();
+
+    private ArrayList<Trade> trades = new ArrayList<>();
 
     private City currentCapital;
 
@@ -184,5 +187,11 @@ public class Civilization {
         this.cities.remove(city);
     }
 
-    public void addGameNotification(GameNotification gameNotification) { this.gameNotifications.add(gameNotification); }
+    public void addGameNotification(GameNotification gameNotification) { 
+        this.gameNotifications.add(gameNotification); 
+    }
+
+    public void addTrade(Trade trade) {
+        this.trades.add(trade);
+    }
 }

@@ -40,6 +40,7 @@ public class Hex extends Group {
     private static final HashMap<ImprovementTemplate, Image> improvementImages = new HashMap<>();
     private static final HashMap<ImprovementTemplate, Image> projectImages= new HashMap<>();
     private static final HashMap<ResourceTemplate, ImagePattern> resourceImages = new HashMap<>();
+    
     private static final Image fog = new Image(App.class.getResource("../assets/image/terrain/fog.png").toExternalForm());
 
     private TileInfo tileInfo = new TileInfo();
@@ -95,18 +96,18 @@ public class Hex extends Group {
         setPolygonPoints(this.mainPolygon);
         updateTerrainPicture();
         this.getChildren().add(this.mainPolygon);
-
+        
         if (discoveryTurn != GameController.getGame().getTurnNumber()) {
             this.shadow = createShadow(Color.color(0,0, 0, 0.5));
             this.getChildren().add(this.shadow);
         }
-
+        
         if (tile.getCivilization() != null) {
             this.border = createBorder(5);
             this.border.setFill(tile.getCivilization().getCivilizationNames().getColor());
             this.getChildren().add(this.border);
         }
-
+        
         if (tile.getCity() != null) {
             this.border = createBorder(5);
             this.border.setFill(tile.getCity().getCivilization().getCivilizationNames().getColor());
@@ -157,7 +158,7 @@ public class Hex extends Group {
 
         this.banner = new Text(tile.getCoordinates()[0] + "," + tile.getCoordinates()[1]);
         this.getChildren().add(this.banner);
-
+        
         addRiver();
 
         if (this.tile.getCity() != null) {
@@ -166,12 +167,12 @@ public class Hex extends Group {
             this.cityBanner.setLayoutY(-100);
             this.getChildren().add(this.cityBanner);
         }
-
+        
         if (this.tile.getCivilian() != null) {
             this.civilian = new UnitIcon(this.tile.getCivilian());
             this.civilian.setLayoutX(-95);
             this.civilian.setLayoutY(0);
-
+            
             this.civilian.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
@@ -225,7 +226,7 @@ public class Hex extends Group {
             progressBar.setRotate(-90);
             this.getChildren().add(progressBar);
         }
-
+        
         if (this.tile.getImprovement() != null) {
             Image image = improvementImages.get(this.tile.getImprovement());
             ImageView improvement = new ImageView(image);
@@ -233,7 +234,7 @@ public class Hex extends Group {
             improvement.setLayoutY(35);
             this.getChildren().add(improvement);
         }
-
+        
         if (this.tile.getResource() != null) {
             Circle resource = new Circle(35);
             resource.setLayoutX(90);
@@ -276,7 +277,7 @@ public class Hex extends Group {
         if (mapState == GamePage.MapState.BUY_TILE && city != null) {
             if (CityController.isAvailableToBuy(city, this.tile)) {
                 Group group = new Group();
-
+                
                 group.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
@@ -293,11 +294,11 @@ public class Hex extends Group {
                 cost.setLayoutY(10);
                 cost.getStyleClass().add("tile_cost");
                 group.getChildren().add(cost);
-
+                
                 this.getChildren().add(group);
             }
         }
-
+        
         if (mapState == GamePage.MapState.CITY_ATTACK && city != null) {
             if (CombatController.isCityAttackPossible(tile)) {
                 this.shadow = createShadow(Color.color(.60, .0, .0, .5));
@@ -306,7 +307,7 @@ public class Hex extends Group {
                     @Override
                     public void handle(MouseEvent event) {
                         if(!event.getButton().equals(MouseButton.PRIMARY))
-                            return;
+                        return;
                         
                         GameMediator.getInstance().cityAttack(Hex.this.tile);
                         GamePage.getInstance().updateGamePage();
@@ -314,7 +315,7 @@ public class Hex extends Group {
                 });
             }
         }
-
+        
         if (mapState == GamePage.MapState.UNIT_SELECTED && unit != null) {
             if (UnitController.isTileAccessible(this.tile,unit)) {
 
@@ -331,7 +332,7 @@ public class Hex extends Group {
                     }
                 });
             }
-
+            
             if (UnitController.isTileAttackable(this.tile,unit)) {
 
                 this.shadow = createShadow(Color.color(.60, .0, .0, .5));
@@ -340,15 +341,15 @@ public class Hex extends Group {
                     @Override
                     public void handle(MouseEvent event) {
                         if(!event.getButton().equals(MouseButton.PRIMARY))
-                            return;
-
+                        return;
+                        
                         GameMediator.getInstance().attack(unit, Hex.this.tile);
                         GamePage.getInstance().updateGamePage();
                     }
                 });
             }
         }
-
+        
     }
 
     public Hex(Double x, Double y,int i,int j) {
@@ -369,7 +370,7 @@ public class Hex extends Group {
 
     private void setPolygonPoints(Polygon polygon) {
         Double[] points = new Double[12];
-
+        
         for (int i = 0; i < 6; i++) {
             points[i * 2] = -Math.sin(Math.PI/3 * i) * this.RADIUS;
             points[i * 2 + 1] = Math.cos(Math.PI/3 * i) * this.RADIUS;
@@ -387,7 +388,7 @@ public class Hex extends Group {
         }
 
         shadow.getPoints().addAll(points);
-
+        
         shadow.setFill(color);
 
         return shadow;
@@ -396,10 +397,10 @@ public class Hex extends Group {
     private Shape createBorder(int width) {
         Polygon out = new Polygon();
         Polygon in = new Polygon();
-
+        
         Double[] outPoints = new Double[12];
         Double[] inPoints = new Double[12];
-
+        
         for (int i = 0; i < 6; i++) {
             outPoints[i * 2] = -Math.sin(Math.PI/3 * i) * (this.RADIUS - 1);
             outPoints[i * 2 + 1] = Math.cos(Math.PI/3 * i) * (this.RADIUS - 1);
@@ -412,7 +413,7 @@ public class Hex extends Group {
 
         return Shape.subtract(out, in);
     }
-
+    
     private void addRiver() {
         if (this.tile.getRivers().contains(Direction.LEFT)) {
             Rectangle river = new Rectangle(15, 150);
@@ -440,7 +441,7 @@ public class Hex extends Group {
             this.getChildren().add(river);
         }
     }
-
+    
     private void updateTerrainPicture() {
         if(this.tile == null){
             this.mainPolygon.setFill(new ImagePattern(fog));
@@ -454,15 +455,15 @@ public class Hex extends Group {
     public UnitIcon getCivilian() {
         return civilian;
     }
-
+    
     public UnitIcon getMilitary() {
         return military;
     }
-
+    
     public void setCivilian(UnitIcon civilian) {
         this.civilian = civilian;
     }
-
+    
     public void setMilitary(UnitIcon military) {
         this.military = military;
     }
@@ -470,4 +471,9 @@ public class Hex extends Group {
     public Tile getTile() {
         return tile;
     }
+
+    public static HashMap<ResourceTemplate, ImagePattern> getResourceimages() {
+        return resourceImages;
+    }
+    
 }

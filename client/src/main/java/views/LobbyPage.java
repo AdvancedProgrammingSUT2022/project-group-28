@@ -168,7 +168,6 @@ public class LobbyPage extends PageController{
             OnlineGame onlineGame = OnlineGame.fromXML(serverResponse.getData().get(0));
 
             ArrayList<User> players = (ArrayList<User>) onlineGame.getOtherPlayers().clone();
-            players.add(onlineGame.getAdmin());
 
             // TODO: set random seed
 
@@ -291,6 +290,11 @@ public class LobbyPage extends PageController{
 
         this.gamesContainer.getChildren().clear();
         for (WaitingGame waitingGame : waitingGames) {
+            if (waitingGame.getOtherPlayers().size() == 4 && waitingGame.getAdmin().getId() == App.getCurrentUser().getId()) {
+                startGame();
+                return;
+            }
+            
             VBox vBox = new VBox(10);
             vBox.setAlignment(Pos.CENTER);
             vBox.getStyleClass().add("game_box");

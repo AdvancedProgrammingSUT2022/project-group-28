@@ -36,13 +36,6 @@ public class CityBanner extends HBox {
         }
     }
 
-
-    // a banner includes: - name
-    //                    - capital start
-    //                    - civilization color
-    //                    - current construction and progress bar on click assign new or change
-    //                    - population and growth bar
-    //                    - onClick open 3 menus 1. buy tile 2. buy unit and building 3. assign citizens
     private final City city;
     public CityBanner(City city) {
         super(-10);
@@ -83,9 +76,7 @@ public class CityBanner extends HBox {
         cityName.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if (GameController.getGame().getCurrentPlayer().equals(CityBanner.this.city.getCivilization())) {
-                    GameMediator.getInstance().openCityMenu(CityBanner.this.city);
-                }
+                GameMediator.getInstance().openCityMenu(CityBanner.this.city);
             }
         });
         nameBox.getChildren().add(cityName);

@@ -8,20 +8,27 @@ import java.util.ArrayList;
 public class OnlineGame {
     private static ArrayList<OnlineGame> onlineGames = new ArrayList<>();
 
-    private final User admin;
+    private String lastGameUpdate;
+//    private final User admin;
     private final ArrayList<User> otherPlayers;
 
     public OnlineGame(User admin, ArrayList<User> otherPlayers) {
-        this.admin = admin;
+//        this.admin = admin;
         this.otherPlayers = otherPlayers;
     }
+
+    public OnlineGame(ArrayList<User> players) {
+        this.otherPlayers = players;
+    }
+
 
 
     public static ArrayList<OnlineGame> getOnlineGames() { return onlineGames; }
 
+    public String getLastGameUpdate() { return lastGameUpdate; }
+
     public static OnlineGame getOnlineGameByUserID(int ID) {
         for (OnlineGame onlineGame : onlineGames) {
-            if (onlineGame.getAdmin().getId() == ID) return onlineGame;
             for (User player : onlineGame.getOtherPlayers()) {
                 if (player.getId() == ID) return onlineGame;
             }
@@ -41,9 +48,7 @@ public class OnlineGame {
         return xStream.toXML(this);
     }
 
-
-
-    public User getAdmin() { return admin; }
-
     public ArrayList<User> getOtherPlayers() { return otherPlayers; }
+
+    public void setLastGameUpdate(String lastGameUpdate) { this.lastGameUpdate = lastGameUpdate; }
 }
