@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            XMLHandler.importDataOfUser();
+            XMLHandler.importDataFromDatabase();
             NetworkController.getInstance().initializeServer(SERVER_PORT);
             NetworkController.getInstance().listenForClients();
 

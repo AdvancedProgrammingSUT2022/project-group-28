@@ -41,7 +41,6 @@ public class User {
     private transient DataOutputStream updateOutputStream;
 
     static {
-        XMLHandler.importDataOfUser();
         if (allUsers.size() == 0){
             lastId = -1;
         }
@@ -211,6 +210,18 @@ public class User {
     public void setLastWin(LocalDate lastWin) { this.lastWin = lastWin; }
 
     public void setOnline(boolean online) { this.online = online; }
+
+    public void setFriends(ArrayList<User> friends) {
+        this.friends = friends;
+    }
+
+    public void setFriendshipRequests(ArrayList<FriendshipRequest> friendshipRequests) {
+        this.friendshipRequests = friendshipRequests;
+    }
+
+    public void setChats(ArrayList<Chat> chats) {
+        this.chats = chats;
+    }
 
     public void setUpdateSocket(Socket updateSocket) { this.updateSocket = updateSocket; }
 
