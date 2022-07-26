@@ -4,11 +4,9 @@ import controllers.GameController;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -16,7 +14,6 @@ import models.civilization.Civilization;
 
 import java.util.ArrayList;
 
-import static javafx.scene.paint.Color.rgb;
 
 public class DemographicPanelPage extends PageController {
     @FXML
@@ -32,7 +29,7 @@ public class DemographicPanelPage extends PageController {
     }
 
     public HBox createDemographicItem(Civilization civilization){
-        HBox demographicItem = new HBox(25);
+        HBox demographicItem = new HBox(20);
         demographicItem.setAlignment(Pos.CENTER_LEFT);
         demographicItem.getStyleClass().add("demographicItem");
 

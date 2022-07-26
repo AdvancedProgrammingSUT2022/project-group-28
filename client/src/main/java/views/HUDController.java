@@ -7,8 +7,12 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -50,6 +54,7 @@ public class HUDController {
         createUnitInfo(HUD);
         createCurrentTechnologyPanel(HUD);
         createSaveButton(HUD);
+        createDiplomacyIcon(HUD);
     }
 
     public void addMessage(String message, MessageBox.Type type) {
@@ -160,6 +165,19 @@ public class HUDController {
     private void createCurrentTechnologyPanel(Group HUD) {
         currentTechnologyInfo = new CurrentTechnologyInfo();
         HUD.getChildren().add(currentTechnologyInfo);
+    }
+
+    private void createDiplomacyIcon(Group HUD){
+        ImageView icon = new ImageView(new Image(App.class.getResource("../assets/image/diplomacy_icon.png").toExternalForm()));
+        icon.setLayoutX(1485);
+        icon.setLayoutY(31);
+        icon.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                GameMediator.getInstance().openDiplomacyPanel();
+            }
+        });
+        HUD.getChildren().add(icon);
     }
 
     private void createSaveButton(Group HUD) {
