@@ -168,7 +168,6 @@ public class LobbyPage extends PageController{
             OnlineGame onlineGame = OnlineGame.fromXML(serverResponse.getData().get(0));
 
             ArrayList<User> players = (ArrayList<User>) onlineGame.getOtherPlayers().clone();
-            players.add(onlineGame.getAdmin());
 
             // TODO: set random seed
 

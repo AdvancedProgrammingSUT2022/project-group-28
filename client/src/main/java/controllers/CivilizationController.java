@@ -7,9 +7,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import controllers.units.UnitController;
+import models.User;
 import models.civilization.City;
 import models.civilization.Civilization;
 import models.civilization.enums.BuildingTemplate;
+import models.network.ClientRequest;
+import models.network.ServerResponse;
 import models.tiles.Tile;
 import models.tiles.enums.*;
 import models.units.Civilian;
@@ -261,6 +264,10 @@ public class CivilizationController extends GameController {
         //TODO: remove lost civilization units?
         ArrayList<Civilization> civilizations = game.getCivilizations();
 
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.GET_ALL_USERS, new ArrayList<>());
+        ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
+        ArrayList<User> users = User.usersFromXML(serverResponse.getData().get(0));
+
         ArrayList<Civilization> lostCivilizations = new ArrayList<>();
         for (Civilization civilization : civilizations) {
             if (civilization.getCities().size() == 0) {
@@ -275,9 +282,34 @@ public class CivilizationController extends GameController {
                     lostCivilizations.add(civilization);
                 }
             }
+
+            for (User user : users) {
+                if (civilization.getUser().getId() == user.getId() && !user.isOnline() && !lostCivilizations.contains(civilization)) {
+                    lostCivilizations.add(civilization);
+                }
+            }
         }
+
+        ArrayList<User> lostUsers = new ArrayList<>();
+
+        for (User lostUser : lostUsers) {
+            System.out.println(lostUser.getNickname());
+        }
+
+        for (Civilization lostCivilization : lostCivilizations) {
+            lostUsers.add(lostCivilization.getUser());
+        }
+
         for (Civilization civilization : lostCivilizations) {
             civilizations.remove(civilization);
         }
+
+        ArrayList<String> data = new ArrayList<>();
+        data.add(User.usersToXML(lostUsers));
+
+        ClientRequest notifyLostUsers = new ClientRequest(ClientRequest.Request.NOTIFY_LOST_USERS, data,
+                                        NetworkController.getInstance().getUserToken());
+
+        NetworkController.getInstance().sendRequest(notifyLostUsers);
     }
 }

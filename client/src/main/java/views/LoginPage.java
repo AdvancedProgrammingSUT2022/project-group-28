@@ -1,11 +1,14 @@
 package views;
 
+import controllers.GameController;
+import controllers.GameMenuController;
 import controllers.NetworkController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import models.Game;
 import models.network.ClientRequest;
 import models.network.ServerResponse;
 import models.User;
@@ -45,6 +48,20 @@ public class LoginPage extends PageController {
             App.setCurrentUser(User.fromXML(serverResponse.getData().get(1)));
 
             App.setRoot("mainPage");
+        } else if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS_IN_GAME) {
+            NetworkController.getInstance().setUserToken(serverResponse.getData().get(0));
+
+            try {
+                NetworkController.getInstance().startUpdateListener(NetworkController.getInstance().getIPAddress(), 8000);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            App.setCurrentUser(User.fromXML(serverResponse.getData().get(1)));
+
+            GameMenuController.setGame(Game.decode(serverResponse.getData().get(2)));
+
+            App.setRoot("gamePage");
         } else {
             String textOfError = "username or password is incorrect.";
             error.setStyle("-fx-text-fill: #ea540a");

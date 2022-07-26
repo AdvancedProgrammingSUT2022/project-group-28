@@ -47,12 +47,19 @@ public class WaitingGame {
     }
 
     public static void leaveWaitingGame(User user) {
-        for (WaitingGame waitingGame : waitingGames) {
+        Iterator<WaitingGame> waitingGameIterator = WaitingGame.getWaitingGames().iterator();
+
+        while (waitingGameIterator.hasNext()) {
+            WaitingGame waitingGame = waitingGameIterator.next();
             if (waitingGame.getOtherPlayers().contains(user)) {
                 waitingGame.getOtherPlayers().remove(user);
             }
             if (waitingGame.getWaitingForAccept().contains(user)) {
                 waitingGame.getWaitingForAccept().remove(user);
+            }
+
+            if (user.equals(waitingGame.admin)) {
+                waitingGameIterator.remove();
             }
         }
     }

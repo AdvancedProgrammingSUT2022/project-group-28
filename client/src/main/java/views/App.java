@@ -45,6 +45,11 @@ public class App extends Application{
             public void handle(WindowEvent we) {
                 GsonHandler.exportDataOfUser(User.getAllUsers());
 
+                ClientRequest leaveGameRequest = new ClientRequest(ClientRequest.Request.LEAVE_GAME, new ArrayList<>(),
+                                                NetworkController.getInstance().getUserToken());
+                NetworkController.getInstance().sendRequest(leaveGameRequest);
+
+
                 NetworkController.getInstance().logout();
 
                 System.exit(0);

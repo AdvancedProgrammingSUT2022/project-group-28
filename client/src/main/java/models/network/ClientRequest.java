@@ -23,6 +23,7 @@ public class ClientRequest {
         ATTEND_GAME,
         LEAVE_GAME,
         INVITE_GAME,
+        NOTIFY_LOST_USERS,
         ACCEPT_ATTEND_GAME,
         REJECT_ATTEND_GAME,
         ACCEPT_INVITE_GAME,
