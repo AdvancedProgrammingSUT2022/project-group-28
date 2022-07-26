@@ -200,4 +200,8 @@ public class Game {
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
+
+    public ArrayList<Trade> getTrades() {
+        return trades;
+    }
 }

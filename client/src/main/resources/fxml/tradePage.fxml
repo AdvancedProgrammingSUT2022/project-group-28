@@ -7,13 +7,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="modal" stylesheets="@../css/modal.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.TradePage">
    <children>
       <ComboBox fx:id="tradeCombo" layoutX="68.0" layoutY="120.0" prefWidth="150.0" />
-      <TextField fx:id="tradeNumber" layoutX="176.0" layoutY="188.0" prefHeight="25.0" prefWidth="34.0" />
+      <TextField fx:id="tradeNumber" layoutX="176.0" layoutY="188.0" prefHeight="25.0" prefWidth="50.0" />
       <ComboBox fx:id="withCombo" layoutX="358.0" layoutY="120.0" prefWidth="150.0" />
-      <TextField fx:id="withNumber" layoutX="466.0" layoutY="188.0" prefHeight="25.0" prefWidth="34.0" />
+      <TextField fx:id="withNumber" layoutX="466.0" layoutY="188.0" prefHeight="25.0" prefWidth="50.0" />
       <Label layoutX="65.0" layoutY="70.0" text="Trade">
          <font>
             <Font size="27.0" />
