@@ -226,6 +226,8 @@ public class UnitInfo extends Group {
 
             this.movePoint.setText("");
 
+            this.state.setText("");
+
             this.actions.getChildren().clear();
         }
     }
