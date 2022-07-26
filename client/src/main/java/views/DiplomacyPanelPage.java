@@ -43,23 +43,23 @@ public class DiplomacyPanelPage extends PageController {
         icon.setFill(new ImagePattern(civilization.getUser().getAvatar()));
         diplomacyItem.getChildren().add(icon);
 
-        Text name = new Text("name  |  " + civilization.getCivilizationNames().getName());
+        Text name = new Text(civilization.getUser().getNickname() + "  |  " + civilization.getCivilizationNames().getName());
         name.getStyleClass().add("civilization_name");
         diplomacyItem.getChildren().add(name);
 
-        Text capitalName = new Text("capital name  |  " + civilization.getCurrentCapital().getNAME());
-        capitalName.getStyleClass().add("capital_name");
-        diplomacyItem.getChildren().add(capitalName);
+        if (civilization.getCurrentCapital() != null) {
+            Text capitalName = new Text("capital name  |  " + civilization.getCurrentCapital().getNAME());
+            capitalName.getStyleClass().add("capital_name");
+            diplomacyItem.getChildren().add(capitalName);
+        }
 
         Button trade = new Button("Trade");
         trade.getStyleClass().add("trade_button");
         diplomacyItem.getChildren().add(trade);
 
-
         Button sendMessage = new Button("send message");
         sendMessage.getStyleClass().add("send_message_button");
         diplomacyItem.getChildren().add(sendMessage);
-
 
         return diplomacyItem;
     }

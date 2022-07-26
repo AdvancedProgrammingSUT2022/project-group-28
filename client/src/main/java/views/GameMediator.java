@@ -281,7 +281,7 @@ public class GameMediator {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.TRANSPARENT);
-        stage.initOwner(GamePage.getInstance().getGameContent().getParent().getScene().getWindow());
+        stage.initOwner(App.currentScene.getWindow());
         stage.setX(610);
         stage.setY(150);
         Scene scene;
