@@ -29,6 +29,7 @@ public class ClientRequest {
         ACCEPT_FRIENDSHIP,
         REJECT_FRIENDSHIP,
         REQUEST_FRIENDSHIP,
+        SEND_IN_GAME_MESSAGE,
         GET_USER_INFO,
         GET_WAITING_GAMES,
         START_LISTEN,

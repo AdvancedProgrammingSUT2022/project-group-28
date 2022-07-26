@@ -1,6 +1,8 @@
 package views;
 
 import controllers.GameController;
+import controllers.NetworkController;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -12,6 +14,9 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import models.civilization.Civilization;
+import models.network.ClientRequest;
+import models.network.ServerResponse;
+import views.components.MessageBox;
 
 import java.util.ArrayList;
 
@@ -28,7 +33,7 @@ public class DiplomacyPanelPage extends PageController {
     public void initialize() {
         ArrayList<Civilization> civilizations = GameController.getGame().getCivilizations();
         for (Civilization civilization : civilizations) {
-            if (!civilization.equals(GameController.getGame().getCurrentPlayer())) {
+            if (civilization.getUser().getId() != App.getCurrentUser().getId()) {
                 diplomacyPanelContainer.getChildren().add(createDiplomacyItem(civilization));
             }
         }
@@ -59,10 +64,22 @@ public class DiplomacyPanelPage extends PageController {
 
         Button sendMessage = new Button("send message");
         sendMessage.getStyleClass().add("send_message_button");
+        sendMessage.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                sendMessage(civilization.getUser().getNickname());
+            }
+        });
         diplomacyItem.getChildren().add(sendMessage);
 
         return diplomacyItem;
     }
+
+    private void sendMessage(String receiverNickname) {
+        NetworkController.getInstance().sendInGameMessage(messageField.getText(), receiverNickname, MessageBox.Type.INFO);
+        messageField.setText("");
+    }
+
 
     public void back(MouseEvent mouseEvent) {
         this.onExit();

@@ -99,6 +99,8 @@ public class SocketHandler extends Thread {
                 return handleEditMessage(clientRequest);
             case REMOVE_MESSAGE:
                 return handleRemoveMessage(clientRequest);
+            case SEND_IN_GAME_MESSAGE:
+                return handleSendInGameMessage(clientRequest);
             case LOGOUT:
                 return handleLogout(clientRequest);
             default:
@@ -711,8 +713,9 @@ public class SocketHandler extends Thread {
         String message = clientRequest.getData().get(1);
 
         ArrayList<String> updateData = new ArrayList<>();
-        updateData.add(user.getNickname());
+        updateData.add(receiver.getNickname());
         updateData.add(message);
+        updateData.add(clientRequest.getData().get(2));
 
         ServerUpdate serverUpdate = new ServerUpdate(ServerUpdate.Update.IN_GAME_MESSAGE, updateData);
         try {
