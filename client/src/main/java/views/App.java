@@ -44,6 +44,10 @@ public class App extends Application{
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
                 GsonHandler.exportDataOfUser(User.getAllUsers());
+
+                NetworkController.getInstance().logout();
+
+                System.exit(0);
             }
         });
         currentScene.getRoot().requestFocus();

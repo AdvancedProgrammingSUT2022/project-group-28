@@ -8,7 +8,7 @@ import views.App;
 import views.AttendGameRequestPage;
 
 import views.GameMediator;
-import views.GamePage;
+import views.InviteGameRequestPage;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -41,8 +41,10 @@ public class UpdateHandler extends Thread {
                 break;
             case SET_INITIAL_GAME:
                 handleSetInitialGame(serverUpdate);
-            case UPDATE_GAME:
-                handleUpdateGame(serverUpdate);
+                break;
+            case INVITE_GAME_REQUEST:
+                handleInviteGameRequest(serverUpdate);
+                break;
             default:
                 break;
         }
@@ -70,13 +72,14 @@ public class UpdateHandler extends Thread {
         });
     }
 
-    private void handleUpdateGame(ServerUpdate serverUpdate) {
-        Game game = Game.decode(serverUpdate.getData().get(0));
-        GameMenuController.setGame(game);
+    private void handleInviteGameRequest(ServerUpdate serverUpdate) {
+        InviteGameRequestPage.setSender(User.fromXML(serverUpdate.getData().get(0)));
 
         Platform.runLater(new Runnable() {
             @Override
-            public void run() { GamePage.getInstance().updateGamePage();}
+            public void run() {
+                GameMediator.getInstance().openInviteGameRequestPage();
+            }
         });
     }
 }

@@ -13,6 +13,7 @@ public enum CivilizationNotification implements NotificationTemplate {
     POPULATION_LOSS("Population loss", "Populations of @@ has been decreased."),
     COMPLETION_OF_STUDY("Technology studied", "The study of @@ completed.\n@@"), // second is the unlocked stuff
     COMPLETION_OF_CONSTRUCTION("Construction end", "@@ has been constructed in @@."),
+    GAME_ENDED("Game ended", "@@ won the game."),
     SUCCESS("Success", "Task was successful");
     private String title;
     private String content;

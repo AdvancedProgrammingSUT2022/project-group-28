@@ -21,11 +21,26 @@ import models.network.ClientRequest;
 import models.network.ServerResponse;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ChatPage extends PageController {
-    Chat currentChat = null;
 
-    Thread pageUpdater;
+    private static final ImagePattern editPattern = new ImagePattern(new Image(App.class.getResource("../assets/image/" +
+            "ui_icon/edit.png").toExternalForm()));
+    private static final ImagePattern deletePattern = new ImagePattern(new Image(App.class.getResource("../assets/image/" +
+                    "ui_icon/red_cross.png").toExternalForm()));
+
+    private Chat currentChat = null;
+    private int toEditMessageIndex = 0;
+
+    private Thread pageUpdater;
+
+    private enum SendMode {
+        EDIT,
+        SEND
+    }
+
+    private SendMode sendMode = SendMode.SEND;
 
     @FXML
     private VBox availableChats;
@@ -40,7 +55,7 @@ public class ChatPage extends PageController {
 
     @FXML
     private void initialize() {
-        sendButton.setFill(new ImagePattern(new Image(App.class.getResource("../assets/image/send.png").toExternalForm())));
+        sendButton.setFill(new ImagePattern(new Image(App.class.getResource("../assets/image/ui_icon/send.png").toExternalForm())));
 
         App.updateUserInfo();
         createPageUpdater();
@@ -107,6 +122,8 @@ public class ChatPage extends PageController {
                 chatContent.getChildren().clear();
                 currentChat = Chat.fromXML(serverResponse.getData().get(0));
 
+                Integer messageIndex = 0;
+                        Date dsf = new Date();
                 for (ChatMessage chatMessage : currentChat.getChatMessages()) {
                     HBox hBox = new HBox();
                     hBox.setPrefWidth(1100);
@@ -129,6 +146,29 @@ public class ChatPage extends PageController {
                         messageBox.setAlignment(Pos.CENTER_LEFT);
                         messageBox.getChildren().add(avatar);
                         messageBox.getChildren().add(message);
+
+                        Integer newMessageIndex = new Integer(messageIndex);
+
+                        Rectangle edit = new Rectangle(20, 20);
+                        edit.setFill(editPattern);
+                        edit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent event) {
+                                editMessage(newMessageIndex);
+                            }
+                        });
+                        messageBox.getChildren().add(edit);
+
+                        Rectangle delete = new Rectangle(20, 20);
+                        delete.setFill(deletePattern);
+                        delete.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent event) {
+                                deleteMessage(newMessageIndex);
+                            }
+                        });
+                        messageBox.getChildren().add(delete);
+
                     } else {
                         hBox.setAlignment(Pos.CENTER_RIGHT);
                         messageBox.setAlignment(Pos.CENTER_RIGHT);
@@ -137,6 +177,8 @@ public class ChatPage extends PageController {
                     }
                     hBox.getChildren().add(messageBox);
                     chatContent.getChildren().add(hBox);
+
+                    messageIndex++;
                 }
             }
         } else chatContent.getChildren().clear();
@@ -149,23 +191,64 @@ public class ChatPage extends PageController {
             if (currentChat.getUser1().getId() != App.getCurrentUser().getId()) friendID = currentChat.getUser1().getId();
             else friendID = currentChat.getUser2().getId();
 
+            ArrayList<String> data = new ArrayList<>();
+
+            data.add(String.valueOf(friendID));
             String message = messageField.getText();
             if (message.length() == 0) return;
 
-            ArrayList<String> data = new ArrayList<>();
-            data.add(String.valueOf(friendID));
-            data.add(message);
+            if (sendMode == SendMode.SEND) {
+                data.add(message);
+                ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.SEND_MESSAGE, data,
+                                            NetworkController.getInstance().getUserToken());
 
+                ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
 
+                if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS) {
+                    createChatMessagesBox();
+                }
+            } else {
+                data.add(String.valueOf(toEditMessageIndex));
+                data.add(message);
+                ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.EDIT_MESSAGE, data,
+                                            NetworkController.getInstance().getUserToken());
 
-            ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.SEND_MESSAGE, data,
-                                        NetworkController.getInstance().getUserToken());
+                ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
+                if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS) {
+                    createChatMessagesBox();
+                }
 
-            ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
-
-            if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS) {
-                createChatMessagesBox();
+                sendMode = SendMode.SEND;
             }
+            messageField.setText("");
+        }
+    }
+
+    private void editMessage(Integer messageIndex) {
+        String oldMessage = currentChat.getChatMessages().get(messageIndex).getMessage();
+
+        messageField.setText(oldMessage);
+        sendMode = SendMode.EDIT;
+
+        toEditMessageIndex = messageIndex;
+    }
+
+    private void deleteMessage(int messageIndex) {
+        ArrayList<String> data = new ArrayList<>();
+
+        int friendID;
+        if (currentChat.getUser1().getId() != App.getCurrentUser().getId()) friendID = currentChat.getUser1().getId();
+        else friendID = currentChat.getUser2().getId();
+
+        data.add(String.valueOf(friendID));
+        data.add(String.valueOf(messageIndex));
+
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.REMOVE_MESSAGE, data,
+                                    NetworkController.getInstance().getUserToken());
+
+        ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
+        if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS) {
+            createChatMessagesBox();
         }
     }
 

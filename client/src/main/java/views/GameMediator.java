@@ -176,8 +176,9 @@ public class GameMediator {
             GamePage.getInstance().setOffsetJ(0);
         } else if (notification == CivilizationNotification.NO_TECHNOLOGY) {
             HUDController.getInstance().addMessage("You have to study a technology", MessageBox.Type.ALERT);
+        }  else if (notification == CivilizationNotification.GAME_ENDED) {
+            HUDController.getInstance().addMessage(gameNotification.toString(), MessageBox.Type.ALERT);
         } else {
-            System.out.println("done");
             // TODO: notify server
             GameMenuController.startNewTurn();
 
@@ -212,7 +213,7 @@ public class GameMediator {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.TRANSPARENT);
-        stage.initOwner(GamePage.getInstance().getGameContent().getParent().getScene().getWindow());
+        stage.initOwner(App.currentScene.getWindow());
         stage.setX(170);
         stage.setY(215);
         Scene scene;
@@ -223,6 +224,21 @@ public class GameMediator {
         scene.getRoot().requestFocus();
     }
 
+    public void openMessageHistoryPage() {
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initOwner(App.currentScene.getWindow());
+        stage.setX(1300);
+        stage.setY(215);
+        Scene scene;
+        scene = new Scene(App.loadFXML("messageHistoryPage"), 388, 688);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+        scene.getRoot().requestFocus();
+
+    }
     public void openUnitsPanel(){
         // TODO: notify server
         Stage stage = new Stage();
@@ -248,7 +264,7 @@ public class GameMediator {
         stage.setX(700);
         stage.setY(150);
         Scene scene;
-        scene = new Scene(App.loadFXML("citiesPanel"), 510, 500);
+        scene = new Scene(App.loadFXML("citiesPanel"), 530, 500);
         scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
         stage.show();
@@ -264,7 +280,23 @@ public class GameMediator {
         stage.setX(700);
         stage.setY(150);
         Scene scene;
-        scene = new Scene(App.loadFXML("citiesPanel"), 585, 500); // TODO: add this
+        scene = new Scene(App.loadFXML("demographicPanel"), 585, 500);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+        scene.getRoot().requestFocus();
+    }
+
+    public void openDiplomacyPanel(){
+        // TODO: notify server
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initOwner(App.currentScene.getWindow());
+        stage.setX(610);
+        stage.setY(150);
+        Scene scene;
+        scene = new Scene(App.loadFXML("diplomacyPanel"), 740, 570);
         scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
         stage.show();
@@ -317,6 +349,19 @@ public class GameMediator {
         stage.initOwner(App.currentScene.getWindow());
         Scene scene;
         scene = new Scene(App.loadFXML("attendGameRequestPage"));
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+        scene.getRoot().requestFocus();
+    }
+
+    public void openInviteGameRequestPage() {
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initOwner(App.currentScene.getWindow());
+        Scene scene;
+        scene = new Scene(App.loadFXML("inviteGameRequestPage"));
         scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
         stage.show();
