@@ -41,9 +41,11 @@ public class DemographicPanelPage extends PageController {
         name.getStyleClass().add("demographic_name");
         demographicItem.getChildren().add(name);
 
-        Text capitalName = new Text("capital name  |  "  + civilization.getCurrentCapital().getNAME());
-        capitalName.getStyleClass().add("capital_name");
-        demographicItem.getChildren().add(capitalName);
+        if (civilization.getCurrentCapital() != null) {
+            Text capitalName = new Text("capital name  |  "  + civilization.getCurrentCapital().getNAME());
+            capitalName.getStyleClass().add("capital_name");
+            demographicItem.getChildren().add(capitalName);
+        }
 
         Text happiness = new Text("hapiness  |  " + civilization.getHappiness());
         demographicItem.getChildren().add(happiness);
