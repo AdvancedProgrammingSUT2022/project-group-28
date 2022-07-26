@@ -15,6 +15,8 @@ import javafx.stage.StageStyle;
 import views.components.*;
 import views.components.console.ConsoleView;
 
+import java.util.ArrayList;
+
 public class HUDController {
     private static HUDController instance;
     public static HUDController getInstance() {
@@ -24,9 +26,12 @@ public class HUDController {
         return instance;
     }
 
+    private static ArrayList<MessageBox> messageHistory = new ArrayList<>();
+
     private Button nextTurnButton;
     private Button consoleButton;
     private Button saveButton;
+    private Button messageHistoryButton;
     private VBox messageBoxContainer;
     private ScrollPane messageScrollPane;
     private MiniMap miniMap;
@@ -36,9 +41,9 @@ public class HUDController {
     private CurrentTechnologyInfo currentTechnologyInfo;
 
     public void createHUD(Group HUD) {
-
         createNextTurnButton(HUD);
         createConsoleButton(HUD);
+        createMessageHistoryButton(HUD);
         createMessageBoxContainer(HUD);
         createMiniMap(HUD);
         createInfoBar(HUD);
@@ -48,12 +53,17 @@ public class HUDController {
     }
 
     public void addMessage(String message, MessageBox.Type type) {
-        this.messageBoxContainer.getChildren().add(0, new MessageBox(message, type));
+        MessageBox messageBox = new MessageBox(message, type);
+        this.messageBoxContainer.getChildren().add(0, messageBox);
+
+        messageHistory.add(0,messageBox);
     }
 
     public MessageBox addMessage(String message, MessageBox.Type type, String firstChoice, String secondChoice) {
         MessageBox messageBox = new MessageBox(message, type, firstChoice, secondChoice);
         this.messageBoxContainer.getChildren().add(messageBox);
+
+        messageHistory.add(0,messageBox);
         return messageBox;
     }
 
@@ -95,6 +105,19 @@ public class HUDController {
                 stage.show();     
             }
         });
+    }
+
+    private void createMessageHistoryButton(Group HUD) {
+        messageHistoryButton = new Button("Message History");
+        messageHistoryButton.setLayoutX(50);
+        messageHistoryButton.setLayoutY(200);
+        messageHistoryButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                GameMediator.getInstance().openMessageHistoryPage();
+            }
+        });
+        HUD.getChildren().add(messageHistoryButton);
     }
 
     private void createMessageBoxContainer(Group HUD) {
@@ -155,6 +178,8 @@ public class HUDController {
             stage.show();    
         });
     }
+
+    public static ArrayList<MessageBox> getMessageHistory() { return messageHistory; }
 
     public UnitInfo getUnitInfo() {
         return unitInfo;
