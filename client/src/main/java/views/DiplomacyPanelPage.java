@@ -18,8 +18,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.civilization.Civilization;
-import models.network.ClientRequest;
-import models.network.ServerResponse;
 import views.components.MessageBox;
 
 import java.util.ArrayList;
@@ -98,7 +96,7 @@ public class DiplomacyPanelPage extends PageController {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initOwner(backButton.getScene().getWindow());
-        TradePage.setTarget(civilization);
+        TradePage.setSeller(civilization);
         Scene scene =  new Scene(App.loadFXML("tradePage"));
         stage.setScene(scene);
         stage.show();

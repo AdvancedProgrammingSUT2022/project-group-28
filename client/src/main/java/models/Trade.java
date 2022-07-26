@@ -9,6 +9,8 @@ public class Trade {
     private final ResourceTemplate customerResource;
     private final int customerCount;
     private final ResourceTemplate sellerResource;
+    private Boolean result;
+    
     
     private final int sellerCount;
     public Trade(Civilization customer, Civilization seller,
@@ -21,7 +23,7 @@ public class Trade {
         this.customerCount = customerCount;
         this.sellerCount = sellerCount;
     }
-
+    
     public Civilization getCustomer() { return customer; }
     
     public Civilization getSeller() { return seller; }
@@ -31,8 +33,16 @@ public class Trade {
     public int getCustomerCount() { return customerCount; }
     
     public int getSellerCount() { return sellerCount; }
-
+    
     public ResourceTemplate getSellerResource() {
         return sellerResource;
+    }
+    
+    public boolean isResult() {
+        return result;
+    }
+    
+    public void setResult(boolean result) {
+        this.result = result;
     }
 }

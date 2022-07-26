@@ -23,12 +23,12 @@ public class TradePage extends PageController{
     @FXML
     private TextField tradeNumber,withNumber;
 
-    private static Civilization customer;
+    private static Civilization seller;
 
-    private Civilization seller;
+    private Civilization customer;
 
     public void initialize() {
-        seller = GameController.getGame().getCurrentPlayer();
+        customer = GameController.getGame().getCurrentPlayer();
         ObservableList<String> sellerOptions = FXCollections.observableArrayList();
         ObservableList<String> customerOptions = FXCollections.observableArrayList();
 
@@ -46,12 +46,12 @@ public class TradePage extends PageController{
         sellerOptions.add("Coin: " + seller.getGold());
         customerOptions.add("Coin: " + customer.getGold());
 
-        tradeCombo.setItems(sellerOptions);
-        withCombo.setItems(customerOptions);
+        tradeCombo.setItems(customerOptions);
+        withCombo.setItems(sellerOptions);
     }
 
-    public static void setTarget(Civilization targetCivilization) {
-        customer = targetCivilization;
+    public static void setSeller(Civilization targetCivilization) {
+        seller = targetCivilization;
     }
 
     @FXML
@@ -75,18 +75,85 @@ public class TradePage extends PageController{
             errorLabel.setText("Please enter a valid number");
             return;
         }
-        if (customerCount < 0 || sellerCount < 0){
+        if (customerCount <= 0 || sellerCount <= 0){
             errorLabel.setText("Please enter a valid number");
             return;
         }
-        if(tradeCombo.getValue().equals("Coin:" + customer.getGold())){
+        if (tradeCombo.getValue() == null || withCombo.getValue() == null){
+            errorLabel.setText("Please select a resource to trade");
+            return;
+        }
+        if (tradeCombo.getValue().split(":")[0].equals(withCombo.getValue().split(":")[0])){
+            errorLabel.setText("Please select different resources");
+            return;
+        }
+        if(tradeCombo.getValue().startsWith("Coin:")){
             if(customerCount > customer.getGold()){
                 errorLabel.setText("You do not have enough resource");
                 return;
             }
-            Trade trade = new Trade(customer,seller, null, null,customerCount, sellerCount);
-            GameController.getGame().getTrades().add(trade);
+            if (withCombo.getValue().startsWith("Coin:")){
+                if (sellerCount > seller.getGold()){
+                    errorLabel.setText("Seller do not have enough resource");
+                    return;
+                }
+                Trade trade = new Trade(customer,seller, null, null,customerCount, sellerCount);
+                GameController.getGame().getTrades().add(trade);
+                errorLabel.setText("Request sent");
+                return;
+            }
+            else{
+                ResourceTemplate resource = getResources(withCombo.getValue());
+                if(seller.getResources().get(resource) < sellerCount){
+                    errorLabel.setText("Seller do not have enough resource");
+                    return;
+                }
+                Trade trade = new Trade(customer,seller, null, resource,customerCount, sellerCount);
+                GameController.getGame().getTrades().add(trade);
+                errorLabel.setText("Request sent");
+                return;
+            }
+        }
+        for (ResourceTemplate resourceTemplate : ResourceTemplate.values()) {
+            if (tradeCombo.getValue().startsWith(resourceTemplate.getName())) {
+                if (customerCount > customer.getResources().get(resourceTemplate)) {
+                    errorLabel.setText("You do not have enough resource");
+                    return;
+                }
+                if (withCombo.getValue().startsWith("Coin:")){
+                    if (sellerCount > seller.getGold()){
+                        errorLabel.setText("Seller do not have enough resource");
+                        return;
+                    }
+                    Trade trade = new Trade(customer,seller, resourceTemplate, null,customerCount, sellerCount);
+                    GameController.getGame().getTrades().add(trade);
+                    errorLabel.setText("Request sent");
+                    return;
+                } else{
+                    ResourceTemplate resource = getResources(withCombo.getValue());
+                    if(seller.getResources().get(resource) < sellerCount){
+                        errorLabel.setText("Seller do not have enough resource");
+                        return;
+                    }
+                    Trade trade = new Trade(customer,seller, resourceTemplate, resource,customerCount, sellerCount);
+                    GameController.getGame().getTrades().add(trade);
+                    errorLabel.setText("Request sent");
+                    return;
+                }
+
+            }
+            
         }
         
+        
+    }
+
+    private ResourceTemplate getResources(String option){
+        for (ResourceTemplate resourceTemplate : ResourceTemplate.values()) {
+            if (tradeCombo.getValue().startsWith(resourceTemplate.getName())) {
+                return resourceTemplate;
+            }
+        }
+        return null;
     }
 }
