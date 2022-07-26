@@ -5,6 +5,7 @@ import controllers.NetworkController;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -13,6 +14,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import models.civilization.Civilization;
 import models.network.ClientRequest;
 import models.network.ServerResponse;
@@ -60,6 +64,7 @@ public class DiplomacyPanelPage extends PageController {
 
         Button trade = new Button("Trade");
         trade.getStyleClass().add("trade_button");
+        trade.setOnMouseClicked(this::tradeButtonClicked);
         diplomacyItem.getChildren().add(trade);
 
         Button sendMessage = new Button("send message");
@@ -84,5 +89,16 @@ public class DiplomacyPanelPage extends PageController {
     public void back(MouseEvent mouseEvent) {
         this.onExit();
         this.backButton.getParent().getScene().getWindow().hide();
+    }
+
+    public void tradeButtonClicked(MouseEvent mouseEvent) {
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initOwner(backButton.getScene().getWindow());
+        Scene scene =  new Scene(App.loadFXML("tradesPage"));
+        stage.setScene(scene);
+        stage.show();
+
     }
 }
