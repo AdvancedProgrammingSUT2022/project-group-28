@@ -3,6 +3,7 @@ package controllers;
 import models.User;
 import models.network.ClientRequest;
 import models.network.ServerResponse;
+import views.components.MessageBox;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -75,6 +76,18 @@ public class NetworkController {
                                     NetworkController.getInstance().getUserToken());
 
         NetworkController.getInstance().sendRequest(clientRequest);
+    }
+
+    public void sendInGameMessage(String message, String receiverNickname, MessageBox.Type type) {
+        ArrayList<String> data = new ArrayList<>();
+        data.add(receiverNickname);
+        data.add(message);
+        data.add(type.toString());
+
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.SEND_IN_GAME_MESSAGE, data,
+                NetworkController.getInstance().getUserToken());
+
+        ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
     }
 
     public User getCurrentUser() { return currentUser; }

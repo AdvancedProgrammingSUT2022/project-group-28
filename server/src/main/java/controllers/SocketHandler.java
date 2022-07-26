@@ -99,6 +99,10 @@ public class SocketHandler extends Thread {
                 return handleEditMessage(clientRequest);
             case REMOVE_MESSAGE:
                 return handleRemoveMessage(clientRequest);
+            case SEND_IN_GAME_MESSAGE:
+                return handleSendInGameMessage(clientRequest);
+            case NOTIFY_LOST_USERS:
+                return handleNotifyLostUsers(clientRequest);
             case LOGOUT:
                 return handleLogout(clientRequest);
             default:
@@ -137,6 +141,12 @@ public class SocketHandler extends Thread {
             toSend.add(token);
             toSend.add(user.toXML());
 
+            OnlineGame onlineGame = OnlineGame.getOnlineGameByUserID(user.getId());
+            if (onlineGame != null) {
+                toSend.add(onlineGame.getLastGameUpdate());
+                return new ServerResponse(ServerResponse.Response.SUCCESS_IN_GAME, toSend);
+            }
+
             return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
         } else {
             return new ServerResponse(ServerResponse.Response.LOGIN_ERROR, toSend);
@@ -149,10 +159,6 @@ public class SocketHandler extends Thread {
         User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
         if (user == null) {
             return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
-        }
-
-        if (user.getUpdateSocket() != null) {
-            return new ServerResponse(ServerResponse.Response.IS_LISTENING, toSend);
         }
 
         user.setUpdateSocket(this.socket);
@@ -468,7 +474,10 @@ public class SocketHandler extends Thread {
             return new ServerResponse(ServerResponse.Response.INVALID_WAITING_GAME, toSend);
         }
 
-        OnlineGame onlineGame = new OnlineGame(admin, (ArrayList<User>) waitingGame.getOtherPlayers().clone());
+        ArrayList<User> players = (ArrayList<User>) waitingGame.getOtherPlayers().clone();
+        players.add(admin);
+
+        OnlineGame onlineGame = new OnlineGame(players);
         OnlineGame.getOnlineGames().add(onlineGame);
 
         toSend.add(onlineGame.toXML());
@@ -494,6 +503,8 @@ public class SocketHandler extends Thread {
         ArrayList<String> updateData = new ArrayList<>();
         String gameXML = clientRequest.getData().get(0);
         updateData.add(gameXML);
+
+        onlineGame.setLastGameUpdate(gameXML);
 
         for (User player : onlineGame.getOtherPlayers()) {
             try {
@@ -524,13 +535,10 @@ public class SocketHandler extends Thread {
         String gameXML = clientRequest.getData().get(0);
         updateData.add(gameXML);
 
+        onlineGame.setLastGameUpdate(gameXML);
+
         ServerUpdate serverUpdate = new ServerUpdate(ServerUpdate.Update.UPDATE_GAME, updateData);
         String updateJson = serverUpdate.toJson();
-        try {
-            onlineGame.getAdmin().getUpdateOutputStream().writeUTF(updateJson);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         for (User player : onlineGame.getOtherPlayers()) {
             try {
@@ -711,14 +719,37 @@ public class SocketHandler extends Thread {
         String message = clientRequest.getData().get(1);
 
         ArrayList<String> updateData = new ArrayList<>();
-        updateData.add(user.getNickname());
+        updateData.add(receiver.getNickname());
         updateData.add(message);
+        updateData.add(clientRequest.getData().get(2));
 
         ServerUpdate serverUpdate = new ServerUpdate(ServerUpdate.Update.IN_GAME_MESSAGE, updateData);
         try {
             receiver.getUpdateOutputStream().writeUTF(serverUpdate.toJson());
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleNotifyLostUsers(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        ArrayList<User> lostUsers = (ArrayList<User>) User.usersFromXML(clientRequest.getData().get(0));
+
+        OnlineGame onlineGame = OnlineGame.getOnlineGameByUserID(user.getId());
+
+        for (User lostUser : lostUsers) {
+            User realUser = User.getUserByUsername(lostUser.getUsername());
+            if (onlineGame.getOtherPlayers().contains(realUser)) {
+                onlineGame.getOtherPlayers().remove(realUser);
+            }
         }
 
         return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);

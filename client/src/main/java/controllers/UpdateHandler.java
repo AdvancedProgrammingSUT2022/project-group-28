@@ -4,16 +4,13 @@ import javafx.application.Platform;
 import models.Game;
 import models.User;
 import models.network.ServerUpdate;
-import views.App;
-import views.AttendGameRequestPage;
-
-import views.GameMediator;
-import views.GamePage;
-import views.InviteGameRequestPage;
+import views.*;
+import views.components.MessageBox;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.SocketException;
+import java.util.ArrayList;
 
 public class UpdateHandler extends Thread {
     private DataInputStream updateInputStream;
@@ -47,6 +44,9 @@ public class UpdateHandler extends Thread {
                 break;
             case INVITE_GAME_REQUEST:
                 handleInviteGameRequest(serverUpdate);
+                break;
+            case IN_GAME_MESSAGE:
+                handleInGameMessage(serverUpdate);
                 break;
             default:
                 break;
@@ -95,6 +95,24 @@ public class UpdateHandler extends Thread {
             @Override
             public void run() {
                 GameMediator.getInstance().openInviteGameRequestPage();
+            }
+        });
+    }
+
+    private void handleInGameMessage(ServerUpdate serverUpdate) {
+        String message = serverUpdate.getData().get(0) + " | " + serverUpdate.getData().get(1);
+
+        MessageBox.Type type;
+        if (serverUpdate.getData().get(2).equals("INFO")) {
+            type = MessageBox.Type.INFO;
+        } else if (serverUpdate.getData().get(2).equals("ALERT")) {
+            type = MessageBox.Type.ALERT;
+        } else type = MessageBox.Type.WARNING;
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                HUDController.getInstance().addMessage(message, type);
             }
         });
     }
