@@ -9,6 +9,7 @@ import controllers.units.SettlerController;
 import controllers.units.UnitController;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -17,6 +18,9 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import models.units.Unit;
 import views.App;
 import views.GameMediator;
@@ -95,11 +99,18 @@ public class UnitInfo extends Group {
                 GamePage.getInstance().updateGamePage();
             }
         },
-        INFO("Delete"){
+        INFO("Info"){
             @Override
             public void callMediator(Unit unit){
-                GameMenu.getInstance().showUnitInfo();
-                GamePage.getInstance().updateGamePage();
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.initStyle(StageStyle.TRANSPARENT);
+                stage.initOwner(GamePage.getInstance().getGameContent().getParent().getScene().getWindow());
+                Scene scene = new Scene(App.loadFXML("unitPage"));
+                scene.setFill(Color.TRANSPARENT);
+                stage.setScene(scene);
+                stage.show();
+                scene.getRoot().requestFocus();
             }
         },
         DELETE("Delete"){
@@ -134,9 +145,10 @@ public class UnitInfo extends Group {
     private Rectangle background;
     private Text name;
     private Text movePoint;
+    private Text state;
     private HBox actions;
     public UnitInfo() {
-        this.background = new Rectangle(350, 150);
+        this.background = new Rectangle(350, 170);
         this.background.setLayoutY(70);
         this.background.setFill(Color.TRANSPARENT);
         this.getChildren().add(this.background);
@@ -157,11 +169,15 @@ public class UnitInfo extends Group {
         this.movePoint.getStyleClass().add("normal_text");
         info.getChildren().add(this.movePoint);
 
+        this.state = new Text();
+        this.state.getStyleClass().add("normal_text");
+        info.getChildren().add(this.state);
+
         this.getChildren().add(info);
 
         this.actions = new HBox();
         actions.setLayoutX(40);
-        actions.setLayoutY(150);
+        actions.setLayoutY(175);
         actions.setAlignment(Pos.CENTER);
         this.getChildren().add(this.actions);
 
@@ -181,9 +197,11 @@ public class UnitInfo extends Group {
             String imageAddress = App.class.getResource("../assets/image/unit/" + unit.getUnitTemplate().getFilename() + ".png").toExternalForm();
             this.icon.setFill(new ImagePattern(new Image(imageAddress)));
 
-            this.name.setText("Move point: " + unit.getUnitTemplate().getName());
+            this.name.setText(unit.getUnitTemplate().getName());
 
-            this.movePoint.setText(String.valueOf(unit.getMovePoint()));
+            this.movePoint.setText("Move point: " + String.valueOf(unit.getMovePoint()));
+
+            this.state.setText("State: " + unit.getUnitState().toString());
 
             ArrayList<UnitAction> availableActions = UnitController.getPossibleActions(unit);
             this.actions.getChildren().clear();

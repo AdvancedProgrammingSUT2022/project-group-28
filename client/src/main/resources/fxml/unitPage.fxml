@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="views.UnitPage"
+            prefHeight="800.0" prefWidth="600.0"
+            stylesheets="@../css/city_page.css"
+            styleClass="background">
+    <center>
+        <VBox alignment="CENTER" spacing="15">
+            <VBox alignment="CENTER" fx:id="unitInfo" spacing="10">
+
+            </VBox>
+            <VBox alignment="CENTER" spacing="20">
+                <Button styleClass="back_button" fx:id="backButton" onMouseClicked="#back" text="Back"/>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>
