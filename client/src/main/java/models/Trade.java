@@ -4,12 +4,18 @@ import models.civilization.Civilization;
 import models.tiles.enums.ResourceTemplate;
 
 public class Trade {
+    public enum Result{
+        OFFER,
+        ACCEPT,
+        REJECT;
+    }
+
     private final Civilization customer;
     private final Civilization seller;
     private final ResourceTemplate customerResource;
     private final int customerCount;
     private final ResourceTemplate sellerResource;
-    private Boolean result;
+    private Result result;
     
     
     private final int sellerCount;
@@ -28,21 +34,25 @@ public class Trade {
     
     public Civilization getSeller() { return seller; }
     
-    public ResourceTemplate getCustomerResource() { return customerResource; }
+    public String getCustomerResource() { 
+        if (customerResource == null) return "Coin";
+        return customerResource.getName();
+    }
     
     public int getCustomerCount() { return customerCount; }
     
     public int getSellerCount() { return sellerCount; }
     
-    public ResourceTemplate getSellerResource() {
-        return sellerResource;
+    public String getSellerResource() {
+        if (sellerResource == null) return "Coin";
+        return sellerResource.getName();
     }
     
-    public boolean isResult() {
+    public Result getResult() {
         return result;
     }
     
-    public void setResult(boolean result) {
+    public void setResult(Result result) {
         this.result = result;
     }
 }
