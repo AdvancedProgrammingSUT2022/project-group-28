@@ -649,4 +649,40 @@ public class SocketHandler extends Thread {
 
         return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
     }
+
+    private ServerResponse handleSendInGameMessage(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        User receiver = User.getUserByNickname(clientRequest.getData().get(0));
+        if (receiver == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_NICKNAME, toSend);
+        }
+
+        // TODO: handle null pointer
+        OnlineGame userOnlineGame = OnlineGame.getOnlineGameByUserID(user.getId());
+        OnlineGame receiverOnlineGame = OnlineGame.getOnlineGameByUserID(receiver.getId());
+        if (!userOnlineGame.equals(receiverOnlineGame)) {
+            return new ServerResponse(ServerResponse.Response.NOT_IN_GAME, toSend);
+        }
+
+        String message = clientRequest.getData().get(1);
+
+        ArrayList<String> updateData = new ArrayList<>();
+        updateData.add(user.getNickname());
+        updateData.add(message);
+
+        ServerUpdate serverUpdate = new ServerUpdate(ServerUpdate.Update.IN_GAME_MESSAGE, updateData);
+        try {
+            receiver.getUpdateOutputStream().writeUTF(serverUpdate.toJson());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
 }

@@ -8,7 +8,8 @@ public class ServerUpdate {
     public enum Update {
         SET_INITIAL_GAME,
         ATTEND_GAME_REQUEST,
-        INVITE_GAME_REQUEST
+        INVITE_GAME_REQUEST,
+        IN_GAME_MESSAGE
     }
 
     private Update update;
