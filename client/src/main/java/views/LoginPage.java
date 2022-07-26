@@ -37,7 +37,7 @@ public class LoginPage extends PageController {
             NetworkController.getInstance().setUserToken(serverResponse.getData().get(0));
 
             try {
-                NetworkController.getInstance().startUpdateListener("localhost", 8000);
+                NetworkController.getInstance().startUpdateListener(NetworkController.getInstance().getIPAddress(), 8000);
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -8,9 +8,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import models.network.ClientRequest;
-
-import java.util.ArrayList;
 
 public class MainPage extends PageController{
 
@@ -65,11 +62,7 @@ public class MainPage extends PageController{
 
     @FXML
     private void logout() {
-        ArrayList<String> data = new ArrayList<>();
-        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.LOGOUT, data,
-                                    NetworkController.getInstance().getUserToken());
-
-        NetworkController.getInstance().sendRequest(clientRequest);
+        NetworkController.getInstance().logout();
 
         App.setCurrentUser(null);
         App.setRoot("loginPage");
