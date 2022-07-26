@@ -7,13 +7,19 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import views.components.*;
 import views.components.console.ConsoleView;
+
+import java.util.ArrayList;
 
 public class HUDController {
     private static HUDController instance;
@@ -24,9 +30,12 @@ public class HUDController {
         return instance;
     }
 
+    private static ArrayList<MessageBox> messageHistory = new ArrayList<>();
+
     private Button nextTurnButton;
     private Button consoleButton;
     private Button saveButton;
+    private Button messageHistoryButton;
     private VBox messageBoxContainer;
     private ScrollPane messageScrollPane;
     private MiniMap miniMap;
@@ -36,24 +45,30 @@ public class HUDController {
     private CurrentTechnologyInfo currentTechnologyInfo;
 
     public void createHUD(Group HUD) {
-
         createNextTurnButton(HUD);
         createConsoleButton(HUD);
+        createMessageHistoryButton(HUD);
         createMessageBoxContainer(HUD);
         createMiniMap(HUD);
         createInfoBar(HUD);
         createUnitInfo(HUD);
         createCurrentTechnologyPanel(HUD);
         createSaveButton(HUD);
+        createDiplomacyIcon(HUD);
     }
 
     public void addMessage(String message, MessageBox.Type type) {
-        this.messageBoxContainer.getChildren().add(0, new MessageBox(message, type));
+        MessageBox messageBox = new MessageBox(message, type);
+        this.messageBoxContainer.getChildren().add(0, messageBox);
+
+        messageHistory.add(0,messageBox);
     }
 
     public MessageBox addMessage(String message, MessageBox.Type type, String firstChoice, String secondChoice) {
         MessageBox messageBox = new MessageBox(message, type, firstChoice, secondChoice);
         this.messageBoxContainer.getChildren().add(messageBox);
+
+        messageHistory.add(0,messageBox);
         return messageBox;
     }
 
@@ -95,6 +110,19 @@ public class HUDController {
                 stage.show();     
             }
         });
+    }
+
+    private void createMessageHistoryButton(Group HUD) {
+        messageHistoryButton = new Button("Message History");
+        messageHistoryButton.setLayoutX(50);
+        messageHistoryButton.setLayoutY(200);
+        messageHistoryButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                GameMediator.getInstance().openMessageHistoryPage();
+            }
+        });
+        HUD.getChildren().add(messageHistoryButton);
     }
 
     private void createMessageBoxContainer(Group HUD) {
@@ -139,6 +167,19 @@ public class HUDController {
         HUD.getChildren().add(currentTechnologyInfo);
     }
 
+    private void createDiplomacyIcon(Group HUD){
+        ImageView icon = new ImageView(new Image(App.class.getResource("../assets/image/diplomacy_icon.png").toExternalForm()));
+        icon.setLayoutX(1485);
+        icon.setLayoutY(31);
+        icon.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                GameMediator.getInstance().openDiplomacyPanel();
+            }
+        });
+        HUD.getChildren().add(icon);
+    }
+
     private void createSaveButton(Group HUD) {
         saveButton = new Button("Save");
         saveButton.setLayoutX(50);
@@ -155,6 +196,8 @@ public class HUDController {
             stage.show();    
         });
     }
+
+    public static ArrayList<MessageBox> getMessageHistory() { return messageHistory; }
 
     public UnitInfo getUnitInfo() {
         return unitInfo;

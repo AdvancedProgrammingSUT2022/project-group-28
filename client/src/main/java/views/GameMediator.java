@@ -202,7 +202,7 @@ public class GameMediator {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.TRANSPARENT);
-        stage.initOwner(GamePage.getInstance().getGameContent().getParent().getScene().getWindow());
+        stage.initOwner(App.currentScene.getWindow());
         stage.setX(170);
         stage.setY(215);
         Scene scene;
@@ -213,6 +213,21 @@ public class GameMediator {
         scene.getRoot().requestFocus();
     }
 
+    public void openMessageHistoryPage() {
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initOwner(App.currentScene.getWindow());
+        stage.setX(1300);
+        stage.setY(215);
+        Scene scene;
+        scene = new Scene(App.loadFXML("messageHistoryPage"), 388, 688);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+        scene.getRoot().requestFocus();
+
+    }
     public void openUnitsPanel(){
         // TODO: notify server
         Stage stage = new Stage();
@@ -254,7 +269,23 @@ public class GameMediator {
         stage.setX(700);
         stage.setY(150);
         Scene scene;
-        scene = new Scene(App.loadFXML("demographicPanel"), 585, 500); /// adssfsd dfsjhflsdjdfh
+        scene = new Scene(App.loadFXML("demographicPanel"), 585, 500);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+        scene.getRoot().requestFocus();
+    }
+
+    public void openDiplomacyPanel(){
+        // TODO: notify server
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initOwner(App.currentScene.getWindow());
+        stage.setX(610);
+        stage.setY(150);
+        Scene scene;
+        scene = new Scene(App.loadFXML("diplomacyPanel"), 740, 570);
         scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
         stage.show();

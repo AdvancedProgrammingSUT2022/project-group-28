@@ -27,6 +27,7 @@ public class MessageBox extends HBox {
         Type(String styleClass) {this.styleClass = styleClass;}
     }
 
+    private Rectangle remove;
     private Button firstChoice;
     private Button secondChoice;
 
@@ -42,7 +43,7 @@ public class MessageBox extends HBox {
         Text messageText = new Text(message);
         this.getChildren().add(messageText);
 
-        Rectangle remove = new Rectangle(30, 30);
+        remove = new Rectangle(30, 30);
         remove.setFill(removePattern);
         remove.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
@@ -114,7 +115,7 @@ public class MessageBox extends HBox {
         this.getChildren().add(remove);
     }
 
-
+    public Rectangle getRemove() { return remove; }
 
     public Button getFirstChoice() {
         return firstChoice;
