@@ -36,6 +36,8 @@ public class Game {
 
     private int numberOfPlayers;
 
+    private ArrayList<Trade> trades = new ArrayList<>();
+
     
     public Game(ArrayList<User> users, int seed) {
         Random random = new Random(seed);

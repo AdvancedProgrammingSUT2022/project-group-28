@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import models.civilization.Civilization;
@@ -21,31 +22,54 @@ public class TradePage extends PageController{
     @FXML
     private ComboBox<Label> tradeCombo, withCombo;
 
-    private static Civilization target;
+    private static Civilization customer;
 
-    private Civilization source;
+    private Civilization seller;
 
     public void initialize() {
-        source = GameController.getGame().getCurrentPlayer();
-        ObservableList<Label> sourceOptions = FXCollections.observableArrayList();
-        ObservableList<Label> targetOptions = FXCollections.observableArrayList();
-        CivilizationController.updateResources(source);
-        CivilizationController.updateResources(target);
-        for(ResourceTemplate template:source.getResources().keySet()){
-            if (source.getResources().get(template) <= 0) continue;
+        seller = GameController.getGame().getCurrentPlayer();
+        ObservableList<Label> sellerOptions = FXCollections.observableArrayList();
+        ObservableList<Label> customerOptions = FXCollections.observableArrayList();
+        tradeCombo.setButtonCell(new ListCell<Label>() {
+            @Override
+            protected void updateItem(Label item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item != null) {
+                    setText(item.getText());
+                    setGraphic(item.getGraphic());
+                }
+            }
+        });
+
+        withCombo.setButtonCell(new ListCell<Label>() {
+            @Override
+            protected void updateItem(Label item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item != null) {
+                    setText(item.getText());
+                    setGraphic(item.getGraphic());
+                }
+            }
+        });
+        CivilizationController.updateResources(seller);
+        CivilizationController.updateResources(customer);
+        for(ResourceTemplate template:seller.getResources().keySet()){
+            if (seller.getResources().get(template) <= 0) continue;
             Label lbl = new Label(template.getName());
             ImageView img = new ImageView(Hex.getResourceimages().get(template).getImage());
             img.setFitHeight(36);
             img.setFitWidth(36);
             lbl.setGraphic(img);
-            sourceOptions.add(lbl);
+            sellerOptions.add(lbl);
         }
-        for(ResourceTemplate template:target.getResources().keySet()){
-            if (source.getResources().get(template) <= 0) continue;
+        for(ResourceTemplate template:customer.getResources().keySet()){
+            if (customer.getResources().get(template) <= 0) continue;
             Label lbl = new Label(template.getName());
             ImageView img = new ImageView(Hex.getResourceimages().get(template).getImage());
+            img.setFitHeight(36);
+            img.setFitWidth(36);
             lbl.setGraphic(img);
-            targetOptions.add(lbl);
+            customerOptions.add(lbl);
         }
 
         Label lbl = new Label("Coin");
@@ -53,15 +77,15 @@ public class TradePage extends PageController{
         img.setFitHeight(36);
         img.setFitWidth(36);
         lbl.setGraphic(img);
-        sourceOptions.add(lbl);
-        targetOptions.add(lbl);
+        sellerOptions.add(lbl);
+        customerOptions.add(lbl);
 
-        tradeCombo.setItems(sourceOptions);
-        withCombo.setItems(targetOptions);
+        tradeCombo.setItems(sellerOptions);
+        withCombo.setItems(customerOptions);
     }
 
     public static void setTarget(Civilization targetCivilization) {
-        target = targetCivilization;
+        customer = targetCivilization;
     }
 
     @FXML
