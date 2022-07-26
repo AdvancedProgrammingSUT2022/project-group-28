@@ -64,7 +64,9 @@ public class DiplomacyPanelPage extends PageController {
 
         Button trade = new Button("Trade");
         trade.getStyleClass().add("trade_button");
-        trade.setOnMouseClicked(this::tradeButtonClicked);
+        trade.setOnMouseClicked(event -> {
+            tradeButtonClicked(event, civilization);
+        });
         diplomacyItem.getChildren().add(trade);
 
         Button sendMessage = new Button("send message");
@@ -91,12 +93,13 @@ public class DiplomacyPanelPage extends PageController {
         this.backButton.getParent().getScene().getWindow().hide();
     }
 
-    public void tradeButtonClicked(MouseEvent mouseEvent) {
+    public void tradeButtonClicked(MouseEvent mouseEvent,Civilization civilization) {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initOwner(backButton.getScene().getWindow());
-        Scene scene =  new Scene(App.loadFXML("tradesPage"));
+        TradePage.setTarget(civilization);
+        Scene scene =  new Scene(App.loadFXML("tradePage"));
         stage.setScene(scene);
         stage.show();
 
