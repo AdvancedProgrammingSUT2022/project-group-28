@@ -12,6 +12,7 @@ import javafx.stage.StageStyle;
 import models.Constructable;
 import models.civilization.City;
 import models.civilization.enums.TechnologyTemplate;
+import models.network.ClientRequest;
 import models.tiles.Tile;
 import models.tiles.enums.ImprovementTemplate;
 import models.units.Unit;
@@ -22,6 +23,8 @@ import views.enums.CityMessage;
 import views.notifications.CivilizationNotification;
 import views.notifications.GameNotification;
 import views.notifications.NotificationTemplate;
+
+import java.util.ArrayList;
 
 public class GameMediator {
     private static GameMediator instance;
@@ -178,6 +181,14 @@ public class GameMediator {
         } else {
             // TODO: notify server
             GameMenuController.startNewTurn();
+
+            ArrayList<String> data = new ArrayList<>();
+            data.add(GameController.getGame().encode());
+
+            ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.UPDATE_GAME, data,
+                                        NetworkController.getInstance().getUserToken());
+
+            NetworkController.getInstance().sendRequest(clientRequest);
         }
 
         // TODO: handle start new turn

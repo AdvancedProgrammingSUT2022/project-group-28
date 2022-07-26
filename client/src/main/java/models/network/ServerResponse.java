@@ -24,6 +24,7 @@ public class ServerResponse {
         LOGIN_ERROR,
         NICKNAME_EXISTS,
         USERNAME_EXISTS,
+        SUCCESS_IN_GAME,
         SUCCESS
     }
 

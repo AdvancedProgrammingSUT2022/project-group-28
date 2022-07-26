@@ -22,7 +22,7 @@ public class UnitsPanelPage extends PageController {
     private Button backButton;
 
     public void initialize(){
-        Civilization civilization = GameController.getGame().getCurrentPlayer();
+        Civilization civilization = App.getCurrentUserCivilization();
         Text information = new Text("                  |     name     |      state      |         coordinate      |    health   |   move state");
         unitsPanelContainer.getChildren().add(information);
         for (Unit unit: civilization.getUnits()) {

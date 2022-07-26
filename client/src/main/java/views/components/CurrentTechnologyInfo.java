@@ -1,5 +1,6 @@
 package views.components;
 
+import controllers.GameController;
 import controllers.TechnologyController;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -50,7 +51,9 @@ public class CurrentTechnologyInfo extends Group {
         currentTechnologyPanel.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                GameMediator.getInstance().openTechnologyPage();
+                if (GameController.getGame().getCurrentPlayer().equals(App.getCurrentUserCivilization())) {
+                    GameMediator.getInstance().openTechnologyPage();
+                }
             }
         });
         currentTechnologyPanel.getChildren().addAll(currentTechnologyPicture , currentTechnologyName , currentTechnologyProgress );
@@ -61,10 +64,10 @@ public class CurrentTechnologyInfo extends Group {
 
 
         String imageFileName = "";
-        Technology currentStudyTechnology = TechnologyController.getGame().getCurrentPlayer().getCurrentStudyTechnology();
-        ArrayList<Technology> userTechnologies = TechnologyController.getGame().getCurrentPlayer().getStudiedTechnologies();
+        Technology currentStudyTechnology = App.getCurrentUserCivilization().getCurrentStudyTechnology();
+        ArrayList<Technology> userTechnologies = App.getCurrentUserCivilization().getStudiedTechnologies();
         if(currentStudyTechnology == null){
-            if(TechnologyController.getGame().getCurrentPlayer().getStudiedTechnologies().size() <= 1){
+            if(App.getCurrentUserCivilization().getStudiedTechnologies().size() <= 1){
                 imageFileName = "agriculture";
                 currentTechnologyName.setText("Agriculture");
                 currentTechnologyProgress.setVisible(true);
@@ -96,7 +99,7 @@ public class CurrentTechnologyInfo extends Group {
     }
 
     private double setProgressNumber(TechnologyTemplate technologyTemplate){
-        Civilization userCivilization = TechnologyController.getGame().getCurrentPlayer();
+        Civilization userCivilization = App.getCurrentUserCivilization();
         Technology technology = userCivilization.getTechnologyByTechnologyTemplate(technologyTemplate);
         if(technology == null){
             return 0;

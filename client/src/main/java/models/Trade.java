@@ -6,24 +6,33 @@ import models.tiles.enums.ResourceTemplate;
 public class Trade {
     private final Civilization customer;
     private final Civilization seller;
-    private final ResourceTemplate resource;
-    private final int count;
-    private final int cost;
-    public Trade(Civilization customer, Civilization seller, ResourceTemplate resource, int count, int cost) {
+    private final ResourceTemplate customerResource;
+    private final int customerCount;
+    private final ResourceTemplate sellerResource;
+    
+    private final int sellerCount;
+    public Trade(Civilization customer, Civilization seller,
+    ResourceTemplate customerResource,ResourceTemplate sellerResource,
+                 int customerCount, int sellerCount) {
         this.customer = customer;
         this.seller = seller;
-        this.resource = resource;
-        this.count = count;
-        this.cost = cost;
+        this.customerResource = customerResource;
+        this.sellerResource = sellerResource;
+        this.customerCount = customerCount;
+        this.sellerCount = sellerCount;
     }
 
     public Civilization getCustomer() { return customer; }
-
+    
     public Civilization getSeller() { return seller; }
+    
+    public ResourceTemplate getCustomerResource() { return customerResource; }
+    
+    public int getCustomerCount() { return customerCount; }
+    
+    public int getSellerCount() { return sellerCount; }
 
-    public ResourceTemplate getResource() { return resource; }
-
-    public int getCount() { return count; }
-
-    public int getCost() { return cost; }
+    public ResourceTemplate getSellerResource() {
+        return sellerResource;
+    }
 }

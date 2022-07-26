@@ -72,6 +72,12 @@ public class HUDController {
         return messageBox;
     }
 
+    public void updateNextTurnButton() {
+        if (GameController.getGame().getCurrentPlayer().equals(App.getCurrentUserCivilization())) {
+            nextTurnButton.setDisable(false);
+        } else nextTurnButton.setDisable(true);
+    }
+
     private void createNextTurnButton(Group HUD) {
         nextTurnButton = new Button("Next Turn");
         nextTurnButton.setMinWidth(350);
@@ -142,7 +148,7 @@ public class HUDController {
     }
 
     private void createMiniMap(Group HUD) {
-        miniMap = new MiniMap(GameController.getGame().getCurrentPlayer());
+        miniMap = new MiniMap();
         miniMap.setLayoutX(1200);
         miniMap.setLayoutY(650);
         HUD.getChildren().add(miniMap);
