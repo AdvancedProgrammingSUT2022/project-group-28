@@ -18,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.StageStyle;
 import models.Game;
+import models.civilization.Civilization;
 import models.tiles.Tile;
 import views.components.Hex;
 import views.components.TileInfo;
@@ -60,8 +61,11 @@ public class GamePage extends PageController{
         HUDController.getInstance().createHUD(HUD);
 
         // TODO: change base
-        baseI = GameController.getGame().getCurrentPlayer().getUnits().get(0).getTile().getCoordinates()[0];
-        baseJ = GameController.getGame().getCurrentPlayer().getUnits().get(0).getTile().getCoordinates()[1];
+
+        Civilization civilization = App.getCurrentUserCivilization();
+
+        baseI = civilization.getUnits().get(0).getTile().getCoordinates()[0];
+        baseJ = civilization.getUnits().get(0).getTile().getCoordinates()[1];
         createMap(true);
         AnimationTimer timer = new AnimationTimer() {
             @Override
