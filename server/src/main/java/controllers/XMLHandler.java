@@ -15,15 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class XMLHandler {
-    public static Database database = null;
 
-    static {
-        try {
-            database = new Database();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
     //public static void importDataOfUser() {
     //    try {
     //        ArrayList<User> allUsers ;
@@ -55,18 +47,25 @@ public class XMLHandler {
     //}
 
     public static void importDataFromDatabase(){
-        database.exportData();
+        Database database1 = new Database();
+        database1.exportData();
     }
 
     public static void exportDataOfUser(ArrayList<User> users){
-        XStream xStream = new XStream();
-        xStream.addPermission(AnyTypePermission.ANY);
-        for (User user: User.getAllUsers()) {
-            database.insertData(user.getId(), user.getUsername(), user.getNickname(), user.getPassword() , user.getScore(),
-                    user.getProfilePicNumber(), xStream.toXML(user.getLastOnline()), xStream.toXML(user.getLastWin()),
-                    (user.isOnline() == true) ? 1 : 0 , xStream.toXML(user.getFriends()) , xStream.toXML(user.getFriendshipRequests()),
-                    xStream.toXML(user.getChats()));
+        try {
+            Database database = new Database();
+            database.deleteAllData();
+            database.connect();
+            XStream xStream = new XStream();
+            xStream.addPermission(AnyTypePermission.ANY);
+            for (User user: users) {
+                database.insertData(user.getId(), user.getUsername(), user.getNickname(), user.getPassword() , user.getScore(),
+                        user.getProfilePicNumber(), xStream.toXML(user.getLastOnline()), xStream.toXML(user.getLastWin()),
+                        (user.isOnline() == true) ? 1 : 0 , xStream.toXML(user.getFriends()) , xStream.toXML(user.getFriendshipRequests()),
+                        xStream.toXML(user.getChats()));
+            }
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
-        database.exportData();
     }
 }
