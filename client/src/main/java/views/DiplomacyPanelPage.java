@@ -79,6 +79,31 @@ public class DiplomacyPanelPage extends PageController {
         });
         diplomacyItem.getChildren().add(sendMessage);
 
+        Civilization myCivilization = App.getCurrentUserCivilization();
+
+        Button warButton = new Button();
+        warButton.getStyleClass().add("send_message_button");
+        if (myCivilization.getInWars().contains(civilization)) {
+            warButton.setText("Peace");
+            warButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    peace(event, civilization);
+                }
+            });
+        } else {
+            warButton.setText("War");
+            warButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    war(event, civilization);
+                }
+            });
+        }
+
+        diplomacyItem.getChildren().add(warButton);
+
+
         return diplomacyItem;
     }
 
@@ -103,5 +128,50 @@ public class DiplomacyPanelPage extends PageController {
         stage.setScene(scene);
         stage.show();
 
+    }
+
+    private void peace(MouseEvent mouseEvent, Civilization civilization) {
+        Civilization myCivilization = App.getCurrentUserCivilization();
+        if (myCivilization.getInWars().contains(civilization)) {
+            myCivilization.getInWars().remove(civilization);
+        }
+        if (civilization.getInWars().contains(myCivilization)) {
+            civilization.getInWars().remove(myCivilization);
+        }
+
+        NetworkController.getInstance().sendInGameMessage(myCivilization.getCivilizationNames().getName() +
+                " | declares peace on you", civilization.getUser().getNickname(), MessageBox.Type.WARNING);
+
+        ArrayList<String> data = new ArrayList<>();
+        data.add(GameController.getGame().encode());
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.UPDATE_GAME, data,
+                NetworkController.getInstance().getUserToken());
+
+        NetworkController.getInstance().sendRequest(clientRequest);
+
+        back(mouseEvent);
+    }
+
+    private void war(MouseEvent mouseEvent, Civilization civilization) {
+        Civilization myCivilization = App.getCurrentUserCivilization();
+        if (!myCivilization.getInWars().contains(civilization)) {
+            myCivilization.getInWars().add(civilization);
+        }
+
+        if (!civilization.getInWars().contains(myCivilization)) {
+            civilization.getInWars().add(myCivilization);
+        }
+
+        NetworkController.getInstance().sendInGameMessage(myCivilization.getCivilizationNames().getName() +
+                " | declares war on you", civilization.getUser().getNickname(), MessageBox.Type.WARNING);
+
+        ArrayList<String> data = new ArrayList<>();
+        data.add(GameController.getGame().encode());
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.UPDATE_GAME, data,
+                NetworkController.getInstance().getUserToken());
+
+        NetworkController.getInstance().sendRequest(clientRequest);
+
+        back(mouseEvent);
     }
 }

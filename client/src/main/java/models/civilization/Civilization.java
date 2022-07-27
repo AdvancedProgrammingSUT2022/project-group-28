@@ -194,4 +194,9 @@ public class Civilization {
     public void addTrade(Trade trade) {
         this.trades.add(trade);
     }
+
+    public ArrayList<Civilization> getInWars() {
+        if (inWars == null) inWars = new ArrayList<>();
+        return inWars;
+    }
 }

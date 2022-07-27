@@ -75,7 +75,10 @@ public class NetworkController {
         ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.LOGOUT, data,
                                     NetworkController.getInstance().getUserToken());
 
-        NetworkController.getInstance().sendRequest(clientRequest);
+        ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
+        if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS) {
+            System.out.println("logout successful");
+        }
     }
 
     public void sendInGameMessage(String message, String receiverNickname, MessageBox.Type type) {
