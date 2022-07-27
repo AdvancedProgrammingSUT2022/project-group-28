@@ -20,5 +20,8 @@
     <Pane fx:id="gameContent">
 
     </Pane>
+    <Group fx:id="HUD">
+
+    </Group>
     <Button layoutX="100" layoutY="100" onMouseClicked="#back" text="back"/>
 </AnchorPane>

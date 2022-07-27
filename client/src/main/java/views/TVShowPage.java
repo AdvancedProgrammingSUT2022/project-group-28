@@ -7,6 +7,7 @@ import controllers.NetworkController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -27,6 +28,9 @@ public class TVShowPage extends PageController{
 
     @FXML
     private Pane gameContent;
+
+    @FXML
+    private Group HUD;
 
     private boolean rightKey = false, leftKey = false, topKey = false, bottomKey = false;
     private boolean rightMouse = false, leftMouse = false, topMouse = false, bottomMouse = false;
@@ -53,6 +57,8 @@ public class TVShowPage extends PageController{
             }
         };
         timer.start();
+
+        HUDController.getInstance().createMiniMap(HUD, true);
 
         createPageUpdater();
     }
@@ -208,6 +214,7 @@ public class TVShowPage extends PageController{
                                 @Override
                                 public void run() {
                                     createMap(true);
+                                    HUDController.getInstance().getMiniMap().updateMap();
                                 }
                             });
                         }

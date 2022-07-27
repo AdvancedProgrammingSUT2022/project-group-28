@@ -44,12 +44,12 @@ public class HUDController {
 
     private CurrentTechnologyInfo currentTechnologyInfo;
 
-    public void createHUD(Group HUD) {
+    public void createHUD(Group HUD, boolean tvMode) {
         createNextTurnButton(HUD);
         createConsoleButton(HUD);
         createMessageHistoryButton(HUD);
         createMessageBoxContainer(HUD);
-        createMiniMap(HUD);
+        createMiniMap(HUD, tvMode);
         createInfoBar(HUD);
         createUnitInfo(HUD);
         createCurrentTechnologyPanel(HUD);
@@ -147,8 +147,8 @@ public class HUDController {
         HUD.getChildren().add(messageScrollPane);
     }
 
-    private void createMiniMap(Group HUD) {
-        miniMap = new MiniMap();
+    public void createMiniMap(Group HUD, boolean tvMode) {
+        miniMap = new MiniMap(tvMode);
         miniMap.setLayoutX(1200);
         miniMap.setLayoutY(650);
         HUD.getChildren().add(miniMap);

@@ -58,7 +58,7 @@ public class GamePage extends PageController{
 
         tileInfo = new TileInfo();
 
-        HUDController.getInstance().createHUD(HUD);
+        HUDController.getInstance().createHUD(HUD, false);
 
         // TODO: change base
 
@@ -137,13 +137,19 @@ public class GamePage extends PageController{
     }
 
     public void createTileInfo(TileInfo tileInfo){
-        this.gameContent.getChildren().add(tileInfo);
+        // TODO: remove this try catch
+        try {
+            this.gameContent.getChildren().add(tileInfo);
+        } catch (Exception e) { }
     }
 
     public void deleteTileInfo(TileInfo tileInfo){
-        if(GamePage.this.gameContent.getChildren().contains(tileInfo)){
-            GamePage.this.gameContent.getChildren().remove(tileInfo);
-        }
+        // TODO: remove this try catch
+        try {
+            if(GamePage.this.gameContent.getChildren().contains(tileInfo)){
+                GamePage.this.gameContent.getChildren().remove(tileInfo);
+            }
+        } catch (Exception e) { }
     }
 
 
