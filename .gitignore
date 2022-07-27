@@ -131,6 +131,7 @@ buildNumber.properties
 
 # user saved data
 data/
+server/sample.db
 
 #VSCode
 .vscode/
