@@ -199,4 +199,8 @@ public class Civilization {
         if (inWars == null) inWars = new ArrayList<>();
         return inWars;
     }
+
+    public int getPoint() {
+        return gold + this.getCities().size() * 10 + this.getStudiedTechnologies().size() * 10 + this.getUnits().size() * 5;
+    }
 }
