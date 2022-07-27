@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import controllers.CombatController;
 import controllers.GameController;
+import controllers.NetworkController;
 import controllers.units.SettlerController;
 import controllers.units.UnitController;
 import javafx.geometry.Pos;
@@ -21,6 +22,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import models.network.ClientRequest;
 import models.units.Unit;
 import views.App;
 import views.GameMediator;
@@ -40,6 +42,15 @@ public class UnitInfo extends Group {
             @Override
             public void callMediator(Unit unit){
                 SettlerController.foundCity();
+
+                ArrayList<String> data = new ArrayList<>();
+                data.add(GameController.getGame().encode());
+
+                ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.UPDATE_GAME, data,
+                        NetworkController.getInstance().getUserToken());
+
+                NetworkController.getInstance().sendRequest(clientRequest);
+
                 GamePage.getInstance().updateGamePage();
             }
         },
@@ -96,6 +107,15 @@ public class UnitInfo extends Group {
             @Override
             public void callMediator(Unit unit){
                 CombatController.pillageTile(unit);
+
+                ArrayList<String> data = new ArrayList<>();
+                data.add(GameController.getGame().encode());
+
+                ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.UPDATE_GAME, data,
+                        NetworkController.getInstance().getUserToken());
+
+                NetworkController.getInstance().sendRequest(clientRequest);
+
                 GamePage.getInstance().updateGamePage();
             }
         },

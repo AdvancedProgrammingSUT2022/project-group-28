@@ -226,7 +226,7 @@ public class CityController extends GameController {
         }
 
         if(city.getCivilization().getHappiness()<0 && (producedFood - consumedFood) > 0) return 0;
-        return producedFood - consumedFood;
+        return producedFood - consumedFood + 5;
     }
 
     public static int getCityProductionBalance(City city) {
