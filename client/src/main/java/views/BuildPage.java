@@ -59,6 +59,7 @@ public class BuildPage extends PageController {
             public void handle(MouseEvent event) {
                 GameMediator.getInstance().build(improvementTemplate);
                 BuildPage.this.back();
+                GamePage.getInstance().updateGamePage();
             }
         });
 

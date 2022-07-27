@@ -2,12 +2,16 @@ package controllers;
 
 import controllers.units.UnitController;
 import models.Game;
+import models.Trade;
 import models.User;
+import models.Trade.Result;
 import models.civilization.City;
 import models.civilization.Civilization;
 import models.civilization.enums.TechnologyTemplate;
 import models.tiles.Tile;
 import models.units.Unit;
+import views.HUDController;
+import views.components.MessageBox.Type;
 import views.notifications.CivilizationNotification;
 import views.notifications.GameNotification;
 
@@ -64,6 +68,24 @@ public class GameMenuController extends GameController {
 
         for (Unit unit : civilization.getUnits()) {
             UnitController.checkAlertUnit(game, unit);
+        }
+
+        for (Trade trade : game.getTrades()) {
+            if (trade.getSeller().equals(civilization) && trade.getResult() == Result.OFFER) {
+                String message = "You have a trade offer from " + trade.getCustomer().getCivilizationNames().getName() + 
+                                                        "\nto trade " + trade.getSellerCount() + " " + trade.getSellerResource() + 
+                                                        "\nfor "+ trade.getCustomerCount() + " " + trade.getCustomerResource() + ".";
+                HUDController.getInstance().addMessage(message, Type.INFO);
+                
+            } else if (trade.getSeller().equals(civilization) && trade.getResult() == Result.REJECT) {
+                HUDController.getInstance().addMessage("Your trade offer for " + trade.getCustomerResource() + "has been rejected by ." + trade.getSeller() , Type.INFO);
+                game.getTrades().remove(trade);
+            } else if (trade.getSeller().equals(civilization) && trade.getResult() == Result.ACCEPT) {
+                HUDController.getInstance().addMessage("Your trade offer for " + trade.getCustomerResource() + "has been accepted by ." + trade.getSeller() , Type.INFO);
+                game.getTrades().remove(trade);
+                trade.getSeller().addTrade(trade);
+                trade.getCustomer().addTrade(trade);
+            }
         }
         // TODO: check ........
 

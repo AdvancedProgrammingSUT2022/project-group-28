@@ -509,7 +509,7 @@ public class UnitController extends GameController {
 
     public static ArrayList<UnitAction> getPossibleActions(Unit unit){
         ArrayList<UnitAction> possibleActions = new ArrayList<>();
-        if (unit instanceof Settler && SettlerController.checkTileToFoundCity((Settler)unit) == UnitMessage.SUCCESS) 
+        if (unit instanceof Settler && SettlerController.checkTileToFoundCity((Settler)unit) == UnitMessage.SUCCESS && unit.getMovePoint() > 0)
             possibleActions.add(UnitAction.FOUND_CITY);
         if (unit instanceof Military && unit.getUnitState() != UnitState.FORTIFYING) 
             possibleActions.add(UnitAction.FORTIFY);
