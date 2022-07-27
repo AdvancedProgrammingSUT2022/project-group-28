@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.Group?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<AnchorPane fx:id="pane"
+            xmlns="http://javafx.com/javafx/8.0.331"
+            xmlns:fx="http://javafx.com/fxml/1"
+            onKeyPressed="#keyPressed"
+            onKeyReleased="#keyReleased"
+            onMouseMoved="#mouseMoved"
+            onMouseClicked="#mouseClicked"
+            fx:controller="views.TVShowPage"
+            styleClass="game_root">
+    <stylesheets>
+        <URL value="@../css/game_page.css"/>
+    </stylesheets>
+    <Pane fx:id="gameContent">
+
+    </Pane>
+    <Button layoutX="100" layoutY="100" onMouseClicked="#back" text="back"/>
+</AnchorPane>

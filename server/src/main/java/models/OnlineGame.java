@@ -9,19 +9,11 @@ public class OnlineGame {
     private static ArrayList<OnlineGame> onlineGames = new ArrayList<>();
 
     private String lastGameUpdate;
-//    private final User admin;
     private final ArrayList<User> otherPlayers;
-
-    public OnlineGame(User admin, ArrayList<User> otherPlayers) {
-//        this.admin = admin;
-        this.otherPlayers = otherPlayers;
-    }
 
     public OnlineGame(ArrayList<User> players) {
         this.otherPlayers = players;
     }
-
-
 
     public static ArrayList<OnlineGame> getOnlineGames() { return onlineGames; }
 

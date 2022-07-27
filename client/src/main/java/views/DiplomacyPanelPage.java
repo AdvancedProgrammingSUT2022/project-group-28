@@ -18,6 +18,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.civilization.Civilization;
+import models.network.ClientRequest;
 import views.components.MessageBox;
 
 import java.util.ArrayList;

@@ -20,6 +20,7 @@
                 <Button styleClass="general_button" onMouseClicked="#profile" text="Profile"/>
                 <Button styleClass="general_button" onMouseClicked="#scoreboard" text="Scoreboard"/>
                 <Button styleClass="general_button" onMouseClicked="#chat" text="Chat"/>
+                <Button styleClass="general_button" onMouseClicked="#tv" text="TV"/>
             </VBox>
             <Rectangle styleClass="line" width="350" height="7"/>
             <VBox alignment="CENTER">
