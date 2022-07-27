@@ -4,6 +4,7 @@ import controllers.GameController;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -12,9 +13,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import models.civilization.Civilization;
 import views.App;
 import views.GameMediator;
+import views.components.console.ConsoleView;
 
 
 public class InfoBar extends Group {
@@ -27,6 +32,9 @@ public class InfoBar extends Group {
     private Text gold;
     private Circle happinessIcon;
     private Text happiness;
+    private Circle saveButton;
+    private Circle consoleButton;
+    private Circle messageBoxButton;
     private Circle unitsPanel;
     private Button unitsPanelButton;
     private Circle citiesPanel;
@@ -44,7 +52,7 @@ public class InfoBar extends Group {
         infoBar = new BorderPane();
         infoBar.getStyleClass().add("info_bar");
 
-        data = new HBox(13);
+        data = new HBox(15);
         data.setAlignment(Pos.CENTER);
         data.getStyleClass().add("data_section");
 
@@ -69,6 +77,47 @@ public class InfoBar extends Group {
 
         happiness = new Text(Integer.toString(civilization.getHappiness()));
         happiness.getStyleClass().add("happiness_text");
+
+        saveButton = new Circle(15);
+        saveButton.setFill(new ImagePattern(new Image(App.class.getResource("../assets/image/save_icon.png").toExternalForm())));
+        saveButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.initStyle(StageStyle.TRANSPARENT);
+                stage.initOwner(infoBar.getScene().getWindow());
+                Scene scene =  new Scene(App.loadFXML("savePage"));
+                stage.setScene(scene);
+                stage.show();
+            }
+        });
+
+        consoleButton = new Circle(15);
+        consoleButton.setFill(new ImagePattern(new Image(App.class.getResource("../assets/image/console_icon.png").toExternalForm())));
+        consoleButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.initOwner(infoBar.getScene().getWindow());
+                Scene scene =  ConsoleView.getInstance();
+                scene.getStylesheets().add(App.class.getResource("../css/console.css").toExternalForm());
+                stage.setTitle("Console");
+                stage.setScene(scene);
+                stage.setResizable(false);
+                stage.show();
+            }
+        });
+
+        messageBoxButton = new Circle(15);
+        messageBoxButton.setFill(new ImagePattern(new Image(App.class.getResource("../assets/image/message_box_icon.png").toExternalForm())));
+        messageBoxButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                GameMediator.getInstance().openMessageHistoryPage();
+            }
+        });
 
         unitsPanel = new Circle(15);
         unitsPanel.setFill(new ImagePattern(new Image(App.class.getResource("../assets/image/units_panel_icon.png").toExternalForm())));
@@ -106,7 +155,7 @@ public class InfoBar extends Group {
         turn = new Text("Turn : 0");
         turn.getStyleClass().add("turn_number");
 
-        data.getChildren().addAll(scienceIcon,science,goldIcon,gold,happinessIcon,happiness);
+        data.getChildren().addAll(scienceIcon,science,goldIcon,gold,happinessIcon,happiness,saveButton,consoleButton,messageBoxButton);
 
         otherData.getChildren().addAll(unitsPanel,unitsPanelButton,citiesPanel,citiesPanelButton ,demographicPanel,demographicPanelButton,turn);
 

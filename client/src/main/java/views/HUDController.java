@@ -46,14 +46,11 @@ public class HUDController {
 
     public void createHUD(Group HUD, boolean tvMode) {
         createNextTurnButton(HUD);
-        createConsoleButton(HUD);
-        createMessageHistoryButton(HUD);
         createMessageBoxContainer(HUD);
         createMiniMap(HUD, tvMode);
         createInfoBar(HUD);
         createUnitInfo(HUD);
         createCurrentTechnologyPanel(HUD);
-        createSaveButton(HUD);
         createDiplomacyIcon(HUD);
     }
 
@@ -95,40 +92,6 @@ public class HUDController {
             }
         });
 
-    }
-
-    private void createConsoleButton(Group HUD) {
-        consoleButton = new Button("Console");
-        HUD.getChildren().add(consoleButton);
-        consoleButton.setLayoutX(50);
-        consoleButton.setLayoutY(140);
-        consoleButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Stage stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.initOwner(nextTurnButton.getScene().getWindow());
-                Scene scene =  ConsoleView.getInstance();
-                scene.getStylesheets().add(App.class.getResource("../css/console.css").toExternalForm());
-                stage.setTitle("Console");
-                stage.setScene(scene);
-                stage.setResizable(false);
-                stage.show();     
-            }
-        });
-    }
-
-    private void createMessageHistoryButton(Group HUD) {
-        messageHistoryButton = new Button("Message History");
-        messageHistoryButton.setLayoutX(50);
-        messageHistoryButton.setLayoutY(200);
-        messageHistoryButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                GameMediator.getInstance().openMessageHistoryPage();
-            }
-        });
-        HUD.getChildren().add(messageHistoryButton);
     }
 
     private void createMessageBoxContainer(Group HUD) {
@@ -184,23 +147,6 @@ public class HUDController {
             }
         });
         HUD.getChildren().add(icon);
-    }
-
-    private void createSaveButton(Group HUD) {
-        saveButton = new Button("Save");
-        saveButton.setLayoutX(50);
-        saveButton.setLayoutY(170);
-        HUD.getChildren().add(saveButton);
-
-        saveButton.setOnMouseClicked(value -> {
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.TRANSPARENT);
-            stage.initOwner(nextTurnButton.getScene().getWindow());
-            Scene scene =  new Scene(App.loadFXML("savePage"));
-            stage.setScene(scene);
-            stage.show();    
-        });
     }
 
     public static ArrayList<MessageBox> getMessageHistory() { return messageHistory; }
