@@ -1,47 +1,36 @@
 package views;
 
-import java.util.HashMap;
-import java.util.Optional;
-
 import controllers.CivilizationController;
 import controllers.GameController;
+import controllers.GameMenuController;
+import controllers.NetworkController;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.stage.StageStyle;
 import models.Game;
 import models.civilization.Civilization;
+import models.network.ClientRequest;
+import models.network.ServerResponse;
 import models.tiles.Tile;
 import views.components.Hex;
-import views.components.TileInfo;
 
-public class GamePage extends PageController{
-    private static GamePage instance;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-    public enum MapState {
-        NORMAL,
-        ASSIGN_CITIZEN,
-        BUY_TILE,
-        UNIT_SELECTED,
-        CITY_ATTACK;
-        //TODO: complete
-    }
+public class TVShowPage extends PageController{
+    private static TVShowPage instance;
+
+    private static int firstUserID;
 
     @FXML
     private Pane gameContent;
+
     @FXML
     private Group HUD;
-
-
-    private MapState mapState = MapState.NORMAL;
 
     private boolean rightKey = false, leftKey = false, topKey = false, bottomKey = false;
     private boolean rightMouse = false, leftMouse = false, topMouse = false, bottomMouse = false;
@@ -50,16 +39,13 @@ public class GamePage extends PageController{
 
     private int baseI, baseJ;
 
+    private Thread pageUpdater;
 
     @FXML
     private void initialize() {
         instance = this;
 
-        HUDController.getInstance().createHUD(HUD,false);
-
-        // TODO: change base
-
-        Civilization civilization = App.getCurrentUserCivilization();
+        Civilization civilization = GameController.getGame().getCurrentPlayer();
 
         baseI = civilization.getUnits().get(0).getTile().getCoordinates()[0];
         baseJ = civilization.getUnits().get(0).getTile().getCoordinates()[1];
@@ -72,7 +58,9 @@ public class GamePage extends PageController{
         };
         timer.start();
 
-        this.updateGamePage();
+        HUDController.getInstance().createMiniMap(HUD, true);
+
+        createPageUpdater();
     }
 
     public void createMap(boolean fogOfWar) {
@@ -80,7 +68,7 @@ public class GamePage extends PageController{
         CivilizationController.updateDiscoveredTiles();
         this.gameContent.getChildren().clear();
 
-        HashMap<Tile,Integer> discoveredTiles = App.getCurrentUserCivilization().getDiscoveredTiles();
+        HashMap<Tile,Integer> discoveredTiles = game.getCurrentPlayer().getDiscoveredTiles();
         if (fogOfWar){
             for (int i = 0; i < game.MAP_WIDTH ; i++) {
                 for (int j = 0; j < game.MAP_HEIGHT ; j++) {
@@ -106,7 +94,7 @@ public class GamePage extends PageController{
                 }
             }
         }
-            
+
     }
 
     private void createHex(Tile tile, int discoveryTurn){
@@ -117,7 +105,7 @@ public class GamePage extends PageController{
         double hexY = getHexY(tileI, tileJ);
 
         if (hexX < -200 || hexX >= 1800 || hexY <- 200 || hexY >= 1100)
-                return;
+            return;
         Tile mapTile = GameController.getGame().getMap()[tileI][tileJ];
         Hex hex = new Hex(mapTile, discoveryTurn, hexX, hexY);
         //hex.setMouseTransparent(true);
@@ -128,31 +116,13 @@ public class GamePage extends PageController{
         double hexX = getHexX(tileI, tileJ);
         double hexY = getHexY(tileI, tileJ);
         if (hexX < -200 || hexX >= 1800 || hexY <- 200 || hexY >= 1100)
-                return;
+            return;
         Hex hex = new Hex(hexX, hexY,tileI,tileJ);
         this.gameContent.getChildren().add(hex);
     }
 
-    public void createTileInfo(TileInfo tileInfo){
-        // TODO: remove this try catch
-        try {
-            this.gameContent.getChildren().add(tileInfo);
-        } catch (Exception e) { }
-    }
-
-    public void deleteTileInfo(TileInfo tileInfo){
-        // TODO: remove this try catch
-        try {
-            if(GamePage.this.gameContent.getChildren().contains(tileInfo)){
-                GamePage.this.gameContent.getChildren().remove(tileInfo);
-            }
-        } catch (Exception e) { }
-    }
-
-
-
-    public double getHexX(int tileI,int tileJ){ 
-        return tileJ * 259.8076 + tileI * 129.9038 - baseJ * 240 - baseI * 120 + offsetI; 
+    public double getHexX(int tileI,int tileJ){
+        return tileJ * 259.8076 + tileI * 129.9038 - baseJ * 240 - baseI * 120 + offsetI;
     }
 
     public double getHexY(int tileI,int tileJ){
@@ -195,12 +165,6 @@ public class GamePage extends PageController{
 
     @FXML
     private void mouseClicked(MouseEvent mouseEvent) {
-        if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-            this.mapState = MapState.NORMAL;
-            GameController.getGame().setSelectedCity(null);
-            GameController.getGame().setSelectedUnit(null);
-            updateGamePage();
-        }
     }
 
     private void update() {
@@ -230,50 +194,55 @@ public class GamePage extends PageController{
         }
     }
 
-    public void updateGamePage() {
-        this.createMap(true);
-        HUDController.getInstance().getUnitInfo().update();
-        HUDController.getInstance().getCurrentTechnologyInfo().updateData();
-        HUDController.getInstance().updateNextTurnButton();
-        HUDController.getInstance().getMiniMap().updateMap();
-        HUDController.getInstance().getInfoBar().update();
+    public void createPageUpdater() {
+        pageUpdater = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        ArrayList<String> data = new ArrayList<>();
+                        data.add(String.valueOf(firstUserID));
 
+                        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.GET_ONLINE_GAME, data,
+                                                    NetworkController.getInstance().getUserToken());
+
+                        ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
+                        if (serverResponse.getResponse() == ServerResponse.Response.SUCCESS) {
+                            Game game = Game.decode(serverResponse.getData().get(0));
+                            GameMenuController.setGame(game);
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    createMap(true);
+                                    HUDController.getInstance().getMiniMap().updateMap();
+                                }
+                            });
+                        }
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                }
+            }
+        });
+        pageUpdater.start();
     }
 
-    public boolean destroyOrAttachCity(){
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Destroy or Attach City");
-        String s = "city is conquered. do you want to destroy it or attach it?";
-        alert.setContentText(s);
-        alert.setHeaderText(null);
-        alert.setGraphic(null);
-        alert.initStyle(StageStyle.TRANSPARENT);
-        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Destroy");
-        ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("Attach");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        
-        if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
-            return true;
-        }
-        return false;
+    @FXML
+    private void back() {
+        pageUpdater.interrupt();
+        App.setRoot("tvPage");
     }
 
-    public static GamePage getInstance() {
-        if (instance == null) instance = new GamePage();
+    public static void setFirstUserID(int firstUserID) { TVShowPage.firstUserID = firstUserID; }
+
+    public static TVShowPage getInstance() {
         return instance;
     }
-
 
     public Pane getGameContent() {
         return gameContent;
     }
-
-    public Group getHUD() {
-        return HUD;
-    }
-
-    public MapState getMapState() { return mapState; }
 
     public int getBaseI() {
         return baseI;
@@ -306,6 +275,4 @@ public class GamePage extends PageController{
     public void setBaseJ(int baseJ) {
         this.baseJ = baseJ;
     }
-
-    public void setMapState(MapState mapState) { this.mapState = mapState; }
 }

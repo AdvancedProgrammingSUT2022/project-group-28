@@ -33,6 +33,8 @@ public class ClientRequest {
         SEND_IN_GAME_MESSAGE,
         TRADE_REQUEST,
         TRADE_RESULT,
+        GET_ALL_ONLINE_GAMES,
+        GET_ONLINE_GAME,
         GET_USER_INFO,
         GET_WAITING_GAMES,
         START_LISTEN,

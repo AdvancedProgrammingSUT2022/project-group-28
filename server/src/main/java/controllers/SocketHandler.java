@@ -106,6 +106,10 @@ public class SocketHandler extends Thread {
                 return handleTradeRequest(clientRequest);
             case TRADE_RESULT:
                 return handleTradeResult(clientRequest);
+            case GET_ALL_ONLINE_GAMES:
+                return handleGetAllOnlineGames(clientRequest);
+            case GET_ONLINE_GAME:
+                return handleGetOnlineGame(clientRequest);
             case LOGOUT:
                 return handleLogout(clientRequest);
             default:
@@ -826,6 +830,32 @@ public class SocketHandler extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleGetOnlineGame(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        OnlineGame onlineGame = OnlineGame.getOnlineGameByUserID(Integer.parseInt(clientRequest.getData().get(0)));
+        if (onlineGame == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_ONLINE_GAME, toSend);
+        }
+
+        toSend.add(onlineGame.getLastGameUpdate());
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleGetAllOnlineGames(ClientRequest clientRequest) {
+        ArrayList<String> toSend = new ArrayList<>();
+        for (OnlineGame onlineGame : OnlineGame.getOnlineGames()) {
+            toSend.add(onlineGame.toXML());
         }
 
         return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);

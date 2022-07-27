@@ -43,9 +43,7 @@ public class MainPage extends PageController{
             }
         });
 
-        stage.show();  
-
-        
+        stage.show();
     }
 
     @FXML
@@ -61,11 +59,16 @@ public class MainPage extends PageController{
     private void chat() { App.setRoot("chatPage"); }
 
     @FXML
+    private void tv() {
+        App.setRoot("tvPage");
+    }
+    @FXML
     private void logout() {
         NetworkController.getInstance().logout();
 
         App.setCurrentUser(null);
         App.setRoot("loginPage");
     }
+
 
 }

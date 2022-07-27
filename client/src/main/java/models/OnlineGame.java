@@ -6,12 +6,12 @@ import com.thoughtworks.xstream.security.AnyTypePermission;
 import java.util.ArrayList;
 
 public class OnlineGame {
-    private final User admin;
+    private String lastGameUpdate;
     private final ArrayList<User> otherPlayers;
 
-    public OnlineGame(User admin, ArrayList<User> otherPlayers) {
-        this.admin = admin;
-        this.otherPlayers = otherPlayers;
+
+    public OnlineGame(ArrayList<User> players) {
+        this.otherPlayers = players;
     }
 
     public static OnlineGame fromXML(String xml) {
@@ -26,8 +26,7 @@ public class OnlineGame {
         return xStream.toXML(this);
     }
 
-    public User getAdmin() { return admin; }
-
     public ArrayList<User> getOtherPlayers() { return otherPlayers; }
 
+    public String getLastGameUpdate() { return lastGameUpdate; }
 }

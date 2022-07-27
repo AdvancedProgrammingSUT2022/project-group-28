@@ -138,3 +138,11 @@
     -fx-background-color: #065c46ff;
     -fx-font-size: 24;
 }
+
+.online_game_info {
+    -fx-border-radius: 40 40 40 40;
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #06555caa;
+    -fx-font-size: 24;
+    -fx-margin: 10 10 10 10;
+}

@@ -89,6 +89,14 @@ public class GameMediator {
         // TODO: notify server
         CivilizationController.buyUnit(city.getCivilization(), city.getTile(), unitTemplate);
 
+        ArrayList<String> data = new ArrayList<>();
+        data.add(GameController.getGame().encode());
+
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.UPDATE_GAME, data,
+                NetworkController.getInstance().getUserToken());
+
+        NetworkController.getInstance().sendRequest(clientRequest);
+
         // TODO: update hud
 
         GamePage.getInstance().updateGamePage();
@@ -101,6 +109,14 @@ public class GameMediator {
             // TODO: change message type
             HUDController.getInstance().addMessage("You don not have enough gold", MessageBox.Type.ALERT);
         }
+
+        ArrayList<String> data = new ArrayList<>();
+        data.add(GameController.getGame().encode());
+
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.UPDATE_GAME, data,
+                NetworkController.getInstance().getUserToken());
+
+        NetworkController.getInstance().sendRequest(clientRequest);
 
         GamePage.getInstance().updateGamePage();
     }
@@ -125,6 +141,14 @@ public class GameMediator {
         // TODO: notify server
         CityController.startConstructing(city, constructable);
 
+        ArrayList<String> data = new ArrayList<>();
+        data.add(GameController.getGame().encode());
+
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.UPDATE_GAME, data,
+                NetworkController.getInstance().getUserToken());
+
+        NetworkController.getInstance().sendRequest(clientRequest);
+
         GamePage.getInstance().updateGamePage();
     }
 
@@ -132,6 +156,14 @@ public class GameMediator {
         int i = destination.getCoordinates()[0];
         int j = destination.getCoordinates()[1];
         UnitController.moveUnitToTarget(i, j);
+
+        ArrayList<String> data = new ArrayList<>();
+        data.add(GameController.getGame().encode());
+
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.UPDATE_GAME, data,
+                NetworkController.getInstance().getUserToken());
+
+        NetworkController.getInstance().sendRequest(clientRequest);
 
         GamePage.getInstance().updateGamePage();
     }
@@ -141,6 +173,14 @@ public class GameMediator {
         int j = destination.getCoordinates()[1];
         CombatController.unitAttack(i, j);
 
+        ArrayList<String> data = new ArrayList<>();
+        data.add(GameController.getGame().encode());
+
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.UPDATE_GAME, data,
+                NetworkController.getInstance().getUserToken());
+
+        NetworkController.getInstance().sendRequest(clientRequest);
+
         GamePage.getInstance().updateGamePage();
     }
 
@@ -148,6 +188,14 @@ public class GameMediator {
         int i = destination.getCoordinates()[0];
         int j = destination.getCoordinates()[1];
         CombatController.cityAttack(i, j);
+
+        ArrayList<String> data = new ArrayList<>();
+        data.add(GameController.getGame().encode());
+
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.UPDATE_GAME, data,
+                NetworkController.getInstance().getUserToken());
+
+        NetworkController.getInstance().sendRequest(clientRequest);
 
         GamePage.getInstance().updateGamePage();
     }
@@ -340,6 +388,14 @@ public class GameMediator {
 
     public void build(ImprovementTemplate improvementTemplate){
         WorkerController.startImprovement((Worker) GameController.getGame().getSelectedUnit(), improvementTemplate);
+
+        ArrayList<String> data = new ArrayList<>();
+        data.add(GameController.getGame().encode());
+
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.UPDATE_GAME, data,
+                NetworkController.getInstance().getUserToken());
+
+        NetworkController.getInstance().sendRequest(clientRequest);
     }
 
     public void openAttendGameRequestPage() {

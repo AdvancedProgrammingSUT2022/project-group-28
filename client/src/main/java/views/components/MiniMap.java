@@ -14,6 +14,7 @@ import models.civilization.Civilization;
 import models.tiles.Tile;
 import views.App;
 import views.GamePage;
+import views.TVShowPage;
 
 public class MiniMap extends Group {
     private final double RADIUS;
@@ -21,8 +22,14 @@ public class MiniMap extends Group {
     private Civilization civilization;
     private Shape cameraFocus;
     private Group map;
-    public MiniMap() {
-        this.civilization = App.getCurrentUserCivilization();
+
+    private final boolean tvMode;
+
+    public MiniMap(boolean tvMode) {
+        this.tvMode = tvMode;
+
+        if (!tvMode) this.civilization = App.getCurrentUserCivilization();
+        else this.civilization = GameController.getGame().getCurrentPlayer();
 
         this.RADIUS = calculateRadius();
 
@@ -44,7 +51,8 @@ public class MiniMap extends Group {
     public void updateMap() {
         map.getChildren().clear();
         CivilizationController.updateDiscoveredTiles();
-        this.civilization = App.getCurrentUserCivilization();
+        if (!tvMode) this.civilization = App.getCurrentUserCivilization();
+        else this.civilization = GameController.getGame().getCurrentPlayer();
         for (Tile tile : civilization.getDiscoveredTiles().keySet()) {
             Polygon polygon = new Polygon();
             setPolygonPoints(polygon);
@@ -117,12 +125,20 @@ public class MiniMap extends Group {
             @Override
             public void handle(MouseEvent event) {
                 int tileI = (int)((event.getY()) * 2 / (3 * (MiniMap.this.RADIUS/2))) -1;
-                int tileJ = (int)((event.getX()- (int)(event.getY()/Math.sqrt(3))) / (Math.sqrt(3) * (MiniMap.this.RADIUS/2))) -1 ;
-                GamePage.getInstance().setBaseI(tileI);
-                GamePage.getInstance().setBaseJ(tileJ);
-                GamePage.getInstance().setOffsetI(0);
-                GamePage.getInstance().setOffsetJ(0);
-                GamePage.getInstance().createMap(true);
+                int tileJ = (int)((event.getX()- (int)(event.getY()/Math.sqrt(3))) / (Math.sqrt(3) * (MiniMap.this.RADIUS/2))) -1;
+                if (!tvMode) {
+                    GamePage.getInstance().setBaseI(tileI);
+                    GamePage.getInstance().setBaseJ(tileJ);
+                    GamePage.getInstance().setOffsetI(0);
+                    GamePage.getInstance().setOffsetJ(0);
+                    GamePage.getInstance().createMap(true);
+                } else {
+                    TVShowPage.getInstance().setBaseI(tileI);
+                    TVShowPage.getInstance().setBaseJ(tileJ);
+                    TVShowPage.getInstance().setOffsetI(0);
+                    TVShowPage.getInstance().setOffsetJ(0);
+                    TVShowPage.getInstance().createMap(true);
+                }
             }
         });
 
@@ -139,10 +155,18 @@ public class MiniMap extends Group {
         AnimationTimer cameraFocusUpdater = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                int baseI = GamePage.getInstance().getBaseI();
-                int baseJ = GamePage.getInstance().getBaseJ();
-                int offsetI = GamePage.getInstance().getOffsetI();
-                int offsetJ = GamePage.getInstance().getOffsetJ();
+                int baseI, baseJ, offsetI, offsetJ;
+                if (!tvMode) {
+                    baseI = GamePage.getInstance().getBaseI();
+                    baseJ = GamePage.getInstance().getBaseJ();
+                    offsetI = GamePage.getInstance().getOffsetI();
+                    offsetJ = GamePage.getInstance().getOffsetJ();
+                } else {
+                    baseI = TVShowPage.getInstance().getBaseI();
+                    baseJ = TVShowPage.getInstance().getBaseJ();
+                    offsetI = TVShowPage.getInstance().getOffsetI();
+                    offsetJ = TVShowPage.getInstance().getOffsetJ();
+                }
 
 
                 cameraFocus.setLayoutY(baseI * 3 * MiniMap.this.RADIUS / 4  - offsetJ * 0.00682 - 22.5);

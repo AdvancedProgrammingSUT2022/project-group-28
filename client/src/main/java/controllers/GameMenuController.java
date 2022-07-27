@@ -86,7 +86,19 @@ public class GameMenuController extends GameController {
             }
         }
         if (hasOwnCapital.size() == 1) return hasOwnCapital.get(0);
-        // TODO: check year condition
+
+        int point = 0;
+        Civilization winner = null;
+        if (game.getTurnNumber() == 405) {
+            for (Civilization civilization : game.getCivilizations()) {
+                if (civilization.getPoint() > point) {
+                    point = civilization.getPoint();
+                    winner = civilization;
+                }
+            }
+            return winner;
+        }
+
         return null;
     }
 

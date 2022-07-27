@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.shape.Rectangle?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="views.TVPage"
+            prefHeight="900.0" prefWidth="1600.0"
+            stylesheets="@../css/ui_styles.css"
+            styleClass="ui_page_root">
+    <center>
+        <VBox alignment="CENTER" spacing="30">
+            <ScrollPane translateX="550" hbarPolicy="NEVER">
+                <VBox fx:id="gameContainer" alignment="CENTER" spacing="20">
+
+                </VBox>
+            </ScrollPane>
+            <Rectangle styleClass="line" width="350" height="7"/>
+            <Button styleClass="back_button" onMouseClicked="#back" text="Back"/>
+        </VBox>
+    </center>
+
+</BorderPane>
