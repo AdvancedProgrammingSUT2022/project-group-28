@@ -138,6 +138,8 @@ public class ChatPage extends PageController {
                     Text message = new Text(chatMessage.getMessage());
                     message.getStyleClass().add("normal_text");
 
+                    Text lastModified = new Text("[" + chatMessage.getLastModified().toString() + "]");
+
                     Circle avatar = new Circle(25);
                     avatar.setFill(new ImagePattern(chatMessage.getSender().getAvatar()));
 
@@ -145,6 +147,7 @@ public class ChatPage extends PageController {
                         hBox.setAlignment(Pos.CENTER_LEFT);
                         messageBox.setAlignment(Pos.CENTER_LEFT);
                         messageBox.getChildren().add(avatar);
+                        messageBox.getChildren().add(lastModified);
                         messageBox.getChildren().add(message);
 
                         Integer newMessageIndex = new Integer(messageIndex);
@@ -173,6 +176,9 @@ public class ChatPage extends PageController {
                         hBox.setAlignment(Pos.CENTER_RIGHT);
                         messageBox.setAlignment(Pos.CENTER_RIGHT);
                         messageBox.getChildren().add(message);
+                        Text friend = new Text(" | " + chatMessage.getSender().getNickname());
+                        messageBox.getChildren().add(friend);
+                        messageBox.getChildren().add(lastModified);
                         messageBox.getChildren().add(avatar);
                     }
                     hBox.getChildren().add(messageBox);
