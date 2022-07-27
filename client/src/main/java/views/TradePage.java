@@ -2,6 +2,7 @@ package views;
 
 import controllers.CivilizationController;
 import controllers.GameController;
+import controllers.NetworkController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -64,6 +65,7 @@ public class TradePage extends PageController{
     private void trade(){
         int sellerCount;
         int customerCount;
+        Trade trade = null;
 
         if (tradeCombo.getValue() == null || withCombo.getValue() == null){
             errorLabel.setText("Please select a resource to trade");
@@ -85,7 +87,8 @@ public class TradePage extends PageController{
         }
         if (tradeCombo.getValue().split(":")[0].equals(withCombo.getValue().split(":")[0])){
             errorLabel.setText("Please select different resources");
-            return;
+            //return;
+            //TODO : uncomment this
         }
         if(tradeCombo.getValue().startsWith("Coin:")){
             if(customerCount > customer.getGold()){
@@ -97,10 +100,9 @@ public class TradePage extends PageController{
                     errorLabel.setText("Seller do not have enough resource");
                     return;
                 }
-                Trade trade = new Trade(customer,seller, null, null,customerCount, sellerCount);
+                trade = new Trade(customer,seller, null, null,customerCount, sellerCount);
                 GameController.getGame().getTrades().add(trade);
                 errorLabel.setText("Request sent");
-                return;
             }
             else{
                 ResourceTemplate resource = getResources(withCombo.getValue());
@@ -108,10 +110,9 @@ public class TradePage extends PageController{
                     errorLabel.setText("Seller do not have enough resource");
                     return;
                 }
-                Trade trade = new Trade(customer,seller, null, resource,customerCount, sellerCount);
+                trade = new Trade(customer,seller, null, resource,customerCount, sellerCount);
                 GameController.getGame().getTrades().add(trade);
                 errorLabel.setText("Request sent");
-                return;
             }
         }
         for (ResourceTemplate resourceTemplate : ResourceTemplate.values()) {
@@ -125,24 +126,24 @@ public class TradePage extends PageController{
                         errorLabel.setText("Seller do not have enough resource");
                         return;
                     }
-                    Trade trade = new Trade(customer,seller, resourceTemplate, null,customerCount, sellerCount);
+                    trade = new Trade(customer,seller, resourceTemplate, null,customerCount, sellerCount);
                     GameController.getGame().getTrades().add(trade);
                     errorLabel.setText("Request sent");
-                    return;
                 } else{
                     ResourceTemplate resource = getResources(withCombo.getValue());
                     if(seller.getResources().get(resource) < sellerCount){
                         errorLabel.setText("Seller do not have enough resource");
                         return;
                     }
-                    Trade trade = new Trade(customer,seller, resourceTemplate, resource,customerCount, sellerCount);
+                    trade = new Trade(customer,seller, resourceTemplate, resource,customerCount, sellerCount);
                     GameController.getGame().getTrades().add(trade);
                     errorLabel.setText("Request sent");
-                    return;
                 }
 
-            }
-            
+            } 
+        }
+        if (trade != null){
+            NetworkController.getInstance().sendTradeRequest(trade);
         }
         
         

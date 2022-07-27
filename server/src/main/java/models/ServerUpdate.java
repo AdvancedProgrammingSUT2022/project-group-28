@@ -10,7 +10,9 @@ public class ServerUpdate {
         ATTEND_GAME_REQUEST,
         UPDATE_GAME,
         INVITE_GAME_REQUEST,
-        IN_GAME_MESSAGE
+        IN_GAME_MESSAGE,
+        TRADE_REQUEST,
+        TRADE_RESULT
     }
 
     private Update update;

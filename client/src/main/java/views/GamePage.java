@@ -40,7 +40,6 @@ public class GamePage extends PageController{
     @FXML
     private Group HUD;
 
-    private TileInfo tileInfo;
 
     private MapState mapState = MapState.NORMAL;
 
@@ -55,8 +54,6 @@ public class GamePage extends PageController{
     @FXML
     private void initialize() {
         instance = this;
-
-        tileInfo = new TileInfo();
 
         HUDController.getInstance().createHUD(HUD);
 

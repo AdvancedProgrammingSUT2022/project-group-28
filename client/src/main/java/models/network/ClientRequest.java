@@ -31,6 +31,8 @@ public class ClientRequest {
         REJECT_FRIENDSHIP,
         REQUEST_FRIENDSHIP,
         SEND_IN_GAME_MESSAGE,
+        TRADE_REQUEST,
+        TRADE_RESULT,
         GET_USER_INFO,
         GET_WAITING_GAMES,
         START_LISTEN,

@@ -35,7 +35,9 @@ public class ClientRequest {
         GET_WAITING_GAMES,
         START_LISTEN,
         LOGIN,
-        REGISTER
+        REGISTER,
+        TRADE_REQUEST,
+        TRADE_RESULT;
     }
 
     private final Request request;

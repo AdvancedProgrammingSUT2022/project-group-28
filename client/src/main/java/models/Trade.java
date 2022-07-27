@@ -16,18 +16,24 @@ public class Trade {
     private final int customerCount;
     private final ResourceTemplate sellerResource;
     private Result result;
+    private final String message;
+    
     
     
     private final int sellerCount;
     public Trade(Civilization customer, Civilization seller,
     ResourceTemplate customerResource,ResourceTemplate sellerResource,
                  int customerCount, int sellerCount) {
-        this.customer = customer;
+                     this.customer = customer;
         this.seller = seller;
         this.customerResource = customerResource;
         this.sellerResource = sellerResource;
         this.customerCount = customerCount;
         this.sellerCount = sellerCount;
+        this.result = Result.OFFER;
+        message = "You have a trade offer from " + this.getCustomer().getCivilizationNames().getName() + 
+        "\n to trade " + this.getSellerCount() + " " + this.getSellerResource() + 
+        "\n for "+ this.getCustomerCount() + " " + this.getCustomerResource() + ".";
     }
     
     public Civilization getCustomer() { return customer; }
@@ -48,6 +54,10 @@ public class Trade {
         return sellerResource.getName();
     }
     
+    public String getMessage() {
+        return message;
+    }
+
     public Result getResult() {
         return result;
     }

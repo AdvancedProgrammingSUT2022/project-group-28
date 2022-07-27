@@ -2,15 +2,17 @@ package controllers;
 
 import javafx.application.Platform;
 import models.Game;
+import models.Trade;
 import models.User;
+import models.Trade.Result;
 import models.network.ServerUpdate;
 import views.*;
 import views.components.MessageBox;
+import views.components.MessageBox.Type;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.SocketException;
-import java.util.ArrayList;
 
 public class UpdateHandler extends Thread {
     private DataInputStream updateInputStream;
@@ -48,6 +50,11 @@ public class UpdateHandler extends Thread {
             case IN_GAME_MESSAGE:
                 handleInGameMessage(serverUpdate);
                 break;
+            case TRADE_REQUEST:
+                handleTradeRequest(serverUpdate);
+                break;
+            case TRADE_RESULT:
+                handleTradeResult(serverUpdate);
             default:
                 break;
         }
@@ -115,5 +122,35 @@ public class UpdateHandler extends Thread {
                 HUDController.getInstance().addMessage(message, type);
             }
         });
+    }
+
+    private void handleTradeRequest(ServerUpdate serverUpdate){
+        String message = serverUpdate.getData().get(1);
+        Platform.runLater(new Runnable() {
+            @Override 
+            public void run(){
+                HUDController.getInstance().addMessage(message, Type.INFO,"Accept","Reject");
+            }
+        });
+    }
+
+    private void handleTradeResult(ServerUpdate serverUpdate){
+        String sender = serverUpdate.getData().get(0);
+        String message = serverUpdate.getData().get(1);
+        String result = serverUpdate.getData().get(2);
+
+        for (Trade trade:GameController.getGame().getTrades()){
+            if (trade.getMessage().equals(message) && trade.getSeller().getUser().getNickname().equals(sender)){
+                if (result.equals("Y")){
+                    trade.setResult(Result.ACCEPT);
+                    trade.getSeller().addTrade(trade);
+                    trade.getCustomer().addTrade(trade);
+                }
+
+                GameController.getGame().getTrades().remove(trade);
+                break;
+
+            }
+        }
     }
 }

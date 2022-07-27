@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Trade;
 import models.User;
 import models.network.ClientRequest;
 import models.network.ServerResponse;
@@ -91,6 +92,30 @@ public class NetworkController {
                 NetworkController.getInstance().getUserToken());
 
         ServerResponse serverResponse = NetworkController.getInstance().sendRequest(clientRequest);
+    }
+
+    public void sendTradeRequest(Trade trade){
+        ArrayList<String> data = new ArrayList<>();
+        data.add(trade.getSeller().getUser().getNickname());
+        
+        data.add(trade.getMessage());
+
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.TRADE_REQUEST, data,
+                NetworkController.getInstance().getUserToken());
+
+        NetworkController.getInstance().sendRequest(clientRequest);
+    }
+
+    public void sendTradeResult(String message,String result){
+        ArrayList<String> data = new ArrayList<>();
+        data.add(GameController.getGame().getCurrentPlayer().getUser().getNickname());
+        data.add(message);
+        data.add(result);
+
+        ClientRequest clientRequest = new ClientRequest(ClientRequest.Request.TRADE_RESULT, data,
+                NetworkController.getInstance().getUserToken());
+
+        NetworkController.getInstance().sendRequest(clientRequest);
     }
 
     public User getCurrentUser() { return currentUser; }

@@ -1,5 +1,6 @@
 package views.components;
 
+import controllers.NetworkController;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -106,6 +107,28 @@ public class MessageBox extends HBox {
         remove.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                NetworkController.getInstance().sendTradeResult(message, "N");
+                MessageBox messageBox = (MessageBox) remove.getParent();
+                VBox messageBoxContainer = (VBox) messageBox.getParent();
+                messageBoxContainer.getChildren().remove(messageBox);
+            }
+                
+        });
+
+        this.firstChoice.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event){
+                NetworkController.getInstance().sendTradeResult(message, "Y");
+                MessageBox messageBox = (MessageBox) remove.getParent();
+                VBox messageBoxContainer = (VBox) messageBox.getParent();
+                messageBoxContainer.getChildren().remove(messageBox);
+            }
+        });
+
+        this.secondChoice.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event){
+                NetworkController.getInstance().sendTradeResult(message, "N");
                 MessageBox messageBox = (MessageBox) remove.getParent();
                 VBox messageBoxContainer = (VBox) messageBox.getParent();
                 messageBoxContainer.getChildren().remove(messageBox);

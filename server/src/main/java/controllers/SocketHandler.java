@@ -1,6 +1,5 @@
 package controllers;
 
-import com.thoughtworks.xstream.XStream;
 import models.*;
 import views.enums.Message;
 
@@ -103,6 +102,10 @@ public class SocketHandler extends Thread {
                 return handleSendInGameMessage(clientRequest);
             case NOTIFY_LOST_USERS:
                 return handleNotifyLostUsers(clientRequest);
+            case TRADE_REQUEST:
+                return handleTradeRequest(clientRequest);
+            case TRADE_RESULT:
+                return handleTradeResult(clientRequest);
             case LOGOUT:
                 return handleLogout(clientRequest);
             default:
@@ -749,6 +752,79 @@ public class SocketHandler extends Thread {
             User realUser = User.getUserByUsername(lostUser.getUsername());
             if (onlineGame.getOtherPlayers().contains(realUser)) {
                 onlineGame.getOtherPlayers().remove(realUser);
+            }
+        }
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleTradeRequest(ClientRequest clientRequest){
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        User receiver = User.getUserByNickname(clientRequest.getData().get(0));
+        if (receiver == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_NICKNAME, toSend);
+        }
+
+        // TODO: handle null pointer
+        OnlineGame userOnlineGame = OnlineGame.getOnlineGameByUserID(user.getId());
+        OnlineGame receiverOnlineGame = OnlineGame.getOnlineGameByUserID(receiver.getId());
+        if (!userOnlineGame.equals(receiverOnlineGame)) {
+            return new ServerResponse(ServerResponse.Response.NOT_IN_GAME, toSend);
+        }
+
+        String trade = clientRequest.getData().get(1);
+
+        ArrayList<String> updateData = new ArrayList<>();
+        updateData.add(receiver.getNickname());
+        updateData.add(trade);
+        updateData.add(clientRequest.getToken());
+
+        ServerUpdate serverUpdate = new ServerUpdate(ServerUpdate.Update.TRADE_REQUEST, updateData);
+        try {
+            receiver.getUpdateOutputStream().writeUTF(serverUpdate.toJson());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new ServerResponse(ServerResponse.Response.SUCCESS, toSend);
+    }
+
+    private ServerResponse handleTradeResult(ClientRequest clientRequest){
+        ArrayList<String> toSend = new ArrayList<>();
+
+        User user = NetworkController.getInstance().getLoggedInUsers().get(clientRequest.getToken());
+        if (user == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_TOKEN, toSend);
+        }
+
+        OnlineGame onlineGame = OnlineGame.getOnlineGameByUserID(user.getId());
+        if (onlineGame == null) {
+            return new ServerResponse(ServerResponse.Response.INVALID_ONLINE_GAME, toSend);
+        }
+
+        ArrayList<String> updateData = new ArrayList<>();
+        String sender = clientRequest.getData().get(0);
+        String message = clientRequest.getData().get(1);
+        String result = clientRequest.getData().get(2);
+
+        updateData.add(sender);
+        updateData.add(message);
+        updateData.add(result);
+
+        ServerUpdate serverUpdate = new ServerUpdate(ServerUpdate.Update.TRADE_RESULT, updateData);
+        String updateJson = serverUpdate.toJson();
+
+        for (User player : onlineGame.getOtherPlayers()) {
+            try {
+                player.getUpdateOutputStream().writeUTF(updateJson);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
